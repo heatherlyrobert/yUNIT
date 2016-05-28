@@ -1,0 +1,311 @@
+.TH yUNIT 3 2008-Aug "linux" "heatherly custom tools manual"
+
+.SH NAME
+.BI yUNIT
+\- simple, consistent, reusable unit testing library
+
+.SH SUMMARY
+.BI yUNIT
+yUNIT is a set of shared functions providing flexible, reliable, and
+automated unit testing services to make a painful, haphazard, tedious,
+neglected, and error prone process into a systematic, automated, rapid,
+responsive, and helpful one; and more likely to be used by a programmer.
+
+.SH SYNOPSIS
+.nf
+.B #include  <yUNIT.h>
+
+.R  ---overall-----------------(4 functions)-----------------------
+.sp
+.BI "void    *yUNIT_unit   (cchar *" "a_name  " ", cchar  " "a_noisy " ", cchar  " "a_eterm " ");"
+.BI "char     yUNIT_eterm  (cvoid *" "a_unit  " ", cchar  " "a_eterm " ");"
+.BI "char     yUNIT_noisy  (cvoid *" "a_unit  " ", cchar  " "a_noisy " ");"
+.BI "char     yUNIT_tinu   (cvoid *" "a_unit  " ");"
+
+.R  ---script level------------(3 functions)-----------------------
+.sp
+.BI "void     yUNIT_scrp   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_focu  " ", cchar *" "a_desc  " ");"
+.BI "void     yUNIT_prcs   (cvoid *" "a_unit  " ");"
+.BI "void     yUNIT_sect   (cvoid *" "a_unit  " ", cchar *" "a_desc  " ");"
+
+
+.R  ---condition level---------(3 functions)-----------------------
+.sp
+.BI "void     yUNIT_cond   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ");"
+.BI "void     yUNIT_donc   (cvoid *" "a_unit  " ");"
+.BI "void     yUNIT_group  (cvoid *" "a_unit  " ", cchar *" "a_desc  " ");"
+
+.R  ---specialty---------------(4 functions)-----------------------
+.sp
+.BI "void     yUNIT_mode   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ");"
+.BI "void     yUNIT_code   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_code  " ");"
+.BI "void     yUNIT_load   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_recd  " ");"
+.BI "void     yUNIT_sys    (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_cmd   " ");"
+
+.R  ---step level--------------(8 functions)-----------------------
+.sp
+.BI "void     yUNIT_void   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
+.BI "                       cchar *" "a_test  " ");"
+.BI "void     yUNIT_int    (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
+.BI "                       cchar *" "a_test  " ", cchar *" "a_expe  " ", char  *" "a_actu  " ");"
+.BI "void     yUNIT_real   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
+.BI "                       cchar *" "a_test  " ", cchar *" "a_expe  " ", char  *" "a_actu  " ");"
+.BI "void     yUNIT_point  (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
+.BI "                       cchar *" "a_test  " ", cchar *" "a_expe  " ", char  *" "a_actu  " ");"
+.BI "void     yUNIT_string (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
+.BI "                       cchar *" "a_test  " ", cchar *" "a_expe  " ", char  *" "a_actu  " ");"
+.BI "void     yUNIT_round  (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
+.BI "                       cchar *" "a_test  " ", cchar *" "a_expe  " ", char  *" "a_actu  " ");"
+.BI "void     yUNIT_ustr   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
+.BI "                       cchar *" "a_test  " ", cchar *" "a_expe  " ", char  *" "a_actu  " ");"
+.BI "void     yUNIT_badd   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_test  " ");"
+
+.sp
+Must also link to yUNIT.so (shared) as this is not automatic.  Add "-lyUNIT"
+to the object linking.
+
+.SH OVERVIEW
+unit testing is a software verification and assurance method in which a
+programmer tests if individual units (functions) of source code are fit for
+use and remain so.  this form of testing is integral to build automation,
+refactoring, and regression testing.
+
+yUNIT focuses on providing three levels of testing -- (a), (b), and (c)...
+   a) black box - which calls public functions and tests external effects
+   b) dark box  - which uses public "accessors" to monitor key vars/states
+   c) gray box  - allows individual calls to private functions
+   d) light box - allows access to specific and private variables/states
+   e) white box - allows internal access for structure and path testing
+
+testing at level (a) is the only clean level for integration, but our unit
+testing needs to be more specific for us to quickly isolate issues.  using
+(d) and (e) jeopradize refactoring and reuse, so i refrain, and leave that
+work to the online debugger where it rightfully belongs
+
+as always, there are many existing libraries and utilities have been built
+by better programmers which are likely superior in speed, size, capability,
+and reliability; BUT, i would not have learned nearly as much using them,
+so follow the adage..
+
+TO TRULY LEARN> do not seek to follow in the footsteps of the men of old;
+seek what they sought ~ Matsuo Basho
+
+the basic idea is to take all the great ideas from existing frameworks
+without taking all the unneeded complexity that comes from backwards
+compatiblilty and traditional views.  in this case, if i can get the same
+result with less fuss and mess, even better
+
+.SH DESCRIPTION
+yUNIT consists of
+.BI 22
+total functions separated into five categories --
+.BI 4
+overall,
+.BI 3
+script level,
+.BI 3
+condition level,
+.BI 4
+specialty, and
+.BI 8
+step level functions.
+
+certain parameters are used consistently through all functions.
+   -- a_unit     : pointer to the test instance
+   -- a_line     : source line number in unit testing input (not program)
+   -- a_seqn     : sequence identifier to help in unit testing organization
+   -- a_desc     : simple text description for display in output
+   -- a_focu     : simple text identifier of methods to be tested
+   -- a_meth     : c function/method to be tested
+   -- a_args     : arguments to be pased to the function (a_meth)
+   -- a_test     : test type to compare expected and acutal results
+   -- a_expe     : expected results from the test
+   -- a_actu     : actual results from the function (a_meth)
+
+.B OVERALL ---------------------------------------------------------
+.sp
+.B yUNIT_unit,
+in order to prepare the testing capability, this function allocates a testing
+instance, assigns a program name, and does some general configuration.  the
+function returns a "test pointer" which must be used by all other functions.
+see yUNIT_eterm and yUNIT_noisy to understand the other two arguments.
+.sp
+.B yUNIT_eterm,
+if set to 'y', all functions produce color intructions for eterm to beautify and
+enhance the output.  the default is '-' which is acceptable to a terminals
+without color capability like the console.
+.sp
+.B yUNIT_noisy,
+output can be adjusted to different levels depending on the need and can be
+combined with running only specific scripts or conditions.  noise levels are...
+   0) no output
+   1) summary level only
+   2) add in script level
+   3) add in condition level
+   4) add in step level
+   5) full output
+.sp
+.B yUNIT_tinu,
+produces a summary, closes the test, and nulls the test pointer.
+
+.B SCRIPT LEVEL-----------------------------------------------------
+.sp
+.B yUNIT_scrp,
+prepares to run a new script and displays a summary line in the output.
+.sp
+.B yUNIT_prcs,
+produces a summary and closes the script.
+.sp
+.B yUNIT_sect,
+displays a informational grouping of scripts to help in analysis.
+
+.B CONDITION LEVEL--------------------------------------------------
+.sp
+.B yUNIT_cond,
+prepares to run a new condition and displays a summary line in the output.
+.sp
+.B yUNIT_donc,
+produces a summary and closes the condition.
+.sp
+.B yUNIT_group,
+displays a informational grouping of conditions to help in analysis.
+
+.B SPECIALTY -------------------------------------------------------
+.sp
+.B yUNIT_mode,
+can flip the unit testing logic to reverse, false = true and true = false
+where necessary to properly test functions.  the two options are...
+   -- NORMAL           to set in normal, logical mode
+   -- FORCED_FAIL      to flip the evaluation
+.sp
+.B yUNIT_code,
+inserts c code (a_code) directly into the unit testing program in order to
+do things like declare variables, assign specific values, etc.
+.sp
+.B yUNIT_load,
+loads a record (a_recd) into stdin to prepare for later testing to consume.
+wildly useful for filter testing, etc.
+.sp
+.B yUNIT_sys,
+calls the c system function with a shell command (a_sys) and captures the
+return of the shell pipeline into a global called yUNIT_systext for later use.
+
+.B STEP LEVEL ------------------------------------------------------
+.sp
+to understand the argument for test type (a_test), please refer to the
+documentation for yVAR and look at the appropriate section.
+
+.B yUNIT_void,
+simply indicates in the output that the test was done as a void produces
+no result to test.
+.sp
+.B yUNIT_int,
+coordinates integer testing of expected and actual by calling yVAR with
+the test type (a_test).
+.sp
+.B yUNIT_real,
+coordinates real/floating point testing of expected and actual by calling
+yVAR with the test type (a_test).
+.sp
+.B yUNIT_point,
+coordinates pointer testing of expected and actual by calling yVAR with the
+test type (a_test).
+.sp
+.B yUNIT_string,
+coordinates c-string testing of expected and actual by calling yVAR with the
+test type (a_test).
+.sp
+.B yUNIT_round,
+coordinates numbers embedded in string testing (with rounding) of expected
+and actual by calling yVAR with the test type (a_test).
+.sp
+.B yUNIT_ustr,
+coordinates numbers embedded in string testing (with rounding) of expected
+and actual by calling yVAR with the test type (a_test).
+.sp
+.B yUNIT_badd,
+allows yUNIT to communicate a malformed or inaccurate test request back
+in the output.
+
+.SH OUTPUT
+yUNIT writes all output to stdout, with color codes optional.
+
+.B script level output which shows how yUNIT_scrp displays a_line, a_seqn, a_desc and a_focu when a script begins.
+
+===[[ NEW SCRIPT ]]=======================================================
+SCRP [01] verify cronpulse operations ============================= [0016]
+  focus : BASE_timestamp, BASE_lastpulse                                    
+
+.B script level output which shows yUNIT_sect looks.
+
+===-------  first, check basic timestamping (BASE_timestamp)    -------===
+
+.B condition and step level output which shows how yUNIT_cond, yUNIT_code, yUNIT_int, yUNIT_round, and yUNIT_dnoc are displayed.
+
+COND [003] check timestamping after short delay -- -- -- -- -- -- - [0037]
+
+a ) CODE   : pause to get a different time  .  .  .  .  .  .  .  .  [0038]
+    exec   : sleep(2);                                                    
+
+b ) CODE   : update time for sleep  .  .  .  .  .  .  .  .  .  .  . [0039]
+    exec   : xbase    += 2;                                               
+
+c ) CODE   : make a broken down time  .  .  .  .  .  .  .  .  .  .  [0040]
+    exec   : curr_time = localtime(&xbase);                               
+
+d ) CODE   : create a custom cronpulse string  .  .  .  .  .  .  .  [0041]
+    exec   : strftime (custom, 50, ~%M~, curr_time);                      
+
+e ) PASS   : write the cronpulse (returns min)  .  .  .  .  .  .  . [0042]
+    method : BASE_timestamp ()
+    test   : i_equal        (@ 0 msecs with rc = 21) 
+    expect : 05>>
+    actual : 5>>
+
+f ) CODE   : create a custom cronpulse string  .  .  .  .  .  .  .  [0043]
+    exec   : strftime (c_time, 50, ~%y.%m.%d.%H.%M.%S.%U   %s~, curr_time);        
+
+g ) CODE   : create a custom expect string  .  .  .  .  .  .  .  .  [0044]
+    exec   : sprintf  (custom, ~BASE_pulse       : :%s   now   %d:~, yy.pid
+
+h ) PASS   : review the pulser timestamp  .  .  .  .  .  .  .  .  . [0045]
+    method : BASE_unit (~cronpulse~,     0)
+    test   : u_round        (@ 0 msecs with rc = 30) 
+    expect : BASE_pulse       : :16.05.28.06.05.58.21   1464415558   4:>>
+    actual : BASE_pulse       : :16.05.28.06.05.58.21   1464415558   4:>>
+
+    DNOC   step=2     [[ pass=2     fail=0     badd=0     void=0    ]]
+
+.B script level output which shows yUNIT_prcs looks when a script completes.
+
+PRCS   step=42    [[ pass=42    fail=0     badd=0     void=0    ]]
+
+.B script level output which shows yUNIT_tinu looks when a unit test completes.
+
+TINU   step=725   [[ pass=725   fail=0     badd=0     void=0    ]]
+
+.SH BUGS
+i have never allowed anyone else to use it, so maybe there will be many once
+it hits other setups.
+
+.SH AUTHOR
+rsheatherly can be reached at jelloshrike at gmail dot com
+
+.SH COLOPHON
+this page is part of a documentation package meant to make use of the
+heatherly tools easier and faster
+
