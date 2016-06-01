@@ -71,6 +71,9 @@ responsive, and helpful one; and more likely to be used by a programmer.
 .BI "void     yUNIT_ustr   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
 .BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
 .BI "                       cchar *" "a_test  " ", cchar *" "a_expe  " ", char  *" "a_actu  " ");"
+.BI "void     yUNIT_removed(cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
+.BI "                       cchar *" "a_desc  " ", cchar *" "a_meth  " ", char  *" "a_args  " ","
+.BI "                       cchar *" "a_test  " ", cchar *" "a_expe  " ");
 .BI "void     yUNIT_badd   (cvoid *" "a_unit  " ", int    " "a_line  " ", int    " "a_seqn  " ","
 .BI "                       cchar *" "a_desc  " ", cchar *" "a_test  " ");"
 
@@ -111,7 +114,7 @@ result with less fuss and mess, even better
 
 .SH DESCRIPTION
 yUNIT consists of
-.BI 22
+.BI 23
 total functions separated into five categories --
 .BI 4
 overall,
@@ -121,7 +124,7 @@ script level,
 condition level,
 .BI 4
 specialty, and
-.BI 8
+.BI 9
 step level functions.
 
 certain parameters are used consistently through all functions.
@@ -236,6 +239,10 @@ and actual by calling yVAR with the test type (a_test).
 .B yUNIT_ustr,
 coordinates numbers embedded in string testing (with rounding) of expected
 and actual by calling yVAR with the test type (a_test).
+.sp
+.B yUNIT_removed,
+allows yUNIT to communicate old and obsolete tests that must be replaced
+in the output.
 .sp
 .B yUNIT_badd,
 allows yUNIT to communicate a malformed or inaccurate test request back

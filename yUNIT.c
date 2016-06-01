@@ -86,7 +86,7 @@ yUNIT_unit         (cchar *a_name, cchar a_noisy, cchar a_eterm)
    tUNIT     *o         = malloc(sizeof(tUNIT));
    /*---(setup defaults)-------------------*/
    yUNIT_noisy  (o, a_noisy);
-   yUNIT_eterm  (o, 'y');
+   /*> yUNIT_eterm  (o, 'y');                                                         <*/
    /*---(print header)---------------------*/
    DISP_SCRP {
       printf("yUNIT - heatherly unit testing framework ------------------------------------ (start)\n");
@@ -484,7 +484,7 @@ yUNIT_code (       /*  PURPOSE = describe manual code lines                   */
       printf("\n  %s%c%c) CODE  %s :",
             x_on, seq1 + 96, seq2 + 96, x_off);
       printf(" %63.63s [%04d]\n", x_header, a_line);
-      printf("      exec   : %-70.70s\n", a_code);
+      printf("      code   : %-70.70s\n", a_code);
    }
    /*---(complete)---------------------*/
    return;
@@ -791,7 +791,7 @@ yUNIT_round   (
    o->its_code  =  -666;               /* indicates unhandled test            */
    strncpy(o->its_fixd, "",     500);
    /*---(do the comparisons)---------------------*/
-   if (strncmp(a_test, "u_round", 7) == 0) {
+   if (strncmp(a_test, "u_round/", 8) == 0) {
       o->its_code = yVAR_round(a_test, a_expe, a_actu);
       if      (o->its_code >=    0) o->its_resu = YUNIT_SUCC;
       else if (o->its_code <= -600) o->its_resu = YUNIT_WARN;
@@ -884,6 +884,56 @@ yUNIT_badd (       /*  PURPOSE = describe manual code lines                   */
       printf(" %63.63s [%04d]\n", x_header, a_line);
       printf("      test   : %s (not a recognized test)\n", a_test);
    }
+   /*---(complete)---------------------*/
+   return;
+}
+
+void               /*  rerturn = (none)                                       */
+yUNIT_removed (    /*  PURPOSE = notify of old/obsolete test types            */
+      void     *a_unit,           /*  unit test object                        */
+      int       a_line,           /* reference number to script file line     */
+      int       a_seqn,           /* sequence number                          */
+      char     *a_desc,           /* short description                        */
+      char     *a_meth,           /* method                                   */
+      char     *a_args,           /* method's arguments                       */
+      char     *a_test,           /* test requested                           */
+      char     *a_expe)           /* expected result                          */
+{  /*---(locals)-----------+-----------+-*/
+   tUNIT      *o           = (tUNIT *) a_unit;
+   /*---(prepare)--------------------------------*/
+   o->its_resu =  1;
+   o->its_code = -666;
+   /*---(record the key data)--------------------*/
+   strncpy     (o->its_test, a_test, 100);
+   strncpy     (o->its_expe, a_expe, 500);
+   strncpy     (o->its_fixd, ""    , 500);
+   strncpy     (o->its_actu, ""    , 500);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
+   /*---(complete)---------------------*/
+   return;
+}
+
+void               /*  rerturn = (none)                                       */
+yUNIT_unknown (    /*  PURPOSE = notify of confusing lines in script file     */
+      void     *a_unit,           /*  unit test object                        */
+      int       a_line,           /* reference number to script file line     */
+      int       a_seqn,           /* sequence number                          */
+      char     *a_desc,           /* short description                        */
+      char     *a_meth,           /* method                                   */
+      char     *a_args,           /* method's arguments                       */
+      char     *a_test,           /* test requested                           */
+      char     *a_expe)           /* expected result                          */
+{  /*---(locals)-----------+-----------+-*/
+   tUNIT      *o           = (tUNIT *) a_unit;
+   /*---(prepare)--------------------------------*/
+   o->its_resu =  1;
+   o->its_code = -666;
+   /*---(record the key data)--------------------*/
+   strncpy     (o->its_test, a_test, 100);
+   strncpy     (o->its_expe, a_expe, 500);
+   strncpy     (o->its_fixd, ""    , 500);
+   strncpy     (o->its_actu, ""    , 500);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)---------------------*/
    return;
 }

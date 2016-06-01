@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0d"
-#define LVER_TXT   "prepare for git and start clean-up"
+#define LVER_NUM   "2.0e"
+#define LVER_TXT   "small changes for koios access vs uUNIT"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
@@ -469,6 +469,28 @@ yUNIT_badd    (    /*  PURPOSE = indicate a bad test                          */
       int       a_seqn,          /*  sequence number                          */
       char     *a_desc,          /*  short description                        */
       char     *a_test);         /*  test to conduct                          */
+
+void               /*  return  = (none)                                       */
+yUNIT_removed (    /*  PURPOSE = indicate a obsolete test                     */
+      void     *a_unit,          /*  unit test object                         */
+      int       a_line,          /*  reference number to script file line     */
+      int       a_seqn,          /*  sequence number                          */
+      char     *a_desc,          /*  short description                        */
+      char     *a_meth,          /*  method                                   */
+      char     *a_args,          /*  method's arguments                       */
+      char     *a_test,          /*  test to conduct                          */
+      char     *a_expe);          /* expected result                          */
+
+void               /*  return  = (none)                                       */
+yUNIT_removed (    /*  PURPOSE = indicate a confusing script line             */
+      void     *a_unit,          /*  unit test object                         */
+      int       a_line,          /*  reference number to script file line     */
+      int       a_seqn,          /*  sequence number                          */
+      char     *a_desc,          /*  short description                        */
+      char     *a_meth,          /*  method                                   */
+      char     *a_args,          /*  method's arguments                       */
+      char     *a_test,          /*  test to conduct                          */
+      char     *a_expe);          /* expected result                          */
 
 void               /*  return  = (none)                                       */
 yUNIT__recd (
