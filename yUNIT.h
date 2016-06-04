@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0e"
-#define LVER_TXT   "small changes for koios access vs uUNIT"
+#define LVER_NUM   "2.0f"
+#define LVER_TXT   "small changes to yVAR that needed matching"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/

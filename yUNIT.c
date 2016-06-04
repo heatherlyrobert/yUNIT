@@ -804,7 +804,7 @@ yUNIT_round   (
    /*---(record the key data)--------------------*/
    strncpy(o->its_test, a_test, 100);
    strncpy(o->its_expe, a_expe, 500);
-   if (o->its_code >  0) strncpy(o->its_fixd, yVAR_mod(), 500);
+   if (o->its_code >  0) strncpy(o->its_fixd, yVAR_modded (), 500);
    strncpy(o->its_actu, a_actu, 500);
    yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
@@ -843,7 +843,7 @@ yUNIT_ustr    (
    /*---(record the key data)--------------------*/
    strncpy(o->its_test, a_test, 100);
    strncpy(o->its_expe, a_expe, 500);
-   strncpy(o->its_fixd, yVAR_mod(), 500);
+   strncpy(o->its_fixd, yVAR_modded (), 500);
    strncpy(o->its_actu, x_actu, 500);
    yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
