@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0f"
-#define LVER_TXT   "small changes to yVAR that needed matching"
+#define LVER_NUM   "2.0g"
+#define LVER_TXT   "make SECT print after totals, but before next script"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/

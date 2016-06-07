@@ -23,6 +23,9 @@
 #define  YUNIT_WARN    2
 
 
+char     s_sect      [500]   = "";
+
+
 
 /*===[[ TEST STRUCTURE ]]=====================================================*/
 typedef struct cUNIT tUNIT;
@@ -229,20 +232,36 @@ yUNIT_sect    (
       void     *a_unit,           /* unit test object                         */
       char     *a_desc)           /* short description                        */
 {
+   /*---(locals)-----------+-----------+-*/
    tUNIT      *o           = (tUNIT *) a_unit;
-   int         len         = strlen (a_desc);
-   int         x_pre       = (65 - len) / 2;
-   int         x_suf       = 65 - x_pre - len;
-   char        x_header    [300] = "";
-   /*---(print title)------------------*/
-   if (len < 65)   sprintf(x_header, "%*.*s%s%*.*s", x_pre, x_pre, "", a_desc, x_suf, x_suf, "");
-   else            sprintf(x_header, "%65.65s", a_desc);
-   DISP_COND   printf("\n\n\n");
-   DISP_SCRP   printf("\n");
-   /*> DISP_ALL    printf("=====---------------------------------------------------------------------------=====\n");   <*/
-   /*> DISP_ALL    printf("===-------                             SECTION                             -------===\n");   <*/
-   DISP_SCRP   printf("===-------%s-------===\n", x_header);
-   /*> DISP_ALL    printf("=====---------------------------------------------------------------------------=====\n");   <*/
+   int         x_len       = 0;
+   int         x_pre       = 0;
+   int         x_suf       = 0;
+   /*---(print title)--------------------*/
+   if (strcmp (a_desc, "SCRP") == 0) {
+      /*---(print)----------*/
+      if (strcmp (s_sect, "") != 0) {
+         DISP_COND   printf("\n\n\n");
+         DISP_SCRP   printf("\n");
+         DISP_SCRP   printf("=========================------------------------------------========================\n");
+         DISP_SCRP   printf("===-------%s-------===\n", s_sect);
+         DISP_SCRP   printf("=========================------------------------------------========================\n");
+      }
+      /*---(clear)----------*/
+      strcpy (s_sect, "");
+   }
+   /*---(save title)---------------------*/
+   else {
+      /*---(format)---------*/
+      if (a_desc != NULL) {
+         x_len       = strlen (a_desc);
+         x_pre       = (65 - x_len) / 2;
+         x_suf       = (65 - x_pre) - x_len;
+         if (x_len < 65)   sprintf(s_sect, "%*.*s%s%*.*s", x_pre, x_pre, "", a_desc, x_suf, x_suf, "");
+         else              sprintf(s_sect, "%65.65s", a_desc);
+      }
+   }
+   /*---(complete)-----------------------*/
    return;
 }
 
@@ -254,7 +273,10 @@ yUNIT_scrp (
       char     *a_focu,           /* focus function                           */
       char     *a_desc)           /* short description                        */
 {
-   tUNIT    *o       = (tUNIT *) a_unit;
+   tUNIT      *o           = (tUNIT *) a_unit;
+   char        x_header    [300] = "";
+   /*---(show sect)--------------------*/
+   yUNIT_sect   (a_unit, "SCRP");
    /*---(reset summary counters)-------*/
    o->its_scrp_test = 0;
    o->its_scrp_pass = 0;
@@ -262,7 +284,6 @@ yUNIT_scrp (
    o->its_scrp_badd = 0;
    o->its_scrp_void = 0;
    /*---(print title)------------------*/
-   char  x_header[300] = "";
    /*> snprintf(x_header, 300, "SCRP [%02d] %s :: %s", a_seqn, a_focu, a_desc);       <*/
    snprintf(x_header, 300, "SCRP [%02d] %s", a_seqn, a_desc);
    strncat(x_header, " ", 80);
@@ -680,21 +701,21 @@ yUNIT_point   (
    o->its_resu   =  1;
    o->its_code   = -666;
    /*---(do the comparisons)---------------------*/
-   if (strstr(a_test, "p_") != NULL) {
-      o->its_code = yVAR_pointer(a_test, a_expe, a_actu);
+   if (strstr (a_test, "p_") != NULL) {
+      o->its_code = yVAR_pointer (a_test, a_expe, a_actu);
       if (o->its_code > 0) o->its_resu = 0;
    } else {
       o->its_resu = 1;
    }
-   if (strcmp(a_test, "p_exists") == 0) a_expe = a_actu;
+   if (strcmp (a_test, "p_exists") == 0) a_expe = a_actu;
    /*---(save return)----------------------------*/
    yUNIT_p_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy(o->its_test, a_test, 100);
-   snprintf(o->its_expe, 500, "%p",  a_expe);
+   strncpy  (o->its_test, a_test, 100);
+   snprintf  (o->its_expe, 500, "%p",  a_expe);
    if (strcmp(a_test, "p_exists") == 0) strncpy(o->its_expe, "---any---", 100);
-   strncpy(o->its_fixd, ""    , 500);
-   snprintf(o->its_actu, 500, "%p",  a_actu);
+   strncpy  (o->its_fixd, ""    , 500);
+   snprintf (o->its_actu, 500, "%p",  a_actu);
    if (a_actu != NULL) o->is_leak_end = a_actu;
    yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/

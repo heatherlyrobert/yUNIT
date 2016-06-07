@@ -7,7 +7,7 @@ BASE    = yUNIT
 COMP    = gcc -c -std=gnu89 -g -pg -Wall -Wextra
 INCS    =
 LINK    = gcc
-LIBS    = -lyVAR
+LIBS    = -lyVAR_debug
 COPY    = cp -f
 CLEAN   = rm -f
 PRINT   = @printf
