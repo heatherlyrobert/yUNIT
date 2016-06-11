@@ -291,7 +291,7 @@ yUNIT_scrp (
    strncat(x_header, "================================================", 80);
    DISP_COND   printf("\n\n");
    DISP_STEP   printf("\n===[[ NEW SCRIPT ]]==================================================================");
-   DISP_SCRP   printf("\n%-78.78s [%04d]\n", x_header, a_line);
+   DISP_SCRP   printf("\n%-77.77s [%05d]\n", x_header, a_line);
    snprintf(x_header, 300, "  focus : %s", a_focu);
    DISP_COND   printf("%-85.85s\n", x_header);
    return;
@@ -361,7 +361,7 @@ yUNIT_cond (
       strncat(x_header, o->its_desc, 80);
       strncat(x_header, " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --", 80);
       strncat(x_header, " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --", 80);
-      printf("\n  COND [%03d] %65.65s [%04d]\n", a_seqn, x_header, a_line);
+      printf("\n  COND [%03d] %64.64s [%05d]\n", a_seqn, x_header, a_line);
    }
    /*---(remove old stdin)-------------*/
    system("/bin/rm -f yUNIT.stdin");
@@ -460,12 +460,12 @@ yUNIT_mode (       /*  PURPOSE = ENABLE FORCED FAILURES                       */
    if (strcmp(a_desc, "FORCED_FAIL") == 0) {
       o->is_forced_fail = 1;
       DISP_STEP
-         printf("\n  %s%c%c) MODE  %s : ENABLE FORCED FAILURE (pass=fail, fail=pass) .  .  .  .  .  .   [%04i]\n",
+         printf("\n  %s%c%c) MODE  %s : ENABLE FORCED FAILURE (pass=fail, fail=pass) .  .  .  .  .  .  [%05i]\n",
                x_on, seq1 + 96, seq2 + 96, x_off, a_line);
    } else {
       o->is_forced_fail = 0;
       DISP_STEP
-         printf("\n  %s%c%c) MODE  %s : normal (a pass is a pass ;)   .  .  .  .  .  .  .  .  .  .  .   [%04i]\n",
+         printf("\n  %s%c%c) MODE  %s : normal (a pass is a pass ;)   .  .  .  .  .  .  .  .  .  .  .  [%05i]\n",
                x_on, seq1 + 96, seq2 + 96, x_off, a_line);
    }
    /*---(complete)---------------------*/
@@ -504,7 +504,7 @@ yUNIT_code (       /*  PURPOSE = describe manual code lines                   */
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       printf("\n  %s%c%c) CODE  %s :",
             x_on, seq1 + 96, seq2 + 96, x_off);
-      printf(" %63.63s [%04d]\n", x_header, a_line);
+      printf(" %62.62s [%05d]\n", x_header, a_line);
       printf("      code   : %-70.70s\n", a_code);
    }
    /*---(complete)---------------------*/
@@ -542,7 +542,7 @@ yUNIT_load (
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       printf("\n  %s%c%c) CODE  %s :",
             x_on, seq1 + 96, seq2 + 96, x_off);
-      printf(" %63.63s [%04d]\n", x_header, a_line);
+      printf(" %62.62s [%05d]\n", x_header, a_line);
       printf("      load   : %-.65s\n", a_recd);
    }
    /*---(close it in case)-------------*/
@@ -593,7 +593,7 @@ yUNIT_sys    (
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       printf("\n  %s%c%c) CODE  %s :",
             x_on, seq1 + 96, seq2 + 96, x_off);
-      printf(" %63.63s [%04d]\n", x_header, a_line);
+      printf(" %62.62s [%05d]\n", x_header, a_line);
       printf("      sys    : %-.65s\n", a_cmd);
    }
    /*---(run system command)-----------*/
@@ -902,7 +902,7 @@ yUNIT_badd (       /*  PURPOSE = describe manual code lines                   */
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       printf("\n  %s%c%c) BADD  %s :",
             x_on, seq1 + 96, seq2 + 96, x_off);
-      printf(" %63.63s [%04d]\n", x_header, a_line);
+      printf(" %62.62s [%05d]\n", x_header, a_line);
       printf("      test   : %s (not a recognized test)\n", a_test);
    }
    /*---(complete)---------------------*/
@@ -1049,7 +1049,7 @@ yUNIT__recd (
       DISP_FULL   printf("\n");
       printf("  %s%c%c)", x_on1  , seq1 + 96, seq2 + 96);
       printf(" %s%-5.5s %s :", x_on2  , x_resu, x_off);
-      printf(" %63.63s [%04d]\n", x_header, a_line);
+      printf(" %62.62s [%05d]\n", x_header, a_line);
    }
    DISP_FULL   {
       if (strlen(o->its_args) <= 50) printf("      method : %-s (%.50s)\n", o->its_meth, o->its_args);

@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0g"
-#define LVER_TXT   "make SECT print after totals, but before next script"
+#define LVER_NUM   "2.0h"
+#define LVER_TXT   "change lines numbers to 5d as gyges is a monster test ;)"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
