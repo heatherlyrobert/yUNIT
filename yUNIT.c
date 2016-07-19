@@ -637,14 +637,14 @@ yUNIT_void (
 {
    tUNIT    *o       = (tUNIT *) a_unit;
    /*---(prepare)--------------------------------*/
-   o->its_resu = 0;
-   o->its_code = 0;
+   o->its_resu  = YUNIT_SUCC;
+   o->its_code  = 0;
    /*---(record the key data)--------------------*/
-   strncpy(o->its_test, a_test, 100);
-   strncpy(o->its_expe, "void", 500);
-   strncpy(o->its_fixd, ""    , 500);
-   strncpy(o->its_actu, "void", 100);
-   yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
+   strncpy  (o->its_test, a_test, 100);
+   strncpy  (o->its_expe, "void", 500);
+   strncpy  (o->its_fixd, ""    , 500);
+   strncpy  (o->its_actu, "void", 100);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
 }
@@ -663,23 +663,23 @@ yUNIT_int     (
 {
    tUNIT    *o       = (tUNIT *) a_unit;
    /*---(prepare)--------------------------------*/
-   o->its_resu =  1;
-   o->its_code = -666;
+   o->its_resu  =  YUNIT_FAIL;
+   o->its_code  = -666;
    /*---(do the comparisons)---------------------*/
    if (strstr(a_test, "i_") != NULL) {
       o->its_code = yVAR_integer(a_test, atol(a_expe), a_actu);
-      if (o->its_code > 0) o->its_resu = 0;
+      if (o->its_code > 0) o->its_resu = YUNIT_SUCC;
    } else {
-      o->its_resu = 1;
+      o->its_resu = YUNIT_WARN;
    }
    /*---(save return)----------------------------*/
    yUNIT_i_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy(o->its_test, a_test, 100);
-   strncpy(o->its_expe, a_expe, 500);
-   strncpy(o->its_fixd, ""    , 500);
-   snprintf(o->its_actu, 500, "%ld", a_actu);
-   yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
+   strncpy  (o->its_test, a_test, 100);
+   strncpy  (o->its_expe, a_expe, 500);
+   strncpy  (o->its_fixd, ""    , 500);
+   snprintf (o->its_actu, 500, "%ld", a_actu);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
 }
@@ -698,26 +698,26 @@ yUNIT_point   (
 {
    tUNIT    *o       = (tUNIT *) a_unit;
    /*---(prepare)--------------------------------*/
-   o->its_resu   =  1;
+   o->its_resu   =  YUNIT_FAIL;
    o->its_code   = -666;
    /*---(do the comparisons)---------------------*/
    if (strstr (a_test, "p_") != NULL) {
       o->its_code = yVAR_pointer (a_test, a_expe, a_actu);
-      if (o->its_code > 0) o->its_resu = 0;
+      if (o->its_code > 0) o->its_resu = YUNIT_SUCC;
    } else {
-      o->its_resu = 1;
+      o->its_resu = YUNIT_WARN;
    }
    if (strcmp (a_test, "p_exists") == 0) a_expe = a_actu;
    /*---(save return)----------------------------*/
    yUNIT_p_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy  (o->its_test, a_test, 100);
+   strncpy   (o->its_test, a_test, 100);
    snprintf  (o->its_expe, 500, "%p",  a_expe);
    if (strcmp(a_test, "p_exists") == 0) strncpy(o->its_expe, "---any---", 100);
-   strncpy  (o->its_fixd, ""    , 500);
-   snprintf (o->its_actu, 500, "%p",  a_actu);
+   strncpy   (o->its_fixd, ""    , 500);
+   snprintf  (o->its_actu, 500, "%p",  a_actu);
    if (a_actu != NULL) o->is_leak_end = a_actu;
-   yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
 }
@@ -736,24 +736,23 @@ yUNIT_real (
 {
    tUNIT    *o       = (tUNIT *) a_unit;
    /*---(prepare)--------------------------------*/
-   o->its_resu = 1;
-   o->its_code = -666;
+   o->its_resu   =  YUNIT_FAIL;
+   o->its_code   = -666;
    /*---(do the comparisons)---------------------*/
-   if (strstr(a_test, "r_") != NULL) {
-      o->its_code = yVAR_real(a_test, atof(a_expe), a_actu);
-      if (o->its_code > 0) o->its_resu = 0;
+   if (strstr (a_test, "r_") != NULL) {
+      o->its_code = yVAR_real (a_test, atof(a_expe), a_actu);
+      if (o->its_code > 0) o->its_resu = YUNIT_SUCC;
    } else {
-      o->its_resu = 1;
+      o->its_resu = YUNIT_WARN;
    }
    /*---(save return)----------------------------*/
    yUNIT_r_rc = a_actu;
-
    /*---(record the key data)--------------------*/
-   strncpy(o->its_test, a_test, 100);
-   strncpy(o->its_expe, yVAR_expect(), 500);
-   strncpy(o->its_fixd, ""    , 500);
-   strncpy(o->its_actu, yVAR_actual(), 500);
-   yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
+   strncpy (o->its_test, a_test, 100);
+   strncpy (o->its_expe, yVAR_expect(), 500);
+   strncpy (o->its_fixd, ""    , 500);
+   strncpy (o->its_actu, yVAR_actual(), 500);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
 }
@@ -772,23 +771,23 @@ yUNIT_string (
 {
    tUNIT    *o       = (tUNIT *) a_unit;
    /*---(prepare)--------------------------------*/
-   o->its_resu = 1;
-   o->its_code = -666;
+   o->its_resu   =  YUNIT_FAIL;
+   o->its_code   = -666;
    /*---(do the comparisons)---------------------*/
-   if (strstr(a_test, "s_") != NULL) {
-      o->its_code = yVAR_string(a_test, a_expe, a_actu);
-      if (o->its_code > 0) o->its_resu = 0;
+   if (strstr (a_test, "s_") != NULL) {
+      o->its_code = yVAR_string (a_test, a_expe, a_actu);
+      if (o->its_code > 0) o->its_resu = YUNIT_SUCC;
    } else {
-      o->its_resu = 1;
+      o->its_resu = YUNIT_WARN;
    }
    /*---(save return)----------------------------*/
    yUNIT_s_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy(o->its_test, a_test, 100);
-   strncpy(o->its_expe, a_expe, 500);
-   strncpy(o->its_fixd, "",     500);
-   strncpy(o->its_actu, a_actu, 500);
-   yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
+   strncpy (o->its_test, a_test, 100);
+   strncpy (o->its_expe, a_expe, 500);
+   strncpy (o->its_fixd, "",     500);
+   strncpy (o->its_actu, a_actu, 500);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
 }
@@ -810,10 +809,10 @@ yUNIT_round   (
    /*---(prepare)--------------------------------*/
    o->its_resu  =  YUNIT_FAIL;
    o->its_code  =  -666;               /* indicates unhandled test            */
-   strncpy(o->its_fixd, "",     500);
+   strncpy (o->its_fixd, "",     500);
    /*---(do the comparisons)---------------------*/
-   if (strncmp(a_test, "u_round/", 8) == 0) {
-      o->its_code = yVAR_round(a_test, a_expe, a_actu);
+   if (strncmp (a_test, "u_round/", 8) == 0) {
+      o->its_code = yVAR_round (a_test, a_expe, a_actu);
       if      (o->its_code >=    0) o->its_resu = YUNIT_SUCC;
       else if (o->its_code <= -600) o->its_resu = YUNIT_WARN;
       else                          o->its_resu = YUNIT_FAIL;
@@ -823,11 +822,11 @@ yUNIT_round   (
    /*---(save return)----------------------------*/
    yUNIT_s_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy(o->its_test, a_test, 100);
-   strncpy(o->its_expe, a_expe, 500);
+   strncpy  (o->its_test, a_test, 100);
+   strncpy  (o->its_expe, a_expe, 500);
    if (o->its_code >  0) strncpy(o->its_fixd, yVAR_modded (), 500);
-   strncpy(o->its_actu, a_actu, 500);
-   yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
+   strncpy  (o->its_actu, a_actu, 500);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
 }
@@ -848,25 +847,25 @@ yUNIT_ustr    (
    char    x_modd[500]  = "";
    char    x_actu[500]  = "";
    /*---(prepare)--------------------------------*/
-   o->its_resu = 1;
-   o->its_code = -666;
+   o->its_resu   =  YUNIT_FAIL;
+   o->its_code   = -666;
    strncpy(x_modd, a_expe, 499);
    strncpy(x_actu, a_actu, 499);
    /*---(do the comparisons)---------------------*/
-   if (strstr(a_test, "u_") != NULL) {
-      o->its_code = yVAR_ustring(a_test, x_modd, x_actu);
-      if (o->its_code > 0) o->its_resu = 0;
+   if (strstr (a_test, "u_") != NULL) {
+      o->its_code = yVAR_ustring (a_test, x_modd, x_actu);
+      if (o->its_code > 0) o->its_resu = YUNIT_SUCC;
    } else {
-      o->its_resu = 1;
+      o->its_resu = YUNIT_FAIL;
    }
    /*---(save return)----------------------------*/
    yUNIT_s_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy(o->its_test, a_test, 100);
-   strncpy(o->its_expe, a_expe, 500);
-   strncpy(o->its_fixd, yVAR_modded (), 500);
-   strncpy(o->its_actu, x_actu, 500);
-   yUNIT__recd(o, a_line, a_seqn, a_desc, a_meth, a_args);
+   strncpy (o->its_test, a_test, 100);
+   strncpy (o->its_expe, a_expe, 500);
+   strncpy (o->its_fixd, yVAR_modded (), 500);
+   strncpy (o->its_actu, x_actu, 500);
+   yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
 }
@@ -922,8 +921,8 @@ yUNIT_removed (    /*  PURPOSE = notify of old/obsolete test types            */
 {  /*---(locals)-----------+-----------+-*/
    tUNIT      *o           = (tUNIT *) a_unit;
    /*---(prepare)--------------------------------*/
-   o->its_resu =  1;
-   o->its_code = -666;
+   o->its_resu   =  YUNIT_FAIL;
+   o->its_code   = -666;
    /*---(record the key data)--------------------*/
    strncpy     (o->its_test, a_test, 100);
    strncpy     (o->its_expe, a_expe, 500);
@@ -947,8 +946,8 @@ yUNIT_unknown (    /*  PURPOSE = notify of confusing lines in script file     */
 {  /*---(locals)-----------+-----------+-*/
    tUNIT      *o           = (tUNIT *) a_unit;
    /*---(prepare)--------------------------------*/
-   o->its_resu =  1;
-   o->its_code = -666;
+   o->its_resu   =  YUNIT_FAIL;
+   o->its_code   = -666;
    /*---(record the key data)--------------------*/
    strncpy     (o->its_test, a_test, 100);
    strncpy     (o->its_expe, a_expe, 500);
@@ -988,18 +987,18 @@ yUNIT__recd (
    char  x_on1  [20] = "";
    char  x_on2  [20] = "";
    char  x_off  [20] = "";
-   if (o->its_resu == 0) {
-      strncpy(x_resu, "PASS", 5);
+   if (o->its_resu == YUNIT_SUCC) {
+      strncpy (x_resu, "PASS", 5);
       if (!o->is_forced_fail) {
          ++o->its_cond_pass;
-         if (strcmp(o->its_test, "intg_FAIL") == 0) {
-            strcpy(x_on1  , "\e[41m");
-            strcpy(x_on2  , "\e[42m");
-            strcpy(x_off  , "\e[0m");
+         if (strcmp (o->its_test, "intg_FAIL") == 0) {
+            strcpy (x_on1  , "\e[41m");
+            strcpy (x_on2  , "\e[42m");
+            strcpy (x_off  , "\e[0m");
          } else {
-            strcpy(x_on1  , "\e[42m");
-            strcpy(x_on2  , x_on1  );
-            strcpy(x_off  , "\e[0m");
+            strcpy (x_on1  , "\e[42m");
+            strcpy (x_on2  , x_on1  );
+            strcpy (x_off  , "\e[0m");
          }
       } else {
          ++o->its_cond_fail;
@@ -1008,7 +1007,7 @@ yUNIT__recd (
          strcpy(x_off  , "\e[0m");
          strncpy(x_resu, "OUCH", 5);
       }
-   } else if (o->its_resu == 1) {
+   } else if (o->its_resu == YUNIT_FAIL) {
       strncpy(x_resu, "FAIL", 5);
       if (!o->is_forced_fail) {
          ++o->its_cond_fail;
