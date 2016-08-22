@@ -662,12 +662,20 @@ yUNIT_int     (
       long      a_actu)           /* actual result                            */
 {
    tUNIT    *o       = (tUNIT *) a_unit;
+   long      x_val   = 0;
    /*---(prepare)--------------------------------*/
    o->its_resu  =  YUNIT_FAIL;
    o->its_code  = -666;
    /*---(do the comparisons)---------------------*/
    if (strstr(a_test, "i_") != NULL) {
-      o->its_code = yVAR_integer(a_test, atol(a_expe), a_actu);
+      if (strchr ("+-0123456789", a_expe [0]) != NULL) {
+         x_val = atol (a_expe);
+      } else if (strlen (a_expe) == 3 && a_expe [0] == '\'' && a_expe [2] == '\'') {
+         x_val = a_expe [1];
+      } else {
+         x_val = 0;
+      }
+      o->its_code = yVAR_integer(a_test, x_val, a_actu);
       if (o->its_code > 0) o->its_resu = YUNIT_SUCC;
    } else {
       o->its_resu = YUNIT_WARN;
