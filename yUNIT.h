@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0k"
-#define LVER_TXT   "allow character constants for expected in yUNIT_int"
+#define LVER_NUM   "2.0l"
+#define LVER_TXT   "changes to support gyges testing"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/

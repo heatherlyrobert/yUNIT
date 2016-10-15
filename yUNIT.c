@@ -294,6 +294,7 @@ yUNIT_scrp (
    DISP_SCRP   printf("\n%-77.77s [%05d]\n", x_header, a_line);
    snprintf(x_header, 300, "  focus : %s", a_focu);
    DISP_COND   printf("%-85.85s\n", x_header);
+   /*---(complete)---------------------*/
    return;
 }
 
@@ -328,6 +329,7 @@ yUNIT_prcs (
             o->its_scrp_pass, o->its_scrp_fail, o->its_scrp_badd, o->its_scrp_void, x_off);
    }
    DISP_COND   printf("\n");
+   /*---(complete)---------------------*/
    return;
 }
 
