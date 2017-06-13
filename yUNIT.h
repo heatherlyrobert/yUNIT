@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0m"
-#define LVER_TXT   "moved to make_program makefile enhancement"
+#define LVER_NUM   "2.0n"
+#define LVER_TXT   "took a trialing newline off the group verb"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/

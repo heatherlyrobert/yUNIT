@@ -428,7 +428,7 @@ yUNIT_group   (
    /*> DISP_ALL    printf("===-------                             SECTION                             -------===\n");   <*/
    DISP_COND   printf("  ===-------%s-------===\n", x_header);
    /*> DISP_ALL    printf("=====---------------------------------------------------------------------------=====\n");   <*/
-   DISP_COND   printf("\n");
+   /*> DISP_COND   printf("\n");                                                      <*/
    return;
 }
 
