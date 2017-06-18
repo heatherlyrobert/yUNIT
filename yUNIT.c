@@ -231,12 +231,15 @@ void    /*  PURPOSE :: break out a section                                    */
 yUNIT_sect    (
       void     *a_unit,           /* unit test object                         */
       char     *a_desc)           /* short description                        */
-{
+{  /*---(design notes)--------------------------------------------------------*/
+   /* a SECT title is only printed when the next SCRP is found so footers     */
+   /* will be correctly situated.                                             */
    /*---(locals)-----------+-----------+-*/
    tUNIT      *o           = (tUNIT *) a_unit;
    int         x_len       = 0;
    int         x_pre       = 0;
    int         x_suf       = 0;
+   char       *x_dashes    = "-----------------------------------------------------------";
    /*---(print title)--------------------*/
    if (strcmp (a_desc, "SCRP") == 0) {
       /*---(print)----------*/
@@ -257,7 +260,7 @@ yUNIT_sect    (
          x_len       = strlen (a_desc);
          x_pre       = (65 - x_len) / 2;
          x_suf       = (65 - x_pre) - x_len;
-         if (x_len < 65)   sprintf(s_sect, "%*.*s%s%*.*s", x_pre, x_pre, "", a_desc, x_suf, x_suf, "");
+         if (x_len < 65)   sprintf(s_sect, "%*.*s[[ %s ]]%*.*s", x_pre - 3, x_pre - 3, x_dashes, a_desc, x_suf - 3, x_suf - 3, x_dashes);
          else              sprintf(s_sect, "%65.65s", a_desc);
       }
    }

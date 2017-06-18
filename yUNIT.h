@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0n"
-#define LVER_TXT   "took a trialing newline off the group verb"
+#define LVER_NUM   "2.0o"
+#define LVER_TXT   "cosmetic change to SECT summary line"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
