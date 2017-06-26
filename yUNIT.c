@@ -663,7 +663,7 @@ yUNIT_int     (
       char     *a_meth,           /* method                                   */
       char     *a_args,           /* method's arguments                       */
       char     *a_test,           /* test to conduct                          */
-      char     *a_expe,           /* expected result                          */
+      long      a_expe,           /* expected result                          */
       long      a_actu)           /* actual result                            */
 {
    tUNIT    *o       = (tUNIT *) a_unit;
@@ -673,14 +673,7 @@ yUNIT_int     (
    o->its_code  = -666;
    /*---(do the comparisons)---------------------*/
    if (strstr(a_test, "i_") != NULL) {
-      if (strchr ("+-0123456789", a_expe [0]) != NULL) {
-         x_val = atol (a_expe);
-      } else if (strlen (a_expe) == 3 && a_expe [0] == '\'' && a_expe [2] == '\'') {
-         x_val = a_expe [1];
-      } else {
-         x_val = 0;
-      }
-      o->its_code = yVAR_integer(a_test, x_val, a_actu);
+      o->its_code = yVAR_integer(a_test, a_expe, a_actu);
       if (o->its_code > 0) o->its_resu = YUNIT_SUCC;
    } else {
       o->its_resu = YUNIT_WARN;
@@ -689,8 +682,8 @@ yUNIT_int     (
    yUNIT_i_rc = a_actu;
    /*---(record the key data)--------------------*/
    strncpy  (o->its_test, a_test, 100);
-   strncpy  (o->its_expe, a_expe, 500);
    strncpy  (o->its_fixd, ""    , 500);
+   snprintf (o->its_expe, 500, "%ld", a_expe);
    snprintf (o->its_actu, 500, "%ld", a_actu);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
@@ -744,7 +737,7 @@ yUNIT_real (
       char     *a_meth,           /* method                                   */
       char     *a_args,           /* method's arguments                       */
       char     *a_test,           /* test to conduct                          */
-      char     *a_expe,           /* expected result                          */
+      double    a_expe,           /* expected result                          */
       double    a_actu)           /* actual result                            */
 {
    tUNIT    *o       = (tUNIT *) a_unit;
@@ -753,7 +746,7 @@ yUNIT_real (
    o->its_code   = -666;
    /*---(do the comparisons)---------------------*/
    if (strstr (a_test, "r_") != NULL) {
-      o->its_code = yVAR_real (a_test, atof(a_expe), a_actu);
+      o->its_code = yVAR_real (a_test, a_expe, a_actu);
       if (o->its_code > 0) o->its_resu = YUNIT_SUCC;
    } else {
       o->its_resu = YUNIT_WARN;

@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0o"
-#define LVER_TXT   "cosmetic change to SECT summary line"
+#define LVER_NUM   "2.0p"
+#define LVER_TXT   "big change to take expected in native form (str, int, etc)"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
@@ -399,7 +399,7 @@ yUNIT_int    (     /*  PURPOSE = TEST AN INTEGER FUNCTION                     */
       char     *a_meth,          /*  method                                   */
       char     *a_args,          /*  method's arguments                       */
       char     *a_test,          /*  test to conduct                          */
-      char     *a_expe,          /*  expected result                          */
+      long      a_expe,          /*  expected result                          */
       long      a_actu);         /*  actual result                            */
 
 void               /*  return  = (none)                                       */
@@ -411,7 +411,7 @@ yUNIT_real   (     /*  PURPOSE = TEST AN FLOAT/DOUBLE FUNCTION                */
       char     *a_meth,          /*  method                                   */
       char     *a_args,          /*  method's arguments                       */
       char     *a_test,          /*  test to conduct                          */
-      char     *a_expe,          /*  expected result                          */
+      double    a_expe,          /*  expected result                          */
       double    a_actu);         /*  actual result                            */
 
 void               /*  return  = (none)                                       */
