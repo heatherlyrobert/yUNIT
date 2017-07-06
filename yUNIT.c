@@ -754,10 +754,10 @@ yUNIT_real (
    /*---(save return)----------------------------*/
    yUNIT_r_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy (o->its_test, a_test, 100);
-   strncpy (o->its_expe, yVAR_expect(), 500);
-   strncpy (o->its_fixd, ""    , 500);
-   strncpy (o->its_actu, yVAR_actual(), 500);
+   strncpy  (o->its_test, a_test, 100);
+   snprintf (o->its_expe, 500, "%lf", a_expe);
+   strncpy  (o->its_fixd, ""    , 500);
+   snprintf (o->its_actu, 500, "%lf", a_actu);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;

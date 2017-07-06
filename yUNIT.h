@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0p"
-#define LVER_TXT   "big change to take expected in native form (str, int, etc)"
+#define LVER_NUM   "2.0q"
+#define LVER_TXT   "better handling of reals"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
