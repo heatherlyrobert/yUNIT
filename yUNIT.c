@@ -14,8 +14,8 @@
 #define  DISP_SUMM     if (o->is_noisy == 1)
 #define  DISP_SCRP     if (o->is_noisy >= 2)
 #define  DISP_COND     if (o->is_noisy >= 3)
-#define  DISP_STEP     if (o->is_noisy >= 4)
-#define  DISP_FULL     if (o->is_noisy >= 5)
+#define  DISP_STEP     if (o->is_noisy >= 4 || o->its_resu > 0)
+#define  DISP_FULL     if (o->is_noisy >= 5 || o->its_resu > 0)
 #define  DISP_SECT     if (o->is_noisy == 4)
 
 #define  YUNIT_SUCC    0

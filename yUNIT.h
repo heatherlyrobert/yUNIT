@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0q"
-#define LVER_TXT   "better handling of reals"
+#define LVER_NUM   "2.0r"
+#define LVER_TXT   "--show-scrp now displays each full error for failures"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
