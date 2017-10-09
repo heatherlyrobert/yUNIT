@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0r"
-#define LVER_TXT   "--show-scrp now displays each full error for failures"
+#define LVER_NUM   "2.0s"
+#define LVER_TXT   "updated load to handle types stdin, ncurses, and STDIN"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
@@ -367,6 +367,7 @@ yUNIT_load (       /*  PURPOSE = load to a file/stdin for later reading       */
       int       a_line,          /*  reference number to script file line     */
       int       a_seqn,          /*  sequence number                          */
       char     *a_desc,          /*  short description                        */
+      char     *a_meth,           /* input method (stdin, ncurses, STDIN)     */
       char     *a_recd)          /*  data recd to load                        */
 ;
 

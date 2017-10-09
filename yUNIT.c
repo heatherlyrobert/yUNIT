@@ -522,8 +522,10 @@ yUNIT_load (
       int       a_line,           /* reference number to script file line     */
       int       a_seqn,           /* sequence number                          */
       char     *a_desc,           /* short description                        */
+      char     *a_meth,           /* input method (stdin, ncurses, STDIN)     */
       char     *a_recd)           /* record to load                           */
 {
+   int       i       = 0;
    tUNIT    *o       = (tUNIT *) a_unit;
    int seq1 = (a_seqn / 26);
    int seq2 = (a_seqn % 26) + 1;
@@ -539,7 +541,6 @@ yUNIT_load (
       strcpy (x_off, "\e[0m");
    }
    /*---(display)------------------------*/
-   /*> printf ("yUNIT_load 0.0 : %p\n", yUNIT_stdin);                                 <*/
    DISP_STEP {
       char  x_header[300] = "";
       strncat(x_header, a_desc, 80);
@@ -548,21 +549,37 @@ yUNIT_load (
       printf("\n  %s%c%c) CODE  %s :",
             x_on, seq1 + 96, seq2 + 96, x_off);
       printf(" %62.62s [%05d]\n", x_header, a_line);
-      printf("      load   : %-.65s\n", a_recd);
+      printf("      load   : (%-10.10s) %-.55s\n", a_meth, a_recd);
    }
-   /*---(close it in case)-------------*/
-   /*> printf ("yUNIT_load 1.0 : %p\n", yUNIT_stdin);                                 <*/
-   if (yUNIT_stdin != NULL) fclose(yUNIT_stdin);
-   /*> printf ("yUNIT_load 2.0 : %p\n", yUNIT_stdin);                                 <*/
-   /*---(write new data)---------------*/
-   yUNIT_stdin = fopen(STDIN, "a");
-   /*> printf ("yUNIT_load 3.0 : %p\n", yUNIT_stdin);                                 <*/
-   fprintf (yUNIT_stdin, "%s\n", a_recd);
-   fclose  (yUNIT_stdin);
-   /*> printf ("yUNIT_load 4.0 : %p\n", yUNIT_stdin);                                 <*/
-   /*---(reopen for next steps)--------*/
-   yUNIT_stdin = fopen(STDIN, "r");
-   /*> printf ("yUNIT_load 5.0 : %p\n", yUNIT_stdin);                                 <*/
+   /*---(normal stdin)-----------------*/
+   if (strcmp (a_meth, "stdin") == 0) {
+      for (i = strlen (a_recd) - 1; i >= 0; --i) {
+         ungetc (a_recd [i], stdin);
+      }
+   }
+   /*---(ncurses input)----------------*/
+   else if (strcmp (a_meth, "ncurses") == 0) {
+      for (i = strlen (a_recd) - 1; i >= 0; --i) {
+         ungetch (a_recd [i]);
+      }
+   }
+   /*---(file input)-------------------*/
+   else {
+      /*---(close it in case)----------*/
+      /*> printf ("yUNIT_load 1.0 : %p\n", yUNIT_stdin);                              <*/
+      if (yUNIT_stdin != NULL) fclose(yUNIT_stdin);
+      /*> printf ("yUNIT_load 2.0 : %p\n", yUNIT_stdin);                              <*/
+      /*---(write new data)------------*/
+      yUNIT_stdin = fopen(STDIN, "a");
+      /*> printf ("yUNIT_load 3.0 : %p\n", yUNIT_stdin);                              <*/
+      /*> printf ("yUNIT_load 3.5 : %s\n", a_recd);                                   <*/
+      fprintf (yUNIT_stdin, "%s\n", a_recd);
+      fclose  (yUNIT_stdin);
+      /*> printf ("yUNIT_load 4.0 : %p\n", yUNIT_stdin);                              <*/
+      /*---(reopen for next steps)-----*/
+      yUNIT_stdin = fopen(STDIN, "r");
+      /*> printf ("yUNIT_load 5.0 : %p\n", yUNIT_stdin);                              <*/
+   }
    /*---(complete)---------------------*/
    return;
 }
