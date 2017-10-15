@@ -526,6 +526,7 @@ yUNIT_load (
       char     *a_recd)           /* record to load                           */
 {
    int       i       = 0;
+   int       x_ch    = 0;
    tUNIT    *o       = (tUNIT *) a_unit;
    int seq1 = (a_seqn / 26);
    int seq2 = (a_seqn % 26) + 1;
@@ -553,14 +554,24 @@ yUNIT_load (
    }
    /*---(normal stdin)-----------------*/
    if (strcmp (a_meth, "stdin") == 0) {
+      while (getc (stdin) != EOF);   /* clear existing  */
       for (i = strlen (a_recd) - 1; i >= 0; --i) {
          ungetc (a_recd [i], stdin);
       }
    }
    /*---(ncurses input)----------------*/
    else if (strcmp (a_meth, "ncurses") == 0) {
-      for (i = strlen (a_recd) - 1; i >= 0; --i) {
-         ungetch (a_recd [i]);
+      while (x_ch = getch ()) {
+         /*> printf ("pulled %3d\n", x_ch);                                           <*/
+         if (x_ch < 0)  break;
+         /* clear existing  */
+      }
+      /*> printf ("placing <<%s>>\n", a_recd);                                        <*/
+      if (strlen (a_recd) > 0) {
+         for (i = strlen (a_recd) - 1; i >= 0; --i) {
+            /*> printf ("ungetch %3d = %c\n", a_recd[i], a_recd[i]);                  <*/
+            ungetch (a_recd [i]);
+         }
       }
    }
    /*---(file input)-------------------*/
@@ -580,6 +591,7 @@ yUNIT_load (
       yUNIT_stdin = fopen(STDIN, "r");
       /*> printf ("yUNIT_load 5.0 : %p\n", yUNIT_stdin);                              <*/
    }
+   /*> printf ("done with load\n");                                                   <*/
    /*---(complete)---------------------*/
    return;
 }
