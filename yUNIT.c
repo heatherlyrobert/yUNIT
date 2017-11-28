@@ -5,6 +5,8 @@
 #include <time.h>
 #include <memory.h>       /* malloc(), free()                                 */
 
+#include <curses.h>       /* getch, ungetch                                   */
+
 #include "yUNIT.h"
 #include "yVAR.h"
 

@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0t"
-#define LVER_TXT   "updated load to clear keys from stdin and ncurses"
+#define LVER_NUM   "2.0u"
+#define LVER_TXT   "added tie to ncurses library for load verb"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
