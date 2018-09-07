@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <memory.h>       /* malloc(), free()                                 */
+#include   <fcntl.h>              /* clibc standard file control              */
 
 #include <curses.h>       /* getch, ungetch                                   */
 
@@ -535,6 +536,8 @@ yUNIT_load (
       char     *a_meth,           /* input method (stdin, ncurses, STDIN)     */
       char     *a_recd)           /* record to load                           */
 {
+   /*> printf ("recd :%s:\n", a_recd);                                                <*/
+   int       x_flags = 0;         /* stdin file flags                         */
    int       i       = 0;
    int       x_ch    = 0;
    tUNIT    *o       = (tUNIT *) a_unit;
@@ -564,7 +567,14 @@ yUNIT_load (
    }
    /*---(normal stdin)-----------------*/
    if (strcmp (a_meth, "stdin") == 0) {
-      while (getc (stdin) != EOF);   /* clear existing  */
+      /*---(clear existing)------------*/
+      /*> x_flags     = fcntl  (stdin, F_GETFL, 0);                                   <* 
+       *> fcntl (stdin, F_SETFL, x_flags | O_NONBLOCK);                               <* 
+       *> printf ("clearing stdin...\n");                                             <* 
+       *> while (getc (stdin) != -1);   /+ clear existing  +/                         <* 
+       *> fcntl  (stdin, F_SETFL, x_flags);                                           <*/
+      /*---(load new)------------------*/
+      printf ("loading stdin...\n");
       for (i = strlen (a_recd) - 1; i >= 0; --i) {
          ungetc (a_recd [i], stdin);
       }
