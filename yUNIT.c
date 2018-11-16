@@ -446,6 +446,46 @@ yUNIT_group   (
    return;
 }
 
+void    /*  PURPOSE :: display a shared condition message                     */
+yUNIT_share_head        (void *a_unit, char *a_desc)
+{
+   tUNIT      *o           = (tUNIT *) a_unit;
+   int         len         = strlen (a_desc);
+   int         x_pre       = (63 - len) / 2;
+   int         x_suf       = 63 - x_pre - len;
+   char        x_header    [300] = "";
+   char        x_on        [20] = "";
+   char        x_off       [20] = "";
+   /*---(print title)------------------*/
+   if (len < 65)   sprintf(x_header, "%*.*s%s%*.*s", x_pre, x_pre, "", a_desc, x_suf, x_suf, "");
+   else            sprintf(x_header, "%65.65s", a_desc);
+   DISP_COND   fprintf(yUNIT_out, "\n");
+   if (o->is_eterm == 'y') {
+      strcpy(x_on , "\e[46m");
+      strcpy(x_off, "\e[0m");
+   }
+   DISP_COND   fprintf(yUNIT_out, "%s  SHARE ===----%s----===%s\n", x_on, x_header, x_off);
+   return;
+}
+
+void    /*  PURPOSE :: display a shared condition message                     */
+yUNIT_share_foot        (void *a_unit, char a_share)
+{
+   tUNIT      *o           = (tUNIT *) a_unit;
+   /*> char        x_header    [300] = "123456789 123456789 123456789 123456789 123456789 123456789 12345";   <*/
+   char        x_header    [300] = "-----------------------------------------------------------------";
+   char        x_on        [20] = "";
+   char        x_off       [20] = "";
+   /*---(print title)------------------*/
+   DISP_COND   fprintf(yUNIT_out, "\n");
+   if (o->is_eterm == 'y') {
+      strcpy(x_on , "\e[46m");
+      strcpy(x_off, "\e[0m");
+   }
+   DISP_COND   fprintf(yUNIT_out, "%s  ERAHS (%c) ===-%s-===%s\n", x_on, a_share, x_header, x_off);
+   return;
+}
+
 
 
 /*====================------------------------------------====================*/
@@ -574,7 +614,7 @@ yUNIT_load (
        *> while (getc (stdin) != -1);   /+ clear existing  +/                         <* 
        *> fcntl  (stdin, F_SETFL, x_flags);                                           <*/
       /*---(load new)------------------*/
-      printf ("loading stdin...\n");
+      /*> printf ("loading stdin...\n");                                              <*/
       for (i = strlen (a_recd) - 1; i >= 0; --i) {
          ungetc (a_recd [i], stdin);
       }

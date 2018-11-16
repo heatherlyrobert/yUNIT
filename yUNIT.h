@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.0w"
-#define LVER_TXT   "stopped clearing stdin before load (blocking)"
+#define LVER_NUM   "2.1a"
+#define LVER_TXT   "added visual markers at beg/end of shared conditions"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
@@ -342,6 +342,10 @@ void               /*  return  = (none)                                       */
 yUNIT_group   (    /*  PURPOSE = GROUP CONDITIONS                             */
       void     *a_unit,          /*  unit test object                         */
       char     *a_desc);         /*  short description                        */
+
+/*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
+void        yUNIT_share_head        (void *a_unit, char *a_desc);
+void        yUNIT_share_foot        (void *a_unit, char a_share);
 
 
 void               /*  rerturn = (none)                                       */
