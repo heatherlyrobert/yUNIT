@@ -270,8 +270,8 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.1a"
-#define LVER_TXT   "added visual markers at beg/end of shared conditions"
+#define LVER_NUM   "2.1b"
+#define LVER_TXT   "little standardizing of string lengths"
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/

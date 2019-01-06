@@ -25,8 +25,13 @@
 #define  YUNIT_FAIL    1
 #define  YUNIT_WARN    2
 
+#define  LEN_NORM     100
+#define  LEN_ARGS     200
+#define  LEN_HEAD     300
+#define  LEN_LINE     500
+#define  LEN_RECD    1000
 
-char     s_sect      [500]   = "";
+char     s_sect      [LEN_LINE]   = "";
 
 
 
@@ -34,21 +39,21 @@ char     s_sect      [500]   = "";
 typedef struct cUNIT tUNIT;
 struct cUNIT {
    /*---(identification)-----------*/
-   char        its_name    [100];
+   char        its_name    [LEN_NORM];
    /*---(working vars)-------------*/
    int         its_line;
    int         its_seqn;
-   char        its_refn    [100];
-   char        its_desc    [100];
-   char        its_meth    [100];
-   char        its_args    [200];
-   char        its_test    [100];
-   char        its_expe    [500];
-   char        its_fixd    [500];
-   char        its_actu    [500];
+   char        its_refn    [LEN_NORM];
+   char        its_desc    [LEN_NORM];
+   char        its_meth    [LEN_NORM];
+   char        its_args    [LEN_ARGS];
+   char        its_test    [LEN_NORM];
+   char        its_expe    [LEN_LINE];
+   char        its_fixd    [LEN_LINE];
+   char        its_actu    [LEN_LINE];
    int         its_resu;
    int         its_code;
-   char        its_comm    [100];
+   char        its_comm    [LEN_NORM];
    /*---(counters)-----------------*/
    int         its_cond_test;
    int         its_cond_pass;
@@ -91,13 +96,13 @@ void*      /*----: create a new unit test ------------------------------------*/
 yUNIT_unit         (cchar *a_name, cchar a_noisy, cchar a_eterm)
 {  /*---(allocate test)--------------------*/
    tUNIT     *o         = malloc(sizeof(tUNIT));
-   char       t         [200];
+   char       t         [LEN_ARGS];
    /*---(setup defaults)-------------------*/
    yUNIT_noisy  (o, a_noisy);
    /*> yUNIT_eterm  (o, 'y');                                                         <*/
    /*---(open output)----------------------*/
-   if (a_name != NULL)   snprintf (t, 200, "%s.urun", a_name);
-   else                  snprintf (t, 200, "unittest.urun");
+   if (a_name != NULL)   snprintf (t, LEN_ARGS, "%s.urun", a_name);
+   else                  snprintf (t, LEN_ARGS, "unittest.urun");
    yUNIT_out = fopen (t, "w");
    if (yUNIT_out == NULL)   return -1;
    /*---(print header)---------------------*/
@@ -130,7 +135,7 @@ yUNIT_unit         (cchar *a_name, cchar a_noisy, cchar a_eterm)
       DISP_SUMM fprintf(yUNIT_out, "   NEW TEST COULD NOT BE ALLOCATED (FATAL)\n");
       return NULL;
    }
-   strncpy(o->its_name, a_name, 100);
+   strncpy(o->its_name, a_name, LEN_NORM);
    DISP_STEP   fprintf(yUNIT_out, "   assign to program <<%s>>\n", o->its_name);
    /*---(reset summary counters)-------*/
    DISP_STEP   fprintf(yUNIT_out, "   initiaize summary counters\n");
@@ -288,7 +293,7 @@ yUNIT_scrp (
       char     *a_desc)           /* short description                        */
 {
    tUNIT      *o           = (tUNIT *) a_unit;
-   char        x_header    [300] = "";
+   char        x_header    [LEN_HEAD] = "";
    /*---(show sect)--------------------*/
    yUNIT_sect   (a_unit, "SCRP");
    /*---(reset summary counters)-------*/
@@ -298,15 +303,15 @@ yUNIT_scrp (
    o->its_scrp_badd = 0;
    o->its_scrp_void = 0;
    /*---(print title)------------------*/
-   /*> snprintf(x_header, 300, "SCRP [%02d] %s :: %s", a_seqn, a_focu, a_desc);       <*/
-   snprintf(x_header, 300, "SCRP [%02d] %s", a_seqn, a_desc);
+   /*> snprintf(x_header, LEN_HEAD, "SCRP [%02d] %s :: %s", a_seqn, a_focu, a_desc);       <*/
+   snprintf(x_header, LEN_HEAD, "SCRP [%02d] %s", a_seqn, a_desc);
    strncat(x_header, " ", 80);
    strncat(x_header, "================================================", 80);
    strncat(x_header, "================================================", 80);
    DISP_COND   fprintf(yUNIT_out, "\n\n");
    DISP_STEP   fprintf(yUNIT_out, "\n===[[ NEW SCRIPT ]]==================================================================");
    DISP_SCRP   fprintf(yUNIT_out, "\n%-77.77s [%05d]\n", x_header, a_line);
-   snprintf(x_header, 300, "  focus : %s", a_focu);
+   snprintf(x_header, LEN_HEAD, "  focus : %s", a_focu);
    DISP_COND   fprintf(yUNIT_out, "%-85.85s\n", x_header);
    /*---(complete)---------------------*/
    return;
@@ -364,7 +369,7 @@ yUNIT_cond (
    tUNIT    *o       = (tUNIT *) a_unit;
    /*---(save key data)----------------*/
    o->its_line = a_line;
-   strncpy(o->its_desc, a_desc, 100);
+   strncpy(o->its_desc, a_desc, LEN_NORM);
    /*---(reset summary counters)-------*/
    o->its_cond_test = 0;
    o->its_cond_pass = 0;
@@ -373,7 +378,7 @@ yUNIT_cond (
    o->its_cond_void = 0;
    /*---(print message)----------------*/
    DISP_COND   {
-      char  x_header[300] = "";
+      char  x_header[LEN_HEAD] = "";
       strncat(x_header, o->its_desc, 80);
       strncat(x_header, " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --", 80);
       strncat(x_header, " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --", 80);
@@ -433,7 +438,7 @@ yUNIT_group   (
    int         len         = strlen (a_desc);
    int         x_pre       = (63 - len) / 2;
    int         x_suf       = 63 - x_pre - len;
-   char        x_header    [300] = "";
+   char        x_header    [LEN_HEAD] = "";
    /*---(print title)------------------*/
    if (len < 65)   sprintf(x_header, "%*.*s%s%*.*s", x_pre, x_pre, "", a_desc, x_suf, x_suf, "");
    else            sprintf(x_header, "%65.65s", a_desc);
@@ -453,7 +458,7 @@ yUNIT_share_head        (void *a_unit, char *a_desc)
    int         len         = strlen (a_desc);
    int         x_pre       = (63 - len) / 2;
    int         x_suf       = 63 - x_pre - len;
-   char        x_header    [300] = "";
+   char        x_header    [LEN_HEAD] = "";
    char        x_on        [20] = "";
    char        x_off       [20] = "";
    /*---(print title)------------------*/
@@ -472,8 +477,8 @@ void    /*  PURPOSE :: display a shared condition message                     */
 yUNIT_share_foot        (void *a_unit, char a_share)
 {
    tUNIT      *o           = (tUNIT *) a_unit;
-   /*> char        x_header    [300] = "123456789 123456789 123456789 123456789 123456789 123456789 12345";   <*/
-   char        x_header    [300] = "-----------------------------------------------------------------";
+   /*> char        x_header    [LEN_HEAD] = "123456789 123456789 123456789 123456789 123456789 123456789 12345";   <*/
+   char        x_header    [LEN_HEAD] = "-----------------------------------------------------------------";
    char        x_on        [20] = "";
    char        x_off       [20] = "";
    /*---(print title)------------------*/
@@ -554,7 +559,7 @@ yUNIT_code (       /*  PURPOSE = describe manual code lines                   */
    }
    /*---(dispaly)------------------------*/
    DISP_STEP {
-      char  x_header[300] = "";
+      char  x_header[LEN_HEAD] = "";
       strncat(x_header, a_desc, 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
@@ -596,7 +601,7 @@ yUNIT_load (
    }
    /*---(display)------------------------*/
    DISP_STEP {
-      char  x_header[300] = "";
+      char  x_header[LEN_HEAD] = "";
       strncat(x_header, a_desc, 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
@@ -681,7 +686,7 @@ yUNIT_sys    (
    /*---(display)------------------------*/
    /*> fprintf (yUNIT_out, "yUNIT_load 0.0 : %p\n", yUNIT_stdin);                                 <*/
    DISP_STEP {
-      char  x_header[300] = "";
+      char  x_header[LEN_HEAD] = "";
       strncat(x_header, a_desc, 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
@@ -691,7 +696,7 @@ yUNIT_sys    (
       fprintf(yUNIT_out, "      sys    : %-.65s\n", a_cmd);
    }
    /*---(run system command)-----------*/
-   char     x_sys [1000];
+   char     x_sys [LEN_RECD];
    sprintf (x_sys, "%s > /tmp/yUNIT_sys_verb.tmp", a_cmd);
    /*> fprintf (yUNIT_out, "SYS COMMAND : %s\n", x_sys);                                          <*/
    system (x_sys);
@@ -700,9 +705,9 @@ yUNIT_sys    (
    f = fopen ("/tmp/yUNIT_sys_verb.tmp", "r");
    if (f == NULL) return -1;
    /*---(read one line)----------------*/
-   char        x_text      [1000] = "";
+   char        x_text      [LEN_RECD] = "";
    int         x_len       = 0;
-   fgets (x_text, 1000, f);
+   fgets (x_text, LEN_RECD, f);
    x_len = strlen (x_text);
    x_text [--x_len] = '\0';
    strcpy (yUNIT_systext, x_text);
@@ -734,10 +739,10 @@ yUNIT_void (
    o->its_resu  = YUNIT_SUCC;
    o->its_code  = 0;
    /*---(record the key data)--------------------*/
-   strncpy  (o->its_test, a_test, 100);
-   strncpy  (o->its_expe, "void", 500);
-   strncpy  (o->its_fixd, ""    , 500);
-   strncpy  (o->its_actu, "void", 100);
+   strncpy  (o->its_test, a_test, LEN_NORM);
+   strncpy  (o->its_expe, "void", LEN_LINE);
+   strncpy  (o->its_fixd, ""    , LEN_LINE);
+   strncpy  (o->its_actu, "void", LEN_LINE);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
@@ -770,10 +775,10 @@ yUNIT_int     (
    /*---(save return)----------------------------*/
    yUNIT_i_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy  (o->its_test, a_test, 100);
-   strncpy  (o->its_fixd, ""    , 500);
-   snprintf (o->its_expe, 500, "%ld", a_expe);
-   snprintf (o->its_actu, 500, "%ld", a_actu);
+   strncpy  (o->its_test, a_test, LEN_NORM);
+   strncpy  (o->its_fixd, ""    , LEN_LINE);
+   snprintf (o->its_expe, LEN_LINE, "%ld", a_expe);
+   snprintf (o->its_actu, LEN_LINE, "%ld", a_actu);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
@@ -806,11 +811,11 @@ yUNIT_point   (
    /*---(save return)----------------------------*/
    yUNIT_p_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy   (o->its_test, a_test, 100);
-   snprintf  (o->its_expe, 500, "%p",  a_expe);
-   if (strcmp(a_test, "p_exists") == 0) strncpy(o->its_expe, "---any---", 100);
-   strncpy   (o->its_fixd, ""    , 500);
-   snprintf  (o->its_actu, 500, "%p",  a_actu);
+   strncpy   (o->its_test, a_test, LEN_NORM);
+   snprintf  (o->its_expe, LEN_LINE, "%p",  a_expe);
+   if (strcmp(a_test, "p_exists") == 0) strncpy(o->its_expe, "---any---", LEN_NORM);
+   strncpy   (o->its_fixd, ""    , LEN_LINE);
+   snprintf  (o->its_actu, LEN_LINE, "%p",  a_actu);
    if (a_actu != NULL) o->is_leak_end = a_actu;
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
@@ -843,10 +848,10 @@ yUNIT_real (
    /*---(save return)----------------------------*/
    yUNIT_r_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy  (o->its_test, a_test, 100);
-   snprintf (o->its_expe, 500, "%lf", a_expe);
-   strncpy  (o->its_fixd, ""    , 500);
-   snprintf (o->its_actu, 500, "%lf", a_actu);
+   strncpy  (o->its_test, a_test, LEN_NORM);
+   snprintf (o->its_expe, LEN_LINE, "%lf", a_expe);
+   strncpy  (o->its_fixd, ""    , LEN_LINE);
+   snprintf (o->its_actu, LEN_LINE, "%lf", a_actu);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
@@ -878,10 +883,10 @@ yUNIT_string (
    /*---(save return)----------------------------*/
    yUNIT_s_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy (o->its_test, a_test, 100);
-   strncpy (o->its_expe, a_expe, 500);
-   strncpy (o->its_fixd, "",     500);
-   strncpy (o->its_actu, a_actu, 500);
+   strncpy (o->its_test, a_test, LEN_NORM);
+   strncpy (o->its_expe, a_expe, LEN_LINE);
+   strncpy (o->its_fixd, "",     LEN_LINE);
+   strncpy (o->its_actu, a_actu, LEN_LINE);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
@@ -904,7 +909,7 @@ yUNIT_round   (
    /*---(prepare)--------------------------------*/
    o->its_resu  =  YUNIT_FAIL;
    o->its_code  =  -666;               /* indicates unhandled test            */
-   strncpy (o->its_fixd, "",     500);
+   strncpy (o->its_fixd, "",     LEN_LINE);
    /*---(do the comparisons)---------------------*/
    if (strncmp (a_test, "u_round/", 8) == 0) {
       o->its_code = yVAR_round (a_test, a_expe, a_actu);
@@ -917,10 +922,10 @@ yUNIT_round   (
    /*---(save return)----------------------------*/
    yUNIT_s_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy  (o->its_test, a_test, 100);
-   strncpy  (o->its_expe, a_expe, 500);
-   if (o->its_code >  0) strncpy(o->its_fixd, yVAR_modded (), 500);
-   strncpy  (o->its_actu, a_actu, 500);
+   strncpy  (o->its_test, a_test, LEN_NORM);
+   strncpy  (o->its_expe, a_expe, LEN_LINE);
+   if (o->its_code >  0) strncpy(o->its_fixd, yVAR_modded (), LEN_LINE);
+   strncpy  (o->its_actu, a_actu, LEN_LINE);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
@@ -939,8 +944,8 @@ yUNIT_ustr    (
       char     *a_actu)           /* actual result                            */
 {
    tUNIT    *o       = (tUNIT *) a_unit;
-   char    x_modd[500]  = "";
-   char    x_actu[500]  = "";
+   char    x_modd[LEN_LINE]  = "";
+   char    x_actu[LEN_LINE]  = "";
    /*---(prepare)--------------------------------*/
    o->its_resu   =  YUNIT_FAIL;
    o->its_code   = -666;
@@ -956,10 +961,10 @@ yUNIT_ustr    (
    /*---(save return)----------------------------*/
    yUNIT_s_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy (o->its_test, a_test, 100);
-   strncpy (o->its_expe, a_expe, 500);
-   strncpy (o->its_fixd, yVAR_modded (), 500);
-   strncpy (o->its_actu, x_actu, 500);
+   strncpy (o->its_test, a_test, LEN_NORM);
+   strncpy (o->its_expe, a_expe, LEN_LINE);
+   strncpy (o->its_fixd, yVAR_modded (), LEN_LINE);
+   strncpy (o->its_actu, x_actu, LEN_LINE);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
@@ -990,7 +995,7 @@ yUNIT_badd (       /*  PURPOSE = describe manual code lines                   */
    ++o->its_cond_test;
    ++o->its_cond_badd;
    DISP_STEP {
-      char  x_header[300] = "";
+      char  x_header[LEN_HEAD] = "";
       strncat(x_header, a_desc, 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
@@ -1019,10 +1024,10 @@ yUNIT_removed (    /*  PURPOSE = notify of old/obsolete test types            */
    o->its_resu   =  YUNIT_FAIL;
    o->its_code   = -666;
    /*---(record the key data)--------------------*/
-   strncpy     (o->its_test, a_test, 100);
-   strncpy     (o->its_expe, a_expe, 500);
-   strncpy     (o->its_fixd, ""    , 500);
-   strncpy     (o->its_actu, ""    , 500);
+   strncpy     (o->its_test, a_test, LEN_NORM);
+   strncpy     (o->its_expe, a_expe, LEN_LINE);
+   strncpy     (o->its_fixd, ""    , LEN_LINE);
+   strncpy     (o->its_actu, ""    , LEN_LINE);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)---------------------*/
    return;
@@ -1044,10 +1049,10 @@ yUNIT_unknown (    /*  PURPOSE = notify of confusing lines in script file     */
    o->its_resu   =  YUNIT_FAIL;
    o->its_code   = -666;
    /*---(record the key data)--------------------*/
-   strncpy     (o->its_test, a_test, 100);
-   strncpy     (o->its_expe, a_expe, 500);
-   strncpy     (o->its_fixd, ""    , 500);
-   strncpy     (o->its_actu, ""    , 500);
+   strncpy     (o->its_test, a_test, LEN_NORM);
+   strncpy     (o->its_expe, a_expe, LEN_LINE);
+   strncpy     (o->its_fixd, ""    , LEN_LINE);
+   strncpy     (o->its_actu, ""    , LEN_LINE);
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)---------------------*/
    return;
@@ -1073,9 +1078,9 @@ yUNIT__recd (
    ++o->its_cond_test;
    o->its_line = a_line;
    o->its_seqn = a_seqn;
-   strncpy(o->its_desc, a_desc, 100);
-   strncpy(o->its_meth, a_meth, 100);
-   strncpy(o->its_args, a_args, 200);
+   strncpy(o->its_desc, a_desc, LEN_NORM);
+   strncpy(o->its_meth, a_meth, LEN_NORM);
+   strncpy(o->its_args, a_args, LEN_ARGS);
    long int _gcpu = 0;
    /*---(mark result)----------------------------*/
    char  x_resu[6]   = "FAIL";
@@ -1130,7 +1135,7 @@ yUNIT__recd (
    }
    /*---(print message)----------------*/
    DISP_STEP {
-      char  x_header[300] = "";
+      char  x_header[LEN_HEAD] = "";
       strncat(x_header, o->its_desc, 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
       strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
