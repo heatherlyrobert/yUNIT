@@ -3,7 +3,7 @@
 
  *   focus         : (PS) programming support
  *   niche         : (st) software testing
- *   application   : yUNIT (shared library)
+ *   heritage      : daktyloi (the fingers, titan gods of metal working)
  *   purpose       : provide consistent automated unit testing framework
  *
  *   base_system   : gnu/linux   (powerful, ubiquitous, technical, and hackable)
@@ -268,10 +268,12 @@
 #define YUNIT_hguard loaded
 
 
+
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define LVER_NUM   "2.1b"
-#define LVER_TXT   "little standardizing of string lengths"
+#define P_VERNUM   "2.1c"
+#define P_VERTXT   "upgraded the yUNIT_int to long long to handle gregg btree"
+
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
@@ -404,8 +406,8 @@ yUNIT_int    (     /*  PURPOSE = TEST AN INTEGER FUNCTION                     */
       char     *a_meth,          /*  method                                   */
       char     *a_args,          /*  method's arguments                       */
       char     *a_test,          /*  test to conduct                          */
-      long      a_expe,          /*  expected result                          */
-      long      a_actu);         /*  actual result                            */
+      long long a_expe,          /*  expected result                          */
+      long long a_actu);         /*  actual result                            */
 
 void               /*  return  = (none)                                       */
 yUNIT_real   (     /*  PURPOSE = TEST AN FLOAT/DOUBLE FUNCTION                */

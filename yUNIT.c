@@ -757,11 +757,10 @@ yUNIT_int     (
       char     *a_meth,           /* method                                   */
       char     *a_args,           /* method's arguments                       */
       char     *a_test,           /* test to conduct                          */
-      long      a_expe,           /* expected result                          */
-      long      a_actu)           /* actual result                            */
+      long long a_expe,           /* expected result                          */
+      long long a_actu)           /* actual result                            */
 {
    tUNIT    *o       = (tUNIT *) a_unit;
-   long      x_val   = 0;
    /*---(prepare)--------------------------------*/
    o->its_resu  =  YUNIT_FAIL;
    o->its_code  = -666;
@@ -777,8 +776,10 @@ yUNIT_int     (
    /*---(record the key data)--------------------*/
    strncpy  (o->its_test, a_test, LEN_NORM);
    strncpy  (o->its_fixd, ""    , LEN_LINE);
-   snprintf (o->its_expe, LEN_LINE, "%ld", a_expe);
-   snprintf (o->its_actu, LEN_LINE, "%ld", a_actu);
+   snprintf (o->its_expe, LEN_LINE, "%lld", a_expe);
+   snprintf (o->its_actu, LEN_LINE, "%lld", a_actu);
+   /*> printf ("%20lld == [%s]\n", a_expe, o->its_expe);                              <*/
+   /*> printf ("%20lld == [%s]\n", a_actu, o->its_actu);                              <*/
    yUNIT__recd (o, a_line, a_seqn, a_desc, a_meth, a_args);
    /*---(complete)-------------------------------*/
    return;
