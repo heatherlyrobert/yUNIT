@@ -271,8 +271,6 @@
 
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define P_VERNUM   "2.1c"
-#define P_VERTXT   "upgraded the yUNIT_int to long long to handle gregg btree"
 
 
 
@@ -286,9 +284,6 @@ void     *yUNIT_p_rc;
 long      yUNIT_i_rc;
 double    yUNIT_r_rc;
 char     *yUNIT_s_rc;
-extern    FILE     *yUNIT_stdin;
-#define   STDIN          "yUNIT.stdin"
-char      yUNIT_systext [1000];
 
 typedef const char   cchar;
 typedef const void   cvoid;
@@ -385,6 +380,10 @@ yUNIT_sys  (       /*  PURPOSE = gather some environment information          */
       char     *a_desc,          /*  short description                        */
       char     *a_cmd )          /*  system command to run                    */
 ;
+
+/*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
+char        yUNIT_user_del          (cchar *a_name);
+char        yUNIT_user_add          (cchar *a_name, cchar *a_pass, cchar *a_shell);
 
 void               /*  return  = (none)                                       */
 yUNIT_void(        /*  PURPOSE = TEST AN INTEGER FUNCTION                     */

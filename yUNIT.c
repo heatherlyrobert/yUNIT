@@ -1,82 +1,8 @@
-/*===[[ START ]]==============================================================*/
-#include <stdio.h>        /* printf(), snprintf()                             */
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <memory.h>       /* malloc(), free()                                 */
-#include   <fcntl.h>              /* clibc standard file control              */
-
-#include <curses.h>       /* getch, ungetch                                   */
-
 #include "yUNIT.h"
-#include "yVAR.h"
+#include "yUNIT_priv.h"
 
-
-
-/*===[[ CONSTANTS ]]==========================================================*/
-#define  DISP_SUMM     if (o->is_noisy == 1)
-#define  DISP_SCRP     if (o->is_noisy >= 2)
-#define  DISP_COND     if (o->is_noisy >= 3)
-#define  DISP_STEP     if (o->is_noisy >= 4 || o->its_resu > 0)
-#define  DISP_FULL     if (o->is_noisy >= 5 || o->its_resu > 0)
-#define  DISP_SECT     if (o->is_noisy == 4)
-
-#define  YUNIT_SUCC    0
-#define  YUNIT_FAIL    1
-#define  YUNIT_WARN    2
-
-#define  LEN_NORM     100
-#define  LEN_ARGS     200
-#define  LEN_HEAD     300
-#define  LEN_LINE     500
-#define  LEN_RECD    1000
 
 char     s_sect      [LEN_LINE]   = "";
-
-
-
-/*===[[ TEST STRUCTURE ]]=====================================================*/
-typedef struct cUNIT tUNIT;
-struct cUNIT {
-   /*---(identification)-----------*/
-   char        its_name    [LEN_NORM];
-   /*---(working vars)-------------*/
-   int         its_line;
-   int         its_seqn;
-   char        its_refn    [LEN_NORM];
-   char        its_desc    [LEN_NORM];
-   char        its_meth    [LEN_NORM];
-   char        its_args    [LEN_ARGS];
-   char        its_test    [LEN_NORM];
-   char        its_expe    [LEN_LINE];
-   char        its_fixd    [LEN_LINE];
-   char        its_actu    [LEN_LINE];
-   int         its_resu;
-   int         its_code;
-   char        its_comm    [LEN_NORM];
-   /*---(counters)-----------------*/
-   int         its_cond_test;
-   int         its_cond_pass;
-   int         its_cond_fail;
-   int         its_cond_badd;
-   int         its_cond_void;
-   int         its_scrp_test;
-   int         its_scrp_pass;
-   int         its_scrp_fail;
-   int         its_scrp_badd;
-   int         its_scrp_void;
-   int         its_unit_test;
-   int         its_unit_pass;
-   int         its_unit_fail;
-   int         its_unit_badd;
-   int         its_unit_void;
-   /*---(flags)--------------------*/
-   int         is_forced_fail;
-   int         is_noisy;
-   char        is_eterm;
-   void       *is_leak_begin;
-   void       *is_leak_end;
-};
 
 
 /*===[[ TESTING ]]============================================================*/
@@ -715,6 +641,43 @@ yUNIT_sys    (
    fclose (f);
    /*---(complete)---------------------*/
    return;
+}
+
+char
+yUNIT_user_del          (cchar *a_name)
+{
+   char        rce          =  -10;
+   char        rc           =    0;
+   char        t            [LEN_RECD ] = "";
+   --rce;  if (a_name == NULL) return rce;
+   snprintf (t, LEN_RECD, "userdel --remove %s >> /dev/null 2>&1", a_name);
+   rc = system (t);
+   --rce;  if (rc < 0)   return rce;
+   return 0; 
+}
+
+char
+yUNIT_user_add          (cchar *a_name, cchar *a_pass, cchar *a_shell)
+{
+   char        rce          =  -10;
+   char        rc           =    0;
+   char        t            [LEN_RECD  ] = "";
+   char        s            [LEN_RECD  ] = "";
+   --rce;  if (a_name == NULL) return rce;
+   --rce;  if (a_pass == NULL) return rce;
+   yUNIT_user_del (a_name);
+   snprintf (t, LEN_RECD, "useradd --gid nobody --create-home --no-user-group %s", a_name);
+   if (a_shell != NULL && strlen (a_shell) > 0) {
+      snprintf (s, LEN_RECD, "  --shell \"%s\"", a_shell);
+      strcat   (t, s);
+   }
+   strcat   (t, "  >> /dev/null 2>&1");
+   rc = system (t);
+   --rce;  if (rc < 0)   return rce;
+   snprintf (t, LEN_RECD, "printf \"%s\n%s\n\" | passwd %s >> /dev/null 2>&1", a_pass, a_pass, a_name);
+   rc = system (t);
+   --rce;  if (rc < 0)   return rce;
+   return 0; 
 }
 
 
