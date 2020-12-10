@@ -31,8 +31,8 @@
 
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1d"
-#define     P_VERTXT    "added user creation/remove for unit testing support"
+#define     P_VERNUM    "2.1e"
+#define     P_VERTXT    "break apart into separate source files for ease of maintenance"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -89,6 +89,9 @@ extern    FILE     *yUNIT_stdin;
 #define   STDIN          "yUNIT.stdin"
 char      yUNIT_systext [1000];
 
+extern FILE     *yUNIT_stdin;
+extern FILE     *yUNIT_out;
+extern char     s_sect      [LEN_LINE];
 
 /*===[[ TEST STRUCTURE ]]=====================================================*/
 typedef struct cUNIT tUNIT;
