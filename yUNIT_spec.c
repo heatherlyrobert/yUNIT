@@ -3,212 +3,110 @@
 
 
 
+
 /*====================------------------------------------====================*/
 /*===----                       specialty-level                        ----===*/
 /*====================------------------------------------====================*/
 static void      o___SPECIALTY_______________o (void) {;}
 
-void               /*  rerturn = (none)                                       */
-yUNIT_mode (       /*  PURPOSE = ENABLE FORCED FAILURES                       */
-      void     *a_unit,           /*  unit test object                        */
-      int       a_line,           /*  reference number to script file line    */
-      int       a_seqn,           /*  sequence number                         */
-      char     *a_desc)           /*  short description                       */
+char
+yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc)
 {
-   tUNIT    *o       = (tUNIT *) a_unit;
-   int seq1 = (a_seqn / 26);
-   int seq2 = (a_seqn % 26) + 1;
-   if (seq1 == 0) {
-      seq1  = seq2 - 1;
-      seq2  = ' ' - 96;
-   }
-   char   x_on  [20] = "";
-   char   x_off [20] = "";
-   if (o->is_eterm == 'y') {
-      strcpy(x_on , "\e[46m");
-      strcpy(x_off, "\e[0m");
-   }
-   if (strcmp(a_desc, "FORCED_FAIL") == 0) {
-      o->is_forced_fail = 1;
-      DISP_STEP
-         fprintf(yUNIT_out, "\n  %s%c%c) MODE  %s : ENABLE FORCED FAILURE (pass=fail, fail=pass) .  .  .  .  .  .  [%05i]\n",
-               x_on, seq1 + 96, seq2 + 96, x_off, a_line);
+   char        x_desc      [LEN_HUND]  = "";
+   if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
+   if (strcmp (x_desc, "FORCED_FAIL") == 0) {
+      myUNIT.is_forced_fail = 1;
+      yunit_header (TYPE_MODE, a_line, a_seqn, "MODE"  , "ENABLE FORCED FAILURE (pass=fail, fail=pass)");
    } else {
-      o->is_forced_fail = 0;
-      DISP_STEP
-         fprintf(yUNIT_out, "\n  %s%c%c) MODE  %s : normal (a pass is a pass ;)   .  .  .  .  .  .  .  .  .  .  .  [%05i]\n",
-               x_on, seq1 + 96, seq2 + 96, x_off, a_line);
+      myUNIT.is_forced_fail = 0;
+      yunit_header (TYPE_MODE, a_line, a_seqn, "MODE"  , "normal (a pass is a pass ;)");
    }
+   fprintf (yUNIT_out, "%s\n", s_print);
+   fprintf (yUNIT_out, "\n");
    /*---(complete)---------------------*/
-   return;
+   return 0;
 }
 
 
-void               /*  rerturn = (none)                                       */
-yUNIT_code (       /*  PURPOSE = describe manual code lines                   */
-      void     *a_unit,           /*  unit test object                        */
-      int       a_line,           /* reference number to script file line     */
-      int       a_seqn,           /* sequence number                          */
-      char     *a_desc,           /* short description                        */
-      char     *a_code)           /* actual code line                         */
+char
+yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code)
 {
-   tUNIT    *o       = (tUNIT *) a_unit;
-   /*---(prepare sequence)---------------*/
-   int seq1 = (a_seqn / 26);
-   int seq2 = (a_seqn % 26) + 1;
-   if (seq1 == 0) {
-      seq1  = seq2 - 1;
-      seq2  = ' ' - 96;
-   }
-   /*---(prepare color)------------------*/
-   char   x_on  [20] = "";
-   char   x_off [20] = "";
-   if (o->is_eterm == 'y') {
-      strcpy (x_on , "\e[46m");
-      strcpy (x_off, "\e[0m");
-   }
    /*---(dispaly)------------------------*/
-   DISP_STEP {
-      char  x_header[LEN_HEAD] = "";
-      strncat(x_header, a_desc, 80);
-      strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
-      strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
-      fprintf(yUNIT_out, "\n  %s%c%c) CODE  %s :",
-            x_on, seq1 + 96, seq2 + 96, x_off);
-      fprintf(yUNIT_out, " %62.62s [%05d]\n", x_header, a_line);
-      fprintf(yUNIT_out, "      code   : %-70.70s\n", a_code);
+   IF_STEP {
+      yunit_header (TYPE_CODE, a_line, a_seqn, "CODE"  , a_desc);
+      fprintf (yUNIT_out, "%s\n", s_print);
+      sprintf (s_suffix , "      code   : %2d[%.65s]", strlen (a_code), a_code);
+      fprintf (yUNIT_out, "%s\n", s_suffix);
+      fprintf (yUNIT_out, "\n");
    }
    /*---(complete)---------------------*/
-   return;
+   return 0;
 }
 
-void
-yUNIT_load (
-      void     *a_unit,           /* unit test object                         */
-      int       a_line,           /* reference number to script file line     */
-      int       a_seqn,           /* sequence number                          */
-      char     *a_desc,           /* short description                        */
-      char     *a_meth,           /* input method (stdin, ncurses, STDIN)     */
-      char     *a_recd)           /* record to load                           */
+char
+yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd)
 {
-   /*> printf ("recd :%s:\n", a_recd);                                                <*/
    int       x_flags = 0;         /* stdin file flags                         */
    int       i       = 0;
    int       x_ch    = 0;
-   tUNIT    *o       = (tUNIT *) a_unit;
-   int seq1 = (a_seqn / 26);
-   int seq2 = (a_seqn % 26) + 1;
-   if (seq1 == 0) {
-      seq1  = seq2 - 1;
-      seq2  = ' ' - 96;
-   }
-   /*---(prepare color)------------------*/
-   char   x_on  [20] = "";
-   char   x_off [20] = "";
-   if (o->is_eterm == 'y') {
-      strcpy (x_on , "\e[46m");
-      strcpy (x_off, "\e[0m");
-   }
+   char        x_meth      [LEN_LABEL] = "???";
+   char        x_data      [LEN_RECD]  = "";
    /*---(display)------------------------*/
-   DISP_STEP {
-      char  x_header[LEN_HEAD] = "";
-      strncat(x_header, a_desc, 80);
-      strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
-      strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
-      fprintf(yUNIT_out, "\n  %s%c%c) CODE  %s :",
-            x_on, seq1 + 96, seq2 + 96, x_off);
-      fprintf(yUNIT_out, " %62.62s [%05d]\n", x_header, a_line);
-      fprintf(yUNIT_out, "      load   : (%-10.10s) %-.55s\n", a_meth, a_recd);
+   if (a_meth != NULL)   strncpy (x_meth, a_meth, LEN_RECD);
+   if (a_recd != NULL)   strncpy (x_data, a_recd, LEN_RECD);
+   IF_STEP {
+      yunit_header (TYPE_LOAD, a_line, a_seqn, "LOAD"  , a_desc);
+      fprintf (yUNIT_out, "%s\n", s_print);
+      sprintf (s_suffix , "      %-7.7s: %2d[%.65s]", a_meth, strlen (a_recd), a_recd);
+      fprintf (yUNIT_out, "%s\n", s_suffix);
+      fprintf (yUNIT_out, "\n");
    }
    /*---(normal stdin)-----------------*/
-   if (strcmp (a_meth, "stdin") == 0) {
-      /*---(clear existing)------------*/
-      /*> x_flags     = fcntl  (stdin, F_GETFL, 0);                                   <* 
-       *> fcntl (stdin, F_SETFL, x_flags | O_NONBLOCK);                               <* 
-       *> printf ("clearing stdin...\n");                                             <* 
-       *> while (getc (stdin) != -1);   /+ clear existing  +/                         <* 
-       *> fcntl  (stdin, F_SETFL, x_flags);                                           <*/
-      /*---(load new)------------------*/
-      /*> printf ("loading stdin...\n");                                              <*/
+   if (strcmp (x_meth, "stdin") == 0) {
       for (i = strlen (a_recd) - 1; i >= 0; --i) {
          ungetc (a_recd [i], stdin);
       }
    }
    /*---(ncurses input)----------------*/
-   else if (strcmp (a_meth, "ncurses") == 0) {
+   else if (strcmp (x_meth, "ncurses") == 0) {
       while (x_ch = getch ()) {
-         /*> fprintf (yUNIT_out, "pulled %3d\n", x_ch);                                           <*/
          if (x_ch < 0)  break;
-         /* clear existing  */
       }
-      /*> fprintf (yUNIT_out, "placing <<%s>>\n", a_recd);                                        <*/
       if (strlen (a_recd) > 0) {
          for (i = strlen (a_recd) - 1; i >= 0; --i) {
-            /*> fprintf (yUNIT_out, "ungetch %3d = %c\n", a_recd[i], a_recd[i]);                  <*/
             ungetch (a_recd [i]);
          }
       }
    }
    /*---(file input)-------------------*/
-   else {
+   else if (strcmp (x_meth, "file") == 0) {
       /*---(close it in case)----------*/
-      /*> fprintf (yUNIT_out, "yUNIT_load 1.0 : %p\n", yUNIT_stdin);                              <*/
       if (yUNIT_stdin != NULL) fclose(yUNIT_stdin);
-      /*> fprintf (yUNIT_out, "yUNIT_load 2.0 : %p\n", yUNIT_stdin);                              <*/
       /*---(write new data)------------*/
       yUNIT_stdin = fopen(STDIN, "a");
-      /*> fprintf (yUNIT_out, "yUNIT_load 3.0 : %p\n", yUNIT_stdin);                              <*/
-      /*> fprintf (yUNIT_out, "yUNIT_load 3.5 : %s\n", a_recd);                                   <*/
       fprintf (yUNIT_stdin, "%s\n", a_recd);
       fclose  (yUNIT_stdin);
-      /*> fprintf (yUNIT_out, "yUNIT_load 4.0 : %p\n", yUNIT_stdin);                              <*/
       /*---(reopen for next steps)-----*/
       yUNIT_stdin = fopen(STDIN, "r");
-      /*> fprintf (yUNIT_out, "yUNIT_load 5.0 : %p\n", yUNIT_stdin);                              <*/
    }
-   /*> fprintf (yUNIT_out, "done with load\n");                                                   <*/
    /*---(complete)---------------------*/
-   return;
+   return 0;
 }
 
-void
-yUNIT_sys    (
-      void     *a_unit,           /* unit test object                         */
-      int       a_line,           /* reference number to script file line     */
-      int       a_seqn,           /* sequence number                          */
-      char     *a_desc,           /* short description                        */
-      char     *a_cmd )           /* record to execute                        */
+char
+yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_cmd)
 {
-   tUNIT    *o       = (tUNIT *) a_unit;
-   int seq1 = (a_seqn / 26);
-   int seq2 = (a_seqn % 26) + 1;
-   if (seq1 == 0) {
-      seq1  = seq2 - 1;
-      seq2  = ' ' - 96;
-   }
-   /*---(prepare color)------------------*/
-   char   x_on  [20] = "";
-   char   x_off [20] = "";
-   if (o->is_eterm == 'y') {
-      strcpy (x_on , "\e[46m");
-      strcpy (x_off, "\e[0m");
-   }
    /*---(display)------------------------*/
-   /*> fprintf (yUNIT_out, "yUNIT_load 0.0 : %p\n", yUNIT_stdin);                                 <*/
-   DISP_STEP {
-      char  x_header[LEN_HEAD] = "";
-      strncat(x_header, a_desc, 80);
-      strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
-      strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);
-      fprintf(yUNIT_out, "\n  %s%c%c) CODE  %s :",
-            x_on, seq1 + 96, seq2 + 96, x_off);
-      fprintf(yUNIT_out, " %62.62s [%05d]\n", x_header, a_line);
-      fprintf(yUNIT_out, "      sys    : %-.65s\n", a_cmd);
+   IF_STEP {
+      yunit_header (TYPE_SYSTEM, a_line, a_seqn, "SYSTEM", a_desc);
+      fprintf (yUNIT_out, "%s\n", s_print);
+      sprintf (s_suffix , "      system : %2d[%.65s]", strlen (a_cmd), a_cmd);
+      fprintf (yUNIT_out, "%s\n", s_suffix);
+      fprintf (yUNIT_out, "\n");
    }
    /*---(run system command)-----------*/
    char     x_sys [LEN_RECD];
    sprintf (x_sys, "%s > /tmp/yUNIT_sys_verb.tmp", a_cmd);
-   /*> fprintf (yUNIT_out, "SYS COMMAND : %s\n", x_sys);                                          <*/
    system (x_sys);
    /*---(open file)--------------------*/
    FILE  *f;
@@ -226,3 +124,57 @@ yUNIT_sys    (
    /*---(complete)---------------------*/
    return;
 }
+
+static char        s_recd      [LEN_RECD]  = "";
+
+char*
+yUNIT_read              (cchar *a_name, int n, int *c)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   FILE       *f           = NULL;
+   char        t           [LEN_RECD]  = "";
+   int         i           =    0;
+   int         x_len       =    0;
+   /*---(defense)------------------------*/
+   --rce;  if (a_name == NULL)         return rce;
+   --rce;  if (strlen (a_name) <= 0)   return rce;
+   if (c != NULL)  *c = 0;
+   strncpy (s_recd, "", LEN_RECD);
+   /*---(open file)----------------------*/
+   if      (strcmp (a_name, "stdsig") == 0)  f = fopen ("/tmp/signal.log"      , "rt");
+   else if (strcmp (a_name, "unit"  ) == 0)  f = fopen ("/tmp/signal_unit.log" , "rt");
+   else if (strcmp (a_name, "local" ) == 0)  f = fopen ("/tmp/signal_local.log", "rt");
+   else                                      f = fopen (a_name                 , "rt");
+   --rce;  if (f == NULL)              return rce;
+   /*---(read records)-------------------*/
+   while (1) {
+      fgets (t, LEN_RECD, f);
+      if (i != 0 && feof (f))  break;
+      if (n <  0)  strncpy (s_recd, t, LEN_RECD);
+      if (i == n)  strncpy (s_recd, t, LEN_RECD);
+      ++i;
+      if (feof (f))  break;
+
+   }
+   if (i > 999)  i = 999;
+   /*---(clean record)-------------------*/
+   x_len = strlen (s_recd);
+   if (x_len > 0 && s_recd [x_len - 1] == '\n')  s_recd [--x_len] = '\0';
+   /*---(close file)---------------------*/
+   fclose (f);
+   /*---(save back)----------------------*/
+   if (c != NULL)  *c = i;
+   /*---(complete)-----------------------*/
+   return s_recd;
+}
+
+
+
+
+
+
+
+
+
+

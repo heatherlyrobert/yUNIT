@@ -31,13 +31,14 @@
 
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1e"
-#define     P_VERTXT    "break apart into separate source files for ease of maintenance"
+#define     P_VERNUM    "2.1f"
+#define     P_VERTXT    "merged ¶mini¶ version for testing yUNIT, yLOG, LVAR, yURG, etc."
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
 
+/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
 
 /*
  * the five daktyloi
@@ -50,40 +51,82 @@
 
 
 /*===[[ START ]]==============================================================*/
-#include <stdio.h>        /* printf(), snprintf()                             */
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <memory.h>       /* malloc(), free()                                 */
-#include <fcntl.h>              /* clibc standard file control              */
+#include    <stdio.h>        /* printf(), snprintf()                             */
+#include    <string.h>
+#include    <stdlib.h>
+#include    <time.h>
+#include    <memory.h>       /* malloc(), free()                                 */
+#include    <fcntl.h>              /* clibc standard file control              */
 
 /*> #include <curses.h>       /+ getch, ungetch                                   +/   <*/
 
-#include <yVAR.h>
-#include <yURG.h>
-#include "yUNIT.h"
+#include    <yVAR.h>
+#include    <yURG.h>
+#include    <ySTR_solo.h>
+#include    "yUNIT.h"
 
+
+#define     TYPE_UNIT        'U'
+#define     TYPE_TINU        'u'
+
+#define     TYPE_SCRP        'S'
+#define     TYPE_SECT        'E'
+#define     TYPE_PRCS        'P'
+
+#define     TYPE_COND        'C'
+#define     TYPE_GROUP       'G'
+#define     TYPE_DNOC        'D'
+#define     TYPE_SHARE       '['
+#define     TYPE_ERAHS       ']'
+
+#define     TYPE_STEP        '+'
+#define     TYPE_MODE        'm'
+#define     TYPE_LOAD        'l'
+#define     TYPE_CODE        'c'
+#define     TYPE_SYSTEM      's'
 
 
 /*===[[ CONSTANTS ]]==========================================================*/
-#define  DISP_SUMM     if (o->is_noisy == 1)
-#define  DISP_SCRP     if (o->is_noisy >= 2)
-#define  DISP_COND     if (o->is_noisy >= 3)
-#define  DISP_STEP     if (o->is_noisy >= 4 || o->its_resu > 0)
-#define  DISP_FULL     if (o->is_noisy >= 5 || o->its_resu > 0)
-#define  DISP_SECT     if (o->is_noisy == 4)
+#define     IF_SUMM        if (myUNIT.level == 1)
+#define     IF_SCRP        if (myUNIT.level >= 2)
+#define     IF_COND        if (myUNIT.level >= 3)
+/*> #define     IF_STEP        if (myUNIT.level >= 4 || myUNIT.resu > 0)              <*/
+#define     IF_STEP        if (myUNIT.level >= 4)
+/*> #define     IF_FULL        if (myUNIT.level >= 5 || myUNIT.resu > 0)              <*/
+#define     IF_FULL        if (myUNIT.level >= 5)
+#define     IF_SECT        if (myUNIT.level == 4)
 
-#define  YUNIT_SUCC    0
-#define  YUNIT_FAIL    1
-#define  YUNIT_WARN    2
+#define     YUNIT_SUCC    0
+#define     YUNIT_FAIL    1
+#define     YUNIT_WARN    2
+#define     YUNIT_FSUCC   3
+#define     YUNIT_FFAIL   4
+
+
+#define     FORE_OFF   "\e[0m"
+#define     FORE_BLK   "\e[30m"
+#define     FORE_RED   "\e[31m"
+#define     FORE_GRN   "\e[32m"
+#define     FORE_YEL   "\e[33m"
+#define     FORE_BLU   "\e[34m"
+#define     FORE_MAG   "\e[35m"
+#define     FORE_CYN   "\e[36m"
+#define     FORE_GRY   "\e[37m"
+
+#define     BACK_OFF   "\e[0m"
+#define     BACK_BLK   "\e[40m"
+#define     BACK_RED   "\e[41m"
+#define     BACK_GRN   "\e[42m"
+#define     BACK_YEL   "\e[43m"
+#define     BACK_BLU   "\e[44m"
+#define     BACK_MAG   "\e[45m"
+#define     BACK_CYN   "\e[46m"
+#define     BACK_GRY   "\e[47m"
 
 
 
-#define  LEN_NORM     100
-#define  LEN_ARGS     200
-#define  LEN_HEAD     300
-#define  LEN_LINE     500
-#define  LEN_RECD    1000
+extern char        unit_answer [LEN_RECD];
+
 
 extern    FILE     *yUNIT_stdin;
 #define   STDIN          "yUNIT.stdin"
@@ -91,47 +134,77 @@ char      yUNIT_systext [1000];
 
 extern FILE     *yUNIT_stdin;
 extern FILE     *yUNIT_out;
-extern char     s_sect      [LEN_LINE];
+
+
+
+extern char     s_prefix    [LEN_RECD];
+extern char     s_print     [LEN_RECD];
+extern char     s_suffix    [LEN_RECD];
+extern char     s_sect      [LEN_RECD];
+
+#define      UNIT_TEST      myUNIT.unit_test
+#define      UNIT_PASS      myUNIT.unit_pass
+#define      UNIT_FAIL      myUNIT.unit_fail
+#define      UNIT_BADD      myUNIT.unit_badd
+#define      UNIT_VOID      myUNIT.unit_void
+
+#define      SCRP_TEST      myUNIT.scrp_test
+#define      SCRP_PASS      myUNIT.scrp_pass
+#define      SCRP_FAIL      myUNIT.scrp_fail
+#define      SCRP_BADD      myUNIT.scrp_badd
+#define      SCRP_VOID      myUNIT.scrp_void
+
+#define      COND_TEST      myUNIT.cond_test
+#define      COND_PASS      myUNIT.cond_pass
+#define      COND_FAIL      myUNIT.cond_fail
+#define      COND_BADD      myUNIT.cond_badd
+#define      COND_VOID      myUNIT.cond_void
 
 /*===[[ TEST STRUCTURE ]]=====================================================*/
 typedef struct cUNIT tUNIT;
 struct cUNIT {
    /*---(identification)-----------*/
-   char        its_name    [LEN_NORM];
+   char        name        [LEN_HUND];
+   char        level;
+   char        eterm;
    /*---(working vars)-------------*/
-   int         its_line;
-   int         its_seqn;
-   char        its_refn    [LEN_NORM];
-   char        its_desc    [LEN_NORM];
-   char        its_meth    [LEN_NORM];
-   char        its_args    [LEN_ARGS];
-   char        its_test    [LEN_NORM];
-   char        its_expe    [LEN_LINE];
-   char        its_fixd    [LEN_LINE];
-   char        its_actu    [LEN_LINE];
-   int         its_resu;
-   int         its_code;
-   char        its_comm    [LEN_NORM];
+   char        expe        [LEN_RECD];
+   char        fixd        [LEN_RECD];
+   char        actu        [LEN_RECD];
    /*---(counters)-----------------*/
-   int         its_cond_test;
-   int         its_cond_pass;
-   int         its_cond_fail;
-   int         its_cond_badd;
-   int         its_cond_void;
-   int         its_scrp_test;
-   int         its_scrp_pass;
-   int         its_scrp_fail;
-   int         its_scrp_badd;
-   int         its_scrp_void;
-   int         its_unit_test;
-   int         its_unit_pass;
-   int         its_unit_fail;
-   int         its_unit_badd;
-   int         its_unit_void;
+   int         cond_test;
+   int         cond_pass;
+   int         cond_fail;
+   int         cond_badd;
+   int         cond_void;
+   int         scrp_test;
+   int         scrp_pass;
+   int         scrp_fail;
+   int         scrp_badd;
+   int         scrp_void;
+   int         unit_test;
+   int         unit_pass;
+   int         unit_fail;
+   int         unit_badd;
+   int         unit_void;
    /*---(flags)--------------------*/
    int         is_forced_fail;
-   int         is_noisy;
-   char        is_eterm;
    void       *is_leak_begin;
    void       *is_leak_end;
 };
+extern tUNIT   myUNIT;
+
+
+
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yunit_open              (cchar *a_name);
+char        yunit_write             (cchar *a_recd);
+char        yunit_close             (void);
+
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char*       yunit_seqn              (int a_seqn);
+char        yunit__recd_color       (char *a_test);
+char        yunit__unit_result      (int a_resu, int a_code);
+char*       yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char *a_desc);
+
+

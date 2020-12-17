@@ -8,111 +8,68 @@
 /*====================------------------------------------====================*/
 static void      o___SCRIPT__________________o (void) {;}
 
-void    /*  PURPOSE :: break out a section                                    */
-yUNIT_sect    (
-      void     *a_unit,           /* unit test object                         */
-      char     *a_desc)           /* short description                        */
+char    /*  PURPOSE :: break out a section                                    */
+yUNIT_sect    (cchar *a_desc)
 {  /*---(design notes)--------------------------------------------------------*/
    /* a SECT title is only printed when the next SCRP is found so footers     */
    /* will be correctly situated.                                             */
-   /*---(locals)-----------+-----------+-*/
-   tUNIT      *o           = (tUNIT *) a_unit;
-   int         x_len       = 0;
-   int         x_pre       = 0;
-   int         x_suf       = 0;
-   char       *x_dashes    = "-----------------------------------------------------------";
    /*---(print title)--------------------*/
-   if (strcmp (a_desc, "SCRP") == 0) {
+   if (a_desc != NULL && strcmp (a_desc, "SCRP") == 0) {
       /*---(print)----------*/
       if (strcmp (s_sect, "") != 0) {
-         DISP_COND   fprintf(yUNIT_out, "\n\n\n");
-         DISP_SCRP   fprintf(yUNIT_out, "\n");
-         DISP_COND   fprintf(yUNIT_out, "=========================------------------------------------========================\n");
-         DISP_SCRP   fprintf(yUNIT_out, "===-------%s-------===\n", s_sect);
-         DISP_COND   fprintf(yUNIT_out, "=========================------------------------------------========================\n");
+         IF_COND   fprintf(yUNIT_out, "\n\n\n");
+         IF_SCRP   fprintf(yUNIT_out, "\n");
+         IF_COND   fprintf(yUNIT_out, "=========================------------------------------------========================\n");
+         strcpy (s_print, s_sect);
+         IF_SCRP   fprintf(yUNIT_out, "%s\n", s_print);
+         IF_COND   fprintf(yUNIT_out, "=========================------------------------------------========================\n");
       }
       /*---(clear)----------*/
       strcpy (s_sect, "");
    }
    /*---(save title)---------------------*/
    else {
-      /*---(format)---------*/
-      if (a_desc != NULL) {
-         x_len       = strlen (a_desc);
-         x_pre       = (65 - x_len) / 2;
-         x_suf       = (65 - x_pre) - x_len;
-         if (x_len < 65)   sprintf(s_sect, "%*.*s[[ %s ]]%*.*s", x_pre - 3, x_pre - 3, x_dashes, a_desc, x_suf - 3, x_suf - 3, x_dashes);
-         else              sprintf(s_sect, "%65.65s", a_desc);
-      }
+      yunit_header (TYPE_SECT, 0, 0, NULL, a_desc);
+      strcpy (s_sect, s_print);
    }
    /*---(complete)-----------------------*/
-   return;
+   return 0;
 }
 
-void    /*  PURPOSE :: record the start of a new script                       */
-yUNIT_scrp (
-      void     *a_unit,           /* unit test object                         */
-      int       a_line,           /* reference number to script file line     */
-      int       a_seqn,           /* sequence number                          */
-      char     *a_focu,           /* focus function                           */
-      char     *a_desc)           /* short description                        */
+char    /*  PURPOSE :: record the start of a new script                       */
+yUNIT_scrp (int a_line, int a_seqn, cchar *a_focu, cchar *a_desc)
 {
-   tUNIT      *o           = (tUNIT *) a_unit;
-   char        x_header    [LEN_HEAD] = "";
+   char        x_header    [LEN_HUND] = "";
+   char        x_focu      [LEN_HUND] = "???";
+   char        x_desc      [LEN_HUND] = "???";
+   /*---(defense)----------------------*/
+   if (a_focu != NULL)  strncpy (x_focu, a_focu, LEN_HUND);
+   if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
    /*---(show sect)--------------------*/
-   yUNIT_sect   (a_unit, "SCRP");
+   yUNIT_sect   ("SCRP");
    /*---(reset summary counters)-------*/
-   o->its_scrp_test = 0;
-   o->its_scrp_pass = 0;
-   o->its_scrp_fail = 0;
-   o->its_scrp_badd = 0;
-   o->its_scrp_void = 0;
+   SCRP_TEST = SCRP_PASS = SCRP_FAIL = SCRP_BADD = SCRP_VOID = 0;
    /*---(print title)------------------*/
-   /*> snprintf(x_header, LEN_HEAD, "SCRP [%02d] %s :: %s", a_seqn, a_focu, a_desc);       <*/
-   snprintf(x_header, LEN_HEAD, "SCRP [%02d] %s", a_seqn, a_desc);
-   strncat(x_header, " ", 80);
-   strncat(x_header, "================================================", 80);
-   strncat(x_header, "================================================", 80);
-   DISP_COND   fprintf(yUNIT_out, "\n\n");
-   DISP_STEP   fprintf(yUNIT_out, "\n===[[ NEW SCRIPT ]]==================================================================");
-   DISP_SCRP   fprintf(yUNIT_out, "\n%-77.77s [%05d]\n", x_header, a_line);
-   snprintf(x_header, LEN_HEAD, "  focus : %s", a_focu);
-   DISP_COND   fprintf(yUNIT_out, "%-85.85s\n", x_header);
+   yunit_header (TYPE_SCRP, a_line, a_seqn, NULL, x_desc);
+   IF_COND   fprintf (yUNIT_out, "\n\n");
+   IF_STEP   fprintf (yUNIT_out, "\n===[[ NEW SCRIPT ]]==================================================================");
+   IF_SCRP   fprintf (yUNIT_out, "\n%s\n", s_print);
+   snprintf(x_header, LEN_HUND, "  focus : %s", x_focu);
+   IF_COND   fprintf (yUNIT_out, "%-85.85s\n", x_header);
    /*---(complete)---------------------*/
-   return;
+   return 0;
 }
 
-void
-yUNIT_prcs (
-      void     *a_unit)           /* unit test object                         */
+char
+yUNIT_prcs              (void)
 {
-   tUNIT    *o       = (tUNIT *) a_unit;
-   char   x_on [20] = "";
-   char    x_off     [20] = "";
-   if (o->is_eterm == 'y') {
-      if        (o->its_scrp_fail > 0) {
-         strcpy(x_on , "\e[41m");
-      } else if (o->its_scrp_badd > 0) {
-         strcpy(x_on , "\e[43m");
-      } else {
-         strcpy(x_on , "\e[42m");
-      }
-      strcpy(x_off, "\e[0m");
-   }
-   /*---(accumulate in counters)-----------*/
-   o->its_unit_test += o->its_scrp_test;
-   o->its_unit_pass += o->its_scrp_pass;
-   o->its_unit_fail += o->its_scrp_fail;
-   o->its_unit_badd += o->its_scrp_badd;
-   o->its_unit_void += o->its_scrp_void;
    /*---(print message)-------------------*/
-   DISP_COND   fprintf(yUNIT_out, "\n");
-   DISP_SCRP   {
-      fprintf(yUNIT_out, "  %sPRCS   step=%-4d", x_on , o->its_scrp_test);
-      fprintf(yUNIT_out, "  [[ pass=%-4d  fail=%-4d  badd=%-4d  void=%-4d ]]%s\n",
-            o->its_scrp_pass, o->its_scrp_fail, o->its_scrp_badd, o->its_scrp_void, x_off);
+   IF_COND   fprintf(yUNIT_out, "\n");
+   IF_SCRP   {
+      yunit_footer (TYPE_PRCS);
+      fprintf (yUNIT_out, "%s\n", s_print);
    }
-   DISP_COND   fprintf(yUNIT_out, "\n");
+   IF_COND   fprintf(yUNIT_out, "\n");
    /*---(complete)---------------------*/
-   return;
+   return 0;
 }

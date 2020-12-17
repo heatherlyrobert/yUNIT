@@ -2,14 +2,113 @@
 #include "yUNIT_priv.h"
 
 
-char     s_sect      [LEN_LINE]   = "";
+
+tUNIT   myUNIT;
+
+
+char          s_prefix    [LEN_RECD]  = "";
+char          s_print     [LEN_RECD]  = "";
+char          s_suffix    [LEN_RECD]  = "";
+char          s_sect      [LEN_RECD]  = "";
 
 
 /*===[[ TESTING ]]============================================================*/
-void     *my_unit = NULL;
+/*> void     *my_unit = NULL;                                                         <*/
 
-FILE     *yUNIT_stdin;
-FILE     *yUNIT_out;
+char      s_unit         [LEN_RECD] = "";
+FILE     *yUNIT_stdin    = NULL;
+FILE     *yUNIT_out      = NULL;
+
+
+
+/*====================------------------------------------====================*/
+/*===----                      manage output file                      ----===*/
+/*====================------------------------------------====================*/
+static void      o___OUTPUT__________________o (void) {;}
+
+char
+yunit_open         (cchar *a_name)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        x_name      [LEN_HUND]  = "";
+   /*---(defense)------------------------*/
+   printf ("entering yunit_open (%p)\n", yUNIT_out);
+   --rce;  if (yUNIT_out != NULL)    return rce;
+   --rce;  if (a_name == NULL || strlen (a_name) == 0) {
+      strcpy (x_name, "/dev/null");
+   } else {
+      snprintf (x_name, LEN_HUND, "%s.urun", a_name);
+   }
+   printf ("file [%s]\n", x_name);
+   /*---(ground)-------------------------*/
+   yUNIT_out = fopen (x_name, "wt");
+   --rce;  if (yUNIT_out == NULL) {
+      return rce;
+   }
+   printf ("yUNIT_out (%p)\n", yUNIT_out);
+   /*---(complete)-------------------------*/
+   return 0;
+}
+
+char
+yunit_write        (cchar *a_recd)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   /*---(defense)------------------------*/
+   --rce;  if (yUNIT_out == NULL)    return rce;
+   --rce;  if (a_recd    == NULL)    return rce;
+   /*---(write)--------------------------*/
+   fprintf (yUNIT_out, "%s\n", a_recd);
+   /*---(complete)-------------------------*/
+   return 0;
+}
+
+char
+yunit_close        (void)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   /*---(defense)------------------------*/
+   --rce;  if (yUNIT_out == NULL)    return rce;
+   /*---(write)--------------------------*/
+   fclose (yUNIT_out);
+   yUNIT_out = NULL;
+   /*---(complete)-------------------------*/
+   return 0;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                      global configuration                    ----===*/
+/*====================------------------------------------====================*/
+static void      o___CONFIG__________________o (void) {;}
+
+char       /*----: change the color level)------------------------------------*/
+yUNIT_eterm             (cchar a_eterm)
+{
+   /*---(setup verbosity)------------------*/
+   if (a_eterm == YUNIT_ETERM)  {
+      IF_COND   if (yUNIT_out != NULL)  fprintf (yUNIT_out, "   assign color mode to ETERM\n");
+      myUNIT.eterm = YUNIT_ETERM;
+   } else {
+      IF_COND   if (yUNIT_out != NULL)  fprintf (yUNIT_out, "   assign color mode to CONSOLE\n");
+      myUNIT.eterm = YUNIT_CONSOLE;
+   }
+   return myUNIT.eterm;
+}
+
+char       /*----: change the verbosity level --------------------------------*/
+yUNIT_level             (cchar a_level)
+{
+   if (a_level >= YUNIT_MUTE && a_level <= YUNIT_FULL)
+      myUNIT.level = a_level;
+   else
+      myUNIT.level = YUNIT_FULL;
+   return myUNIT.level;
+}
 
 
 
@@ -18,24 +117,28 @@ FILE     *yUNIT_out;
 /*====================------------------------------------====================*/
 static void      o___TEST____________________o (void) {;}
 
-void*      /*----: create a new unit test ------------------------------------*/
-yUNIT_unit         (cchar *a_name, cchar a_noisy, cchar a_eterm)
-{  /*---(allocate test)--------------------*/
-   tUNIT     *o         = malloc(sizeof(tUNIT));
-   char       t         [LEN_ARGS];
+char       /*----: create a new unit test ------------------------------------*/
+yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        t           [LEN_HUND];
+   /*> tUNIT      *o           = NULL;                                                <*/
+   /*---(defaulting)---------------------*/
+   /*> o = (tUNIT *) malloc (sizeof (tUNIT));                                         <*/
+   strcpy (s_unit, "");
+   /*---(defense)------------------------*/
+   --rce;  if (a_name == NULL)  return rce;
    /*---(setup defaults)-------------------*/
-   yUNIT_noisy  (o, a_noisy);
+   yUNIT_level  (a_level);
    /*> yUNIT_eterm  (o, 'y');                                                         <*/
    /*---(open output)----------------------*/
-   if (a_name != NULL)   snprintf (t, LEN_ARGS, "%s.urun", a_name);
-   else                  snprintf (t, LEN_ARGS, "unittest.urun");
-   yUNIT_out = fopen (t, "w");
-   if (yUNIT_out == NULL)   return -1;
+   yunit_open (a_name);
    /*---(print header)---------------------*/
-   DISP_SCRP {
+   IF_SCRP {
       fprintf (yUNIT_out, "yUNIT - heatherly unit testing framework ------------------------------------ (start)\n");
    }
-   DISP_STEP {
+   IF_STEP {
       fprintf (yUNIT_out, "\n");
       fprintf (yUNIT_out, "  focus         : (PS) Programming Support\n");
       fprintf (yUNIT_out, "  niche         : (ut) unit testing\n");
@@ -57,109 +160,67 @@ yUNIT_unit         (cchar *a_name, cchar a_noisy, cchar a_eterm)
       fprintf (yUNIT_out, "starting up...\n");
       fprintf (yUNIT_out, "   create a new unit test\n");
    }
-   if (o == NULL) {
-      DISP_SUMM fprintf(yUNIT_out, "   NEW TEST COULD NOT BE ALLOCATED (FATAL)\n");
-      return NULL;
-   }
-   strncpy(o->its_name, a_name, LEN_NORM);
-   DISP_STEP   fprintf(yUNIT_out, "   assign to program <<%s>>\n", o->its_name);
+   strncpy (myUNIT.name, a_name, LEN_HUND);
+   IF_STEP   fprintf(yUNIT_out, "   assign to program <<%s>>\n", myUNIT.name);
    /*---(reset summary counters)-------*/
-   DISP_STEP   fprintf(yUNIT_out, "   initiaize summary counters\n");
-   o->its_unit_test  = 0;
-   o->its_unit_pass  = 0;
-   o->its_unit_fail  = 0;
-   o->its_unit_badd  = 0;
-   o->its_unit_void  = 0;
-   yUNIT_eterm (o, a_eterm);
-   yUNIT_mode  (o, 0, 1, "normal");
+   IF_STEP   fprintf(yUNIT_out, "   initiaize summary counters\n");
+   UNIT_TEST  = 0;
+   UNIT_PASS  = 0;
+   UNIT_FAIL  = 0;
+   UNIT_BADD  = 0;
+   UNIT_VOID  = 0;
+   yUNIT_eterm (a_eterm);
+   /*> yUNIT_mode  (0, 1, "normal");                                                  <*/
    /*---(leak testing)---------------------*/
-   o->is_leak_begin  = malloc(sizeof(int));
-   free(o->is_leak_begin);
+   myUNIT.is_leak_begin  = malloc(sizeof(int));
+   free(myUNIT.is_leak_begin);
    /*---(complete)-------------------------*/
-   DISP_STEP   fprintf(yUNIT_out, "\n");
-   return o;
-}
-
-char       /*----: change the color level)------------------------------------*/
-yUNIT_eterm        (cvoid *a_unit, cchar a_eterm)
-{  /*---(allocate test)--------------------*/
-   tUNIT    *o       = (tUNIT *) a_unit;
-   /*---(setup verbosity)------------------*/
-   if (a_eterm == 'y')  {
-      DISP_COND   fprintf (yUNIT_out, "   assign color mode to ETERM\n");
-      o->is_eterm = 'y';
-   } else {
-      DISP_COND   fprintf (yUNIT_out, "   assign color mode to CONSOLE\n");
-      o->is_eterm = '-';
-   }
-   return o->is_eterm;
-}
-
-char       /*----: change the verbosity level --------------------------------*/
-yUNIT_noisy        (cvoid *a_unit, cchar a_noisy)
-{  /*---(allocate test)--------------------*/
-   tUNIT    *o       = (tUNIT *) a_unit;
-   /*---(setup verbosity)------------------*/
-   if (a_noisy >= 0 && a_noisy <= 5) o->is_noisy = a_noisy;
-   else                              o->is_noisy = 5;
-   return o->is_noisy;
+   IF_STEP   fprintf(yUNIT_out, "\n");
+   return 0;
+   /*> return o;                                                                      <*/
 }
 
 char       /*----: close a unit test -----------------------------------------*/
-yUNIT_tinu         (void  *a_unit)
+yUNIT_tinu              (void)
 {  /*---(variables)------------------------*/
-   tUNIT    *o       = (tUNIT *) a_unit;
-   char    x_on      [20] = "";
-   char    x_off     [20] = "";
-   int     x_failed  = o->its_unit_fail;
+   int     x_failed  = UNIT_FAIL;
    /*---(print message)---------------*/
-   if (o->is_eterm == 'y') {
-      if        (o->its_unit_fail > 0) {
-         strcpy(x_on, "\e[41m");
-      } else if (o->its_unit_badd > 0) {
-         strcpy(x_on, "\e[43m");
-      } else {
-         strcpy(x_on, "\e[42m");
-      }
-      strcpy(x_off, "\e[0m");
-   }
-   DISP_SCRP   {
-      fprintf(yUNIT_out, "\n%sTINU   step=%-4d", x_on, o->its_unit_test);
-      fprintf(yUNIT_out, "  [[ pass=%-4d  fail=%-4d  badd=%-4d  void=%-4d ]]%s\n",
-            o->its_unit_pass, o->its_unit_fail,
-            o->its_unit_badd, o->its_unit_void,
-            x_off);
+   IF_COND   fprintf(yUNIT_out, "\n");
+   IF_SCRP   {
+      yunit_footer (TYPE_TINU);
+      fprintf(yUNIT_out, "%s\n", s_print);
       fprintf(yUNIT_out, "\n");
    }
-   DISP_STEP   {
+   IF_STEP   {
       fprintf(yUNIT_out, "shutting down...\n");
-      fprintf(yUNIT_out, "   clear unit test for <<%s>>\n", o->its_name);
+      fprintf(yUNIT_out, "   clear unit test for <<%s>>\n", myUNIT.name);
       fprintf(yUNIT_out, "   free the unit test\n");
       fprintf(yUNIT_out, "\n");
    }
-   DISP_SCRP   {
+   IF_SCRP   {
       fprintf(yUNIT_out, "yUNIT - heatherly unit testing framework --------------------------------- (complete)\n");
    }
-   DISP_SUMM {
-      if (o->its_unit_fail > 0) fprintf(yUNIT_out, "FAILED  :: %d of %d steps failed\n",
-            o->its_unit_fail, o->its_unit_test);
+   IF_SUMM {
+      if (UNIT_FAIL > 0) fprintf(yUNIT_out, "FAILED  :: %d of %d steps failed\n",
+            UNIT_FAIL, UNIT_TEST);
       else                      fprintf(yUNIT_out, "success :: %d of %d steps passed\n",
-            o->its_unit_pass, o->its_unit_test);
+            UNIT_PASS, UNIT_TEST);
    }
    /*---(leak testing)---------------------*/
-   o->is_leak_end    = malloc(sizeof(int));
-   free(o->is_leak_end);
-   if (o->is_leak_begin != o->is_leak_end) {
-      DISP_COND   fprintf(yUNIT_out, "\nMEMORY LEAK    :: start=%p, end=%p, so %d bytes lost\n", o->is_leak_begin, o->is_leak_end, (int) (o->is_leak_end - o->is_leak_begin)); 
+   myUNIT.is_leak_end    = malloc(sizeof(int));
+   free(myUNIT.is_leak_end);
+   if (myUNIT.is_leak_begin != myUNIT.is_leak_end) {
+      IF_COND   fprintf(yUNIT_out, "\nMEMORY LEAK    :: start=%p, end=%p, so %d bytes lost\n", myUNIT.is_leak_begin, myUNIT.is_leak_end, (int) (myUNIT.is_leak_end - myUNIT.is_leak_begin)); 
    } else {
-      DISP_COND   fprintf(yUNIT_out, "\nno memory leak :: start=%p, end=%p\n", o->is_leak_begin, o->is_leak_end); 
+      IF_COND   fprintf(yUNIT_out, "\nno memory leak :: start=%p, end=%p\n", myUNIT.is_leak_begin, myUNIT.is_leak_end); 
    }
    /*---(complete)--------------------------*/
-   free(o);
    if (x_failed > 100) x_failed = 100;
-   fclose (yUNIT_out);
+   yunit_close ();
    /*> printf ("done, done\n");                                                       <*/
    return -x_failed;
 }
+
+
 
 /*===[[ END ]]================================================================*/

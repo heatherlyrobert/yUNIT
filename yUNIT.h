@@ -272,10 +272,20 @@
 /*===[[ VERSION ]]========================================*/
 /* rapidly evolving version number to aid with visual change confirmation     */
 
+#define     YUNIT_ETERM     'y'
+#define     YUNIT_CONSOLE   '-'
+
+#define     YUNIT_MUTE       0
+#define     YUNIT_SUMM       1
+#define     YUNIT_SCRP       2
+#define     YUNIT_COND       3
+#define     YUNIT_STEP       4
+#define     YUNIT_FULL       5
+
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
-#define UNITTEST     yes
+#define     UNITTEST     yes
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
@@ -291,221 +301,58 @@ typedef const void   cvoid;
 
 /*===[[ FUNCTION PROTOTYPES ]]================================================*/
 
-void*      /*----: create a new unit test ------------------------------------*/
-yUNIT_unit         (cchar *a_name, cchar a_noisy, cchar a_eterm);
-
-char       /*----: change the verbosity level --------------------------------*/
-yUNIT_noisy        (cvoid *a_unit, cchar a_noisy);
-
-char       /*----: change the color level ------------------------------------*/
-yUNIT_eterm        (cvoid *a_unit, cchar a_eterm);
-
-char       /*----: close a unit test -----------------------------------------*/
-yUNIT_tinu         (void  *a_unit);
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yUNIT_level             (cchar a_level);
+char        yUNIT_eterm             (cchar a_eterm);
+char        yUNIT_unit              (cchar *a_name, cchar a_level, cchar a_eterm);
+char        yUNIT_tinu              (void);
 
 
-
-void               /*  return  = (none)                                       */
-yUNIT_sect    (    /*  PURPOSE = BREAK A SECTION                              */
-      void     *a_unit,          /*  unit test object                         */
-      char     *a_desc);         /*  short description                        */
-
-
-void               /*  return  = (none)                                       */
-yUNIT_scrp (       /*  PURPOSE = START A NEW SCRIPT                           */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_focu,          /*  focus function                           */
-      char     *a_desc);         /*  short description                        */
-
-void               /*  return  = (none)                                       */
-yUNIT_prcs (       /*  PURPOSE = COMPLETE A SCRIPT                            */
-      void     *a_unit);          /*  unit test object                        */
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yUNIT_sect              (cchar *a_desc);
+char        yUNIT_scrp              (int a_line, int a_seqn, cchar *a_focu, cchar *a_desc);
+char        yUNIT_prcs              (void);
 
 
-void               /*  rerturn = (none)                                       */
-yUNIT_cond (       /*  PURPOSE = START A NEW CONDITION                        */
-      void     *a_unit,           /* unit test object                         */
-      int       a_line,           /* reference number to script file line     */
-      int       a_seqn,           /* sequence number                          */
-      char     *a_desc);          /* short description                        */
-
-void               /*  rerturn = (none)                                       */
-yUNIT_dnoc (       /*  PURPOSE = COMPLETE A CONDITION                         */
-      void     *a_unit);          /* unit test object                         */
-
-void               /*  return  = (none)                                       */
-yUNIT_group   (    /*  PURPOSE = GROUP CONDITIONS                             */
-      void     *a_unit,          /*  unit test object                         */
-      char     *a_desc);         /*  short description                        */
-
-/*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
-void        yUNIT_share_head        (void *a_unit, char *a_desc);
-void        yUNIT_share_foot        (void *a_unit, char a_share);
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yUNIT_cond              (int a_line, int a_seqn, cchar *a_desc);
+char        yUNIT_group             (char *a_desc);
+char        yUNIT_dnoc              (void);
 
 
-void               /*  rerturn = (none)                                       */
-yUNIT_mode (       /*  PURPOSE = ENABLE FORCED FAILURES                       */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc)          /*  short description                        */
-;
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yUNIT_share             (char a_share, cchar *a_desc);
+char        yUNIT_erahs             (char a_share);
 
-void               /*  rerturn = (none)                                       */
-yUNIT_code (       /*  PURPOSE = execute manual code                          */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_code)          /*  actual code                              */
-;
 
-void               /*  rerturn = (none)                                       */
-yUNIT_load (       /*  PURPOSE = load to a file/stdin for later reading       */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,           /* input method (stdin, ncurses, STDIN)     */
-      char     *a_recd)          /*  data recd to load                        */
-;
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc);
+char        yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code);
+char        yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd);
+char        yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_cmd);
+char*       yUNIT_read              (cchar *a_name, int n, int *c);
 
-void               /*  rerturn = (none)                                       */
-yUNIT_sys  (       /*  PURPOSE = gather some environment information          */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_cmd )          /*  system command to run                    */
-;
+
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test);
+char        yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, long long a_expe, long long a_actu);
+char        yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, double a_expe, double a_actu);
+char        yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, void *a_expe, void *a_actu);
+char        yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu);
+char        yUNIT_round             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu);
+char        yUNIT_ustr              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu);
+char        yUNIT_removed           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu);
+char        yUNIT_badd              (int a_line, int a_seqn, cchar *a_desc, cchar *a_test);
+char        yUNIT_unknown           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu);
+char        yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test);
+
+
 
 /*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
 char        yUNIT_user_del          (cchar *a_name);
 char        yUNIT_user_add          (cchar *a_name, cchar *a_pass, cchar *a_shell);
 
-void               /*  return  = (none)                                       */
-yUNIT_void(        /*  PURPOSE = TEST AN INTEGER FUNCTION                     */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test);         /*  test to conduct                          */
 
-
-void               /*  return  = (none)                                       */
-yUNIT_int    (     /*  PURPOSE = TEST AN INTEGER FUNCTION                     */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test,          /*  test to conduct                          */
-      long long a_expe,          /*  expected result                          */
-      long long a_actu);         /*  actual result                            */
-
-void               /*  return  = (none)                                       */
-yUNIT_real   (     /*  PURPOSE = TEST AN FLOAT/DOUBLE FUNCTION                */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test,          /*  test to conduct                          */
-      double    a_expe,          /*  expected result                          */
-      double    a_actu);         /*  actual result                            */
-
-void               /*  return  = (none)                                       */
-yUNIT_point  (     /*  PURPOSE = TEST AN FLOAT/DOUBLE FUNCTION                */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test,          /*  test to conduct                          */
-      void     *a_expe,          /*  expected result                          */
-      void     *a_actu);         /*  actual result                            */
-
-void               /*  return  = (none)                                       */
-yUNIT_string (     /*  PURPOSE = TEST AN CSTRING FUNCTION                     */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test,          /*  test to conduct                          */
-      char     *a_expe,          /*  expected result                          */
-      char     *a_actu);         /*  actual result                            */
-
-void               /*  return  = (none)                                       */
-yUNIT_round   (    /*  PURPOSE = test a complex cstring for unit testing      */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test,          /*  test to conduct                          */
-      char     *a_expe,          /*  expected result                          */
-      char     *a_actu);         /*  actual result                            */
-
-void               /*  return  = (none)                                       */
-yUNIT_ustr    (    /*  PURPOSE = test a complex cstring for unit testing      */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test,          /*  test to conduct                          */
-      char     *a_expe,          /*  expected result                          */
-      char     *a_actu);         /*  actual result                            */
-
-void               /*  return  = (none)                                       */
-yUNIT_badd    (    /*  PURPOSE = indicate a bad test                          */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_test);         /*  test to conduct                          */
-
-void               /*  return  = (none)                                       */
-yUNIT_removed (    /*  PURPOSE = indicate a obsolete test                     */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test,          /*  test to conduct                          */
-      char     *a_expe);          /* expected result                          */
-
-void               /*  return  = (none)                                       */
-yUNIT_removed (    /*  PURPOSE = indicate a confusing script line             */
-      void     *a_unit,          /*  unit test object                         */
-      int       a_line,          /*  reference number to script file line     */
-      int       a_seqn,          /*  sequence number                          */
-      char     *a_desc,          /*  short description                        */
-      char     *a_meth,          /*  method                                   */
-      char     *a_args,          /*  method's arguments                       */
-      char     *a_test,          /*  test to conduct                          */
-      char     *a_expe);          /* expected result                          */
-
-void               /*  return  = (none)                                       */
-yUNIT__recd (
-      void     *a_unit,           /* unit test object                         */
-      int       a_line,           /* reference number to script file line     */
-      int       a_seqn,           /* sequence number                          */
-      char     *a_desc,           /* short description                        */
-      char     *a_meth,           /* method                                   */
-      char     *a_args);          /* method's arguments                       */
 
 
 #endif
