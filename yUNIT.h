@@ -302,8 +302,8 @@ typedef const void   cvoid;
 /*===[[ FUNCTION PROTOTYPES ]]================================================*/
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        yUNIT_level             (cchar a_level);
-char        yUNIT_eterm             (cchar a_eterm);
+char        yUNIT_level             (cchar a_level, cchar a_quiet);
+char        yUNIT_eterm             (cchar a_eterm, cchar a_quiet);
 char        yUNIT_unit              (cchar *a_name, cchar a_level, cchar a_eterm);
 char        yUNIT_tinu              (void);
 

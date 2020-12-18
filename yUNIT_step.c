@@ -181,6 +181,7 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
    char        x_note      [LEN_TERSE] = "????";
    char        x_desc      [LEN_HUND]  = "???";
    char        t           [LEN_RECD]  = "";
+   char       *x_spaces    = "                                                                                                   ";
    char       *x_cdot      = ".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ";
    char       *x_edot      = "·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ";
    char       *x_cdash     = " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --";
@@ -212,9 +213,9 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       snprintf (s_print, LEN_RECD, "SCRP [%02d] %68.68s[%05d]", a_seqn, t, a_line);
       break;
    case TYPE_SECT  :
-      if (l < 65)  sprintf (t, "%*.*s[[ %s ]]%*.*s", x_pre - 3, x_pre - 3, x_dashes, x_desc, x_suf - 3, x_suf - 3, x_dashes);
+      if (l < 65)  sprintf (t, "%*.*s %s %*.*s", x_pre - 3, x_pre - 3, x_spaces, x_desc, x_suf - 3, x_suf - 3, x_spaces);
       else         sprintf (t, "%65.65s", x_desc);
-      sprintf (s_print, "SECT  ===----%s----===", t);
+      sprintf (s_print, "SECT ===----%s----=== TCES", t);
       strcpy  (s_sect, s_print);
       break;
    case TYPE_COND  :
@@ -319,7 +320,7 @@ yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    s_code  = -666;
    /*---(do the comparisons)---------------------*/
    if (strstr(a_test, "i_") != NULL) {
-      s_code = yVAR_integer(a_test, a_expe, a_actu);
+      s_code = yVAR_integer (a_test, a_expe, a_actu);
       if (s_code > 0) s_resu = YUNIT_SUCC;
    } else {
       s_resu = YUNIT_WARN;
@@ -330,8 +331,6 @@ yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    strncpy  (myUNIT.fixd, ""    , LEN_RECD);
    snprintf (myUNIT.expe, LEN_RECD, "%lld", a_expe);
    snprintf (myUNIT.actu, LEN_RECD, "%lld", a_actu);
-   /*> printf ("%20lld == [%s]¦", a_expe, myUNIT.expe);                              <*/
-   /*> printf ("%20lld == [%s]¦", a_actu, myUNIT.actu);                              <*/
    yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
    /*---(complete)-------------------------------*/
    return 0;
@@ -495,16 +494,6 @@ yUNIT_badd              (int a_line, int a_seqn, cchar *a_desc, cchar *a_test)
    s_resu   =  YUNIT_FAIL;
    ++COND_BADD;
    yUNIT__recd (a_line, a_seqn, a_desc, NULL  , NULL, a_test);
-   /*> IF_STEP {                                                                       <* 
-    *>    char  x_header[LEN_HUND] = "";                                               <* 
-    *>    strncat(x_header, a_desc, 80);                                               <* 
-    *>    strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);   <* 
-    *>    strncat(x_header, "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .", 80);   <* 
-    *>    fprintf(yUNIT_out, "\n  %s%s) BADD  %s :",                                   <* 
-    *>          x_on, yunit_seqn (a_seqn), x_off);                                     <* 
-    *>    fprintf(yUNIT_out, " %62.62s [%05d]\n", x_header, a_line);                   <* 
-    *>    fprintf(yUNIT_out, "      test   : %s (not a recognized test)\n", a_test);   <* 
-    *> }                                                                               <*/
    /*---(complete)---------------------*/
    return 0;
 }
@@ -545,26 +534,28 @@ yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    if (a_meth != NULL)  strncpy (x_meth, a_meth, LEN_HUND);
    if (a_args != NULL)  strncpy (x_args, a_args, LEN_HUND);
    if (a_test != NULL)  strncpy (x_test, a_test, LEN_HUND);
+   /*---(fix a little)---------------------------*/
+   if      (strncmp (x_desc, "... ", 4) == 0)   strncpy (x_desc, a_desc + 4, LEN_HUND);
+   else if (strncmp (x_desc, "..." , 3) == 0)   strncpy (x_desc, a_desc + 3, LEN_HUND);
    /*---(capture key data)-----------------------*/
    ++COND_TEST;
-   long int _gcpu = 0;
    /*---(print message)----------------*/
+   yunit_header (TYPE_STEP  , a_line, a_seqn, x_test, x_desc);
    IF_STEP {
-      yunit_header (TYPE_STEP  , a_line, a_seqn, a_test, a_desc);
-      fprintf (yUNIT_out, "%s\n", s_print);
+      yunit_printf  ("\n");
+      yunit_printf  ("%s\n", s_print);
    }
    IF_FULL   {
-      if (strlen(x_args) <= 50) fprintf(yUNIT_out, "      method : %-s (%.50s)\n", x_meth, x_args);
-      else                      fprintf(yUNIT_out, "      method : %-s (%.48s>>\n", x_meth, x_args);
-      fprintf(yUNIT_out, "      test   : %-15s(@ %ld msecs with rc = %d) %s\n", x_test, _gcpu, s_code, (s_code <= -600) ? "----- BAD TEST -----" : "");
+      if (strlen(x_args) <= 50) yunit_printf ("      method : %-s (%.50s)\n", x_meth, x_args);
+      else                      yunit_printf ("      method : %-s (%.48s>>\n", x_meth, x_args);
+      yunit_printf ("      test   : %-10s (rc = %4d)%s\n", x_test, s_code, (s_code < 0 && s_code > -10) ? "----- BAD TEST -----" : "");
       if (strcmp(x_test, "void") != 0) {
-         fprintf(yUNIT_out, "      expect : %-s>>\n", myUNIT.expe);
-         fprintf(yUNIT_out, "      actual : %-s>>\n", myUNIT.actu);
+         yunit_printf ("      expect : %s\n", myUNIT.expe);
+         yunit_printf ("      actual : %s\n", myUNIT.actu);
       } else {
-         fprintf(yUNIT_out, "      expect : void\n");
-         fprintf(yUNIT_out, "      actual : void\n");
+         yunit_printf ("      expect : void\n");
+         yunit_printf ("      actual : void\n");
       }
-      fprintf (yUNIT_out, "\n");
    }
    /*---(complete)-------------------------------*/
    return 0;

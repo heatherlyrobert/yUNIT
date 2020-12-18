@@ -21,8 +21,10 @@ yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc)
       myUNIT.is_forced_fail = 0;
       yunit_header (TYPE_MODE, a_line, a_seqn, "MODE"  , "normal (a pass is a pass ;)");
    }
-   fprintf (yUNIT_out, "%s\n", s_print);
-   fprintf (yUNIT_out, "\n");
+   IF_STEP {
+      yunit_printf  ("\n");
+      yunit_printf  ("%s\n", s_print);
+   }
    /*---(complete)---------------------*/
    return 0;
 }
@@ -32,12 +34,12 @@ char
 yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code)
 {
    /*---(dispaly)------------------------*/
+   yunit_header (TYPE_CODE, a_line, a_seqn, "CODE"  , a_desc);
    IF_STEP {
-      yunit_header (TYPE_CODE, a_line, a_seqn, "CODE"  , a_desc);
-      fprintf (yUNIT_out, "%s\n", s_print);
+      yunit_printf  ("\n");
+      yunit_printf  ("%s\n", s_print);
       sprintf (s_suffix , "      code   : %2d[%.65s]", strlen (a_code), a_code);
-      fprintf (yUNIT_out, "%s\n", s_suffix);
-      fprintf (yUNIT_out, "\n");
+      yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/
    return 0;
@@ -54,12 +56,12 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    /*---(display)------------------------*/
    if (a_meth != NULL)   strncpy (x_meth, a_meth, LEN_RECD);
    if (a_recd != NULL)   strncpy (x_data, a_recd, LEN_RECD);
+   yunit_header (TYPE_LOAD, a_line, a_seqn, "LOAD"  , a_desc);
    IF_STEP {
-      yunit_header (TYPE_LOAD, a_line, a_seqn, "LOAD"  , a_desc);
-      fprintf (yUNIT_out, "%s\n", s_print);
+      yunit_printf  ("\n");
+      yunit_printf  ("%s\n", s_print);
       sprintf (s_suffix , "      %-7.7s: %2d[%.65s]", a_meth, strlen (a_recd), a_recd);
-      fprintf (yUNIT_out, "%s\n", s_suffix);
-      fprintf (yUNIT_out, "\n");
+      yunit_printf  ("%s\n", s_suffix);
    }
    /*---(normal stdin)-----------------*/
    if (strcmp (x_meth, "stdin") == 0) {
@@ -84,7 +86,7 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       if (yUNIT_stdin != NULL) fclose(yUNIT_stdin);
       /*---(write new data)------------*/
       yUNIT_stdin = fopen(STDIN, "a");
-      fprintf (yUNIT_stdin, "%s\n", a_recd);
+      yunit_printf  ("%s\n", a_recd);
       fclose  (yUNIT_stdin);
       /*---(reopen for next steps)-----*/
       yUNIT_stdin = fopen(STDIN, "r");
@@ -97,12 +99,12 @@ char
 yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_cmd)
 {
    /*---(display)------------------------*/
+   yunit_header (TYPE_SYSTEM, a_line, a_seqn, "SYSTEM", a_desc);
    IF_STEP {
-      yunit_header (TYPE_SYSTEM, a_line, a_seqn, "SYSTEM", a_desc);
-      fprintf (yUNIT_out, "%s\n", s_print);
+      yunit_printf  ("\n");
+      yunit_printf  ("%s\n", s_print);
       sprintf (s_suffix , "      system : %2d[%.65s]", strlen (a_cmd), a_cmd);
-      fprintf (yUNIT_out, "%s\n", s_suffix);
-      fprintf (yUNIT_out, "\n");
+      yunit_printf  ("%s\n", s_suffix);
    }
    /*---(run system command)-----------*/
    char     x_sys [LEN_RECD];
@@ -153,9 +155,8 @@ yUNIT_read              (cchar *a_name, int n, int *c)
       if (i != 0 && feof (f))  break;
       if (n <  0)  strncpy (s_recd, t, LEN_RECD);
       if (i == n)  strncpy (s_recd, t, LEN_RECD);
+      if (feof (f))            break;
       ++i;
-      if (feof (f))  break;
-
    }
    if (i > 999)  i = 999;
    /*---(clean record)-------------------*/

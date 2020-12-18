@@ -31,8 +31,8 @@
 
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1f"
-#define     P_VERTXT    "merged 턬ini� version for testing yUNIT, yLOG, LVAR, yURG, etc."
+#define     P_VERNUM    "2.1g"
+#define     P_VERTXT    "completed all basic unit tests on 턬ini� version in yUNIT_solo.h"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -57,6 +57,7 @@
 #include    <time.h>
 #include    <memory.h>       /* malloc(), free()                                 */
 #include    <fcntl.h>              /* clibc standard file control              */
+#include    <stdarg.h>              /* CLIBC   variable argument handling     */
 
 /*> #include <curses.h>       /+ getch, ungetch                                   +/   <*/
 
@@ -198,8 +199,10 @@ extern tUNIT   myUNIT;
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yunit_open              (cchar *a_name);
-char        yunit_write             (cchar *a_recd);
+char        yunit_printf            (char *a_format, ...);
 char        yunit_close             (void);
+char        yunit_close_and_remove  (void);
+char        yunit_cycle             (void);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char*       yunit_seqn              (int a_seqn);
