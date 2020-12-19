@@ -1,7 +1,6 @@
 #include    "yUNIT.h"
 #include    "yUNIT_priv.h"
 
-
 #include    "yUNIT_solo.h"
 
 
@@ -46,10 +45,11 @@ yunit__unit_base         (void)
    yUNIT_minval ("... global level"                   , myUNIT.level            , YUNIT_FULL                   );
    yUNIT_minchr ("... global eterm"                   , myUNIT.eterm            , YUNIT_CONSOLE                );
    yUNIT_minstr ("... check (0) header line"          , yUNIT_read (myUNIT.name, 0, &c), "yUNIT - heatherly unit testing framework ---------------------------------------(beg)");
-   yUNIT_minstr ("... check (1) level line"           , yUNIT_read (myUNIT.name, 1, &c), "   assign output level to (5) YUNIT_FULL");
-   yUNIT_minstr ("... check (2) eterm line"           , yUNIT_read (myUNIT.name, 2, &c), "   assign format/color to (-) CONSOLE");
-   yUNIT_minstr ("... check (3) empty line"           , yUNIT_read (myUNIT.name, 3, &c), "");
-   yUNIT_minval ("... check line count"               , c                       , 4                            );
+   yUNIT_minstr ("... check (1) patron"               , yUNIT_read (myUNIT.name, 1, &c), "   patron : daktyloi-aeonius (forefinger) automated unit testing");
+   yUNIT_minstr ("... check (2) level line"           , yUNIT_read (myUNIT.name, 2, &c), "   assign output level to (5) YUNIT_FULL");
+   yUNIT_minstr ("... check (3) eterm line"           , yUNIT_read (myUNIT.name, 3, &c), "   assign format/color to (-) CONSOLE");
+   yUNIT_minstr ("... check (4) empty line"           , yUNIT_read (myUNIT.name, 4, &c), "");
+   yUNIT_minval ("... check line count"               , c                       , 5                            );
    yUNIT_minval ("close and remove"                   , yunit_close_and_remove ()  , 0);
    yUNIT_mindnoc ();
 
@@ -59,8 +59,9 @@ yunit__unit_base         (void)
    yUNIT_minval ("... global level"                   , myUNIT.level            , YUNIT_SUMM                   );
    yUNIT_minchr ("... global eterm"                   , myUNIT.eterm            , YUNIT_ETERM                  );
    yUNIT_minstr ("... check (0) header line"          , yUNIT_read (myUNIT.name, 0, &c), "yUNIT - heatherly unit testing framework ---------------------------------------(beg)");
-   yUNIT_minstr ("... check (1) empty line"           , yUNIT_read (myUNIT.name, 1, &c), "");
-   yUNIT_minval ("... check line count"               , c                       , 2                            );
+   yUNIT_minstr ("... check (1) patron"               , yUNIT_read (myUNIT.name, 1, &c), "   patron : daktyloi-aeonius (forefinger) automated unit testing");
+   yUNIT_minstr ("... check (2) empty line"           , yUNIT_read (myUNIT.name, 2, &c), "");
+   yUNIT_minval ("... check line count"               , c                       , 3                            );
    yUNIT_minval ("close and remove"                   , yunit_close_and_remove ()  , 0);
    yUNIT_mindnoc ();
 
@@ -70,10 +71,11 @@ yunit__unit_base         (void)
    yUNIT_minval ("... global level"                   , myUNIT.level            , YUNIT_STEP                   );
    yUNIT_minchr ("... global eterm"                   , myUNIT.eterm            , YUNIT_ETERM                  );
    yUNIT_minstr ("... check (0) header line"          , yUNIT_read (myUNIT.name, 0, &c), "yUNIT - heatherly unit testing framework ---------------------------------------(beg)");
-   yUNIT_minstr ("... check (1) level line"           , yUNIT_read (myUNIT.name, 1, &c), "   assign output level to (4) YUNIT_STEP");
-   yUNIT_minstr ("... check (2) eterm line"           , yUNIT_read (myUNIT.name, 2, &c), "   assign format/color to (y) ETERM");
-   yUNIT_minstr ("... check (3) empty line"           , yUNIT_read (myUNIT.name, 3, &c), "");
-   yUNIT_minval ("... check line count"               , c                       , 4                            );
+   yUNIT_minstr ("... check (1) patron"               , yUNIT_read (myUNIT.name, 1, &c), "   patron : daktyloi-aeonius (forefinger) automated unit testing");
+   yUNIT_minstr ("... check (2) level line"           , yUNIT_read (myUNIT.name, 2, &c), "   assign output level to (4) YUNIT_STEP");
+   yUNIT_minstr ("... check (3) eterm line"           , yUNIT_read (myUNIT.name, 3, &c), "   assign format/color to (y) ETERM");
+   yUNIT_minstr ("... check (4) empty line"           , yUNIT_read (myUNIT.name, 4, &c), "");
+   yUNIT_minval ("... check line count"               , c                       , 5                            );
    yUNIT_minval ("close and remove"                   , yunit_close_and_remove ()  , 0);
    yUNIT_mindnoc ();
 
@@ -618,10 +620,10 @@ yunit__unit_step         (void)
    yUNIT_minstr ("... global print"                   , s_print                 , "  az) PASS   : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
    yUNIT_minstr ("... check (1) footer"               , yUNIT_read (myUNIT.name, 1, &c), "  az) PASS   : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 2, &c), "      method : yUNIT_void (0, 15, \"test\")");
-   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_equal    (rc =    0)");
-   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 4, &c), "      expect : ");
-   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 5, &c), "      actual : ");
+   yUNIT_minstr ("... check (2) empty line"           , yUNIT_read (myUNIT.name, 2, &c), "      method : yUNIT_void (0, 15, \"test\")");
+   yUNIT_minstr ("... check (3) empty line"           , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_equal    (rc =    0, test abbr = -)");
+   yUNIT_minstr ("... check (4) empty line"           , yUNIT_read (myUNIT.name, 4, &c), "      expect : ");
+   yUNIT_minstr ("... check (5) empty line"           , yUNIT_read (myUNIT.name, 5, &c), "      actual : ");
    yUNIT_minval ("... check line count"               , c                       , 6);
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
    yUNIT_mindnoc ();
@@ -663,7 +665,7 @@ yunit__unit_step         (void)
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("yUNIT_recd");
-   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
    yunit__unit_result (YUNIT_SUCC, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd ( 954,  25, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_GRN "az) PASS  " BACK_OFF " : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
@@ -757,6 +759,7 @@ yunit__unit_spec         (void)
    yUNIT_minval ("... check line count"               , c                       , 2);
    yUNIT_minval ("call MODE verb handler"             , yUNIT_mode  (   321,  300, "FORCED_FAIL"                                      ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_CYN "lo) MODE  " BACK_OFF " : ENABLE FORCED FAILURE (pass=fail, fail=pass) .  .  .  .  .  .  [00321]");
+   yUNIT_minval ("back to normal"                     , yUNIT_mode  (   954,    0, "normal"                                           ), 0);
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
    yUNIT_mindnoc ();
 
@@ -851,6 +854,454 @@ yunit__unit_spec         (void)
 }
 
 char
+yunit__unit_int          (void)
+{
+   int         c           =    0;
+
+   yUNIT_minscrp ("yUNIT_int");
+
+   yUNIT_mincond ("pass using i_equal");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call INT handler"                   , yUNIT_int     (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_GRN "am) PASS  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("fail using i_not");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call INT handler"                   , yUNIT_int     (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_not"               ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_RED "am) FAIL  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_not      (rc = -110, test abbr = n)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("warn using bad test");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call INT handler"                   , yUNIT_int     (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_what"              ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_YEL "am) WARN  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_what     (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+yunit__unit_real         (void)
+{
+   int         c           =    0;
+
+   yUNIT_minscrp ("yUNIT_real");
+
+   yUNIT_mincond ("pass using r_equal");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call REAL handler"                  , yUNIT_real    (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "r_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_GRN "am) PASS  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : r_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42.000000");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42.000000");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("fail using r_not");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call REAL handler"                  , yUNIT_real    (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "r_not"               ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_RED "am) FAIL  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : r_not      (rc = -110, test abbr = n)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42.000000");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42.000000");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("warn using bad test");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call REAL handler"                  , yUNIT_real    (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "r_what"              ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_YEL "am) WARN  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : r_what     (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42.000000");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42.000000");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+yunit__unit_point        (void)
+{
+   int         c           =    0;
+
+   yUNIT_minscrp ("yUNIT_point");
+
+   yUNIT_mincond ("pass using p_exists");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call REAL handler"                  , yUNIT_point   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "p_exists"            ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_GRN "am) PASS  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : p_exists   (rc =  120, test abbr = x)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : ---any---");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 0x2a");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("fail using r_null");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call REAL handler"                  , yUNIT_point   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "p_null"              ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_RED "am) FAIL  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : p_null     (rc = -110, test abbr = n)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : NULL");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 0x2a");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("warn using bad test");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call REAL handler"                  , yUNIT_point   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "p_what"              ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_YEL "am) WARN  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : p_what     (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 0x2a");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 0x2a");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+yunit__unit_string       (void)
+{
+   int         c           =    0;
+
+   yUNIT_minscrp ("yUNIT_string");
+
+   yUNIT_mincond ("pass using s_equal");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call STRING handler"                , yUNIT_string  (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "s_equal"             ,  "another one"        , "another one"         ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_GRN "am) PASS  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : s_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : another one");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : another one");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("fail using s_not");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call STRING handler"                , yUNIT_string  (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "s_not"               ,  "another one"        , "another one"         ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_RED "am) FAIL  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : s_not      (rc = -110, test abbr = n)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : another one");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : another one");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("warn using bad test");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call STRING handler"                , yUNIT_string  (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "s_what"              ,  "another one"        , "another one"         ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_YEL "am) WARN  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : s_what     (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : another one");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : another one");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+yunit__unit_round        (void)
+{
+   int         c           =    0;
+
+   yUNIT_minscrp ("yUNIT_round");
+
+   yUNIT_mincond ("pass using u_round/5");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call ROUND handler"                 , yUNIT_round   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "u_round/5"           ,  "another 3.14"       , "another 3.17"        ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_GRN "am) PASS  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : u_round/5  (rc =  117, test abbr = u)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : another 3.1" BOLD_YEL "4" BOLD_OFF);
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : another 3.1" BOLD_YEL "7" BOLD_OFF);
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("fail using u_round/1");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call ROUND handler"                 , yUNIT_round   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "u_round/2"           ,  "another 3.14"       , "another 3.17"        ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_RED "am) FAIL  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : u_round/2  (rc = -117, test abbr = u)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : another 3.1" BOLD_RED "4" BOLD_OFF);
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : another 3.1" BOLD_RED "7" BOLD_OFF);
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("warn using bad test");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call ROUND handler"                 , yUNIT_round   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "u_round"             ,  "another 3.14"       , "another 3.17"        ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_YEL "am) WARN  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : u_round    (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : another 3.14");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : another 3.17");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+yunit__unit_unknown      (void)
+{
+   int         c           =    0;
+
+   yUNIT_minscrp ("yUNIT_unknown");
+
+   yUNIT_mincond ("simple unknown");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call UNKNOWN handler"               , yUNIT_unknown  (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "z_crazy"             ,  "another 3.14"       , "another 3.17"        ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_YEL "am) WARN  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : z_crazy    (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : another 3.14");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : NULL");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("simple void");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call VOID handler"                  , yUNIT_void     (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "v_void"              ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_GRN "am) PASS  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : v_void     (rc =  118, test abbr = v)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : void");             
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : void");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+yunit__unit_forced       (void)
+{
+   int         c           =    0;
+
+   yUNIT_minscrp ("yUNIT_recd");
+
+   yUNIT_mincond ("pass using i_equal");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("call MODE verb handler"             , yUNIT_mode  (   954,    0, "normal"                                           ), 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call INT handler"                   , yUNIT_int     (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_GRN "am) PASS  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("pass using i_equal");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("call MODE verb handler"             , yUNIT_mode  (   321,  300, "FORCED_FAIL"                                      ), 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call INT handler"                   , yUNIT_int     (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_GRN "am) " BACK_RED "!FAIL " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("fail using i_not");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("call MODE verb handler"             , yUNIT_mode  (   954,    0, "normal"                                           ), 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call INT handler"                   , yUNIT_int     (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_not"               ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_RED "am) FAIL  " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_not      (rc = -110, test abbr = n)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("fail using i_not");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_minval ("call MODE verb handler"             , yUNIT_mode  (   321,  300, "FORCED_FAIL"                                      ), 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call INT handler"                   , yUNIT_int     (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_not"               ,  42                   , 42                    ), 0);
+   yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
+   yUNIT_minstr ("... check (1) main line"            , yUNIT_read (myUNIT.name, 1, &c), "  " BACK_RED "am) " BACK_GRN "!PASS " BACK_OFF " : run something key .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
+   yUNIT_minstr ("... check (2) method"               , yUNIT_read (myUNIT.name, 2, &c), "      method : super_function (12, 32)");
+   yUNIT_minstr ("... check (3) test"                 , yUNIT_read (myUNIT.name, 3, &c), "      test   : i_not      (rc = -110, test abbr = n)");
+   yUNIT_minstr ("... check (4) expect"               , yUNIT_read (myUNIT.name, 4, &c), "      expect : 42");
+   yUNIT_minstr ("... check (5) actual"               , yUNIT_read (myUNIT.name, 5, &c), "      actual : 42");
+   yUNIT_minval ("... check line count"               , c                       , 6);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+yunit__unit_cascade      (void)
+{
+   int         c           =    0;
+
+   yUNIT_minscrp ("yUNIT_unknown");
+
+   yUNIT_mincond ("start a unit test");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("script one");
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              ), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("1st condition");
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   954,  321, "check the initial values"                         ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  ()                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "      " BACK_GRN "DNOC   step=3     [[ pass=3     fail=0     badd=0     void=0    ]]" BACK_OFF);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("2nd condition");
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   954,  321, "check the initial values"                         ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  ()                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "      " BACK_GRN "DNOC   step=4     [[ pass=4     fail=0     badd=0     void=0    ]]" BACK_OFF);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("end script");          
+   yUNIT_minval ("call PCRS verb handler"             , yUNIT_prcs  ()                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_GRN "PRCS   step=7     [[ pass=7     fail=0     badd=0     void=0    ]]" BACK_OFF);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("script two");
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              ), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("1st condition");
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   954,  321, "check the initial values"                         ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call fail"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_not"               ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  ()                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "      " BACK_RED "DNOC   step=2     [[ pass=1     fail=1     badd=0     void=0    ]]" BACK_OFF);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("2nd condition");
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   954,  321, "check the initial values"                         ), 0);
+   yUNIT_minval ("call pass"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_equal"             ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call warn"                          , yUNIT_int   (   954,   12, "run something key"   , "super_function"      , "12, 32"              , "i_ugly"              ,  42                   , 42                    ), 0);
+   yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  ()                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "      " BACK_YEL "DNOC   step=2     [[ pass=1     fail=0     badd=1     void=0    ]]" BACK_OFF);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("end script");          
+   yUNIT_minval ("call PCRS verb handler"             , yUNIT_prcs  ()                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_RED "PRCS   step=4     [[ pass=2     fail=1     badd=1     void=0    ]]" BACK_OFF);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("end a unit test");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), -2);
+   yUNIT_minstr ("... global print"                   , s_print                 , BACK_RED "TINU   step=11    [[ pass=9     fail=1     badd=1     void=0    ]]" BACK_OFF);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
 main (void)
 {
    /*---(unit test level)----------------*/
@@ -868,7 +1319,19 @@ main (void)
    yunit__unit_step     ();
    yunit__unit_share    ();
    yunit__unit_spec     ();
-
+   /*---(numerics)-----------------------*/
+   yunit__unit_int      ();
+   yunit__unit_real     ();
+   yunit__unit_point    ();
+   /*---(non-numeric)--------------------*/
+   yunit__unit_string   ();
+   yunit__unit_round    ();
+   /*---(trouble)------------------------*/
+   yunit__unit_unknown  ();
+   yunit__unit_forced   ();
+   /*---(cascade)------------------------*/
+   yunit__unit_cascade  ();
+   /*---(done)---------------------------*/
    yUNIT_mintinu ();
    return 0;
 }

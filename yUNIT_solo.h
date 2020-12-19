@@ -3,6 +3,8 @@
 /*====================------------------------------------====================*/
 static void      o___MINI_UNIT_______________o (void) {;}
 
+#include    <yCOLOR_solo.h>
+
 static int         s_stepn     = 0;
 
 static int         s_condn     = 0;

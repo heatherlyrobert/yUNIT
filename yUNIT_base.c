@@ -192,7 +192,10 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm)
    /*---(open output)----------------------*/
    yunit_open (a_name);
    /*---(print header)---------------------*/
-   if (a_level > 0)  yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
+   if (a_level > 0) {
+      yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
+      yunit_printf ("   patron : %s\n", P_ONELINE);
+   }
    /*---(reset summary counters)-------*/
    UNIT_TEST  = 0;
    UNIT_PASS  = 0;

@@ -102,16 +102,16 @@ yunit_recd_colors       (char *a_test, char *a_note, char *a_on1, char *a_on2, c
       strcpy (a_on2 , BACK_RED);
       break;
    case YUNIT_FSUCC :
-      strcpy (a_note, "OUCH");
+      strcpy (a_note, "!PASS");
       ++COND_FAIL;
       strcpy (a_on1 , BACK_RED);
       strcpy (a_on2 , BACK_GRN);
       break;
    case YUNIT_FFAIL :
       ++COND_PASS;
-      strcpy (a_note, "FOR_F");
-      strcpy (a_on1 , BACK_RED);
-      strcpy (a_on2 , BACK_GRN);
+      strcpy (a_note, "!FAIL");
+      strcpy (a_on1 , BACK_GRN);
+      strcpy (a_on2 , BACK_RED);
       break;
    default          :
       strcpy (a_note, "WARN");
@@ -249,7 +249,11 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       strncpy (x_test, x_note, LEN_LABEL);
       yunit_recd_colors (x_test, x_note, x_on, x_on2, x_off);
       snprintf (t      , LEN_HUND, "%s %s", x_desc, x_cdot + l);
-      snprintf (s_print, LEN_RECD, "  %s%s) %-6.6s%s : %62.62s [%05d]", x_on, yunit_seqn (a_seqn), x_note, x_off, t, a_line);
+      if (myUNIT.is_forced_fail) {
+         snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %62.62s [%05d]", x_on, yunit_seqn (a_seqn), x_on2, x_note, x_off, t, a_line);
+      } else {
+         snprintf (s_print, LEN_RECD, "  %s%s) %-6.6s%s : %62.62s [%05d]", x_on, yunit_seqn (a_seqn), x_note, x_off, t, a_line);
+      }
       break;
    }
    /*---(complete)-----------------------*/
@@ -302,10 +306,9 @@ yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 {
    /*---(prepare)--------------------------------*/
    s_resu  = YUNIT_SUCC;
-   s_code  = 0;
+   s_code  = 'v';
    /*---(record the key data)--------------------*/
    strncpy  (myUNIT.expe, "void", LEN_RECD);
-   strncpy  (myUNIT.fixd, ""    , LEN_RECD);
    strncpy  (myUNIT.actu, "void", LEN_RECD);
    yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
    /*---(complete)-------------------------------*/
@@ -317,18 +320,18 @@ yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 {
    /*---(prepare)--------------------------------*/
    s_resu  =  YUNIT_FAIL;
-   s_code  = -666;
+   s_code  = -1;
    /*---(do the comparisons)---------------------*/
    if (strstr(a_test, "i_") != NULL) {
       s_code = yVAR_integer (a_test, a_expe, a_actu);
-      if (s_code > 0) s_resu = YUNIT_SUCC;
+      if      (s_code >   0 ) s_resu = YUNIT_SUCC;
+      else if (s_code == '¢') s_resu = YUNIT_WARN;
    } else {
       s_resu = YUNIT_WARN;
    }
    /*---(save return)----------------------------*/
    yUNIT_i_rc = a_actu;
    /*---(record the key data)--------------------*/
-   strncpy  (myUNIT.fixd, ""    , LEN_RECD);
    snprintf (myUNIT.expe, LEN_RECD, "%lld", a_expe);
    snprintf (myUNIT.actu, LEN_RECD, "%lld", a_actu);
    yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
@@ -340,12 +343,13 @@ char
 yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, double a_expe, double a_actu)
 {
    /*---(prepare)--------------------------------*/
-   s_resu   =  YUNIT_FAIL;
-   s_code   = -666;
+   s_resu  =  YUNIT_FAIL;
+   s_code  = -1;
    /*---(do the comparisons)---------------------*/
    if (strstr (a_test, "r_") != NULL) {
       s_code = yVAR_real (a_test, a_expe, a_actu);
-      if (s_code > 0) s_resu = YUNIT_SUCC;
+      if      (s_code >   0 ) s_resu = YUNIT_SUCC;
+      else if (s_code == '¢') s_resu = YUNIT_WARN;
    } else {
       s_resu = YUNIT_WARN;
    }
@@ -353,7 +357,6 @@ yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    yUNIT_r_rc = a_actu;
    /*---(record the key data)--------------------*/
    snprintf (myUNIT.expe, LEN_RECD, "%lf", a_expe);
-   strncpy  (myUNIT.fixd, ""    , LEN_RECD);
    snprintf (myUNIT.actu, LEN_RECD, "%lf", a_actu);
    yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
    /*---(complete)-------------------------------*/
@@ -364,12 +367,13 @@ char
 yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, void *a_expe, void *a_actu)
 {
    /*---(prepare)--------------------------------*/
-   s_resu   =  YUNIT_FAIL;
-   s_code   = -666;
+   s_resu  =  YUNIT_FAIL;
+   s_code  = -1;
    /*---(do the comparisons)---------------------*/
    if (strstr (a_test, "p_") != NULL) {
       s_code = yVAR_pointer (a_test, a_expe, a_actu);
-      if (s_code > 0) s_resu = YUNIT_SUCC;
+      if      (s_code >   0 ) s_resu = YUNIT_SUCC;
+      else if (s_code == '¢') s_resu = YUNIT_WARN;
    } else {
       s_resu = YUNIT_WARN;
    }
@@ -379,7 +383,7 @@ yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    /*---(record the key data)--------------------*/
    snprintf  (myUNIT.expe, LEN_RECD, "%p",  a_expe);
    if (strcmp(a_test, "p_exists") == 0) strncpy(myUNIT.expe, "---any---", LEN_HUND);
-   strncpy   (myUNIT.fixd, ""    , LEN_RECD);
+   if (strcmp(a_test, "p_null"  ) == 0) strncpy(myUNIT.expe, "NULL"     , LEN_HUND);
    snprintf  (myUNIT.actu, LEN_RECD, "%p",  a_actu);
    if (a_actu != NULL) myUNIT.is_leak_end = a_actu;
    yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
@@ -395,12 +399,13 @@ yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    char        x_fact      [LEN_RECD]  = "???";
    /*---(prepare)--------------------------------*/
    s_resu   =  YUNIT_FAIL;
-   s_code   = -666;
+   s_code   = -1;
    /*---(do the comparisons)---------------------*/
    if (strstr (a_test, "s_") != NULL) {
       s_code = yVAR_string (a_test, a_expe, a_actu);
-      if      (s_code >=  0) s_resu = YUNIT_SUCC;
-      else if (s_code > -10) s_resu = YUNIT_WARN;
+      if      (s_code >   0 ) s_resu = YUNIT_SUCC;
+      else if (s_code == '¢') s_resu = YUNIT_WARN;
+      else if (s_code >  -10) s_resu = YUNIT_WARN;
    } else {
       s_resu = YUNIT_WARN;
    }
@@ -408,8 +413,13 @@ yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    yUNIT_s_rc = a_actu;
    yVAR_results (NULL, NULL, NULL, x_fexp, x_fact);
    /*---(record the key data)--------------------*/
-   strncpy (myUNIT.expe, x_fexp, LEN_RECD);
-   strncpy (myUNIT.actu, x_fact, LEN_RECD);
+   if (strcmp (a_test, "s_equal") == 0 || strncmp (a_test, "s_round", 7) == 0 ) {
+      strncpy (myUNIT.expe, x_fexp, LEN_RECD);
+      strncpy (myUNIT.actu, x_fact, LEN_RECD);
+   } else {
+      strncpy (myUNIT.expe, a_expe, LEN_RECD);
+      strncpy (myUNIT.actu, a_actu, LEN_RECD);
+   }
    yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
    /*---(complete)-------------------------------*/
    return 0;
@@ -423,91 +433,42 @@ yUNIT_round             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    char        x_fact      [LEN_RECD]  = "???";
    /*---(prepare)--------------------------------*/
    s_resu  =  YUNIT_FAIL;
-   s_code  =  -666;               /* indicates unhandled test            */
-   strncpy (myUNIT.fixd, "",     LEN_RECD);
+   s_code  =  -1;
    /*---(do the comparisons)---------------------*/
    if (strncmp (a_test, "u_round/", 8) == 0) {
       s_code = yVAR_round (a_test, a_expe, a_actu);
-      if      (s_code >=    0) s_resu = YUNIT_SUCC;
-      else if (s_code <= -600) s_resu = YUNIT_WARN;
-      else                     s_resu = YUNIT_FAIL;
+      if      (s_code >   0 ) s_resu = YUNIT_SUCC;
+      else if (s_code == '¢') s_resu = YUNIT_WARN;
+      else if (s_code >  -10) s_resu = YUNIT_WARN;
    } else {
+      s_code = '¢';
       s_resu = YUNIT_WARN;
    }
    /*---(save return)----------------------------*/
    yUNIT_s_rc = a_actu;
    yVAR_results (NULL, NULL, NULL, x_fexp, x_fact);
    /*---(record the key data)--------------------*/
-   strncpy (myUNIT.expe, x_fexp, LEN_RECD);
-   strncpy (myUNIT.actu, x_fact, LEN_RECD);
-   yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
-   /*---(complete)-------------------------------*/
-   return 0;
-}
-
-char
-yUNIT_ustr              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu)
-{
-   char    x_modd[LEN_RECD]  = "";
-   char    x_actu[LEN_RECD]  = "";
-   /*---(prepare)--------------------------------*/
-   s_resu   =  YUNIT_FAIL;
-   s_code   = -666;
-   strncpy(x_modd, a_expe, 499);
-   strncpy(x_actu, a_actu, 499);
-   /*---(do the comparisons)---------------------*/
-   if (strstr (a_test, "u_") != NULL) {
-      s_code = yVAR_round (a_test, x_modd, x_actu);
-      if (s_code > 0) s_resu = YUNIT_SUCC;
+   if (s_code != '¢') {
+      strncpy (myUNIT.expe, x_fexp, LEN_RECD);
+      strncpy (myUNIT.actu, x_fact, LEN_RECD);
    } else {
-      s_resu = YUNIT_FAIL;
+      strncpy (myUNIT.expe, a_expe, LEN_RECD);
+      strncpy (myUNIT.actu, a_actu, LEN_RECD);
    }
-   /*---(save return)----------------------------*/
-   yUNIT_s_rc = a_actu;
-   /*---(record the key data)--------------------*/
-   strncpy (myUNIT.expe, a_expe, LEN_RECD);
-   strncpy (myUNIT.fixd, yVAR_modded (), LEN_RECD);
-   strncpy (myUNIT.actu, x_actu, LEN_RECD);
    yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
    /*---(complete)-------------------------------*/
-   return 0;
-}
-
-char
-yUNIT_removed           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu)
-{  /*---(locals)-----------+-----------+-*/
-   /*---(prepare)--------------------------------*/
-   s_resu   =  YUNIT_FAIL;
-   s_code   = -666;
-   /*---(record the key data)--------------------*/
-   strncpy     (myUNIT.expe, a_expe, LEN_RECD);
-   strncpy     (myUNIT.fixd, ""    , LEN_RECD);
-   strncpy     (myUNIT.actu, ""    , LEN_RECD);
-   yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
-   /*---(complete)---------------------*/
-   return 0;
-}
-
-char
-yUNIT_badd              (int a_line, int a_seqn, cchar *a_desc, cchar *a_test)
-{
-   s_resu   =  YUNIT_FAIL;
-   ++COND_BADD;
-   yUNIT__recd (a_line, a_seqn, a_desc, NULL  , NULL, a_test);
-   /*---(complete)---------------------*/
    return 0;
 }
 
 char
 yUNIT_unknown           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu)
-{  /*---(locals)-----------+-----------+-*/
+{
    /*---(prepare)--------------------------------*/
-   s_resu   =  YUNIT_FAIL;
-   s_code   = -666;
+   s_resu   =  YUNIT_WARN;
+   s_code   = '¢';
    /*---(record the key data)--------------------*/
    strncpy     (myUNIT.expe, a_expe, LEN_RECD);
-   strncpy     (myUNIT.fixd, ""    , LEN_RECD);
-   strncpy     (myUNIT.actu, ""    , LEN_RECD);
+   strncpy     (myUNIT.actu, "NULL", LEN_RECD);
    yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
    /*---(complete)---------------------*/
    return 0;
@@ -529,6 +490,7 @@ yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    char        x_test      [LEN_HUND]  = "???";
    char        x_fexp      [LEN_RECD]  = "???";
    char        x_fact      [LEN_RECD]  = "???";
+   char        x_ch        =  '´';
    /*---(defense)--------------------------------*/
    if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
    if (a_meth != NULL)  strncpy (x_meth, a_meth, LEN_HUND);
@@ -548,7 +510,11 @@ yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    IF_FULL   {
       if (strlen(x_args) <= 50) yunit_printf ("      method : %-s (%.50s)\n", x_meth, x_args);
       else                      yunit_printf ("      method : %-s (%.48s>>\n", x_meth, x_args);
-      yunit_printf ("      test   : %-10s (rc = %4d)%s\n", x_test, s_code, (s_code < 0 && s_code > -10) ? "----- BAD TEST -----" : "");
+      if      (s_code >=  32 && s_code <=  126)  x_ch = s_code;
+      else if (s_code == '¢')                    x_ch = '?';
+      else if (s_code <= -32 && s_code >= -126)  x_ch = -s_code;
+      else                                       x_ch = '-';
+      yunit_printf ("      test   : %-10s (rc = %4d, test abbr = %c)%s\n", x_test, s_code, x_ch, (s_code == '¢') ? " BAD TEST" : "");
       if (strcmp(x_test, "void") != 0) {
          yunit_printf ("      expect : %s\n", myUNIT.expe);
          yunit_printf ("      actual : %s\n", myUNIT.actu);

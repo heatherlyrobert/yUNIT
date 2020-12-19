@@ -31,8 +31,8 @@
 
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1g"
-#define     P_VERTXT    "completed all basic unit tests on ¶mini¶ version in yUNIT_solo.h"
+#define     P_VERNUM    "2.1h"
+#define     P_VERTXT    "detailed step feedback, and forced fail, now unit tested"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -64,6 +64,7 @@
 #include    <yVAR.h>
 #include    <yURG.h>
 #include    <ySTR_solo.h>
+#include    <yCOLOR_solo.h>
 #include    "yUNIT.h"
 
 
@@ -103,26 +104,6 @@
 #define     YUNIT_FSUCC   3
 #define     YUNIT_FFAIL   4
 
-
-#define     FORE_OFF   "\e[0m"
-#define     FORE_BLK   "\e[30m"
-#define     FORE_RED   "\e[31m"
-#define     FORE_GRN   "\e[32m"
-#define     FORE_YEL   "\e[33m"
-#define     FORE_BLU   "\e[34m"
-#define     FORE_MAG   "\e[35m"
-#define     FORE_CYN   "\e[36m"
-#define     FORE_GRY   "\e[37m"
-
-#define     BACK_OFF   "\e[0m"
-#define     BACK_BLK   "\e[40m"
-#define     BACK_RED   "\e[41m"
-#define     BACK_GRN   "\e[42m"
-#define     BACK_YEL   "\e[43m"
-#define     BACK_BLU   "\e[44m"
-#define     BACK_MAG   "\e[45m"
-#define     BACK_CYN   "\e[46m"
-#define     BACK_GRY   "\e[47m"
 
 
 
