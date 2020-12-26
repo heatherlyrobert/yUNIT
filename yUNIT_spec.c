@@ -10,9 +10,11 @@
 static void      o___SPECIALTY_______________o (void) {;}
 
 char
-yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc)
+yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec)
 {
    char        x_desc      [LEN_HUND]  = "";
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "MODE"  , a_desc);
    if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
    if (strcmp (x_desc, "FORCED_FAIL") == 0) {
       myUNIT.is_forced_fail = 1;
@@ -31,28 +33,32 @@ yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc)
 
 
 char
-yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code)
+yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec)
 {
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "CODE"  , a_desc);
    /*---(dispaly)------------------------*/
    yunit_header (TYPE_CODE, a_line, a_seqn, "CODE"  , a_desc);
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
       sprintf (s_suffix , "      code   : %2d[%.65s]", strlen (a_code), a_code);
-      yunit_printf  ("%s\n", s_suffix);
+      IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/
    return 0;
 }
 
 char
-yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd)
+yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd, char a_exec)
 {
    int       x_flags = 0;         /* stdin file flags                         */
    int       i       = 0;
    int       x_ch    = 0;
    char        x_meth      [LEN_LABEL] = "???";
    char        x_data      [LEN_RECD]  = "";
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "LOAD"  , a_desc);
    /*---(display)------------------------*/
    if (a_meth != NULL)   strncpy (x_meth, a_meth, LEN_RECD);
    if (a_recd != NULL)   strncpy (x_data, a_recd, LEN_RECD);
@@ -61,7 +67,7 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
       sprintf (s_suffix , "      %-7.7s: %2d[%.65s]", a_meth, strlen (a_recd), a_recd);
-      yunit_printf  ("%s\n", s_suffix);
+      IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(normal stdin)-----------------*/
    if (strcmp (x_meth, "stdin") == 0) {
@@ -86,7 +92,7 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       if (yUNIT_stdin != NULL) fclose(yUNIT_stdin);
       /*---(write new data)------------*/
       yUNIT_stdin = fopen(STDIN, "a");
-      yunit_printf  ("%s\n", a_recd);
+      IF_FULL  yunit_printf  ("%s\n", a_recd);
       fclose  (yUNIT_stdin);
       /*---(reopen for next steps)-----*/
       yUNIT_stdin = fopen(STDIN, "r");
@@ -96,35 +102,47 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_cmd)
+yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_cmd, char a_exec)
 {
+   char        rc          =    0;
+   char        x_resu      =    0;
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "SYS"   , a_desc);
    /*---(display)------------------------*/
    yunit_header (TYPE_SYSTEM, a_line, a_seqn, "SYSTEM", a_desc);
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
       sprintf (s_suffix , "      system : %2d[%.65s]", strlen (a_cmd), a_cmd);
-      yunit_printf  ("%s\n", s_suffix);
+      IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(run system command)-----------*/
-   char     x_sys [LEN_RECD];
-   sprintf (x_sys, "%s > /tmp/yUNIT_sys_verb.tmp", a_cmd);
-   system (x_sys);
+   if (a_cmd == NULL) {
+      rc     = -1;
+      x_resu = YUNIT_WARN;
+   } else {
+      rc = system  (a_cmd);
+      if      (rc >=  0  )  x_resu = YUNIT_SUCC;
+      else if (rc == -1  )  x_resu = YUNIT_WARN;
+      else if (rc == -127)  x_resu = YUNIT_WARN;
+      else if (rc <   0  )  x_resu = YUNIT_FAIL;
+   }
+   yunit_result (rc, x_resu);
    /*---(open file)--------------------*/
-   FILE  *f;
-   f = fopen ("/tmp/yUNIT_sys_verb.tmp", "r");
-   if (f == NULL) return -1;
+   /*> FILE  *f;                                                                      <* 
+    *> f = fopen ("/tmp/yUNIT_sys_verb.tmp", "r");                                    <* 
+    *> if (f == NULL) return -1;                                                      <*/
    /*---(read one line)----------------*/
-   char        x_text      [LEN_RECD] = "";
-   int         x_len       = 0;
-   fgets (x_text, LEN_RECD, f);
-   x_len = strlen (x_text);
-   x_text [--x_len] = '\0';
-   strcpy (yUNIT_systext, x_text);
+   /*> char        x_text      [LEN_RECD] = "";                                       <* 
+    *> int         x_len       = 0;                                                   <* 
+    *> fgets (x_text, LEN_RECD, f);                                                   <* 
+    *> x_len = strlen (x_text);                                                       <* 
+    *> x_text [--x_len] = '\0';                                                       <* 
+    *> strcpy (yUNIT_systext, x_text);                                                <*/
    /*---(close)------------------------*/
-   fclose (f);
+   /*> fclose (f);                                                                    <*/
    /*---(complete)---------------------*/
-   return;
+   return 0;
 }
 
 static char        s_recd      [LEN_RECD]  = "";

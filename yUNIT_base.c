@@ -178,7 +178,7 @@ yUNIT_level             (cchar a_level, cchar a_quiet)
 static void      o___TEST____________________o (void) {;}
 
 char       /*----: create a new unit test ------------------------------------*/
-yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm)
+yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -192,16 +192,10 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm)
    /*---(open output)----------------------*/
    yunit_open (a_name);
    /*---(print header)---------------------*/
-   if (a_level > 0) {
-      yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
-      yunit_printf ("   patron : %s\n", P_ONELINE);
-   }
+   if (a_level > 0)  yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
+   if (a_level > 2)  yunit_printf ("   patron : %s\n", P_ONELINE);
    /*---(reset summary counters)-------*/
-   UNIT_TEST  = 0;
-   UNIT_PASS  = 0;
-   UNIT_FAIL  = 0;
-   UNIT_BADD  = 0;
-   UNIT_VOID  = 0;
+   UNIT_SCRP  = UNIT_COND  = UNIT_TEST  = UNIT_PASS  = UNIT_FAIL  = UNIT_BADD  = UNIT_VOID  = 0;
    /*---(setup defaults)-------------------*/
    yUNIT_level (a_level, '-');
    yUNIT_eterm (a_eterm, '-');
@@ -209,28 +203,27 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm)
    myUNIT.is_leak_begin  = malloc(sizeof(int));
    free(myUNIT.is_leak_begin);
    /*---(complete)-------------------------*/
-   if (myUNIT.level > 0)   yunit_printf ("\n");
+   /*> if (a_exec == 1)  yunit_printf ("\n");                                         <*/
    return 0;
-   /*> return o;                                                                      <*/
 }
 
 char       /*----: close a unit test -----------------------------------------*/
-yUNIT_tinu              (void)
+yUNIT_tinu              (cchar a_exec)
 {  /*---(variables)------------------------*/
    int     x_failed  = UNIT_FAIL + UNIT_BADD;
    /*---(print message)---------------*/
-   IF_COND   yunit_printf ("\n");
-   IF_SCRP   {
-      yunit_footer (TYPE_TINU);
+   IF_SCRP   yunit_printf ("\n");
+   {
+      if (a_exec == 1)  yunit_footer (TYPE_TINU);
+      else              yunit_footer (TYPE_DINU);
       yunit_printf ("%s\n", s_print);
-      yunit_printf ("\n");
    }
-   IF_SCRP   {
-      yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(end)\n");
-   }
+   if (myUNIT.level > 2)  yunit_printf ("\n");
+   yunit_printf ("\n");
+   yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(end)\n");
    /*---(leak testing)---------------------*/
-   myUNIT.is_leak_end    = malloc(sizeof(int));
-   free(myUNIT.is_leak_end);
+   /*> myUNIT.is_leak_end    = malloc(sizeof(int));                                   <*/
+   /*> free(myUNIT.is_leak_end);                                                      <*/
    /*> if (myUNIT.is_leak_begin != myUNIT.is_leak_end) {                                                                                                                                            <* 
     *>    IF_COND   yunit_printf ("\nMEMORY LEAK    :: start=%p, end=%p, so %d bytes lost\n", myUNIT.is_leak_begin, myUNIT.is_leak_end, (int) (myUNIT.is_leak_end - myUNIT.is_leak_begin));    <* 
     *> } else {                                                                                                                                                                                     <* 
@@ -241,6 +234,40 @@ yUNIT_tinu              (void)
    yunit_close ();
    /*> printf ("done, done\n");                                                       <*/
    return -x_failed;
+}
+
+
+char*
+yUNIT_teststring        (char n)
+{
+   switch (n) {
+   case 0 : return "hello";
+   case 1 : return "goodbye";
+   default: return "something";
+   }
+}
+
+float
+yUNIT_testreal          (float n)
+{
+   return n * 3.1415927;
+}
+
+int
+yUNIT_testint           (int n)
+{
+   return n % 5;
+}
+
+char
+yUNIT_testchar          (char n)
+{
+   if      (n <  32)    return '´';
+   else if (n == 32)    return '·';
+   else if (n < 127)    return n;
+   else if (n < 161)    return '´';
+   else if (n < 161)    return '´';
+   else                 return n;
 }
 
 

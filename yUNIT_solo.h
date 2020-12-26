@@ -69,7 +69,15 @@ yunit_minval            (int a_line, char *a_desc, int a_act, int a_exp)
       ++s_scrpg;
       ++s_unitg;
    }
-   if (a_act < 0 && a_exp == -999) {
+   else if (a_act < 0 && a_exp == -999) {
+      strcpy (x_note, "PASS");
+      strcpy (x_on, BACK_GRN);
+      x_res = 'Y';
+      ++s_condg;
+      ++s_scrpg;
+      ++s_unitg;
+   }
+   else if (a_act >= 0 && a_exp == 999) {
       strcpy (x_note, "PASS");
       strcpy (x_on, BACK_GRN);
       x_res = 'Y';

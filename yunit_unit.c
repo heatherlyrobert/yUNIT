@@ -615,7 +615,7 @@ yunit__unit_step         (void)
    yUNIT_mincond ("yUNIT_recd");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_CONSOLE)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yunit__unit_result (YUNIT_SUCC, 0);
+   yunit_result (YUNIT_SUCC, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd ( 954,  25, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  az) PASS   : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
@@ -631,7 +631,7 @@ yunit__unit_step         (void)
    yUNIT_mincond ("yUNIT_recd");
    yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_COND, YUNIT_CONSOLE)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yunit__unit_result (YUNIT_SUCC, 0);
+   yunit_result (YUNIT_SUCC, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd ( 954,  25, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  az) PASS   : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
@@ -642,7 +642,7 @@ yunit__unit_step         (void)
    yUNIT_mincond ("yUNIT_recd");
    yUNIT_minval ("create a unit on scrp output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_SCRP, YUNIT_CONSOLE)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yunit__unit_result (YUNIT_SUCC, 0);
+   yunit_result (YUNIT_SUCC, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd ( 954,  25, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  az) PASS   : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
@@ -652,13 +652,13 @@ yunit__unit_step         (void)
 
    yUNIT_mincond ("yUNIT_recd");
    yUNIT_minval ("create a unit on scrp output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_SCRP, YUNIT_CONSOLE)  , 0);
-   yunit__unit_result (YUNIT_FAIL, 0);
+   yunit_result (YUNIT_FAIL, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd ( 321, 300, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  lo) FAIL   : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00321]");
-   yunit__unit_result (YUNIT_WARN, 0);
+   yunit_result (YUNIT_WARN, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd (1234, 657, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  zh) WARN   : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [01234]");
-   yunit__unit_result (YUNIT_SUCC, 0);
+   yunit_result (YUNIT_SUCC, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd ( 954,  25, NULL             , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  az) PASS   : ???   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);
@@ -666,13 +666,13 @@ yunit__unit_step         (void)
 
    yUNIT_mincond ("yUNIT_recd");
    yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  )  , 0);
-   yunit__unit_result (YUNIT_SUCC, 0);
+   yunit_result (YUNIT_SUCC, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd ( 954,  25, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_GRN "az) PASS  " BACK_OFF " : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yunit__unit_result (YUNIT_FAIL, 0);
+   yunit_result (YUNIT_FAIL, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd ( 321, 300, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_RED "lo) FAIL  " BACK_OFF " : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00321]");
-   yunit__unit_result (YUNIT_WARN, 0);
+   yunit_result (YUNIT_WARN, 0);
    yUNIT_minval ("call recd driver"                   , yUNIT__recd (1234, 657, "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "i_equal"  ), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_YEL "zh) WARN  " BACK_OFF " : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [01234]");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (), 0);

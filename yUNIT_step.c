@@ -21,9 +21,10 @@ yunit_seqn              (int a_seqn)
    int         x_left      =    0;
    int         x_right     =    0;
    /*---(defense)------------------------*/
-   if (a_seqn <   0)  a_seqn = 0;
+   if (a_seqn <   1)  a_seqn = 1;
    if (a_seqn > 675)  a_seqn = 675;
    /*---(calculate)----------------------*/
+   --a_seqn;
    x_left  = a_seqn / 26;
    x_right = a_seqn % 26;
    /*---(make string)--------------------*/
@@ -46,7 +47,7 @@ yunit_colors            (char a_type, char *a_on, char *a_on2, char *a_off)
    switch (a_type) {
    case TYPE_SCRP  : case TYPE_SECT  : case TYPE_COND  : case TYPE_GROUP :
       break;
-   case TYPE_SHARE : case TYPE_ERAHS :
+   case TYPE_SHARE : case TYPE_ERAHS : case TYPE_SOND  :
       strcpy (a_on , BACK_MAG);
       break;
    case TYPE_MODE  : case TYPE_CODE  : case TYPE_LOAD  : case TYPE_SYSTEM :
@@ -103,12 +104,12 @@ yunit_recd_colors       (char *a_test, char *a_note, char *a_on1, char *a_on2, c
       break;
    case YUNIT_FSUCC :
       strcpy (a_note, "!PASS");
-      ++COND_FAIL;
+      ++COND_PASS;
       strcpy (a_on1 , BACK_RED);
       strcpy (a_on2 , BACK_GRN);
       break;
    case YUNIT_FFAIL :
-      ++COND_PASS;
+      ++COND_FAIL;
       strcpy (a_note, "!FAIL");
       strcpy (a_on1 , BACK_GRN);
       strcpy (a_on2 , BACK_RED);
@@ -120,48 +121,6 @@ yunit_recd_colors       (char *a_test, char *a_note, char *a_on1, char *a_on2, c
       strcpy (a_on2 , BACK_YEL);
       break;
    }
-   /*> strncpy (a_note, "FAIL", 5);                                                   <* 
-    *> if (s_resu == YUNIT_SUCC) {                                                    <* 
-    *>    strncpy (a_note, "PASS", 5);                                                <* 
-    *>    if (!myUNIT.is_forced_fail) {                                               <* 
-    *>       ++COND_PASS;                                                             <* 
-    *>       if (strcmp (a_test, "intg_FAIL") == 0) {                                 <* 
-    *>          strcpy (a_on1 , "\e[41m");                                            <* 
-    *>          strcpy (a_on2 , "\e[42m");                                            <* 
-    *>          strcpy (a_off , "\e[0m");                                             <* 
-    *>       } else {                                                                 <* 
-    *>          strcpy (a_on1 , "\e[42m");                                            <* 
-    *>          strcpy (a_on2 , a_on1  );                                             <* 
-    *>          strcpy (a_off , "\e[0m");                                             <* 
-    *>       }                                                                        <* 
-    *>    } else {                                                                    <* 
-    *>       ++COND_FAIL;                                                             <* 
-    *>       strcpy (a_on1 , "\e[42m");                                               <* 
-    *>       strcpy (a_on2 , "\e[41m");                                               <* 
-    *>       strcpy (a_off , "\e[0m");                                                <* 
-    *>       strcpy (a_note, "OUCH");                                                 <* 
-    *>    }                                                                           <* 
-    *> } else if (s_resu == YUNIT_FAIL) {                                             <* 
-    *>    strncpy(a_note, "FAIL", 5);                                                 <* 
-    *>    if (!myUNIT.is_forced_fail) {                                               <* 
-    *>       ++COND_FAIL;                                                             <* 
-    *>       strcpy (a_on1 , "\e[41m");                                               <* 
-    *>       strcpy (a_on2 , a_on1  );                                                <* 
-    *>       strcpy (a_off , "\e[0m");                                                <* 
-    *>    } else {                                                                    <* 
-    *>       ++COND_PASS;                                                             <* 
-    *>       strcpy (a_on1 , "\e[41m");                                               <* 
-    *>       strcpy (a_on2 , "\e[42m");                                               <* 
-    *>       strcpy (a_off , "\e[0m");                                                <* 
-    *>       strcpy (a_note, "FOR_F");                                                <* 
-    *>    }                                                                           <* 
-    *> } else {                                                                       <* 
-    *>    strcpy (a_note, "WARN");                                                    <* 
-    *>    ++COND_BADD;                                                                <* 
-    *>    strcpy (a_on1 , "\e[43m");                                                  <* 
-    *>    strcpy (a_on2 , a_on1  );                                                   <* 
-    *>    strcpy (a_off , "\e[0m");                                                   <* 
-    *> }                                                                              <*/
    if (myUNIT.eterm != 'y') {
       strcpy (a_on1 , "");
       strcpy (a_on2 , "");
@@ -183,7 +142,7 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
    char        t           [LEN_RECD]  = "";
    char       *x_spaces    = "                                                                                                   ";
    char       *x_cdot      = ".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ";
-   char       *x_edot      = "·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ";
+   char       *x_edot      = " ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··";
    char       *x_cdash     = " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --";
    char       *x_edash     = "··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï";
    char       *x_dashes    = "---------------------------------------------------------------------------------------------------";
@@ -213,21 +172,24 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       snprintf (s_print, LEN_RECD, "SCRP [%02d] %68.68s[%05d]", a_seqn, t, a_line);
       break;
    case TYPE_SECT  :
-      if (l < 65)  sprintf (t, "%*.*s %s %*.*s", x_pre - 3, x_pre - 3, x_spaces, x_desc, x_suf - 3, x_suf - 3, x_spaces);
+      if (l < 65)  sprintf (t, "%*.*s %s %*.*s", x_pre - 3, x_pre - 3, x_dashes, x_desc, x_suf - 3, x_suf - 3, x_dashes);
       else         sprintf (t, "%65.65s", x_desc);
       sprintf (s_print, "SECT ===----%s----=== TCES", t);
-      strcpy  (s_sect, s_print);
       break;
    case TYPE_COND  :
       ++l;
       snprintf (t, LEN_HUND, "  COND [%03d] %s %s", a_seqn, x_desc, x_cdash + l);
       sprintf  (s_print, "%-78.78s[%05d]", t, a_line);
       break;
+   case TYPE_SOND  :
+      ++l;
+      snprintf (t, LEN_HUND, "%s %s", x_desc, x_cdash + l);
+      sprintf  (s_print, "  %sSOND [%03d]%s %-65.65s[%05d]", x_on, a_seqn, x_off, t, a_line);
+      break;
    case TYPE_GROUP :
       if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, x_dashes, x_desc, x_suf - 3, x_suf - 3, x_dashes);
       else         sprintf (t, "%65.65s", x_desc);
       sprintf (s_print, "  GROUP ===---%s---===", t);
-      strcpy  (s_sect, s_print);
       break;
    case TYPE_SHARE :
       if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, x_dashes, x_desc, x_suf - 3, x_suf - 3, x_dashes);
@@ -248,12 +210,20 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       ++l;
       strncpy (x_test, x_note, LEN_LABEL);
       yunit_recd_colors (x_test, x_note, x_on, x_on2, x_off);
-      snprintf (t      , LEN_HUND, "%s %s", x_desc, x_cdot + l);
+      /*> ++l;                                                                        <*/
+      if (myUNIT.eterm == 'y')  snprintf (t      , LEN_HUND, "%s %s", x_desc, x_edot + l);
+      else                      snprintf (t      , LEN_HUND, "%s %s", x_desc, x_cdot + l);
       if (myUNIT.is_forced_fail) {
-         snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %62.62s [%05d]", x_on, yunit_seqn (a_seqn), x_on2, x_note, x_off, t, a_line);
+         snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %63.63s[%05d]", x_on, yunit_seqn (a_seqn), x_on2, x_note, x_off, t, a_line);
       } else {
-         snprintf (s_print, LEN_RECD, "  %s%s) %-6.6s%s : %62.62s [%05d]", x_on, yunit_seqn (a_seqn), x_note, x_off, t, a_line);
+         snprintf (s_print, LEN_RECD, "  %s%s) %-6.6s%s : %63.63s[%05d]", x_on, yunit_seqn (a_seqn), x_note, x_off, t, a_line);
       }
+      break;
+   case TYPE_DISP  :
+      l -= 1;
+      if (myUNIT.eterm == 'y')  snprintf (t      , LEN_HUND, "%s %s", x_desc, x_edot + l);
+      else                      snprintf (t      , LEN_HUND, "%s %s", x_desc, x_cdot + l);
+      snprintf (s_print, LEN_RECD, "     %s) %-6.6s: %61.61s[%05d]", yunit_seqn (a_seqn), x_note, t, a_line);
       break;
    }
    /*---(complete)-----------------------*/
@@ -267,22 +237,37 @@ yunit_footer            (char a_type)
    char        x_off       [LEN_LABEL] = "";
    yunit_colors (a_type, x_on, NULL, x_off);
    switch (a_type) {
-   case TYPE_TINU  :
-      sprintf (s_print, "%sTINU   step=%-4d  [[ pass=%-4d  fail=%-4d  badd=%-4d  void=%-4d ]]%s",
-            x_on, UNIT_TEST, UNIT_PASS, UNIT_FAIL, UNIT_BADD, UNIT_VOID, x_off);
+   case TYPE_TINU  : case TYPE_DINU  :
+      if (a_type == TYPE_TINU) {
+         if (UNIT_TEST == 0)  strcpy (x_on, BACK_YEL);
+         sprintf (s_print, "%sTINU  scrp=%-4d cond=%-5d test=%-5d [ pass=%-5d fail=%-5d badd=%-5d void=%-5d ]%s",
+               x_on, UNIT_SCRP, UNIT_COND, UNIT_TEST, UNIT_PASS, UNIT_FAIL, UNIT_BADD, UNIT_VOID, x_off);
+      } else {
+         sprintf (s_print, "TINU  scrp=%-4d cond=%-5d test=%-5d [ ------------------------------------------- ]",
+               UNIT_SCRP, UNIT_COND, UNIT_TEST);
+      }
       break;
-   case TYPE_PRCS  :
-      sprintf (s_print, "  %sPRCS   step=%-4d  [[ pass=%-4d  fail=%-4d  badd=%-4d  void=%-4d ]]%s",
-            x_on, SCRP_TEST, SCRP_PASS, SCRP_FAIL, SCRP_BADD, SCRP_VOID, x_off);
+   case TYPE_PRCS  : case TYPE_DRCS  :
+      if (a_type == TYPE_PRCS) {
+         if (SCRP_TEST == 0)  strcpy (x_on, BACK_YEL);
+         sprintf (s_print, "  %sPRCS -------- cond=%-5d test=%-5d [ pass=%-5d fail=%-5d badd=%-5d void=%-5d ]%s",
+               x_on, SCRP_COND, SCRP_TEST, SCRP_PASS, SCRP_FAIL, SCRP_BADD, SCRP_VOID, x_off);
+      } else {
+         sprintf (s_print, "  PRCS -------- cond=%-5d test=%-5d [ ------------------------------------------- ]",
+               SCRP_COND, SCRP_TEST);
+      }
       UNIT_TEST += SCRP_TEST;
       UNIT_PASS += SCRP_PASS;
       UNIT_FAIL += SCRP_FAIL;
       UNIT_BADD += SCRP_BADD;
       UNIT_VOID += SCRP_VOID;
       break;
-   case TYPE_DNOC  :
-      sprintf (s_print, "      %sDNOC   step=%-4d  [[ pass=%-4d  fail=%-4d  badd=%-4d  void=%-4d ]]%s",
-            x_on, COND_TEST, COND_PASS, COND_FAIL, COND_BADD, COND_VOID, x_off);
+   case TYPE_DNOC  : case TYPE_DNOD  :
+      if (a_type == TYPE_DNOC) {
+         if (COND_TEST == 0)  strcpy (x_on, BACK_YEL);
+         sprintf (s_print, "      %sDNOC --------------- test=%-5d [ pass=%-5d fail=%-5d badd=%-5d void=%-5d ]%s",
+               x_on, COND_TEST, COND_PASS, COND_FAIL, COND_BADD, COND_VOID, x_off);
+      }
       SCRP_TEST += COND_TEST;
       SCRP_PASS += COND_PASS;
       SCRP_FAIL += COND_FAIL;
@@ -302,8 +287,10 @@ yunit_footer            (char a_type)
 static void      o___STEP____________________o (void) {;}
 
 char
-yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test)
+yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char a_exec)
 {
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "void"  , a_desc);
    /*---(prepare)--------------------------------*/
    s_resu  = YUNIT_SUCC;
    s_code  = 'v';
@@ -316,8 +303,10 @@ yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, long long a_expe, long long a_actu)
+yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, long long a_expe, long long a_actu, char a_exec)
 {
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "int"   , a_desc);
    /*---(prepare)--------------------------------*/
    s_resu  =  YUNIT_FAIL;
    s_code  = -1;
@@ -340,8 +329,10 @@ yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, double a_expe, double a_actu)
+yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, double a_expe, double a_actu, char a_exec)
 {
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "real"  , a_desc);
    /*---(prepare)--------------------------------*/
    s_resu  =  YUNIT_FAIL;
    s_code  = -1;
@@ -364,8 +355,10 @@ yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, void *a_expe, void *a_actu)
+yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, void *a_expe, void *a_actu, char a_exec)
 {
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "point" , a_desc);
    /*---(prepare)--------------------------------*/
    s_resu  =  YUNIT_FAIL;
    s_code  = -1;
@@ -392,8 +385,10 @@ yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu)
+yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec)
 {
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "str"   , a_desc);
    /*---(locals)---------------------------------*/
    char        x_fexp      [LEN_RECD]  = "???";
    char        x_fact      [LEN_RECD]  = "???";
@@ -426,8 +421,10 @@ yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yUNIT_round             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu)
+yUNIT_round             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec)
 {
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "round" , a_desc);
    /*---(locals)---------------------------------*/
    char        x_fexp      [LEN_RECD]  = "???";
    char        x_fact      [LEN_RECD]  = "???";
@@ -461,8 +458,10 @@ yUNIT_round             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yUNIT_unknown           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu)
+yUNIT_unknown           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec)
 {
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "????"  , a_desc);
    /*---(prepare)--------------------------------*/
    s_resu   =  YUNIT_WARN;
    s_code   = '¢';
@@ -479,6 +478,20 @@ yUNIT_unknown           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 /*===----                            display                           ----===*/
 /*====================------------------------------------====================*/
 static void      o___DISPLAY_________________o (void) {;}
+
+char
+yUNIT__disp             (int a_line, int a_seqn, cchar *a_note, cchar *a_desc)
+{
+   char        x_desc      [LEN_HUND]  = "???";
+   if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
+   /*---(fix a little)---------------------------*/
+   if      (strncmp (x_desc, "... ", 4) == 0)   strncpy (x_desc, a_desc + 4, LEN_HUND);
+   else if (strncmp (x_desc, "..." , 3) == 0)   strncpy (x_desc, a_desc + 3, LEN_HUND);
+   yunit_header (TYPE_DISP  , a_line, a_seqn, a_note, x_desc);
+   IF_STEP  yunit_printf  ("%s\n", s_print);
+   ++COND_TEST;
+   return 0;
+}
 
 char
 yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test)
@@ -528,7 +541,7 @@ yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yunit__unit_result      (int a_resu, int a_code)
+yunit_result            (int a_resu, int a_code)
 {
    s_resu = a_resu;
    s_code = a_code;

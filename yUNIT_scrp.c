@@ -49,27 +49,37 @@ yUNIT_scrp (int a_line, int a_seqn, cchar *a_focu, cchar *a_desc)
    /*---(show sect)--------------------*/
    yUNIT_sect   ("SCRP");
    /*---(reset summary counters)-------*/
-   SCRP_TEST = SCRP_PASS = SCRP_FAIL = SCRP_BADD = SCRP_VOID = 0;
+   UNIT_SCRP++;
+   SCRP_COND = SCRP_TEST = SCRP_PASS = SCRP_FAIL = SCRP_BADD = SCRP_VOID = 0;
    /*---(print title)------------------*/
    IF_SCRP   yunit_printf  ("\n");
    IF_COND   yunit_printf  ("\n");
    IF_STEP   yunit_printf  ("===[[ NEW SCRIPT ]]==================================================================\n");
-   yunit_header (TYPE_SCRP, a_line, a_seqn, NULL, x_desc);
-   IF_SCRP   yunit_printf  ("%s\n", s_print);
-   snprintf (x_header, LEN_HUND, "  focus : %s", x_focu);
-   IF_COND   yunit_printf  ("%s\n", x_header);
+   /*> IF_SUMM   printf ("yUNIT_scrp IF_SUMM\n");                                     <* 
+    *> IF_SCRP   printf ("yUNIT_scrp IF_SCRPy\n");                                    <* 
+    *> IF_COND   printf ("yUNIT_scrp IF_COND\n");                                     <* 
+    *> IF_STEP   printf ("yUNIT_scrp IF_STEP\n");                                     <* 
+    *> IF_FULL   printf ("yUNIT_scrp IF_FULL\n");                                     <*/
+   IF_SCRP   yunit_printf  ("%s\n", yunit_header (TYPE_SCRP, a_line, a_seqn, NULL, x_desc));
+   if (strlen (x_focu) > 0)  {
+      snprintf (x_header, LEN_HUND, "  focus : %s", x_focu);
+      IF_COND   yunit_printf  ("%s\n", x_header);
+   }
    /*---(complete)---------------------*/
    return 0;
 }
 
 char
-yUNIT_prcs              (void)
+yUNIT_prcs              (cchar a_exec)
 {
    /*---(print message)-------------------*/
    IF_COND   yunit_printf ("\n");
-   IF_SCRP   {
+   if (a_exec == 1) {
       yunit_footer (TYPE_PRCS);
-      yunit_printf  ("%s\n", s_print);
+      IF_SCRP   yunit_printf  ("%s\n", s_print);
+   } else  {
+      yunit_footer (TYPE_DRCS);
+      IF_COND   yunit_printf  ("%s\n", s_print);
    }
    /*---(complete)---------------------*/
    return 0;

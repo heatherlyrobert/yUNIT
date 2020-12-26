@@ -304,20 +304,20 @@ typedef const void   cvoid;
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_level             (cchar a_level, cchar a_quiet);
 char        yUNIT_eterm             (cchar a_eterm, cchar a_quiet);
-char        yUNIT_unit              (cchar *a_name, cchar a_level, cchar a_eterm);
-char        yUNIT_tinu              (void);
+char        yUNIT_unit              (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec);
+char        yUNIT_tinu              (cchar a_exec);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_sect              (cchar *a_desc);
 char        yUNIT_scrp              (int a_line, int a_seqn, cchar *a_focu, cchar *a_desc);
-char        yUNIT_prcs              (void);
+char        yUNIT_prcs              (cchar a_exec);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        yUNIT_cond              (int a_line, int a_seqn, cchar *a_desc);
+char        yUNIT_cond              (int a_line, int a_seqn, char a_share, cchar *a_desc);
 char        yUNIT_group             (char *a_desc);
-char        yUNIT_dnoc              (void);
+char        yUNIT_dnoc              (cchar a_exec);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
@@ -326,21 +326,22 @@ char        yUNIT_erahs             (char a_share);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc);
-char        yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code);
-char        yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd);
-char        yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_cmd);
+char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec);
+char        yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
+char        yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd, char a_exec);
+char        yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_cmd, char a_exec);
 char*       yUNIT_read              (cchar *a_name, int n, int *c);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test);
-char        yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, long long a_expe, long long a_actu);
-char        yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, double a_expe, double a_actu);
-char        yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, void *a_expe, void *a_actu);
-char        yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu);
-char        yUNIT_round             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu);
-char        yUNIT_unknown           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu);
+char        yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char a_exec);
+char        yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, long long a_expe, long long a_actu, char a_exec);
+char        yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, double a_expe, double a_actu, char a_exec);
+char        yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, void *a_expe, void *a_actu, char a_exec);
+char        yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec);
+char        yUNIT_round             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec);
+char        yUNIT_unknown           (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec);
+char        yUNIT__disp             (int a_line, int a_seqn, cchar *a_note, cchar *a_desc);
 char        yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test);
 
 
@@ -348,6 +349,17 @@ char        yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, ccha
 char        yUNIT_user_del          (cchar *a_name);
 char        yUNIT_user_add          (cchar *a_name, cchar *a_pass, cchar *a_shell);
 
+
+/*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
+char        yUNIT_usage             (void);
+char        yUNIT_args              (int a_argc, char *a_argv[]);
+
+
+/*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
+char*       yUNIT_teststring        (char n);
+float       yUNIT_testreal          (float n);
+int         yUNIT_testint           (int n);
+char        yUNIT_testchar          (char n);
 
 
 

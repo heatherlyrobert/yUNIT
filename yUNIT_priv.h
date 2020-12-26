@@ -31,8 +31,8 @@
 
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1h"
-#define     P_VERTXT    "detailed step feedback, and forced fail, now unit tested"
+#define     P_VERNUM    "2.1i"
+#define     P_VERTXT    "updated many cosmetics to support koios unit testing"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -70,18 +70,23 @@
 
 #define     TYPE_UNIT        'U'
 #define     TYPE_TINU        'u'
+#define     TYPE_DINU        '1'
 
 #define     TYPE_SCRP        'S'
 #define     TYPE_SECT        'E'
 #define     TYPE_PRCS        'P'
+#define     TYPE_DRCS        '2'
 
 #define     TYPE_COND        'C'
+#define     TYPE_SOND        '&'
 #define     TYPE_GROUP       'G'
 #define     TYPE_DNOC        'D'
+#define     TYPE_DNOD        '3'
 #define     TYPE_SHARE       '['
 #define     TYPE_ERAHS       ']'
 
 #define     TYPE_STEP        '+'
+#define     TYPE_DISP        'd'
 #define     TYPE_MODE        'm'
 #define     TYPE_LOAD        'l'
 #define     TYPE_CODE        'c'
@@ -89,7 +94,7 @@
 
 
 /*===[[ CONSTANTS ]]==========================================================*/
-#define     IF_SUMM        if (myUNIT.level == 1)
+#define     IF_SUMM        if (myUNIT.level >= 1)
 #define     IF_SCRP        if (myUNIT.level >= 2)
 #define     IF_COND        if (myUNIT.level >= 3)
 /*> #define     IF_STEP        if (myUNIT.level >= 4 || myUNIT.resu > 0)              <*/
@@ -124,12 +129,15 @@ extern char     s_print     [LEN_RECD];
 extern char     s_suffix    [LEN_RECD];
 extern char     s_sect      [LEN_RECD];
 
+#define      UNIT_SCRP      myUNIT.unit_scrp
+#define      UNIT_COND      myUNIT.unit_cond
 #define      UNIT_TEST      myUNIT.unit_test
 #define      UNIT_PASS      myUNIT.unit_pass
 #define      UNIT_FAIL      myUNIT.unit_fail
 #define      UNIT_BADD      myUNIT.unit_badd
 #define      UNIT_VOID      myUNIT.unit_void
 
+#define      SCRP_COND      myUNIT.scrp_cond
 #define      SCRP_TEST      myUNIT.scrp_test
 #define      SCRP_PASS      myUNIT.scrp_pass
 #define      SCRP_FAIL      myUNIT.scrp_fail
@@ -159,11 +167,14 @@ struct cUNIT {
    int         cond_fail;
    int         cond_badd;
    int         cond_void;
+   int         scrp_cond;
    int         scrp_test;
    int         scrp_pass;
    int         scrp_fail;
    int         scrp_badd;
    int         scrp_void;
+   int         unit_scrp;
+   int         unit_cond;
    int         unit_test;
    int         unit_pass;
    int         unit_fail;
@@ -188,7 +199,7 @@ char        yunit_cycle             (void);
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char*       yunit_seqn              (int a_seqn);
 char        yunit__recd_color       (char *a_test);
-char        yunit__unit_result      (int a_resu, int a_code);
+char        yunit_result            (int a_resu, int a_code);
 char*       yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char *a_desc);
 
 

@@ -9,12 +9,15 @@
 static void      o___CONDITION_______________o (void) {;}
 
 char
-yUNIT_cond              (int a_line, int a_seqn, cchar *a_desc)
+yUNIT_cond              (int a_line, int a_seqn, char a_share, cchar *a_desc)
 {
    /*---(reset summary counters)-------*/
+   UNIT_COND++;
+   SCRP_COND++;
    COND_TEST = COND_PASS = COND_FAIL = COND_BADD = COND_VOID = 0;
    /*---(print message)----------------*/
-   yunit_header (TYPE_COND, a_line, a_seqn, NULL, a_desc);
+   if (a_share == '-')  yunit_header (TYPE_COND, a_line, a_seqn, NULL, a_desc);
+   else                 yunit_header (TYPE_SOND, a_line, a_seqn, NULL, a_desc);
    IF_COND   {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
@@ -27,14 +30,15 @@ yUNIT_cond              (int a_line, int a_seqn, cchar *a_desc)
 }
 
 char
-yUNIT_dnoc              (void)
+yUNIT_dnoc              (cchar a_exec)
 {
    /*---(print message)----------------*/
-   yunit_footer (TYPE_DNOC);
-   IF_COND   {
-      yunit_printf  ("\n");
-      yunit_printf  ("%s\n", s_print);
+   if (a_exec == 1) {
+      yunit_footer (TYPE_DNOC);
+      IF_STEP   yunit_printf  ("\n");
+      IF_COND   yunit_printf  ("%s\n", s_print);
    }
+   else              yunit_footer (TYPE_DNOD);
    /*---(close stdin and remove)-------*/
    if (yUNIT_stdin != NULL) fclose (yUNIT_stdin);
    system ("/bin/rm -f yUNIT.stdin 2> /dev/null");
