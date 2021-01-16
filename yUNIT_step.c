@@ -6,6 +6,7 @@
 static  int  s_resu    =  0;
 static  int  s_code    =  0;
 static  char s_seqn    [LEN_SHORT] = "";
+static  char s_mask    [LEN_RECD]  = "";
 
 
 
@@ -42,7 +43,7 @@ yunit_colors            (char a_type, char *a_on, char *a_on2, char *a_off)
    strcpy (a_on , "");
    if (a_on2 != NULL)  strcpy (a_off, "");
    strcpy (a_off, "");
-   if (myUNIT.eterm != 'y')  return  0;
+   if (myUNIT.mono)  return  0;
    strcpy (a_off , BACK_OFF);
    switch (a_type) {
    case TYPE_SCRP  : case TYPE_SECT  : case TYPE_COND  : case TYPE_GROUP :
@@ -121,7 +122,7 @@ yunit_recd_colors       (char *a_test, char *a_note, char *a_on1, char *a_on2, c
       strcpy (a_on2 , BACK_YEL);
       break;
    }
-   if (myUNIT.eterm != 'y') {
+   if (myUNIT.mono) {
       strcpy (a_on1 , "");
       strcpy (a_on2 , "");
       strcpy (a_off , "");
@@ -137,16 +138,9 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
    int         l           =    0;
    int         x_pre       =    0;
    int         x_suf       =    0;
-   char        x_note      [LEN_TERSE] = "????";
-   char        x_desc      [LEN_HUND]  = "???";
+   char        x_note      [LEN_TERSE] = "??";
+   char        x_desc      [LEN_HUND]  = "??";
    char        t           [LEN_RECD]  = "";
-   char       *x_spaces    = "                                                                                                   ";
-   char       *x_cdot      = ".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ";
-   char       *x_edot      = " ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··";
-   char       *x_cdash     = " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --";
-   char       *x_edash     = "··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï··+··+··Ï";
-   char       *x_dashes    = "---------------------------------------------------------------------------------------------------";
-   char       *x_equal     = "===================================================================================================";
    char        x_test      [LEN_LABEL] = "";
    char        x_on        [LEN_LABEL] = "";
    char        x_on2       [LEN_LABEL] = "";
@@ -158,6 +152,9 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
    if (a_seqn >   999)  a_seqn = 999;
    if (a_note != NULL)  strncpy (x_note, a_note, LEN_TERSE);
    if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
+   /*---(fix a little)---------------------------*/
+   if      (strncmp (x_desc, "... ", 4) == 0)   strncpy (x_desc, a_desc + 4, LEN_HUND);
+   else if (strncmp (x_desc, "..." , 3) == 0)   strncpy (x_desc, a_desc + 3, LEN_HUND);
    /*---(colors)-------------------------*/
    yunit_colors (a_type, x_on, NULL, x_off);
    /*---(find merge point)---------------*/
@@ -168,51 +165,61 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
    switch (a_type) {
    case TYPE_SCRP  :
       ++l;
-      snprintf (t      , LEN_HUND, "%s %s", x_desc, x_equal + l);
-      snprintf (s_print, LEN_RECD, "SCRP [%02d] %68.68s[%05d]", a_seqn, t, a_line);
+      snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_EQUAL + l);
+      snprintf (s_print, LEN_RECD, "SCRP [%02d] %63.63s[%2s]=[%05d]", a_seqn, t, x_note, a_line);
       break;
    case TYPE_SECT  :
-      if (l < 65)  sprintf (t, "%*.*s %s %*.*s", x_pre - 3, x_pre - 3, x_dashes, x_desc, x_suf - 3, x_suf - 3, x_dashes);
+      if (l < 65)  sprintf (t, "%*.*s %s %*.*s", x_pre - 3, x_pre - 3, STR_DASH, x_desc, x_suf - 3, x_suf - 3, STR_DASH);
       else         sprintf (t, "%65.65s", x_desc);
       sprintf (s_print, "SECT ===----%s----=== TCES", t);
       break;
    case TYPE_COND  :
       ++l;
-      snprintf (t, LEN_HUND, "  COND [%03d] %s %s", a_seqn, x_desc, x_cdash + l);
+      snprintf (t, LEN_HUND, "  COND [%03d] %s %s", a_seqn, x_desc, STR_COND + l);
       sprintf  (s_print, "%-78.78s[%05d]", t, a_line);
       break;
    case TYPE_SOND  :
       ++l;
-      snprintf (t, LEN_HUND, "%s %s", x_desc, x_cdash + l);
+      snprintf (t, LEN_HUND, "%s %s", x_desc, STR_COND + l);
       sprintf  (s_print, "  %sSOND [%03d]%s %-65.65s[%05d]", x_on, a_seqn, x_off, t, a_line);
       break;
    case TYPE_GROUP :
-      if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, x_dashes, x_desc, x_suf - 3, x_suf - 3, x_dashes);
+      if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, STR_DASH, x_desc, x_suf - 3, x_suf - 3, STR_DASH);
       else         sprintf (t, "%65.65s", x_desc);
       sprintf (s_print, "  GROUP ===---%s---===", t);
       break;
    case TYPE_SHARE :
-      if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, x_dashes, x_desc, x_suf - 3, x_suf - 3, x_dashes);
+      if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, STR_DASH, x_desc, x_suf - 3, x_suf - 3, STR_DASH);
       else         sprintf (t, "%65.65s", x_desc);
       sprintf (s_print, "  %sSHARE (%c) ===-%s-===%s", x_on, a_seqn, t, x_off);
       break;
    case TYPE_ERAHS :
-      if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, x_dashes, x_desc, x_suf - 3, x_suf - 3, x_dashes);
+      if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, STR_DASH, x_desc, x_suf - 3, x_suf - 3, STR_DASH);
       else         sprintf (t, "%65.65s", x_desc);
       sprintf (s_print, "  %sERAHS (%c) ===-%s-===%s", x_on, a_seqn, t, x_off);
       break;
-   case TYPE_MODE  : case TYPE_CODE  : case TYPE_LOAD  : case TYPE_SYSTEM :
+   case TYPE_MODE  :
       ++l;
-      snprintf (t      , LEN_HUND, "%s %s", x_desc, x_cdot + l);
-      snprintf (s_print, LEN_RECD, "  %s%s) %-6.6s%s : %62.62s [%05d]", x_on, yunit_seqn (a_seqn), x_note, x_off, t, a_line);
+      ++COND_PASS;
+      snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_ESTEP + l);
+      snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %63.63s[%05d]", BACK_CYN, yunit_seqn (a_seqn), BACK_GRN, a_note, BACK_OFF, t, a_line);
+      break;
+   case TYPE_CODE  : case TYPE_LOAD  : case TYPE_SYSTEM :
+      ++l;
+      yunit_recd_colors (x_test, x_note, x_on, x_on2, x_off);
+      if (strcmp (x_note, "PASS")   == 0)  strcpy  (x_note, a_note);
+      if (x_note [0] == '!')               sprintf (x_note, "!%s", a_note);
+      if (strcmp (x_on  , BACK_GRN) == 0)  strcpy (x_on  , BACK_CYN);
+      snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_ESTEP + l);
+      snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %63.63s[%05d]", x_on, yunit_seqn (a_seqn), x_on2, x_note, x_off, t, a_line);
       break;
    case TYPE_STEP  :
       ++l;
-      strncpy (x_test, x_note, LEN_LABEL);
       yunit_recd_colors (x_test, x_note, x_on, x_on2, x_off);
+      /*> if (myUNIT.level <= 4)  strncpy (x_note, a_note, LEN_LABEL);                <*/
       /*> ++l;                                                                        <*/
-      if (myUNIT.eterm == 'y')  snprintf (t      , LEN_HUND, "%s %s", x_desc, x_edot + l);
-      else                      snprintf (t      , LEN_HUND, "%s %s", x_desc, x_cdot + l);
+      if (myUNIT.pure)  snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_CSTEP + l);
+      else              snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_ESTEP + l);
       if (myUNIT.is_forced_fail) {
          snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %63.63s[%05d]", x_on, yunit_seqn (a_seqn), x_on2, x_note, x_off, t, a_line);
       } else {
@@ -221,8 +228,8 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       break;
    case TYPE_DISP  :
       l -= 1;
-      if (myUNIT.eterm == 'y')  snprintf (t      , LEN_HUND, "%s %s", x_desc, x_edot + l);
-      else                      snprintf (t      , LEN_HUND, "%s %s", x_desc, x_cdot + l);
+      if (myUNIT.pure)  snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_CSTEP + l);
+      else              snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_ESTEP + l);
       snprintf (s_print, LEN_RECD, "     %s) %-6.6s: %61.61s[%05d]", yunit_seqn (a_seqn), x_note, t, a_line);
       break;
    }
@@ -406,7 +413,7 @@ yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    }
    /*---(save return)----------------------------*/
    yUNIT_s_rc = a_actu;
-   yVAR_results (NULL, NULL, NULL, x_fexp, x_fact);
+   yVAR_results (NULL, NULL, s_mask, x_fexp, x_fact);
    /*---(record the key data)--------------------*/
    if (strcmp (a_test, "s_equal") == 0 || strncmp (a_test, "s_round", 7) == 0 ) {
       strncpy (myUNIT.expe, x_fexp, LEN_RECD);
@@ -504,14 +511,12 @@ yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    char        x_fexp      [LEN_RECD]  = "???";
    char        x_fact      [LEN_RECD]  = "???";
    char        x_ch        =  '´';
+   int         l           =    0;
    /*---(defense)--------------------------------*/
    if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
    if (a_meth != NULL)  strncpy (x_meth, a_meth, LEN_HUND);
    if (a_args != NULL)  strncpy (x_args, a_args, LEN_HUND);
    if (a_test != NULL)  strncpy (x_test, a_test, LEN_HUND);
-   /*---(fix a little)---------------------------*/
-   if      (strncmp (x_desc, "... ", 4) == 0)   strncpy (x_desc, a_desc + 4, LEN_HUND);
-   else if (strncmp (x_desc, "..." , 3) == 0)   strncpy (x_desc, a_desc + 3, LEN_HUND);
    /*---(capture key data)-----------------------*/
    ++COND_TEST;
    /*---(print message)----------------*/
@@ -529,8 +534,12 @@ yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       else                                       x_ch = '-';
       yunit_printf ("      test   : %-10s (rc = %4d, test abbr = %c)%s\n", x_test, s_code, x_ch, (s_code == '¢') ? " BAD TEST" : "");
       if (strcmp(x_test, "void") != 0) {
-         yunit_printf ("      expect : %s\n", myUNIT.expe);
-         yunit_printf ("      actual : %s\n", myUNIT.actu);
+         if (strcmp (x_test, "s_equal") == 0)  l = strlen (s_mask);
+         else                                  l = strlen (myUNIT.expe);
+         yunit_printf ("      expect : %2d[%s]\n", l, myUNIT.expe);
+         if (strcmp (x_test, "s_equal") == 0)  l = strlen (s_mask);
+         else                                  l = strlen (myUNIT.actu);
+         yunit_printf ("      actual : %2d[%s]\n", l, myUNIT.actu);
       } else {
          yunit_printf ("      expect : void\n");
          yunit_printf ("      actual : void\n");

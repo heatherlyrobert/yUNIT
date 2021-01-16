@@ -8,7 +8,7 @@ NAME_BASE  = yUNIT
 # additional standard and outside libraries
 LIB_STD    = -lncurses
 # all heatherly libraries used, debug versions whenever available
-LIB_MINE   = -lyVAR_debug
+LIB_MINE   = -lyVAR_debug -lyURG_debug
 # directory for production code, no trailing slash
 INST_DIR   = 
 

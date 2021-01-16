@@ -135,38 +135,55 @@ yunit_cycle        (void)
 /*====================------------------------------------====================*/
 static void      o___CONFIG__________________o (void) {;}
 
+char
+yUNIT_unique            (int a_scrp, int a_cond, int a_step)
+{
+   myUNIT.nscrp = a_scrp;
+   myUNIT.ncond = a_cond;
+   myUNIT.nstep = a_step;
+   return 0;
+}
+
 char       /*----: change the color level)------------------------------------*/
 yUNIT_eterm             (cchar a_eterm, cchar a_quiet)
 {
+   char        t           [LEN_HUND]  = "";
    /*---(setup verbosity)------------------*/
    if (a_eterm == YUNIT_ETERM)  {
-      if (a_quiet != 'y')  IF_COND   yunit_printf ("   assign format/color to (%c) ETERM\n", a_eterm);
+      sprintf (t, "assign format/color to (%c) ETERM", a_eterm);
       myUNIT.eterm = YUNIT_ETERM;
+      myUNIT.mono  = 0;
+      myUNIT.pure  = 0;
    } else {
-      if (a_quiet != 'y')  IF_COND   yunit_printf ("   assign format/color to (%c) CONSOLE\n", a_eterm);
+      sprintf (t, "assign format/color to (%c) CONSOLE", a_eterm);
       myUNIT.eterm = YUNIT_CONSOLE;
+      myUNIT.mono  = 1;
+      myUNIT.pure  = 1;
    }
+   if (a_quiet != 'y')  IF_COND   yunit_printf ("   %-75.75s %5dx\n", t, myUNIT.nstep);
    return myUNIT.eterm;
 }
 
 char       /*----: change the verbosity level --------------------------------*/
 yUNIT_level             (cchar a_level, cchar a_quiet)
 {
+   char        t           [LEN_HUND]  = "";
    if (a_level >= YUNIT_MUTE && a_level <= YUNIT_FULL) myUNIT.level = a_level;
    else                                                myUNIT.level = YUNIT_FULL;
    switch (myUNIT.level) {
    case YUNIT_MUTE  : case YUNIT_SUMM  : case YUNIT_SCRP  :
       break;
    case YUNIT_COND  :
-      if (a_quiet != 'y') { yunit_printf ("   assign output level to (%d) YUNIT_COND\n", myUNIT.level); }
+      sprintf (t, "assign output level to (%d) YUNIT_COND", myUNIT.level);
       break;
    case YUNIT_STEP  :
-      if (a_quiet != 'y') { yunit_printf ("   assign output level to (%d) YUNIT_STEP\n", myUNIT.level); }
+      sprintf (t, "assign output level to (%d) YUNIT_STEP", myUNIT.level);
       break;
    case YUNIT_FULL  : 
-      if (a_quiet != 'y') { yunit_printf ("   assign output level to (%d) YUNIT_FULL\n", myUNIT.level); }
+      sprintf (t, "assign output level to (%d) YUNIT_FULL", myUNIT.level);
       break;
    }
+   if (a_quiet != 'y' && myUNIT.level > YUNIT_SCRP) yunit_printf ("   %-75.75s %5dc\n", t, myUNIT.ncond);
    return myUNIT.level;
 }
 
@@ -183,17 +200,15 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        t           [LEN_HUND];
-   /*> tUNIT      *o           = NULL;                                                <*/
    /*---(defaulting)---------------------*/
-   /*> o = (tUNIT *) malloc (sizeof (tUNIT));                                         <*/
    strcpy (s_unit, "");
    /*---(defense)------------------------*/
    --rce;  if (a_name == NULL)  return rce;
    /*---(open output)----------------------*/
    yunit_open (a_name);
    /*---(print header)---------------------*/
-   if (a_level > 0)  yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
-   if (a_level > 2)  yunit_printf ("   patron : %s\n", P_ONELINE);
+   if (a_level > 1)  yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
+   if (a_level > 2)  yunit_printf ("   patron : %-66.66s %5ds\n", P_ONELINE, myUNIT.nscrp);
    /*---(reset summary counters)-------*/
    UNIT_SCRP  = UNIT_COND  = UNIT_TEST  = UNIT_PASS  = UNIT_FAIL  = UNIT_BADD  = UNIT_VOID  = 0;
    /*---(setup defaults)-------------------*/
@@ -213,14 +228,16 @@ yUNIT_tinu              (cchar a_exec)
    int     x_failed  = UNIT_FAIL + UNIT_BADD;
    /*---(print message)---------------*/
    IF_SCRP   yunit_printf ("\n");
-   {
+   IF_SCRP {
       if (a_exec == 1)  yunit_footer (TYPE_TINU);
       else              yunit_footer (TYPE_DINU);
       yunit_printf ("%s\n", s_print);
    }
-   if (myUNIT.level > 2)  yunit_printf ("\n");
-   yunit_printf ("\n");
-   yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(end)\n");
+   IF_COND  yunit_printf ("\n");
+   IF_SCRP  {
+      yunit_printf ("\n");
+      yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(end)\n");
+   }
    /*---(leak testing)---------------------*/
    /*> myUNIT.is_leak_end    = malloc(sizeof(int));                                   <*/
    /*> free(myUNIT.is_leak_end);                                                      <*/
@@ -232,6 +249,7 @@ yUNIT_tinu              (cchar a_exec)
    /*---(complete)--------------------------*/
    if (x_failed > 100) x_failed = 100;
    yunit_close ();
+   /*> pr("%d\n", -x_failed);                                                    <*/
    /*> printf ("done, done\n");                                                       <*/
    return -x_failed;
 }

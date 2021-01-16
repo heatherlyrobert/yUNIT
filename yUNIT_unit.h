@@ -18,17 +18,20 @@
 
 /*---(globals)------------------------*/
 struct {
-   char        eterm;                    /* handle console vs eterm                  */
-   int         level;                    /* how loud things should be                */
-   int         exec;                     /* run scripts                              */
-   int         scrp;                     /* script selected for focus                */
-   int         cond;                     /* condition selected for focus             */
-   int         offset;                   /* shared code condition offset             */
-   int         origin;                   /* shared code scription offset             */
-   char        debug       [LEN_HUND];   /* display debugging info                   */
-   char        CUSTOM      [LEN_RECD];   /* holder for custom expect strings         */
+   char        eterm;                    /* handle console vs eterm           */
+   int         level;                    /* how loud things should be         */
+   int         exec;                     /* run scripts                       */
+   int         scrp;                     /* script selected for focus         */
+   int         cond;                     /* condition selected for focus      */
+   int         offset;                   /* shared code condition offset      */
+   int         origin;                   /* shared code scription offset      */
+   char        debug       [LEN_HUND];   /* display debugging info            */
+   char        CUSTOM      [LEN_RECD];   /* holder for custom expect strings  */
 } g;
 
+
+char    yUNIT_stats   (void);
+char    yUNIT_verbs   (void);
 
 
 char
@@ -69,13 +72,19 @@ yUNIT_usage             (void)
 char
 yUNIT_init              (void)
 {
+   /*---(display)-----------*/
    g.eterm   = 'y';
    g.level   = YUNIT_FULL;
+   /*---(filters)-----------*/
    g.exec    = 1;
    g.scrp    = 0;
    g.cond    = 0;
+   /*---(helpers)-----------*/
    g.offset  = 0;
    g.origin  = 0;
+   /*---(stats)-------------*/
+   yUNIT_stats ();
+   /*---(complete)----------*/
    return 0;
 }
 

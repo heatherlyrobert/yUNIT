@@ -37,7 +37,7 @@ yUNIT_sect    (cchar *a_desc)
 }
 
 char    /*  PURPOSE :: record the start of a new script                       */
-yUNIT_scrp (int a_line, int a_seqn, cchar *a_focu, cchar *a_desc)
+yUNIT_scrp (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_focu)
 {
    char        x_header    [LEN_HUND] = "";
    char        x_focu      [LEN_HUND] = "???";
@@ -55,12 +55,7 @@ yUNIT_scrp (int a_line, int a_seqn, cchar *a_focu, cchar *a_desc)
    IF_SCRP   yunit_printf  ("\n");
    IF_COND   yunit_printf  ("\n");
    IF_STEP   yunit_printf  ("===[[ NEW SCRIPT ]]==================================================================\n");
-   /*> IF_SUMM   printf ("yUNIT_scrp IF_SUMM\n");                                     <* 
-    *> IF_SCRP   printf ("yUNIT_scrp IF_SCRPy\n");                                    <* 
-    *> IF_COND   printf ("yUNIT_scrp IF_COND\n");                                     <* 
-    *> IF_STEP   printf ("yUNIT_scrp IF_STEP\n");                                     <* 
-    *> IF_FULL   printf ("yUNIT_scrp IF_FULL\n");                                     <*/
-   IF_SCRP   yunit_printf  ("%s\n", yunit_header (TYPE_SCRP, a_line, a_seqn, NULL, x_desc));
+   IF_SUMM   yunit_printf  ("%s\n", yunit_header (TYPE_SCRP, a_line, a_seqn, a_stage, x_desc));
    if (strlen (x_focu) > 0)  {
       snprintf (x_header, LEN_HUND, "  focus : %s", x_focu);
       IF_COND   yunit_printf  ("%s\n", x_header);
@@ -76,7 +71,7 @@ yUNIT_prcs              (cchar a_exec)
    IF_COND   yunit_printf ("\n");
    if (a_exec == 1) {
       yunit_footer (TYPE_PRCS);
-      IF_SCRP   yunit_printf  ("%s\n", s_print);
+      IF_SUMM   yunit_printf  ("%s\n", s_print);
    } else  {
       yunit_footer (TYPE_DRCS);
       IF_COND   yunit_printf  ("%s\n", s_print);

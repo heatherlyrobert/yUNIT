@@ -18,8 +18,8 @@
 
 #define     P_BASENAME  "libyUNIT.so"
 #define     P_FULLPATH  "/usr/local/lib64/libyUNIT.so"
-#define     P_SUFFIX    "n/a"
-#define     P_CONTENT   "n/a"
+#define     P_SUFFIX    "urun"
+#define     P_CONTENT   "unit test results"
 
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
@@ -31,8 +31,8 @@
 
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1i"
-#define     P_VERTXT    "updated many cosmetics to support koios unit testing"
+#define     P_VERNUM    "2.1j"
+#define     P_VERTXT    "fix spacer field (- - -) parsing to allow - prefix in expected results"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -97,17 +97,9 @@
 #define     IF_SUMM        if (myUNIT.level >= 1)
 #define     IF_SCRP        if (myUNIT.level >= 2)
 #define     IF_COND        if (myUNIT.level >= 3)
-/*> #define     IF_STEP        if (myUNIT.level >= 4 || myUNIT.resu > 0)              <*/
 #define     IF_STEP        if (myUNIT.level >= 4)
-/*> #define     IF_FULL        if (myUNIT.level >= 5 || myUNIT.resu > 0)              <*/
 #define     IF_FULL        if (myUNIT.level >= 5)
-#define     IF_SECT        if (myUNIT.level == 4)
 
-#define     YUNIT_SUCC    0
-#define     YUNIT_FAIL    1
-#define     YUNIT_WARN    2
-#define     YUNIT_FSUCC   3
-#define     YUNIT_FFAIL   4
 
 
 
@@ -157,6 +149,11 @@ struct cUNIT {
    char        name        [LEN_HUND];
    char        level;
    char        eterm;
+   char        mono;                        /* monochrome, 1 = no color       */
+   char        pure;                        /* pure ascii, 1 = only 7bit      */
+   int         nscrp;
+   int         ncond;
+   int         nstep;
    /*---(working vars)-------------*/
    char        expe        [LEN_RECD];
    char        fixd        [LEN_RECD];

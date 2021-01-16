@@ -282,6 +282,12 @@
 #define     YUNIT_STEP       4
 #define     YUNIT_FULL       5
 
+#define     YUNIT_SUCC       0
+#define     YUNIT_FAIL       1
+#define     YUNIT_WARN       2
+#define     YUNIT_FSUCC      3
+#define     YUNIT_FFAIL      4
+#define     YUNIT_NORUN     -1
 
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
@@ -302,6 +308,7 @@ typedef const void   cvoid;
 /*===[[ FUNCTION PROTOTYPES ]]================================================*/
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yUNIT_unique            (int a_scrp, int a_cond, int a_step);
 char        yUNIT_level             (cchar a_level, cchar a_quiet);
 char        yUNIT_eterm             (cchar a_eterm, cchar a_quiet);
 char        yUNIT_unit              (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec);
@@ -310,7 +317,7 @@ char        yUNIT_tinu              (cchar a_exec);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_sect              (cchar *a_desc);
-char        yUNIT_scrp              (int a_line, int a_seqn, cchar *a_focu, cchar *a_desc);
+char        yUNIT_scrp              (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_focu);
 char        yUNIT_prcs              (cchar a_exec);
 
 
@@ -329,7 +336,7 @@ char        yUNIT_erahs             (char a_share);
 char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec);
 char        yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
 char        yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd, char a_exec);
-char        yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_cmd, char a_exec);
+char        yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_disp, cchar *a_cmd, char a_exec);
 char*       yUNIT_read              (cchar *a_name, int n, int *c);
 
 
