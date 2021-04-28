@@ -16,8 +16,9 @@ yUNIT_cond              (int a_line, int a_seqn, char a_share, cchar *a_desc)
    SCRP_COND++;
    COND_TEST = COND_PASS = COND_FAIL = COND_BADD = COND_VOID = 0;
    /*---(print message)----------------*/
-   if (a_share == '-')  yunit_header (TYPE_COND, a_line, a_seqn, NULL, a_desc);
-   else                 yunit_header (TYPE_SOND, a_line, a_seqn, NULL, a_desc);
+   if (a_share == '-')                     yunit_header (TYPE_COND, a_line, a_seqn, NULL, a_desc);
+   else if (a_share == tolower (a_share))  yunit_header (TYPE_SOND, a_line, a_seqn, NULL, a_desc);
+   else                                    yunit_header (TYPE_GOND, a_line, a_seqn, NULL, a_desc);
    IF_COND   {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);

@@ -31,8 +31,8 @@
 
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1j"
-#define     P_VERTXT    "fix spacer field (- - -) parsing to allow - prefix in expected results"
+#define     P_VERNUM    "2.1k"
+#define     P_VERTXT    "added code for koios GLOBAL verb and related reporting"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -79,11 +79,14 @@
 
 #define     TYPE_COND        'C'
 #define     TYPE_SOND        '&'
+#define     TYPE_GOND        'g'
 #define     TYPE_GROUP       'G'
 #define     TYPE_DNOC        'D'
 #define     TYPE_DNOD        '3'
 #define     TYPE_SHARE       '['
 #define     TYPE_ERAHS       ']'
+#define     TYPE_GLOBAL      '{'
+#define     TYPE_LABOLG      '}'
 
 #define     TYPE_STEP        '+'
 #define     TYPE_DISP        'd'

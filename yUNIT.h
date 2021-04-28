@@ -330,6 +330,8 @@ char        yUNIT_dnoc              (cchar a_exec);
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_share             (char a_share, cchar *a_desc);
 char        yUNIT_erahs             (char a_share);
+char        yUNIT_global            (char a_share, cchar *a_desc);
+char        yUNIT_labolg            (char a_share);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/

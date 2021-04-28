@@ -51,6 +51,9 @@ yunit_colors            (char a_type, char *a_on, char *a_on2, char *a_off)
    case TYPE_SHARE : case TYPE_ERAHS : case TYPE_SOND  :
       strcpy (a_on , BACK_MAG);
       break;
+   case TYPE_GLOBAL: case TYPE_LABOLG: case TYPE_GOND  :
+      strcpy (a_on , BACK_BLU);
+      break;
    case TYPE_MODE  : case TYPE_CODE  : case TYPE_LOAD  : case TYPE_SYSTEM :
       strcpy (a_on , BACK_CYN);
       break;
@@ -183,6 +186,11 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       snprintf (t, LEN_HUND, "%s %s", x_desc, STR_COND + l);
       sprintf  (s_print, "  %sSOND [%03d]%s %-65.65s[%05d]", x_on, a_seqn, x_off, t, a_line);
       break;
+   case TYPE_GOND  :
+      ++l;
+      snprintf (t, LEN_HUND, "%s %s", x_desc, STR_COND + l);
+      sprintf  (s_print, "  %sGOND [%03d]%s %-65.65s[%05d]", x_on, a_seqn, x_off, t, a_line);
+      break;
    case TYPE_GROUP :
       if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, STR_DASH, x_desc, x_suf - 3, x_suf - 3, STR_DASH);
       else         sprintf (t, "%65.65s", x_desc);
@@ -197,6 +205,16 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       if (l < 65)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 3, x_pre - 3, STR_DASH, x_desc, x_suf - 3, x_suf - 3, STR_DASH);
       else         sprintf (t, "%65.65s", x_desc);
       sprintf (s_print, "  %sERAHS (%c) ===-%s-===%s", x_on, a_seqn, t, x_off);
+      break;
+   case TYPE_GLOBAL :
+      if (l < 63)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 4, x_pre - 4, STR_DASH, x_desc, x_suf - 4, x_suf - 4, STR_DASH);
+      else         sprintf (t, "%63.63s", x_desc);
+      sprintf (s_print, "  %sGLOBAL (%c) ===-%s--===%s", x_on, a_seqn, t, x_off);
+      break;
+   case TYPE_LABOLG :
+      if (l < 63)  sprintf (t, "%*.*s   %s   %*.*s", x_pre - 4, x_pre - 4, STR_DASH, x_desc, x_suf - 4, x_suf - 4, STR_DASH);
+      else         sprintf (t, "%63.63s", x_desc);
+      sprintf (s_print, "  %sLABOLG (%c) ===-%s--===%s", x_on, a_seqn, t, x_off);
       break;
    case TYPE_MODE  :
       ++l;
