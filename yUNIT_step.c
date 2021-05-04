@@ -48,6 +48,12 @@ yunit_colors            (char a_type, char *a_on, char *a_on2, char *a_off)
    switch (a_type) {
    case TYPE_SCRP  : case TYPE_SECT  : case TYPE_COND  : case TYPE_GROUP :
       break;
+   case TYPE_CCND  :
+      strcpy (a_on , BACK_CYN);
+      break;
+   case TYPE_DOND  :
+      strcpy (a_on , BACK_CYN);
+      break;
    case TYPE_SHARE : case TYPE_ERAHS : case TYPE_SOND  :
       strcpy (a_on , BACK_MAG);
       break;
@@ -118,6 +124,12 @@ yunit_recd_colors       (char *a_test, char *a_note, char *a_on1, char *a_on2, c
       strcpy (a_on1 , BACK_GRN);
       strcpy (a_on2 , BACK_RED);
       break;
+   case YUNIT_VOID  :
+      ++COND_VOID;
+      strcpy (a_note, "----");
+      strcpy (a_on1 , BACK_CYN);
+      strcpy (a_on2 , BACK_CYN);
+      break;
    default          :
       strcpy (a_note, "WARN");
       ++COND_BADD;
@@ -181,6 +193,16 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       snprintf (t, LEN_HUND, "  COND [%03d] %s %s", a_seqn, x_desc, STR_COND + l);
       sprintf  (s_print, "%-78.78s[%05d]", t, a_line);
       break;
+   case TYPE_CCND  :
+      ++l;
+      snprintf (t, LEN_HUND, "%s %s", x_desc, STR_COND + l);
+      sprintf  (s_print, "  %sCCND [%03d] %s%s %-61.61s[%05d]", x_on, a_seqn, x_note, x_off, t, a_line);
+      break;
+   case TYPE_DOND  :
+      ++l;
+      snprintf (t, LEN_HUND, "%s %s", x_desc, STR_COND + l);
+      sprintf  (s_print, "  %sDOND [%03d] %s %-61.61s[%05d]%s", x_on, a_seqn, x_note, t, a_line, x_off);
+      break;
    case TYPE_SOND  :
       ++l;
       snprintf (t, LEN_HUND, "%s %s", x_desc, STR_COND + l);
@@ -216,13 +238,13 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       else         sprintf (t, "%63.63s", x_desc);
       sprintf (s_print, "  %sLABOLG (%c) ===-%s--===%s", x_on, a_seqn, t, x_off);
       break;
-   case TYPE_MODE  :
+   case TYPE_CODE  : case TYPE_LOAD  : case TYPE_MODE  :
       ++l;
-      ++COND_PASS;
+      ++COND_VOID;
       snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_ESTEP + l);
       snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %63.63s[%05d]", BACK_CYN, yunit_seqn (a_seqn), BACK_GRN, a_note, BACK_OFF, t, a_line);
       break;
-   case TYPE_CODE  : case TYPE_LOAD  : case TYPE_SYSTEM :
+   case TYPE_SYSTEM :
       ++l;
       yunit_recd_colors (x_test, x_note, x_on, x_on2, x_off);
       if (strcmp (x_note, "PASS")   == 0)  strcpy  (x_note, a_note);

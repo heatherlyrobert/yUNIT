@@ -17,7 +17,7 @@ yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec)
    if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "MODE"  , a_desc);
    /*---(dispaly)------------------------*/
    ++COND_TEST;
-   yunit_result (0, YUNIT_SUCC);
+   yunit_result (0, YUNIT_VOID);
    if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
    if (strcmp (x_desc, "FORCED_FAIL") == 0) {
       myUNIT.is_forced_fail = 1;
@@ -34,6 +34,13 @@ yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec)
    return 0;
 }
 
+char
+yUNIT_mode_reset        (void)
+{
+   myUNIT.is_forced_fail = 0;
+   return 0;
+}
+
 
 char
 yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec)
@@ -42,7 +49,7 @@ yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, c
    if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "CODE"  , a_desc);
    /*---(dispaly)------------------------*/
    ++COND_TEST;
-   yunit_result (0, YUNIT_SUCC);
+   yunit_result (0, YUNIT_VOID);
    yunit_header (TYPE_CODE, a_line, a_seqn, "CODE"  , a_desc);
    IF_STEP {
       yunit_printf  ("\n");
@@ -66,7 +73,7 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "LOAD"  , a_desc);
    /*---(display)------------------------*/
    ++COND_TEST;
-   yunit_result (0, YUNIT_SUCC);
+   yunit_result (0, YUNIT_VOID);
    if (a_meth != NULL)   strncpy (x_meth, a_meth, LEN_RECD);
    if (a_recd != NULL)   strncpy (x_data, a_recd, LEN_RECD);
    yunit_header (TYPE_LOAD, a_line, a_seqn, "LOAD"  , a_desc);

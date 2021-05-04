@@ -11,14 +11,25 @@ static void      o___CONDITION_______________o (void) {;}
 char
 yUNIT_cond              (int a_line, int a_seqn, char a_share, cchar *a_desc)
 {
+   char        t           [LEN_TERSE] = "";
    /*---(reset summary counters)-------*/
    UNIT_COND++;
    SCRP_COND++;
    COND_TEST = COND_PASS = COND_FAIL = COND_BADD = COND_VOID = 0;
    /*---(print message)----------------*/
-   if (a_share == '-')                     yunit_header (TYPE_COND, a_line, a_seqn, NULL, a_desc);
-   else if (a_share == tolower (a_share))  yunit_header (TYPE_SOND, a_line, a_seqn, NULL, a_desc);
-   else                                    yunit_header (TYPE_GOND, a_line, a_seqn, NULL, a_desc);
+   if (a_share == '-') {
+      yunit_header (TYPE_COND, a_line, a_seqn, NULL, a_desc);
+   } else if (a_share >=0 && a_share <= 9) {
+      sprintf (t, "(%c)", a_share + '0');
+      yunit_header (TYPE_CCND, a_line, a_seqn, t   , a_desc);
+   } else if (strchr (LTRS_NUMBER, a_share) != NULL) {
+      sprintf (t, "(%c)", a_share);
+      yunit_header (TYPE_DOND, a_line, a_seqn, t   , a_desc);
+   } else if (a_share == tolower (a_share)) {
+      yunit_header (TYPE_SOND, a_line, a_seqn, NULL, a_desc);
+   } else {
+      yunit_header (TYPE_GOND, a_line, a_seqn, NULL, a_desc);
+   }
    IF_COND   {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);

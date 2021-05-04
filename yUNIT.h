@@ -287,6 +287,7 @@
 #define     YUNIT_WARN       2
 #define     YUNIT_FSUCC      3
 #define     YUNIT_FFAIL      4
+#define     YUNIT_VOID       5
 #define     YUNIT_NORUN     -1
 
 
@@ -335,6 +336,7 @@ char        yUNIT_labolg            (char a_share);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        yUNIT_mode_reset        (void);
 char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec);
 char        yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
 char        yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd, char a_exec);
