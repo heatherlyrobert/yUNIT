@@ -275,6 +275,11 @@
 #define     YUNIT_ETERM     'y'
 #define     YUNIT_CONSOLE   '-'
 
+#define     YUNIT_LIST       0
+#define     YUNIT_RUN        1
+
+#define     YUNIT_ALL        0
+
 #define     YUNIT_MUTE       0
 #define     YUNIT_SUMM       1
 #define     YUNIT_SCRP       2
@@ -338,6 +343,7 @@ char        yUNIT_labolg            (char a_share);
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_mode_reset        (void);
 char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec);
+char        yUNIT_local             (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
 char        yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
 char        yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd, char a_exec);
 char        yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_disp, cchar *a_cmd, char a_exec);
@@ -364,6 +370,7 @@ char        yUNIT_user_add          (cchar *a_name, cchar *a_pass, cchar *a_shel
 /*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
 char        yUNIT_usage             (void);
 char        yUNIT_args              (int a_argc, char *a_argv[]);
+char        yUNIT_reset_rc          (void);
 
 
 /*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
@@ -371,6 +378,7 @@ char*       yUNIT_teststring        (char n);
 float       yUNIT_testreal          (float n);
 int         yUNIT_testint           (int n);
 char        yUNIT_testchar          (char n);
+int*        yUNIT_testptr           (void);
 
 
 

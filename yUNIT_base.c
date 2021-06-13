@@ -288,6 +288,13 @@ yUNIT_testchar          (char n)
    else                 return n;
 }
 
+static int s_pointer = 42;
+
+int*
+yUNIT_testptr           (void)
+{
+   return &s_pointer;
+}
 
 
 /*===[[ END ]]================================================================*/

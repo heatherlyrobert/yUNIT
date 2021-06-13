@@ -27,7 +27,11 @@ struct {
    int         origin;                   /* shared code scription offset      */
    char        debug       [LEN_HUND];   /* display debugging info            */
    char        CUSTOM      [LEN_RECD];   /* holder for custom expect strings  */
-} g;
+   char       *s_rc;
+   long        i_rc;
+   double      r_rc;
+   void       *p_rc;
+} cyUNIT;
 
 
 char    yUNIT_stats   (void);
@@ -73,15 +77,15 @@ char
 yUNIT_init              (void)
 {
    /*---(display)-----------*/
-   g.eterm   = 'y';
-   g.level   = YUNIT_FULL;
+   cyUNIT.eterm   = 'y';
+   cyUNIT.level   = YUNIT_FULL;
    /*---(filters)-----------*/
-   g.exec    = 1;
-   g.scrp    = 0;
-   g.cond    = 0;
+   cyUNIT.exec    = 1;
+   cyUNIT.scrp    = 0;
+   cyUNIT.cond    = 0;
    /*---(helpers)-----------*/
-   g.offset  = 0;
-   g.origin  = 0;
+   cyUNIT.offset  = 0;
+   cyUNIT.origin  = 0;
    /*---(stats)-------------*/
    yUNIT_stats ();
    /*---(complete)----------*/
@@ -112,25 +116,25 @@ yUNIT_args              (int a_argc, char *a_argv[])
       else if (strcmp (a, "--full"      )  == 0)      v = 5;
       else if (strcmp (a, "--loud"      )  == 0)      v = 5;
       /*---(information)------------------*/
-      else if (strcmp (a, "--scrps"     )  == 0)    { g.exec = 0; v = 2; }
-      else if (strcmp (a, "--conds"     )  == 0)    { g.exec = 0; v = 3; }
-      else if (strcmp (a, "--steps"     )  == 0)    { g.exec = 0; v = 4; }
+      else if (strcmp (a, "--scrps"     )  == 0)    { cyUNIT.exec = 0; v = 2; }
+      else if (strcmp (a, "--conds"     )  == 0)    { cyUNIT.exec = 0; v = 3; }
+      else if (strcmp (a, "--steps"     )  == 0)    { cyUNIT.exec = 0; v = 4; }
       /*> else if (strcmp (a, "--stats"     )  == 0)      UNIT_stats ();              <*/
       /*---(help)-------------------------*/
       /*> else if (strcmp (a, "--help"      )  == 0)      UNIT_usage ();              <*/
       /*---(fomatting)--------------------*/
-      else if (strcmp (a, "--console"   )  == 0)      g.eterm = '-';
-      else if (strcmp (a, "--eterm"     )  == 0)      g.eterm = 'y';
+      else if (strcmp (a, "--console"   )  == 0)      cyUNIT.eterm = '-';
+      else if (strcmp (a, "--eterm"     )  == 0)      cyUNIT.eterm = 'y';
       /*---(scope)------------------------*/
-      else if (strcmp (a, "--all"       )  == 0)      { g.scrp = g.cond = 0; }
+      else if (strcmp (a, "--all"       )  == 0)      { cyUNIT.scrp = cyUNIT.cond = 0; }
       else if (l == 2) {
-          g.scrp = atoi(a);
+          cyUNIT.scrp = atoi(a);
       }
       else if (l == 6 && (a[2] == '.' || a[2] == '-'))    {
           sprintf (x_temp, "%%c%%c", a[0], a[1]);
-          g.scrp = atoi (x_temp);
+          cyUNIT.scrp = atoi (x_temp);
           sprintf (x_temp, "%%c%%c%%c", a[3], a[4], a[5]);
-          g.cond = atoi (x_temp);
+          cyUNIT.cond = atoi (x_temp);
           v = 3;
       }
       else {
@@ -144,8 +148,18 @@ yUNIT_args              (int a_argc, char *a_argv[])
          printf("FATAL, exiting\n");
          exit (-1);
    }
-   g.level = v;
+   cyUNIT.level = v;
    /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+yUNIT_reset_rc          (void)
+{
+   cyUNIT.s_rc  = NULL;
+   cyUNIT.i_rc  = 0;
+   cyUNIT.r_rc  = 0.0;
+   cyUNIT.p_rc  = NULL;
    return 0;
 }
 

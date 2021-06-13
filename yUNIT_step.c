@@ -60,7 +60,7 @@ yunit_colors            (char a_type, char *a_on, char *a_on2, char *a_off)
    case TYPE_GLOBAL: case TYPE_LABOLG: case TYPE_GOND  :
       strcpy (a_on , BACK_BLU);
       break;
-   case TYPE_MODE  : case TYPE_CODE  : case TYPE_LOAD  : case TYPE_SYSTEM :
+   case TYPE_MODE  : case TYPE_LOCAL : case TYPE_CODE  : case TYPE_LOAD  : case TYPE_SYSTEM :
       strcpy (a_on , BACK_CYN);
       break;
    case TYPE_TINU  :
@@ -238,7 +238,7 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
       else         sprintf (t, "%63.63s", x_desc);
       sprintf (s_print, "  %sLABOLG (%c) ===-%s--===%s", x_on, a_seqn, t, x_off);
       break;
-   case TYPE_CODE  : case TYPE_LOAD  : case TYPE_MODE  :
+   case TYPE_LOCAL : case TYPE_CODE  : case TYPE_LOAD  : case TYPE_MODE  :
       ++l;
       ++COND_VOID;
       snprintf (t      , LEN_HUND, "%s %s", x_desc, STR_ESTEP + l);

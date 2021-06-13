@@ -31,8 +31,8 @@
 
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1l"
-#define     P_VERTXT    "updated to handle mode, load, and code more accurately as voids"
+#define     P_VERNUM    "2.1m"
+#define     P_VERTXT    "small fix for load string to show with ¦ rather than <cr>"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -95,6 +95,7 @@
 #define     TYPE_MODE        'm'
 #define     TYPE_LOAD        'l'
 #define     TYPE_CODE        'c'
+#define     TYPE_LOCAL       'L'
 #define     TYPE_SYSTEM      's'
 
 

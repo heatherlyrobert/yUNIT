@@ -41,7 +41,6 @@ yUNIT_mode_reset        (void)
    return 0;
 }
 
-
 char
 yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec)
 {
@@ -62,31 +61,55 @@ yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, c
 }
 
 char
+yUNIT_local             (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec)
+{
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "LOCAL" , a_desc);
+   /*---(dispaly)------------------------*/
+   ++COND_TEST;
+   yunit_result (0, YUNIT_VOID);
+   yunit_header (TYPE_LOCAL, a_line, a_seqn, "LOCAL" , a_desc);
+   IF_STEP {
+      yunit_printf  ("\n");
+      yunit_printf  ("%s\n", s_print);
+      sprintf (s_suffix , "      local  : %2d[%.65s]", strlen (a_code), a_code);
+      IF_FULL  yunit_printf  ("%s\n", s_suffix);
+   }
+   /*---(complete)---------------------*/
+   return 0;
+}
+
+char
 yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd, char a_exec)
 {
    int       x_flags = 0;         /* stdin file flags                         */
    int       i       = 0;
    int       x_ch    = 0;
    char        x_meth      [LEN_LABEL] = "???";
-   char        x_data      [LEN_RECD]  = "";
+   char        x_recd      [LEN_RECD]  = "";
+   char        x_disp      [LEN_RECD]  = "";
+   int         l           =   0;
    /*---(display only)---------------------------*/
    if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "LOAD"  , a_desc);
    /*---(display)------------------------*/
    ++COND_TEST;
    yunit_result (0, YUNIT_VOID);
    if (a_meth != NULL)   strncpy (x_meth, a_meth, LEN_RECD);
-   if (a_recd != NULL)   strncpy (x_data, a_recd, LEN_RECD);
+   if (a_recd != NULL)   strncpy (x_recd, a_recd, LEN_RECD);
    yunit_header (TYPE_LOAD, a_line, a_seqn, "LOAD"  , a_desc);
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
-      sprintf (s_suffix , "      %-7.7s: %2d[%.65s]", a_meth, strlen (a_recd), a_recd);
+      strncpy (x_disp, x_recd, LEN_RECD);
+      l = strlen (x_disp);
+      for (i = 0; i < l; ++i)  if (x_disp [i] == '\n')  x_disp [i] = '¦';
+      sprintf (s_suffix , "      %-7.7s: %2d[%.65s]", a_meth, l, x_disp);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(normal stdin)-----------------*/
    if (strcmp (x_meth, "stdin") == 0) {
-      for (i = strlen (a_recd) - 1; i >= 0; --i) {
-         ungetc (a_recd [i], stdin);
+      for (i = strlen (x_recd) - 1; i >= 0; --i) {
+         ungetc (x_recd [i], stdin);
       }
    }
    /*---(ncurses input)----------------*/
@@ -94,9 +117,9 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       while (x_ch = getch ()) {
          if (x_ch < 0)  break;
       }
-      if (strlen (a_recd) > 0) {
-         for (i = strlen (a_recd) - 1; i >= 0; --i) {
-            ungetch (a_recd [i]);
+      if (strlen (x_recd) > 0) {
+         for (i = strlen (x_recd) - 1; i >= 0; --i) {
+            ungetch (x_recd [i]);
          }
       }
    }
@@ -106,7 +129,7 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       if (yUNIT_stdin != NULL) fclose(yUNIT_stdin);
       /*---(write new data)------------*/
       yUNIT_stdin = fopen(STDIN, "a");
-      IF_FULL  yunit_printf  ("%s\n", a_recd);
+      IF_FULL  yunit_printf  ("%s\n", x_recd);
       fclose  (yUNIT_stdin);
       /*---(reopen for next steps)-----*/
       yUNIT_stdin = fopen(STDIN, "r");

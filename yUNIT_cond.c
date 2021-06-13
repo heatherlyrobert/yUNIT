@@ -19,8 +19,8 @@ yUNIT_cond              (int a_line, int a_seqn, char a_share, cchar *a_desc)
    /*---(print message)----------------*/
    if (a_share == '-') {
       yunit_header (TYPE_COND, a_line, a_seqn, NULL, a_desc);
-   } else if (a_share >=0 && a_share <= 9) {
-      sprintf (t, "(%c)", a_share + '0');
+   } else if (a_share >= ' ' && a_share <= ')') {
+      sprintf (t, "(%c)", a_share - ' ' + '0');
       yunit_header (TYPE_CCND, a_line, a_seqn, t   , a_desc);
    } else if (strchr (LTRS_NUMBER, a_share) != NULL) {
       sprintf (t, "(%c)", a_share);
