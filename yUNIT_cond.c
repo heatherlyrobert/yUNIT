@@ -22,7 +22,7 @@ yUNIT_cond              (int a_line, int a_seqn, char a_share, cchar *a_desc)
    } else if (a_share >= ' ' && a_share <= ')') {
       sprintf (t, "(%c)", a_share - ' ' + '0');
       yunit_header (TYPE_CCND, a_line, a_seqn, t   , a_desc);
-   } else if (strchr (LTRS_NUMBER, a_share) != NULL) {
+   } else if (strchr (YSTR_NUMBER, a_share) != NULL) {
       sprintf (t, "(%c)", a_share);
       yunit_header (TYPE_DOND, a_line, a_seqn, t   , a_desc);
    } else if (a_share == tolower (a_share)) {

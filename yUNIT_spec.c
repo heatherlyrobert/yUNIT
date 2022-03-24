@@ -3,6 +3,9 @@
 
 
 
+static uchar  s_file      [LEN_HUND] = "";
+
+
 
 /*====================------------------------------------====================*/
 /*===----                       specialty-level                        ----===*/
@@ -133,6 +136,71 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       fclose  (yUNIT_stdin);
       /*---(reopen for next steps)-----*/
       yUNIT_stdin = fopen(STDIN, "r");
+   }
+   /*---(complete)---------------------*/
+   return 0;
+}
+
+char
+yUNIT_file              (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, char a_exec)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
+   char        x_resu      =    0;
+   FILE       *x_file      = NULL;
+   /*---(display only)-------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "FILE"  , a_desc);
+   /*---(open/freshen file)--------------*/
+   x_file = fopen (a_recd, "wt");
+   if   (x_file != NULL)  {
+      x_resu = YUNIT_SUCC; /* ++COND_PASS; */
+      fprintf (x_file, "");
+      close   (x_file);
+      fflush  (x_file);
+      strlcpy (s_file, a_recd, LEN_HUND);
+   }
+   else  { x_resu = YUNIT_FAIL; /* ++COND_FAIL; */ }
+   /*---(display)------------------------*/
+   ++COND_TEST;
+   yunit_result (0, YUNIT_VOID);
+   yunit_header (TYPE_FILE, a_line, a_seqn, "FILE"  , a_desc);
+   IF_STEP {
+      yunit_printf  ("\n");
+      yunit_printf  ("%s\n", s_print);
+      sprintf (s_suffix , "      file   : %2d[%.65s]", strlen (a_recd), a_recd);
+      IF_FULL  yunit_printf  ("%s\n", s_suffix);
+   }
+   /*---(complete)---------------------*/
+   return 0;
+}
+
+char
+yUNIT_append            (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, char a_exec)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
+   char        x_resu      =    0;
+   FILE       *x_file      = NULL;
+   /*---(display only)-------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "FILE"  , a_desc);
+   /*---(open/freshen file)--------------*/
+   x_file = fopen (s_file, "at");
+   if (x_file != NULL) {
+      x_resu = YUNIT_SUCC;
+      fprintf (x_file, "%s\n", a_recd);
+      close   (x_file);
+      fflush  (x_file);
+   }
+   else if (rc <   0  )  { x_resu = YUNIT_FAIL; /* ++COND_FAIL; */ }
+   /*---(display)------------------------*/
+   ++COND_TEST;
+   yunit_result (0, YUNIT_VOID);
+   yunit_header (TYPE_FILE, a_line, a_seqn, "FILE"  , a_desc);
+   IF_STEP {
+      yunit_printf  ("\n");
+      yunit_printf  ("%s\n", s_print);
+      sprintf (s_suffix , "      file   : %2d[%.65s]", strlen (a_recd), a_recd);
+      IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/
    return 0;

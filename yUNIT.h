@@ -346,6 +346,8 @@ char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char
 char        yUNIT_local             (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
 char        yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
 char        yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd, char a_exec);
+char        yUNIT_file              (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, char a_exec);
+char        yUNIT_append            (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, char a_exec);
 char        yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_disp, cchar *a_cmd, char a_exec);
 char*       yUNIT_read              (cchar *a_name, int n, int *c);
 
