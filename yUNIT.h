@@ -323,7 +323,7 @@ char        yUNIT_tinu              (cchar a_exec);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_sect              (cchar *a_desc);
-char        yUNIT_scrp              (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_focu);
+char        yUNIT_scrp              (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_dur, cchar *a_terse, cchar *a_focu);
 char        yUNIT_prcs              (cchar a_exec);
 
 

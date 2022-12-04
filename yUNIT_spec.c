@@ -157,7 +157,7 @@ yUNIT_file              (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
       fprintf (x_file, "");
       close   (x_file);
       fflush  (x_file);
-      strlcpy (s_file, a_recd, LEN_HUND);
+      strncpy (s_file, a_recd, LEN_HUND);
    }
    else  { x_resu = YUNIT_FAIL; /* ++COND_FAIL; */ }
    /*---(display)------------------------*/

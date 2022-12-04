@@ -1,44 +1,49 @@
 
 
 
-/*===[[ 25 ONE_LINERS ]]======================================================*/
-/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
+/*===[[ 27 ONE_LINERS ]]======================================================*/
 
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*········· ··········· ´·····························´········································*/
 #define     P_FOCUS     "PS (programming support)"
 #define     P_NICHE     "st (software testing)"
 #define     P_SUBJECT   "automated unit testing"
 #define     P_PURPOSE   "provide consistent automated unit testing framework"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_NAMESAKE  "daktyloi-aeonius (forefinger)"
-#define     P_HERITAGE  "idaeoan daktyls numbered five, the original metalsimths"
+#define     P_PRONOUNCE "dahk·tee·loi ay·ohn·ee·uhs"
+#define     P_HERITAGE  "idaeoan daktyls numbered five, the original metalsmiths"
+#define     P_BRIEFLY   "the little metalsmiths"
 #define     P_IMAGERY   "rustic, titan spirit-men who protected the infant zeus"
 #define     P_REASON    "daktyloi are the original metal smiths and forgers of tools"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
-
+/*········· ··········· ´·····························´········································*/
+#define     P_HOMEDIR   "/home/system/yUNIT.unit_testing_library"
 #define     P_BASENAME  "libyUNIT.so"
 #define     P_FULLPATH  "/usr/local/lib64/libyUNIT.so"
 #define     P_SUFFIX    "urun"
 #define     P_CONTENT   "unit test results"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
+#define     P_COMPILER  "gcc 5.3.0"
 #define     P_CODESIZE  "small       (appoximately 1,000 slocl)"
 #define     P_DEPENDS   "yLOG,yURG,yVAR,ySTR"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2008-08"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1n"
-#define     P_VERTXT    "added <file> and <append> verbs to aid test file creation"
-
+#define     P_VERNUM    "2.1o"
+#define     P_VERTXT    "added duration and terse tag to script"
+/*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
-
-/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
+/*········· ··········· ´·····························´········································*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
 
 /*
  * the five daktyloi

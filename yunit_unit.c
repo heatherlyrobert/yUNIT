@@ -157,7 +157,7 @@ yunit__unit_scrp         (void)
    yUNIT_mincond ("basic script line");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              , 1), 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "0s", "terse"    , "first script"              , 1), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [00] first script =======================================================[00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
    yUNIT_minstr ("... check (1) empty line"           , yUNIT_read (myUNIT.name, 1, &c), "");
@@ -171,7 +171,7 @@ yunit__unit_scrp         (void)
    yUNIT_mincond ("basic script line");
    yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_COND, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              , 1), 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "0s", "terse"    , "first script"              , 1), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [00] first script =======================================================[00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
    yUNIT_minstr ("... check (1) empty line"           , yUNIT_read (myUNIT.name, 1, &c), "");
@@ -184,7 +184,7 @@ yunit__unit_scrp         (void)
    yUNIT_mincond ("basic script line");
    yUNIT_minval ("create a unit on scrp output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_SCRP, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              , 1), 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "0s", "terse"    , "first script"              , 1), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [00] first script =======================================================[00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
    yUNIT_minstr ("... check (1) header line"          , yUNIT_read (myUNIT.name, 1, &c), "SCRP [00] first script =======================================================[00954]");
@@ -195,7 +195,7 @@ yunit__unit_scrp         (void)
    yUNIT_mincond ("basic script line");
    yUNIT_minval ("create a unit on summ/mute output"  , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_SUMM, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              , 1), 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "0s", "terse"    , "first script"              , 1), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [00] first script =======================================================[00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
    yUNIT_minval ("... check line count"               , c                       , 0);
@@ -205,7 +205,7 @@ yunit__unit_scrp         (void)
    yUNIT_mincond ("basic script line");
    yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              , 1), 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "0s", "terse"    , "first script"              , 1), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [00] first script =======================================================[00954]");
    yUNIT_minstr ("... check (0) empty line"           , yUNIT_read (myUNIT.name, 0, &c), "");
    yUNIT_minstr ("... check (1) empty line"           , yUNIT_read (myUNIT.name, 1, &c), "");
@@ -219,11 +219,11 @@ yunit__unit_scrp         (void)
    yUNIT_mincond ("basic script line");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   306,  10, "function"          , "second"                    , 1), 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   306,  10, "function"          , "0s", "terse"    , "second"                    , 1), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [10] second =============================================================[00306]");
-   yUNIT_minval ("call with out of range values"      , yUNIT_scrp  (    -1,  -1, "function"          , NULL                        , 1), 0);
+   yUNIT_minval ("call with out of range values"      , yUNIT_scrp  (    -1,  -1, "function"          , "0s", "terse"    , NULL                        , 1), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [00] ??? ================================================================[00000]");
-   yUNIT_minval ("call with out of range values"      , yUNIT_scrp  (100000, 100, "function"          , NULL                        , 1), 0);
+   yUNIT_minval ("call with out of range values"      , yUNIT_scrp  (100000, 100, "function"          , "0s", "terse"    , NULL                        , 1), 0);
    yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [99] ??? ================================================================[99999]");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc ();
@@ -1240,7 +1240,7 @@ yunit__unit_cascade      (void)
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("script one");
-   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              , 1), 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "0s", "terse"    , "first script"              , 1), 0);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("1st condition");
@@ -1268,7 +1268,7 @@ yunit__unit_cascade      (void)
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("script two");
-   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "first script"              , 1), 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   0, "function"          , "0s", "terse"    , "first script"              , 1), 0);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("1st condition");
