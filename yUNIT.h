@@ -302,10 +302,10 @@
 
 /*===[[ RETURN VALUE HOLDERS ]]===============================================*/
 
-void     *yUNIT_p_rc;
-long      yUNIT_i_rc;
-double    yUNIT_r_rc;
-char     *yUNIT_s_rc;
+extern void     *yUNIT_p_rc;
+extern long      yUNIT_i_rc;
+extern double    yUNIT_r_rc;
+extern char     *yUNIT_s_rc;
 
 typedef const char   cchar;
 typedef const void   cvoid;
@@ -373,6 +373,7 @@ char        yUNIT_user_add          (cchar *a_name, cchar *a_pass, cchar *a_shel
 char        yUNIT_usage             (void);
 char        yUNIT_args              (int a_argc, char *a_argv[]);
 char        yUNIT_reset_rc          (void);
+char        yUNIT_run_scrp          (char a_scrp);
 
 
 /*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/

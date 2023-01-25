@@ -191,15 +191,16 @@ yUNIT_append            (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
       close   (x_file);
       fflush  (x_file);
    }
-   else if (rc <   0  )  { x_resu = YUNIT_FAIL; /* ++COND_FAIL; */ }
+   else { x_resu = YUNIT_FAIL; /* ++COND_FAIL; */ }
    /*---(display)------------------------*/
    ++COND_TEST;
-   yunit_result (0, YUNIT_VOID);
-   yunit_header (TYPE_FILE, a_line, a_seqn, "FILE"  , a_desc);
+   yunit_result (0, x_resu);
+   /*> yunit_result (0, YUNIT_VOID);                                                  <*/
+   yunit_header (TYPE_FILE, a_line, a_seqn, "APPEND", a_desc);
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
-      sprintf (s_suffix , "      file   : %2d[%.65s]", strlen (a_recd), a_recd);
+      sprintf (s_suffix , "      recd   : %2d[%.65s]", strlen (a_recd), a_recd);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/

@@ -1,6 +1,11 @@
 #include "yUNIT.h"
 #include "yUNIT_priv.h"
 
+void     *yUNIT_p_rc;
+long      yUNIT_i_rc;
+double    yUNIT_r_rc;
+char     *yUNIT_s_rc;
+char      yUNIT_systext [1000];
 
 
 tUNIT   myUNIT;

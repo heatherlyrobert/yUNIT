@@ -36,8 +36,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1o"
-#define     P_VERTXT    "added duration and terse tag to script"
+#define     P_VERNUM    "2.1p"
+#define     P_VERTXT    "added running range and list of scripts vs just one"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -122,7 +122,7 @@ extern char        unit_answer [LEN_RECD];
 
 extern    FILE     *yUNIT_stdin;
 #define   STDIN          "yUNIT.stdin"
-char      yUNIT_systext [1000];
+extern  char      yUNIT_systext [1000];
 
 extern FILE     *yUNIT_stdin;
 extern FILE     *yUNIT_out;
