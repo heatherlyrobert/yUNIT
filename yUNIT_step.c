@@ -468,6 +468,16 @@ yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
+yUNIT_wrap              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec)
+{
+   char        x_test      [LEN_LABEL] = "";
+   char        x_actu      [LEN_RECD]  = "";
+   sprintf (x_test, "s_%s", a_test + 2);
+   sprintf (x_actu, "å%sæ", a_actu);
+   return yUNIT_string (a_line, a_seqn, a_desc, a_meth, a_args, x_test, a_expe, x_actu, a_exec);
+}
+
+char
 yUNIT_round             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec)
 {
    /*---(display only)---------------------------*/

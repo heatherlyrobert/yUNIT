@@ -92,8 +92,8 @@ yUNIT_init              (void)
    /*---(stats)-------------*/
    yUNIT_stats ();
    /*---(scripts)-----------*/
-   for (j = 0; j < LEN_HUND; ++j)  cyUNIT.scrps [j] = '-';
-   cyUNIT.all     = 0;
+   for (j = 0; j < LEN_HUND; ++j)  cyUNIT.scrps [j] = 'y';
+   cyUNIT.all     = 1;
    /*---(complete)----------*/
    return 0;
 }
@@ -147,7 +147,6 @@ yUNIT_args              (int a_argc, char *a_argv[])
       else if (strcmp (a, "--all"       )  == 0)  {
          cyUNIT.all     = 1;
          for (j = 0; j < LEN_HUND; ++j)  cyUNIT.scrps [j] = 'y';
-
       }
       else if (l == 2) {
          cyUNIT.all  = 0;
