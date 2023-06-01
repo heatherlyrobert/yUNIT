@@ -148,6 +148,7 @@ yUNIT_file              (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    char        rc          =    0;
    char        x_resu      =    0;
    FILE       *x_file      = NULL;
+   int         x_error     =    0;
    /*---(display only)-------------------*/
    if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "FILE"  , a_desc);
    /*---(open/freshen file)--------------*/
@@ -155,11 +156,15 @@ yUNIT_file              (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    if   (x_file != NULL)  {
       x_resu = YUNIT_SUCC; /* ++COND_PASS; */
       fprintf (x_file, "");
-      close   (x_file);
+      fclose  (x_file);
       fflush  (x_file);
       strncpy (s_file, a_recd, LEN_HUND);
    }
-   else  { x_resu = YUNIT_FAIL; /* ++COND_FAIL; */ }
+   else  {
+      x_resu = YUNIT_FAIL; /* ++COND_FAIL; */
+      x_error = errno;
+      printf ("%d, %s\n", x_error, strerror (x_error));
+   }
    /*---(display)------------------------*/
    ++COND_TEST;
    yunit_result (0, YUNIT_VOID);
@@ -181,17 +186,22 @@ yUNIT_append            (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    char        rc          =    0;
    char        x_resu      =    0;
    FILE       *x_file      = NULL;
+   int         x_error     =    0;
    /*---(display only)-------------------*/
    if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "FILE"  , a_desc);
    /*---(open/freshen file)--------------*/
    x_file = fopen (s_file, "at");
+   /*> printf ("å%-45.40sæ  %p   å%sæ\n", s_file, x_file, a_recd);                    <*/
    if (x_file != NULL) {
       x_resu = YUNIT_SUCC;
       fprintf (x_file, "%s\n", a_recd);
-      close   (x_file);
+      fclose  (x_file);
       fflush  (x_file);
+   } else {
+      x_resu = YUNIT_FAIL; /* ++COND_FAIL; */
+      x_error = errno;
+      printf ("%d, %s\n", x_error, strerror (x_error));
    }
-   else { x_resu = YUNIT_FAIL; /* ++COND_FAIL; */ }
    /*---(display)------------------------*/
    ++COND_TEST;
    yunit_result (0, x_resu);

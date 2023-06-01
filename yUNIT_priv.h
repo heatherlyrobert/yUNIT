@@ -36,8 +36,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1q"
-#define     P_VERTXT    "small change to have wrap å...æ string tests to verify spaces"
+#define     P_VERNUM    "2.1r"
+#define     P_VERTXT    "small trouble in file/append, used close vs fclose (ouch)"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -63,6 +63,8 @@
 #include    <memory.h>       /* malloc(), free()                                 */
 #include    <fcntl.h>              /* clibc standard file control              */
 #include    <stdarg.h>              /* CLIBC   variable argument handling     */
+#include    <errno.h>               /* CLIBC   standard library error codes   */
+#include    <error.h>               /* CLIBC   standard library error codes   */
 
 /*> #include <curses.h>       /+ getch, ungetch                                   +/   <*/
 
