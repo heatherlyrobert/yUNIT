@@ -36,8 +36,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.1-, improve and expand"
-#define     P_VERNUM    "2.1r"
-#define     P_VERTXT    "small trouble in file/append, used close vs fclose (ouch)"
+#define     P_VERNUM    "2.1s"
+#define     P_VERTXT    "added yUNIT_minpoint for yUNIT_solo for use in koios testing"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

@@ -97,6 +97,45 @@ yunit_minval            (int a_line, char *a_desc, int a_act, int a_exp)
 #define  yUNIT_minval(a,b,c)    yunit_minval(__LINE__,a,b,c)
 
 static char
+yunit_minpoint          (int a_line, char *a_desc, void *a_act, void *a_exp)
+{
+   char        x_res       =  '-';
+   char        x_note      [10] = "FAIL";
+   char        x_on        [10] = BACK_RED;
+   char        t           [LEN_RECD]  = "";
+   char       *x_fill      = ".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ";
+   int         l           = 0;
+   ++s_conda;
+   ++s_scrpa;
+   ++s_unita;
+   if (a_act == 0 && a_exp == NULL) {
+      strcpy (x_note, "PASS");
+      strcpy (x_on, BACK_GRN);
+      x_res = 'Y';
+      ++s_condg;
+      ++s_scrpg;
+      ++s_unitg;
+   }
+   else if (a_act != 0 && a_exp != NULL) {
+      strcpy (x_note, "PASS");
+      strcpy (x_on, BACK_GRN);
+      x_res = 'Y';
+      ++s_condg;
+      ++s_scrpg;
+      ++s_unitg;
+   }
+   l = strlen (a_desc) + 1;
+   sprintf (t, "%s %s", a_desc, x_fill + l);
+   printf ("  %s%02d) %-6.6s%s : %-57.57s [%05d]\n", x_on, ++s_stepn, x_note, BACK_OFF, t, a_line);
+   printf ("      expect : %d\n", a_exp);
+   printf ("      actual : %d\n", a_act);
+   printf ("\n");
+   return 0;
+}
+
+#define  yUNIT_minpoint(a,b,c)    yunit_minpoint(__LINE__,a,b,c)
+
+static char
 yunit_minstr            (int a_line, char *a_desc, char *a_act, char *a_exp)
 {
    char        x_res       =  '-';
