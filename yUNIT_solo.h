@@ -7,6 +7,7 @@ static void      o___MINI_UNIT_______________o (void) {;}
 
 static int         s_stepn     = 0;
 
+static int         s_condt     = 0;
 static int         s_condn     = 0;
 static int         s_conda     = 0;
 static int         s_condg     = 0;
@@ -108,7 +109,7 @@ yunit_minpoint          (int a_line, char *a_desc, void *a_act, void *a_exp)
    ++s_conda;
    ++s_scrpa;
    ++s_unita;
-   if (a_act == 0 && a_exp == NULL) {
+   if (a_exp == 0 && a_act == NULL) {
       strcpy (x_note, "PASS");
       strcpy (x_on, BACK_GRN);
       x_res = 'Y';
@@ -116,7 +117,15 @@ yunit_minpoint          (int a_line, char *a_desc, void *a_act, void *a_exp)
       ++s_scrpg;
       ++s_unitg;
    }
-   else if (a_act != 0 && a_exp != NULL) {
+   else if (a_exp == 1 && a_act != NULL) {
+      strcpy (x_note, "PASS");
+      strcpy (x_on, BACK_GRN);
+      x_res = 'Y';
+      ++s_condg;
+      ++s_scrpg;
+      ++s_unitg;
+   }
+   else if (a_exp > 1 && a_exp == a_act) {
       strcpy (x_note, "PASS");
       strcpy (x_on, BACK_GRN);
       x_res = 'Y';
@@ -127,8 +136,8 @@ yunit_minpoint          (int a_line, char *a_desc, void *a_act, void *a_exp)
    l = strlen (a_desc) + 1;
    sprintf (t, "%s %s", a_desc, x_fill + l);
    printf ("  %s%02d) %-6.6s%s : %-57.57s [%05d]\n", x_on, ++s_stepn, x_note, BACK_OFF, t, a_line);
-   printf ("      expect : %d\n", a_exp);
-   printf ("      actual : %d\n", a_act);
+   printf ("      expect : %p\n", a_exp);
+   printf ("      actual : %p\n", a_act);
    printf ("\n");
    return 0;
 }
@@ -191,6 +200,7 @@ yunit_mincond           (int a_line, char *a_desc)
    sprintf (t, "%s %s", a_desc, x_fill + l);
    printf ("  COND [%03d] %60.60s[%05d]\n", ++s_condn, t, a_line);
    printf ("\n");
+   ++s_condt;
    s_conda = s_condg = 0;
    s_stepn = 0;
    return 0;
@@ -207,7 +217,7 @@ yUNIT_mindnoc           (void)
       strcpy (t   , "PASS");
       strcpy (x_on, BACK_GRN);
    }
-   printf ("      %sDNOC  test %4d, pass %4d, fail %4d ====================================%s\n", x_on, s_conda, s_condg, s_conda - s_condg, BACK_OFF);
+   printf ("      %sDNOC  scrp ··, cond ···, test %4d, pass %4d, fail %4d =================%s\n", x_on, s_conda, s_condg, s_conda - s_condg, BACK_OFF);
    printf ("\n\n");
    return 0;
 }
@@ -221,7 +231,7 @@ yUNIT_minprcs           (void)
       strcpy (t   , "PASS");
       strcpy (x_on, BACK_GRN);
    }
-   printf ("  %sPRCS  test %4d, pass %4d, fail %4d ========================================%s\n", x_on, s_scrpa, s_scrpg, s_scrpa - s_scrpg, BACK_OFF);
+   printf ("  %sPRCS  scrp ··, cond %3d, test %4d, pass %4d, fail %4d =====================%s\n", x_on, s_condn, s_scrpa, s_scrpg, s_scrpa - s_scrpg, BACK_OFF);
    printf ("\n\n");
    return 0;
 }
@@ -235,7 +245,7 @@ yUNIT_mintinu           (void)
       strcpy (t   , "PASS");
       strcpy (x_on, BACK_GRN);
    }
-   printf ("%sTINU  test %4d, pass %4d, fail %4d ==========================================%s\n", x_on, s_unita, s_unitg, s_unita - s_unitg, BACK_OFF);
+   printf ("%sTINU  scrp %2d, cond %3d, test %4d, pass %4d, fail %4d =======================%s\n", x_on, s_scrpn, s_condt, s_unita, s_unitg, s_unita - s_unitg, BACK_OFF);
    printf ("\n\n");
    return 0;
 }
