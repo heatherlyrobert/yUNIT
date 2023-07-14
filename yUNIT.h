@@ -314,7 +314,7 @@ typedef const void   cvoid;
 /*===[[ FUNCTION PROTOTYPES ]]================================================*/
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        yUNIT_unique            (int a_scrp, int a_cond, int a_step);
+char        yUNIT_unique            (int a_nscrp, int a_ncond, int a_nstep, int a_uscrp, int a_ucond, int a_ustep);
 char        yUNIT_level             (cchar a_level, cchar a_quiet);
 char        yUNIT_eterm             (cchar a_eterm, cchar a_quiet);
 char        yUNIT_unit              (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec);

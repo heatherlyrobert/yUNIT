@@ -141,11 +141,14 @@ yunit_cycle        (void)
 static void      o___CONFIG__________________o (void) {;}
 
 char
-yUNIT_unique            (int a_scrp, int a_cond, int a_step)
+yUNIT_unique            (int a_nscrp, int a_ncond, int a_nstep, int a_uscrp, int a_ucond, int a_ustep)
 {
-   myUNIT.nscrp = a_scrp;
-   myUNIT.ncond = a_cond;
-   myUNIT.nstep = a_step;
+   myUNIT.nscrp = a_nscrp;
+   myUNIT.ncond = a_ncond;
+   myUNIT.nstep = a_nstep;
+   myUNIT.uscrp = a_uscrp;
+   myUNIT.ucond = a_ucond;
+   myUNIT.ustep = a_ustep;
    return 0;
 }
 
@@ -153,6 +156,14 @@ char       /*----: change the color level)------------------------------------*/
 yUNIT_eterm             (cchar a_eterm, cchar a_quiet)
 {
    char        t           [LEN_HUND]  = "";
+   char        i           =    0;
+   char        x_all       [LEN_SHORT] = "";
+   char        x_uniq      [LEN_SHORT] = "";
+   /*---(prepare)--------------------------*/
+   snprintf (x_all , LEN_SHORT, "%4d" , myUNIT.nstep);
+   for (i = 0; i < LEN_SHORT; ++i)  if (x_all  [i] == ' ')  x_all  [i] = '·';
+   snprintf (x_uniq, LEN_SHORT, "%4d", myUNIT.ustep);
+   for (i = 0; i < LEN_SHORT; ++i)  if (x_uniq [i] == ' ')  x_uniq [i] = '·';
    /*---(setup verbosity)------------------*/
    if (a_eterm == YUNIT_ETERM)  {
       sprintf (t, "assign format/color to (%c) ETERM", a_eterm);
@@ -165,7 +176,7 @@ yUNIT_eterm             (cchar a_eterm, cchar a_quiet)
       myUNIT.mono  = 1;
       myUNIT.pure  = 1;
    }
-   if (a_quiet != 'y')  IF_COND   yunit_printf ("   %-75.75s %5dx\n", t, myUNIT.nstep);
+   if (a_quiet != 'y')  IF_COND   yunit_printf ("   %-65.65s x ···· %4s %-4s\n", t, x_all, x_uniq);
    return myUNIT.eterm;
 }
 
@@ -173,6 +184,15 @@ char       /*----: change the verbosity level --------------------------------*/
 yUNIT_level             (cchar a_level, cchar a_quiet)
 {
    char        t           [LEN_HUND]  = "";
+   char        i           =    0;
+   char        x_all       [LEN_SHORT] = "";
+   char        x_uniq      [LEN_SHORT] = "";
+   /*---(prepare)--------------------------*/
+   snprintf (x_all , LEN_SHORT, "%4d" , myUNIT.ncond);
+   for (i = 0; i < LEN_SHORT; ++i)  if (x_all  [i] == ' ')  x_all  [i] = '·';
+   snprintf (x_uniq, LEN_SHORT, "%4d", myUNIT.ucond);
+   for (i = 0; i < LEN_SHORT; ++i)  if (x_uniq [i] == ' ')  x_uniq [i] = '·';
+   /*---(setup output level)---------------*/
    if (a_level >= YUNIT_MUTE && a_level <= YUNIT_FULL) myUNIT.level = a_level;
    else                                                myUNIT.level = YUNIT_FULL;
    switch (myUNIT.level) {
@@ -188,7 +208,7 @@ yUNIT_level             (cchar a_level, cchar a_quiet)
       sprintf (t, "assign output level to (%d) YUNIT_FULL", myUNIT.level);
       break;
    }
-   if (a_quiet != 'y' && myUNIT.level > YUNIT_SCRP) yunit_printf ("   %-75.75s %5dc\n", t, myUNIT.ncond);
+   if (a_quiet != 'y' && myUNIT.level > YUNIT_SCRP) yunit_printf ("   %-65.65s c ···· %4s %-4s\n", t, x_all, x_uniq);
    return myUNIT.level;
 }
 
@@ -205,15 +225,32 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        t           [LEN_HUND];
+   char        i           =    0;
+   char        x_all       [LEN_SHORT] = "";
+   char        x_uniq      [LEN_SHORT] = "";
    /*---(defaulting)---------------------*/
    strcpy (s_unit, "");
    /*---(defense)------------------------*/
    --rce;  if (a_name == NULL)  return rce;
    /*---(open output)----------------------*/
    yunit_open (a_name);
+   /*---(prepare)--------------------------*/
+   snprintf (x_all , LEN_SHORT, "%4d" , myUNIT.nscrp);
+   for (i = 0; i < LEN_SHORT; ++i)  if (x_all  [i] == ' ')  x_all  [i] = '·';
+   snprintf (x_uniq, LEN_SHORT, "%4d", myUNIT.uscrp);
+   for (i = 0; i < LEN_SHORT; ++i)  if (x_uniq [i] == ' ')  x_uniq [i] = '·';
    /*---(print header)---------------------*/
-   if (a_level > 1)  yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
-   if (a_level > 2)  yunit_printf ("   patron : %-66.66s %5ds\n", P_ONELINE, myUNIT.nscrp);
+   switch (a_level) {
+   case  1 :
+      break;
+   case  2 :
+      yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
+      break;
+   case  3 : case  4 : case  5 :
+      yunit_printf ("yUNIT - heatherly unit testing framework --------------------------- - actu once ndit\n");
+      yunit_printf ("   patron : %-56.56s s ···· %4s %4s\n"  , P_ONELINE, x_all, x_uniq);
+      break;
+   }
    /*---(reset summary counters)-------*/
    UNIT_SCRP  = UNIT_COND  = UNIT_TEST  = UNIT_PASS  = UNIT_FAIL  = UNIT_BADD  = UNIT_VOID  = 0;
    /*---(setup defaults)-------------------*/
@@ -231,6 +268,8 @@ char       /*----: close a unit test -----------------------------------------*/
 yUNIT_tinu              (cchar a_exec)
 {  /*---(variables)------------------------*/
    int     x_failed  = UNIT_FAIL + UNIT_BADD;
+   char        i           =    0;
+   char        x_stat      [LEN_SHORT] = "";
    /*---(print message)---------------*/
    IF_SCRP   yunit_printf ("\n");
    IF_SCRP {
@@ -251,9 +290,26 @@ yUNIT_tinu              (cchar a_exec)
     *> } else {                                                                                                                                                                                     <* 
     *>    IF_COND   yunit_printf ("\nno memory leak :: start=%p, end=%p\n", myUNIT.is_leak_begin, myUNIT.is_leak_end);                                                                         <* 
     *> }                                                                                                                                                                                            <*/
+   /*---(update header)---------------------*/
+   yunit_close ();
+   if (myUNIT.level >= 3) {
+      yUNIT_out = fopen (myUNIT.name, "r+");
+      snprintf (x_stat, LEN_SHORT, "%4d" , UNIT_SCRP);
+      for (i = 0; i < LEN_SHORT; ++i)  if (x_stat [i] == ' ')  x_stat [i] = '·';
+      fseek (yUNIT_out, (86 * 1) + 71, SEEK_SET);
+      fprintf (yUNIT_out, "%4s", x_stat);
+      snprintf (x_stat, LEN_SHORT, "%4d" , UNIT_COND);
+      for (i = 0; i < LEN_SHORT; ++i)  if (x_stat [i] == ' ')  x_stat [i] = '·';
+      fseek (yUNIT_out, (86 * 2) + 71, SEEK_SET);
+      fprintf (yUNIT_out, "%4s", x_stat);
+      snprintf (x_stat, LEN_SHORT, "%4d" , UNIT_TEST);
+      for (i = 0; i < LEN_SHORT; ++i)  if (x_stat [i] == ' ')  x_stat [i] = '·';
+      fseek (yUNIT_out, (86 * 3) + 71, SEEK_SET);
+      fprintf (yUNIT_out, "%4s", x_stat);
+      yunit_close ();
+   }
    /*---(complete)--------------------------*/
    if (x_failed > 100) x_failed = 100;
-   yunit_close ();
    /*> pr("%d\n", -x_failed);                                                    <*/
    /*> printf ("done, done\n");                                                       <*/
    return -x_failed;
