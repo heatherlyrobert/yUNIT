@@ -36,8 +36,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.2-, tighten and harden"
-#define     P_VERNUM    "2.2c"
-#define     P_VERTXT    "expanded data to unit testing yUNIT_unique"
+#define     P_VERNUM    "2.2d"
+#define     P_VERTXT    "really evil, tiny bug that seqfaulted on chdir in code lines"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

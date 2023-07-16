@@ -586,10 +586,10 @@ yUNIT__recd             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       if (strcmp(x_test, "void") != 0) {
          if (strcmp (x_test, "s_equal") == 0)  l = strlen (s_mask);
          else                                  l = strlen (myUNIT.expe);
-         yunit_printf ("      expect : %2d[%s]\n", l, myUNIT.expe);
+         yunit_printf ("      expect : %2då%sæ\n", l, myUNIT.expe);
          if (strcmp (x_test, "s_equal") == 0)  l = strlen (s_mask);
          else                                  l = strlen (myUNIT.actu);
-         yunit_printf ("      actual : %2d[%s]\n", l, myUNIT.actu);
+         yunit_printf ("      actual : %2då%sæ\n", l, myUNIT.actu);
       } else {
          yunit_printf ("      expect : void\n");
          yunit_printf ("      actual : void\n");

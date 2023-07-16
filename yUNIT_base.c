@@ -45,7 +45,7 @@ yunit_open         (cchar *a_name)
       if (strstr (a_name, ".urun") == NULL)  snprintf (x_name, LEN_HUND, "%s.urun", a_name);
       else                                   strcpy   (x_name, a_name);
    }
-   /*---(ground)-------------------------*/
+   /*---(open)---------------------------*/
    yUNIT_out = fopen (x_name, "wt");
    --rce;  if (yUNIT_out == NULL) {
       return rce;
@@ -228,12 +228,16 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
    char        i           =    0;
    char        x_all       [LEN_SHORT] = "";
    char        x_uniq      [LEN_SHORT] = "";
+   char        x_name      [LEN_PATH]  = "";
    /*---(defaulting)---------------------*/
    strcpy (s_unit, "");
    /*---(defense)------------------------*/
    --rce;  if (a_name == NULL)  return rce;
    /*---(open output)----------------------*/
-   yunit_open (a_name);
+   getcwd (x_name, LEN_PATH);
+   strcat (x_name, "/");
+   strcat (x_name, a_name);
+   yunit_open (x_name);
    /*---(prepare)--------------------------*/
    snprintf (x_all , LEN_SHORT, "%4d" , myUNIT.nscrp);
    for (i = 0; i < LEN_SHORT; ++i)  if (x_all  [i] == ' ')  x_all  [i] = '·';
@@ -291,6 +295,7 @@ yUNIT_tinu              (cchar a_exec)
     *>    IF_COND   yunit_printf ("\nno memory leak :: start=%p, end=%p\n", myUNIT.is_leak_begin, myUNIT.is_leak_end);                                                                         <* 
     *> }                                                                                                                                                                                            <*/
    /*---(update header)---------------------*/
+   fflush (yUNIT_out);
    yunit_close ();
    if (myUNIT.level >= 3) {
       yUNIT_out = fopen (myUNIT.name, "r+");
@@ -306,6 +311,7 @@ yUNIT_tinu              (cchar a_exec)
       for (i = 0; i < LEN_SHORT; ++i)  if (x_stat [i] == ' ')  x_stat [i] = '·';
       fseek (yUNIT_out, (86 * 3) + 71, SEEK_SET);
       fprintf (yUNIT_out, "%4s", x_stat);
+      fflush (yUNIT_out);
       yunit_close ();
    }
    /*---(complete)--------------------------*/

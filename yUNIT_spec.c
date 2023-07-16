@@ -56,7 +56,7 @@ yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, c
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
-      sprintf (s_suffix , "      code   : %2d[%.65s]", strlen (a_code), a_code);
+      sprintf (s_suffix , "      code   : %2då%.65sæ", strlen (a_code), a_code);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/
@@ -75,7 +75,7 @@ yUNIT_local             (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, c
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
-      sprintf (s_suffix , "      local  : %2d[%.65s]", strlen (a_code), a_code);
+      sprintf (s_suffix , "      local  : %2då%.65sæ", strlen (a_code), a_code);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/
@@ -106,7 +106,7 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       strncpy (x_disp, x_recd, LEN_RECD);
       l = strlen (x_disp);
       for (i = 0; i < l; ++i)  if (x_disp [i] == '\n')  x_disp [i] = '¦';
-      sprintf (s_suffix , "      %-7.7s: %2d[%.65s]", a_meth, l, x_disp);
+      sprintf (s_suffix , "      %-7.7s: %2då%.65sæ", a_meth, l, x_disp);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(normal stdin)-----------------*/
@@ -172,7 +172,7 @@ yUNIT_file              (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
-      sprintf (s_suffix , "      file   : %2d[%.65s]", strlen (a_recd), a_recd);
+      sprintf (s_suffix , "      file   : %2då%.65sæ", strlen (a_recd), a_recd);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/
@@ -210,7 +210,7 @@ yUNIT_append            (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
-      sprintf (s_suffix , "      recd   : %2d[%.65s]", strlen (a_recd), a_recd);
+      sprintf (s_suffix , "      recd   : %2då%.65sæ", strlen (a_recd), a_recd);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/
@@ -242,7 +242,7 @@ yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_disp, c
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
-      sprintf (s_suffix , "      system : %2d[%.65s]", strlen (a_disp), a_disp);
+      sprintf (s_suffix , "      system : %2då%.65sæ", strlen (a_disp), a_disp);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
    /*---(complete)---------------------*/
