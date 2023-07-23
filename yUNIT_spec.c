@@ -187,14 +187,19 @@ yUNIT_append            (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    char        x_resu      =    0;
    FILE       *x_file      = NULL;
    int         x_error     =    0;
+   int         l           =    0;
+   int         i           =    0;
+   char        x_recd      [LEN_RECD]  = "";
    /*---(display only)-------------------*/
    if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "FILE"  , a_desc);
    /*---(open/freshen file)--------------*/
    x_file = fopen (s_file, "at");
-   /*> printf ("å%-45.40sæ  %p   å%sæ\n", s_file, x_file, a_recd);                    <*/
    if (x_file != NULL) {
       x_resu = YUNIT_SUCC;
-      fprintf (x_file, "%s\n", a_recd);
+      strcpy (x_recd, a_recd);
+      l = strlen (x_recd);
+      for (i = 0; i < l; ++i)  {  if (x_recd [i] == '²')  x_recd [i] = ' ';  }
+      fprintf (x_file, "%s\n", x_recd);
       fclose  (x_file);
       fflush  (x_file);
    } else {
@@ -205,7 +210,6 @@ yUNIT_append            (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    /*---(display)------------------------*/
    ++COND_TEST;
    yunit_result (0, x_resu);
-   /*> yunit_result (0, YUNIT_VOID);                                                  <*/
    yunit_header (TYPE_FILE, a_line, a_seqn, "APPEND", a_desc);
    IF_STEP {
       yunit_printf  ("\n");
