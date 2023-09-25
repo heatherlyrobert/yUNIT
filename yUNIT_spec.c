@@ -109,9 +109,12 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
       sprintf (s_suffix , "      %-7.7s: %2då%.65sæ", a_meth, l, x_disp);
       IF_FULL  yunit_printf  ("%s\n", s_suffix);
    }
+   /*---(fix record)-------------------*/
+   l = strlen (x_recd) - 1;
+   if (x_recd [l] == '¦') x_recd [l] = '\n';
    /*---(normal stdin)-----------------*/
    if (strcmp (x_meth, "stdin") == 0) {
-      for (i = strlen (x_recd) - 1; i >= 0; --i) {
+      for (i = l; i >= 0; --i) {
          ungetc (x_recd [i], stdin);
       }
    }
@@ -121,7 +124,7 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
          if (x_ch < 0)  break;
       }
       if (strlen (x_recd) > 0) {
-         for (i = strlen (x_recd) - 1; i >= 0; --i) {
+         for (i = l; i >= 0; --i) {
             ungetch (x_recd [i]);
          }
       }
