@@ -36,8 +36,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.2-, tighten and harden"
-#define     P_VERNUM    "2.2f"
-#define     P_VERTXT    "minor fix to yUNIT_load to handle line end ¦ vs just standard newlines"
+#define     P_VERNUM    "2.2g"
+#define     P_VERTXT    "minor fix so w_equal shows ascii field delimiters as §"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -71,7 +71,7 @@
 #include    <yVAR.h>
 #include    <yURG.h>
 #include    <ySTR_solo.h>
-#include    <yCOLOR_solo.h>
+#include    <yURG_solo.h>
 #include    "yUNIT.h"
 
 
