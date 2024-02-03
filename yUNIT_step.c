@@ -350,7 +350,33 @@ yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
 }
 
 char
-yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, long long a_expe, long long a_actu, char a_exec)
+yUNIT_char              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, uchar a_expe, uchar a_actu, char a_exec)
+{
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "char"  , a_desc);
+   /*---(prepare)--------------------------------*/
+   s_resu  =  YUNIT_FAIL;
+   s_code  = -1;
+   /*---(do the comparisons)---------------------*/
+   if (strstr(a_test, "c_") != NULL) {
+      s_code = yVAR_char (a_test, a_expe, a_actu);
+      if      (s_code >   0 ) s_resu = YUNIT_SUCC;
+      else if (s_code == '¢') s_resu = YUNIT_WARN;
+   } else {
+      s_resu = YUNIT_WARN;
+   }
+   /*---(save return)----------------------------*/
+   yUNIT_i_rc = a_actu;
+   /*---(record the key data)--------------------*/
+   snprintf (myUNIT.expe, LEN_RECD, "%c", a_expe);
+   snprintf (myUNIT.actu, LEN_RECD, "%c", a_actu);
+   yUNIT__recd (a_line, a_seqn, a_desc, a_meth, a_args, a_test);
+   /*---(complete)-------------------------------*/
+   return 0;
+}
+
+char
+yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, llong a_expe, llong a_actu, char a_exec)
 {
    /*---(display only)---------------------------*/
    if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "int"   , a_desc);

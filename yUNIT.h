@@ -307,8 +307,10 @@ extern long      yUNIT_i_rc;
 extern double    yUNIT_r_rc;
 extern char     *yUNIT_s_rc;
 
-typedef const char   cchar;
-typedef const void   cvoid;
+typedef unsigned char   uchar;
+typedef const char      cchar;
+typedef const void      cvoid;
+typedef long long       llong;
 
 
 /*===[[ FUNCTION PROTOTYPES ]]================================================*/
@@ -354,7 +356,8 @@ char*       yUNIT_read              (cchar *a_name, int n, int *c);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_void              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char a_exec);
-char        yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, long long a_expe, long long a_actu, char a_exec);
+char        yUNIT_char              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, uchar a_expe, uchar a_actu, char a_exec);
+char        yUNIT_int               (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, llong a_expe, llong a_actu, char a_exec);
 char        yUNIT_real              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, double a_expe, double a_actu, char a_exec);
 char        yUNIT_point             (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, void *a_expe, void *a_actu, char a_exec);
 char        yUNIT_string            (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_args, cchar *a_test, char *a_expe, char *a_actu, char a_exec);
