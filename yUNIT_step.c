@@ -365,6 +365,7 @@ yUNIT_char              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    } else {
       s_resu = YUNIT_WARN;
    }
+   /*> printf ("%-12.12s  %4d  %4d  %4d  %4d\n", a_test, a_expe, a_actu, s_code, s_resu);   <*/
    /*---(save return)----------------------------*/
    yUNIT_i_rc = a_actu;
    /*---(record the key data)--------------------*/
