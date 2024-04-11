@@ -20,7 +20,7 @@ char          s_sect      [LEN_RECD]  = "";
 /*===[[ TESTING ]]============================================================*/
 /*> void     *my_unit = NULL;                                                         <*/
 
-char      s_unit         [LEN_RECD] = "";
+/*> char      s_unit         [LEN_RECD] = "";                                         <*/
 FILE     *yUNIT_stdin    = NULL;
 FILE     *yUNIT_out      = NULL;
 
@@ -229,8 +229,10 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
    char        x_all       [LEN_SHORT] = "";
    char        x_uniq      [LEN_SHORT] = "";
    char        x_name      [LEN_PATH]  = "";
+   char       *p           = NULL;
+   int         l           =    0;
    /*---(defaulting)---------------------*/
-   strcpy (s_unit, "");
+   /*> strcpy (s_unit, "");                                                           <*/
    /*---(defense)------------------------*/
    --rce;  if (a_name == NULL)  return rce;
    /*---(open output)----------------------*/
@@ -260,6 +262,20 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
    /*---(setup defaults)-------------------*/
    yUNIT_level (a_level, '-');
    yUNIT_eterm (a_eterm, '-');
+   /*---(get project name)---------------*/
+   p = strchr (a_name, '_');
+   if (p == NULL)  strcpy (myUNIT.proj, a_name);
+   else {
+      l = p - a_name;
+      strncpy (myUNIT.proj, a_name, l);
+   }
+   /*---(get project name)---------------*/
+   p = strchr (a_name, '.');
+   if (p == NULL)  strcpy (myUNIT.unit, a_name);
+   else {
+      l = p - a_name;
+      strncpy (myUNIT.unit, a_name, l);
+   }
    /*---(leak testing)---------------------*/
    myUNIT.is_leak_begin  = malloc(sizeof(int));
    free(myUNIT.is_leak_begin);

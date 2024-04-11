@@ -1,9 +1,17 @@
+
+/*===[[ HEADER GUARD ]]=======================================================*/
+#ifndef YUNIT_solo_hguard
+#define YUNIT_solo_hguard loaded
+
 /*====================------------------------------------====================*/
 /*===----                  special mini unit test                      ----===*/
 /*====================------------------------------------====================*/
 static void      o___MINI_UNIT_______________o (void) {;}
 
+#include    <ySTR_solo.h>
 #include    <yCOLOR_solo.h>
+#include    <time.h>
+
 
 static int         s_stepn     = 0;
 
@@ -250,4 +258,4 @@ yUNIT_mintinu           (void)
    return 0;
 }
 
-
+#endif

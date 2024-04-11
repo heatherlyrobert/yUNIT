@@ -501,7 +501,7 @@ yUNIT_wrap              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    char        x_actu      [LEN_RECD]  = "";
    sprintf (x_test, "s_%s", a_test + 2);
    sprintf (x_actu, "å%sæ", a_actu);
-   ystrldchg (x_actu, '', '§', LEN_RECD);
+   /*> ystrldchg (x_actu, '', '§', LEN_RECD);                                        <*/
    return yUNIT_string (a_line, a_seqn, a_desc, a_meth, a_args, x_test, a_expe, x_actu, a_exec);
 }
 
