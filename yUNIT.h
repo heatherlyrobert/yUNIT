@@ -315,6 +315,7 @@ typedef long long       llong;
 
 
 /*===[[ FUNCTION PROTOTYPES ]]================================================*/
+char*       yUNIT_version           (void);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_unique            (int a_nscrp, int a_ncond, int a_nstep, int a_uscrp, int a_ucond, int a_ustep);
@@ -388,9 +389,12 @@ int         yUNIT_testint           (int n);
 char        yUNIT_testchar          (char n);
 int*        yUNIT_testptr           (void);
 
+
+/*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
 char        yUNIT_wave_beg          (char a_proj [LEN_LABEL], char a_unit [LEN_TITLE], char a_scrp, char a_desc [LEN_LONG], char a_terse [LEN_LABEL], char a_wave, char a_stage, char a_expe [LEN_SHORT]);
 char        yUNIT_wave_end          (void *f, char a_nunit, char a_nscrp, short a_ncond, short a_nstep);
 char        yUNIT_wave_act          (void *f, char a_nunit, char a_nscrp, short a_ncond, short a_nstep, char a_result, short a_npass, short a_nfail, short a_nbadd, short a_nvoid, short a_actual);
+
 
 
 #endif

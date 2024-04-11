@@ -36,8 +36,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.2-, tighten and harden"
-#define     P_VERNUM    "2.2j"
-#define     P_VERTXT    "integrated new WAVE record actuals into yUNIT"
+#define     P_VERNUM    "2.2k"
+#define     P_VERTXT    "added yUNIT_version to aide debugging in other application"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

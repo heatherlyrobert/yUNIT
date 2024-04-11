@@ -27,6 +27,32 @@ FILE     *yUNIT_out      = NULL;
 
 
 /*====================------------------------------------====================*/
+/*===----                         supporting                           ----===*/
+/*====================------------------------------------====================*/
+static void      o___SUPPORT___________o (void) {;}
+
+char      verstring    [LEN_HUND];
+
+char*
+yUNIT_version           (void)
+{
+   char    t [20] = "";
+#if    __TINYC__ > 0
+   strncpy (t, "[tcc built  ]", 15);
+#elif  __GNUC__  > 0
+   strncpy (t, "[gnu gcc    ]", 15);
+#elif  __CBANG__  > 0
+   strncpy (t, "[cbang      ]", 15);
+#else
+   strncpy (t, "[unknown    ]", 15);
+#endif
+   snprintf (verstring, LEN_HUND, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
+   return verstring;
+}
+
+
+
+/*====================------------------------------------====================*/
 /*===----                      manage output file                      ----===*/
 /*====================------------------------------------====================*/
 static void      o___OUTPUT__________________o (void) {;}
