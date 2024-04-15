@@ -57,6 +57,7 @@ yunit_wave              (char a_act, FILE *f, char a_proj [LEN_LABEL], char a_un
    tTIME      *x_broke     = NULL;
    char        t           [LEN_TITLE] = "";
    int         x_expect    =    0;
+   int         x_miss      =    0;
    /*---(handle begin)-------------------*/
    if (a_act == 'b') {
       strncpy (S_proj , a_proj , LEN_LABEL);
@@ -83,14 +84,15 @@ yunit_wave              (char a_act, FILE *f, char a_proj [LEN_LABEL], char a_un
    strftime (t, LEN_TITLE, "%y.%m.%d.%H.%M.%S.%u.%W.%j", x_broke);
    /*> fprintf (f, "%p %-26.26s %10ld\n", f, t, x_now);                               <*/
    /*---(write)--------------------------*/
+   x_miss   = a_nstep - a_npass - a_nfail - a_nbadd - a_nvoid;
    rc = yunit_unage (a_expe, &x_expect);
    if (a_scrp == 1 && a_act != 'a') {
       fprintf (f, "## ouroboros-aperantos (tail-eater) master unit testing sequencer\n");
       fprintf (f, "## single unit test wave file\n");
-      fprintf (f, "##--  timestamp-----------------  epoch-----  project-------------  unit--------------------------  sc  description-----------------------------------------------------------  terse---------------  w  s  nun  nsc  nco  nst  est  exp  R  pas  fai  bad  voi  act \n");
+      fprintf (f, "##--  timestamp-----------------  epoch-----  project-------------  unit--------------------------  sc  description-----------------------------------------------------------  terse---------------  w  s  nun  nsc  nco  nstp  est  exp  R  pass  fail  badd  void  miss  act \n");
    }
-   fprintf (f, "WAVE  %-26.26s  %10ld  %-20.20s  %-30.30s  %2d  %-70.70s  %-20.20s  %c  %c  %3d  %3d  %3d  %3d  %3.3s  %3d  %c  %3d  %3d  %3d  %3d  %3d \n",
-         t, x_now, a_proj, a_unit, a_scrp, a_desc, a_terse, a_wave, a_stage, a_nunit, a_nscrp, a_ncond, a_nstep, a_expe, x_expect, a_result, a_npass, a_nfail, a_nbadd, a_nvoid, a_actual);
+   fprintf (f, "WAVE  %-26.26s  %10ld  %-20.20s  %-30.30s  %2d  %-70.70s  %-20.20s  %c  %c  %3d  %3d  %3d  %4d  %3.3s  %3d  %c  %4d  %4d  %4d  %4d  %4d  %3d \n",
+         t, x_now, a_proj, a_unit, a_scrp, a_desc, a_terse, a_wave, a_stage, a_nunit, a_nscrp, a_ncond, a_nstep, a_expe, x_expect, a_result, a_npass, a_nfail, a_nbadd, a_nvoid, x_miss, a_actual);
    fflush  (f);
    S_saved = '-';
    /*---(complete)-----------------------*/
@@ -114,3 +116,4 @@ yUNIT_wave_act          (void *f, char a_nunit, char a_nscrp, short a_ncond, sho
 {
    return yunit_wave ('a', f, S_proj, S_unit, S_scrp, S_desc, S_terse, S_wave, S_stage, a_nunit, a_nscrp, a_ncond, a_nstep, S_expe, a_result, a_npass, a_nfail, a_nbadd, a_nvoid, a_actual);
 }
+

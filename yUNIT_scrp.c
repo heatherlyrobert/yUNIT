@@ -45,6 +45,9 @@ yUNIT_scrp (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_dur,
    char        x_dur       [LEN_TERSE] = "???";
    char        x_terse     [LEN_LABEL] = "???";
    char        x_focu      [LEN_HUND]  = "???";
+   int         l           =    0;
+   char        x_wave      =  '·';
+   char        x_stage     =  '·';
    /*---(start)------------------------*/
    S_beg = time (NULL);
    /*---(defense)----------------------*/
@@ -68,7 +71,10 @@ yUNIT_scrp (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_dur,
       IF_COND   yunit_printf  ("%s\n", x_header);
    }
    /*---(wave-record)------------------*/
-   yUNIT_wave_beg (myUNIT.proj, myUNIT.unit, a_seqn, x_desc, x_terse, a_stage [0], a_stage [1], x_dur);
+   l = strlen (a_stage);
+   if (l > 0 && a_stage [0] != 0 && strchr (YSTR_NUMBER, a_stage [0]) != NULL)   x_wave  = a_stage [0];
+   if (l > 1 && a_stage [1] != 0 && strchr (YSTR_LOWER , a_stage [1]) != NULL)   x_stage = a_stage [1];
+   yUNIT_wave_beg (myUNIT.proj, myUNIT.unit, a_seqn, x_desc, x_terse, x_wave, x_stage, x_dur);
    /*---(complete)---------------------*/
    return 0;
 }
@@ -79,7 +85,7 @@ yUNIT_prcs_wave         (void)
    char        rce         =  -10;
    FILE       *f           = NULL;
    char        x_wave      [LEN_TITLE] = "";
-   char        x_result    =  '-';
+   char        x_result    =  '·';
    long        x_end       =    0;
    long        x_dur       =    0;
    /*---(name)---------------------------*/
@@ -93,8 +99,8 @@ yUNIT_prcs_wave         (void)
       return rce;
    }
    if      (SCRP_FAIL > 0)  x_result = 'F';
-   else if (SCRP_BADD > 0)  x_result = 'W';
-   else                     x_result = 'P';
+   else if (SCRP_BADD > 0)  x_result = '?';
+   else                     x_result = 'Ï';
    yUNIT_wave_act (f, 0, 1, SCRP_COND, SCRP_TEST, x_result,  SCRP_PASS, SCRP_FAIL, SCRP_BADD, SCRP_VOID, x_dur);
    fclose (f);
    /*---(complete)---------------------*/
