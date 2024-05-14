@@ -36,8 +36,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.2-, tighten and harden"
-#define     P_VERNUM    "2.2l"
-#define     P_VERTXT    "updated min-unit to produce wave files for ouroboros (visibility)"
+#define     P_VERNUM    "2.2m"
+#define     P_VERTXT    "cleaned up after yURG/yENV migration"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -66,12 +66,12 @@
 #include    <errno.h>               /* CLIBC   standard library error codes   */
 #include    <error.h>               /* CLIBC   standard library error codes   */
 
-/*> #include <curses.h>       /+ getch, ungetch                                   +/   <*/
+/*> #include    <curses.h>       /+ getch, ungetch                                   +/   <*/
+#include    <ncurses.h>       /* getch, ungetch                                   */
 
 #include    <yVAR.h>
-#include    <yURG.h>
-#include    <ySTR_solo.h>
 #include    <yURG_solo.h>
+#include    <yCOLOR_solo.h>
 #include    "yUNIT.h"
 
 
@@ -223,6 +223,6 @@ char        yunit_result            (int a_resu, int a_code);
 char*       yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char *a_desc);
 
 char        yunit_unage             (char a_age [LEN_SHORT], int *r_secs);
-char        yunit_wave              (char a_act, FILE *f, char a_proj [LEN_LABEL], char a_unit [LEN_TITLE], char a_scrp, char a_desc [LEN_LONG], char a_terse [LEN_LABEL], char a_wave, char a_stage, char a_nunit, char a_nscrp, short a_ncond, short a_nstep, char a_expe [LEN_SHORT], char a_result, short a_npass, short a_nfail, short a_nbadd, short a_nvoid, short a_actual);
+char        yunit_wave              (char a_act, FILE *f, char a_proj [LEN_LABEL], char a_unit [LEN_TITLE], char a_scrp, char a_desc [LEN_LONG], char a_terse [LEN_LABEL], char a_wave, char a_stage, char a_rate, char a_nunit, char a_nscrp, short a_ncond, short a_nstep, char a_expe [LEN_SHORT], char a_result, short a_npass, short a_nfail, short a_nbadd, short a_nvoid, short a_actual);
 
 

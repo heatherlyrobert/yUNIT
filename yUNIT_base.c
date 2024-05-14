@@ -262,9 +262,13 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
    /*---(defense)------------------------*/
    --rce;  if (a_name == NULL)  return rce;
    /*---(open output)----------------------*/
-   getcwd (x_name, LEN_PATH);
-   strcat (x_name, "/");
-   strcat (x_name, a_name);
+   if (strchr (a_name, '/') == NULL) {
+      getcwd (x_name, LEN_PATH);
+      strcat (x_name, "/");
+      strcat (x_name, a_name);
+   } else {
+      strcpy (x_name, a_name);
+   }
    yunit_open (x_name);
    /*---(prepare)--------------------------*/
    snprintf (x_all , LEN_SHORT, "%4d" , myUNIT.nscrp);
@@ -273,12 +277,12 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
    for (i = 0; i < LEN_SHORT; ++i)  if (x_uniq [i] == ' ')  x_uniq [i] = '·';
    /*---(print header)---------------------*/
    switch (a_level) {
-   case  1 :
+   case  YUNIT_SUMM : case  YUNIT_MUTE :
       break;
-   case  2 :
+   case  YUNIT_SCRP :
       yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
       break;
-   case  3 : case  4 : case  5 :
+   case  YUNIT_COND : case  YUNIT_STEP : case  YUNIT_FULL :
       yunit_printf ("yUNIT - heatherly unit testing framework --------------------------- - actu once ndit\n");
       yunit_printf ("   patron : %-56.56s s ···· %4s %4s\n"  , P_ONELINE, x_all, x_uniq);
       break;

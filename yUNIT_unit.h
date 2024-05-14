@@ -11,8 +11,6 @@
 #include    <unistd.h>                   /* sleep                                    */
 /*---(custom headers)-----------------*/
 #include    <yUNIT.h>                    /* unit testing functions                   */
-#include    <yVAR.h>                     /* complex comparison functions             */
-#include    <ySTR_solo.h>                /* string lengths                           */
 
 
 

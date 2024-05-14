@@ -1,17 +1,18 @@
-
 /*===[[ HEADER GUARD ]]=======================================================*/
 #ifndef YUNIT_solo_hguard
 #define YUNIT_solo_hguard loaded
+
+
 
 /*====================------------------------------------====================*/
 /*===----                  special mini unit test                      ----===*/
 /*====================------------------------------------====================*/
 static void      o___MINI_UNIT_______________o (void) {;}
 
-#include    <ySTR_solo.h>
 #include    <yCOLOR_solo.h>
 #include    <time.h>
 
+typedef struct tm        tTIME;
 
 static int         s_stepn     = 0;
 
@@ -163,13 +164,24 @@ yunit_minstr            (int a_line, char *a_desc, char *a_act, char *a_exp)
    char        t           [LEN_RECD]  = "";
    char       *x_fill      = ".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ";
    int         l           = 0;
+   int         i           = 0;
+   char        x_exp       [LEN_RECD] = "";
    ++s_conda;
    ++s_scrpa;
    ++s_unita;
-   if (strcmp (a_act, a_exp) == 0) {
+   strcpy (x_exp, a_exp);
+   l = strlen (x_exp);
+   x_res = 'Y';
+   for (i = 0; i < l; ++i) {
+      if (x_exp [i] == '¬')        continue;
+      if (x_exp [i] == a_act [i])  continue;
+      x_res = '-';
+      x_exp [i] = '°';
+   }
+   if (l != strlen (a_act))  x_res = '-';
+   if (x_res == 'Y') {
       strcpy (x_note, "PASS");
       strcpy (x_on, BACK_GRN);
-      x_res = 'Y';
       ++s_condg;
       ++s_scrpg;
       ++s_unitg;
@@ -177,7 +189,7 @@ yunit_minstr            (int a_line, char *a_desc, char *a_act, char *a_exp)
    l = strlen (a_desc) + 1;
    sprintf (t, "%s %s", a_desc, x_fill + l);
    printf ("  %s%02d) %-6.6s%s : %-57.57s [%05d]\n", x_on, ++s_stepn, x_note, BACK_OFF, t, a_line);
-   printf ("      expect : %2d[%s]\n", strlen (a_exp), a_exp);
+   printf ("      expect : %2d[%s]\n", strlen (x_exp), x_exp);
    printf ("      actual : %2d[%s]\n", strlen (a_act), a_act);
    printf ("\n");
    return 0;
@@ -190,6 +202,8 @@ yunit_minscrp           (int a_line, char a_proj [LEN_LABEL], char a_unit [LEN_L
 {
    char        t           [LEN_RECD]  = "";
    char        x_wave      [LEN_RECD] = "";
+   long        x_now       =    0;
+   tTIME      *x_broke     = NULL;
    sprintf (t, "%s ==============================================================================", a_desc);
    printf ("SCRP [%02d] %63.63s[%05d]\n", ++s_scrpn, t, a_line);
    printf ("\n");
@@ -197,9 +211,10 @@ yunit_minscrp           (int a_line, char a_proj [LEN_LABEL], char a_unit [LEN_L
    s_conda = s_condg = 0;
    s_condn = s_stepn = 0;
    strcpy  (s_unit, a_unit);
-   sprintf (s_system, "rm -f %s.wave", s_unit);
-   system  (s_system);
-   sprintf (x_wave, "printf \"WAVE  ··´··´··´··´··´··´·´··´···  0           %-20.20s  %-30.30s  %2d  %-70.70s  ·········´·········´  ·  ·  ", a_proj, a_unit, s_scrpn, a_desc);
+   x_now   = time (NULL);
+   x_broke = localtime (&x_now);
+   strftime (t, LEN_TITLE, "%y.%m.%d.%H.%M.%S.%u.%W.%j", x_broke);
+   sprintf (x_wave, "printf \"WAVE  %-26.26s  %10ld  %-20.20s  %-30.30s  %2d  m  %-70.70s  ·········´·········´  ·  ·  ·  ", t, x_now, a_proj, a_unit, s_scrpn, a_desc);
    strcpy  (s_system, x_wave);
    return 0;
 }
@@ -246,7 +261,11 @@ yUNIT_minprcs           (void)
    char        x_on        [10] = BACK_RED;
    char        x_wave      [LEN_RECD] = "";
    char        x_result    =  'F';
-   if (s_scrpa == s_scrpg) {
+   if (s_scrpa == 0) {
+      strcpy (t   , "NONE");
+      strcpy (x_on, BACK_OFF);
+      x_result = '-';
+   } else if (s_scrpa == s_scrpg) {
       strcpy (t   , "PASS");
       strcpy (x_on, BACK_GRN);
       x_result = 'Ï';

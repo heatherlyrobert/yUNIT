@@ -48,6 +48,7 @@ yUNIT_scrp (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_dur,
    int         l           =    0;
    char        x_wave      =  '·';
    char        x_stage     =  '·';
+   char        x_rate      =  '·';
    /*---(start)------------------------*/
    S_beg = time (NULL);
    /*---(defense)----------------------*/
@@ -74,7 +75,9 @@ yUNIT_scrp (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_dur,
    l = strlen (a_stage);
    if (l > 0 && a_stage [0] != 0 && strchr (YSTR_NUMBER, a_stage [0]) != NULL)   x_wave  = a_stage [0];
    if (l > 1 && a_stage [1] != 0 && strchr (YSTR_LOWER , a_stage [1]) != NULL)   x_stage = a_stage [1];
-   yUNIT_wave_beg (myUNIT.proj, myUNIT.unit, a_seqn, x_desc, x_terse, x_wave, x_stage, x_dur);
+   if (l > 3 && a_stage [3] != 0 && strchr (YSTR_UPLOW , a_stage [3]) != NULL)   x_rate  = a_stage [2];
+   /*> printf ("%c %c %c\n", x_wave, x_stage, x_rate);                                <*/
+   yUNIT_wave_beg (myUNIT.proj, myUNIT.unit, a_seqn, x_desc, x_terse, x_wave, x_stage, x_rate, x_dur);
    /*---(complete)---------------------*/
    return 0;
 }

@@ -181,7 +181,7 @@ yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char
    case TYPE_SCRP  :
       ++l;
       snprintf (t      , LEN_HUND, "%s %s", x_desc, YSTR_EQUAL + l);
-      snprintf (s_print, LEN_RECD, "SCRP [%02d] %63.63s[%2s]=[%05d]", a_seqn, t, x_note, a_line);
+      snprintf (s_print, LEN_RECD, "SCRP [%02d] %61.61s[%4s]=[%05d]", a_seqn, t, x_note, a_line);
       break;
    case TYPE_SECT  :
       if (l < 65)  sprintf (t, "%*.*s %s %*.*s", x_pre - 3, x_pre - 3, YSTR_DASH, x_desc, x_suf - 3, x_suf - 3, YSTR_DASH);
