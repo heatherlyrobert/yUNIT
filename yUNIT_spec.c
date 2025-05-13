@@ -13,21 +13,21 @@ static uchar  s_file      [LEN_HUND] = "";
 static void      o___SPECIALTY_______________o (void) {;}
 
 char
-yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec)
+yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, char a_exec)
 {
-   char        x_desc      [LEN_HUND]  = "";
+   char        x_meth      [LEN_HUND]  = "";
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "MODE"  , a_desc);
+   if (a_exec == 0)   return yUNIT__disp (a_line, a_seqn, "MODE"  , a_meth);
    /*---(dispaly)------------------------*/
    ++COND_TEST;
    yunit_result (0, YUNIT_VOID);
-   if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
-   if (strcmp (x_desc, "FORCED_FAIL") == 0) {
+   if (a_meth != NULL)  strncpy (x_meth, a_meth, LEN_HUND);
+   if (strcmp (x_meth, "FORCED_FAIL") == 0) {
       myUNIT.is_forced_fail = 1;
-      yunit_header (TYPE_MODE, a_line, a_seqn, "MODE"  , "ENABLE FORCED FAILURE (pass=fail, fail=pass)");
+      yunit_header (TYPE_MODE, a_line, a_seqn, "MODE"  , "ENABLE FORCED FAILURE (pass=fail, fail=pass)", '-', '-');
    } else {
       myUNIT.is_forced_fail = 0;
-      yunit_header (TYPE_MODE, a_line, a_seqn, "MODE"  , "normal (a pass is a pass ;)");
+      yunit_header (TYPE_MODE, a_line, a_seqn, "MODE"  , "normal (a pass is a pass ;)", '-', '-');
    }
    IF_STEP {
       yunit_printf  ("\n");
@@ -52,7 +52,7 @@ yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, c
    /*---(dispaly)------------------------*/
    ++COND_TEST;
    yunit_result (0, YUNIT_VOID);
-   yunit_header (TYPE_CODE, a_line, a_seqn, "CODE"  , a_desc);
+   yunit_header (TYPE_CODE, a_line, a_seqn, "CODE"  , a_desc, '-', '-');
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
@@ -71,7 +71,7 @@ yUNIT_local             (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, c
    /*---(dispaly)------------------------*/
    ++COND_TEST;
    yunit_result (0, YUNIT_VOID);
-   yunit_header (TYPE_LOCAL, a_line, a_seqn, "LOCAL" , a_desc);
+   yunit_header (TYPE_LOCAL, a_line, a_seqn, "LOCAL" , a_desc, '-', '-');
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
@@ -99,7 +99,7 @@ yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, c
    yunit_result (0, YUNIT_VOID);
    if (a_meth != NULL)   strncpy (x_meth, a_meth, LEN_RECD);
    if (a_recd != NULL)   strncpy (x_recd, a_recd, LEN_RECD);
-   yunit_header (TYPE_LOAD, a_line, a_seqn, "LOAD"  , a_desc);
+   yunit_header (TYPE_LOAD, a_line, a_seqn, "LOAD"  , a_desc, '-', '-');
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
@@ -171,7 +171,7 @@ yUNIT_file              (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    /*---(display)------------------------*/
    ++COND_TEST;
    yunit_result (0, YUNIT_VOID);
-   yunit_header (TYPE_FILE, a_line, a_seqn, "FILE"  , a_desc);
+   yunit_header (TYPE_FILE, a_line, a_seqn, "FILE"  , a_desc, '-', '-');
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
@@ -213,7 +213,7 @@ yUNIT_append            (int a_line, int a_seqn, cchar *a_desc, cchar *a_recd, c
    /*---(display)------------------------*/
    ++COND_TEST;
    yunit_result (0, x_resu);
-   yunit_header (TYPE_FILE, a_line, a_seqn, "APPEND", a_desc);
+   yunit_header (TYPE_FILE, a_line, a_seqn, "APPEND", a_desc, '-', '-');
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);
@@ -245,7 +245,7 @@ yUNIT_system            (int a_line, int a_seqn, cchar *a_desc, cchar *a_disp, c
    /*---(display)------------------------*/
    ++COND_TEST;
    yunit_result (rc, x_resu);
-   yunit_header (TYPE_SYSTEM, a_line, a_seqn, "SYS", a_desc);
+   yunit_header (TYPE_SYSTEM, a_line, a_seqn, "SYS", a_desc, '-', '-');
    IF_STEP {
       yunit_printf  ("\n");
       yunit_printf  ("%s\n", s_print);

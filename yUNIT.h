@@ -338,15 +338,17 @@ char        yUNIT_dnoc              (cchar a_exec);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        yUNIT_share             (char a_share, cchar *a_desc);
-char        yUNIT_erahs             (char a_share);
-char        yUNIT_global            (char a_share, cchar *a_desc);
-char        yUNIT_labolg            (char a_share);
+char        yUNIT_shar              (char a_share, char a_select, char *a_desc);
+char        yUNIT_rahs              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
+char        yUNIT_glob              (char a_share, char a_select, char *a_desc);
+char        yUNIT_bolg              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
+char        yUNIT_conf              (char a_share, char a_select, char *a_desc);
+char        yUNIT_fnoc              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_mode_reset        (void);
-char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, char a_exec);
+char        yUNIT_mode              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, char a_exec);
 char        yUNIT_local             (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
 char        yUNIT_code              (int a_line, int a_seqn, cchar *a_desc, cchar *a_code, char a_exec);
 char        yUNIT_load              (int a_line, int a_seqn, cchar *a_desc, cchar *a_meth, cchar *a_recd, char a_exec);
@@ -394,6 +396,10 @@ int*        yUNIT_testptr           (void);
 char        yUNIT_wave_beg          (char a_proj [LEN_LABEL], char a_unit [LEN_TITLE], char a_scrp, char a_desc [LEN_LONG], char a_terse [LEN_LABEL], char a_wave, char a_stage, char a_rate, char a_expe [LEN_SHORT]);
 char        yUNIT_wave_end          (void *f, char a_nunit, char a_nscrp, short a_ncond, short a_nstep);
 char        yUNIT_wave_act          (void *f, char a_nunit, char a_nscrp, short a_ncond, short a_nstep, char a_result, short a_npass, short a_nfail, short a_nbadd, short a_nvoid, short a_actual);
+
+
+char        yUNIT_stats_purge       (int *r_nscrp, int *r_ncond, int *r_nstep);
+char        yUNIT_stats_accum       (void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_LABEL], char a_desc [LEN_LONG], char a_ditto, char a_major, int *r_nscrp, int *r_ncond, int *r_nstep);
 
 
 

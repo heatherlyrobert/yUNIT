@@ -1,0 +1,185 @@
+#include    "master.munit"
+#include    "yUNIT_unit.h"
+
+
+
+char yUNIT_stats (void) { return 0; }
+
+
+
+char
+STATS_accum             (char a_scrp, char a_list, char a_unit)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_cscrp     =    0;
+   int         x_ccond     =    0;
+   int         x_cstep     =    0;
+
+   yUNIT_minscrpy ("yUNIT", "yUNIV_stats"   , "(STATS) verify statistics accumulation");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("start with a SCRP");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'P', "SCRP"  , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          1     0     0     1         0     0     0  ----------     0  ·                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         0     0     0  ··········     0  ·                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add a COND");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'c', "COND"  , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          1     0     0     1         1     1     0  ----------     0  ·                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         1     1     0  ··········     0  ·                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add a EXEC");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'x', "EXEC"  , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          1     0     0     1         1     1     0  ----------     0  ·                        0  ·                        0         1     1     0     0     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         1     1     0  ··········     0  ·                        0  ·                        0         1     1     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    1);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add a couple other steps");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'x', "exec"  , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    2);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'x', "get"   , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    3);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'x', "echo"  , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          1     0     0     1         1     1     0  ----------     0  ·                        0  ·                        0         4     4     0     0     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         1     1     0  ··········     0  ·                        0  ·                        0         4     4     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    4);
+
+   yUNIT_mincond ("add another COND");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'c', "COND"  , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          1     0     0     1         2     2     0  ----------     0  ·                        0  ·                        0         4     4     0     0     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         2     2     0  ··········     0  ·                        0  ·                        0         4     4     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add some different types of steps");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'v', "system", ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    1);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'a', "local" , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    2);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'v', "mode"  , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          1     0     0     1         2     2     0  ----------     0  ·                        0  ·                        0         7     4     1     2     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         2     2     0  ··········     0  ·                        0  ·                        0         7     4     1     2     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    3);
+
+   yUNIT_mincond ("then another SCRP");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'P', "SCRP"  , ""                     ,  0 , '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          2     0     0     2         2     2     0  ----------     0  ·                        0  ·                        0         7     4     1     2     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         0     0     0  ··········     0  ·                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add a COND (with ditto mark)");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'c', "COND"  , ""                     , '3', '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          2     0     0     2         3     3     0  ----------     0  ·                        0  ·                        0         7     4     1     2     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         1     1     0  ···´······     0  ·                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add a DITTO");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'd', "DITTO" , ""                     , '3', '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          2     0     0     2         4     3     1  ----------     0  ·                        0  ·                        0         7     4     1     2     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         2     1     1  ···1······     0  ·                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add another DITTO");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'd', "DITTO" , ""                     , '3', '-', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          2     0     0     2         5     3     2  ----------     0  ·                        0  ·                        0         7     4     1     2     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         3     1     2  ···2······     0  ·                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    3);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add local REUSE");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'r', "REUSE" , ""                     ,  0 , 'f', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          2     0     0     2         6     3     2  ----------     1  f                        0  ·                        0         7     4     1     2     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         4     1     2  ···2······     1  f                        0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    4);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add more local REUSE");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'r', "REUSE" , ""                     ,  0 , 'z', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'r', "REUSE" , ""                     ,  0 , 'f', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'r', "REUSE" , ""                     ,  0 , 'a', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          2     0     0     2         9     3     2  ----------     4  fza                      0  ·                        0         7     4     1     2     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -         7     1     2  ···2······     4  fza                      0  ·                        0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,    7);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add global REUSE");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'g', "GLOBAL", ""                     ,  0 , 'D', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'g', "CONFIG", ""                     ,  0 , 'ò', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_accum  (NULL, "", 'g', "GLOBAL", ""                     ,  0 , 'D', &x_cscrp, &x_ccond, &x_cstep),    0);
+   yUNIT_minstr  ("... check all"                      , yunit_stats_all    ("ALL "), "ALL          2     0     0     2        12     3     2  ----------     4  fza                      3  Dò                       0         7     4     1     2     0  -----------------  ");
+   yUNIT_minstr  ("... check curr"                     , yunit_stats_curr   ("curr"), "curr         -     -     -     -        10     1     2  ···2······     4  fza                      3  Dò                       0         0     0     0     0     0  -----------------  ");
+   yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
+   yUNIT_minval  ("... verify condition number"        , x_ccond    ,   10);
+   yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+
+
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", P_ONELINE);
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   STATS_accum               (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+

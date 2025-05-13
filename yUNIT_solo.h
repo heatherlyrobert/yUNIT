@@ -73,23 +73,10 @@ yunit_minval            (int a_line, char *a_desc, int a_act, int a_exp)
    ++s_conda;
    ++s_scrpa;
    ++s_unita;
-   if (a_act == a_exp) {
-      strcpy (x_note, "PASS");
-      strcpy (x_on, BACK_GRN);
-      x_res = 'Y';
-      ++s_condg;
-      ++s_scrpg;
-      ++s_unitg;
-   }
-   else if (a_act < 0 && a_exp == -999) {
-      strcpy (x_note, "PASS");
-      strcpy (x_on, BACK_GRN);
-      x_res = 'Y';
-      ++s_condg;
-      ++s_scrpg;
-      ++s_unitg;
-   }
-   else if (a_act >= 0 && a_exp == 999) {
+   if ((a_act == a_exp)
+      || (a_act  < 0 && a_exp == -999)
+      || (a_act >= 0 && a_exp ==  999)
+      || (a_exp == 666)) {
       strcpy (x_note, "PASS");
       strcpy (x_on, BACK_GRN);
       x_res = 'Y';
@@ -109,7 +96,7 @@ yunit_minval            (int a_line, char *a_desc, int a_act, int a_exp)
 #define  yUNIT_minval(a,b,c)    yunit_minval(__LINE__,a,b,c)
 
 static char
-yunit_minpoint          (int a_line, char *a_desc, void *a_act, void *a_exp)
+yunit_minptr            (int a_line, char *a_desc, void *a_act, void *a_exp)
 {
    char        x_res       =  '-';
    char        x_note      [10] = "FAIL";
@@ -153,7 +140,7 @@ yunit_minpoint          (int a_line, char *a_desc, void *a_act, void *a_exp)
    return 0;
 }
 
-#define  yUNIT_minpoint(a,b,c)    yunit_minpoint(__LINE__,a,b,c)
+#define  yUNIT_minptr(a,b,c)    yunit_minptr(__LINE__,a,b,c)
 
 static char
 yunit_minstr            (int a_line, char *a_desc, char *a_act, char *a_exp)
@@ -172,13 +159,15 @@ yunit_minstr            (int a_line, char *a_desc, char *a_act, char *a_exp)
    strcpy (x_exp, a_exp);
    l = strlen (x_exp);
    x_res = 'Y';
-   for (i = 0; i < l; ++i) {
-      if (x_exp [i] == '¬')        continue;
-      if (x_exp [i] == a_act [i])  continue;
-      x_res = '-';
-      x_exp [i] = '°';
+   if (strcmp (a_exp, "¬") != 0) {
+      for (i = 0; i < l; ++i) {
+         if (x_exp [i] == '¬')        continue;
+         if (x_exp [i] == a_act [i])  continue;
+         x_res = '-';
+         x_exp [i] = '°';
+      }
+      if (l != strlen (a_act))  x_res = '-';
    }
-   if (l != strlen (a_act))  x_res = '-';
    if (x_res == 'Y') {
       strcpy (x_note, "PASS");
       strcpy (x_on, BACK_GRN);

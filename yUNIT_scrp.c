@@ -30,7 +30,7 @@ yUNIT_sect    (cchar *a_desc)
    }
    /*---(save title)---------------------*/
    else {
-      yunit_header (TYPE_SECT, 0, 0, NULL, a_desc);
+      yunit_header (TYPE_SECT, 0, 0, NULL, a_desc, '-', '-');
       strcpy (s_sect, s_print);
    }
    /*---(complete)-----------------------*/
@@ -66,10 +66,12 @@ yUNIT_scrp (int a_line, int a_seqn, cchar *a_stage, cchar *a_desc, cchar *a_dur,
    IF_SCRP   yunit_printf  ("\n");
    IF_COND   yunit_printf  ("\n");
    IF_STEP   yunit_printf  ("===[[ NEW SCRIPT ]]==================================================================\n");
-   IF_SUMM   yunit_printf  ("%s\n", yunit_header (TYPE_SCRP, a_line, a_seqn, a_stage, x_desc));
-   if (strlen (x_focu) > 0)  {
-      snprintf (x_header, LEN_HUND, "  %-3.3s : %-14.14s : %s", x_dur, x_terse,x_focu);
-      IF_COND   yunit_printf  ("%s\n", x_header);
+   IF_SUMM   yunit_printf  ("%s\n", yunit_header (TYPE_SCRP, a_line, a_seqn, a_stage, x_desc, '-', '-'));
+   IF_STEP {
+      if (strlen (x_focu) > 0)  {
+         snprintf (x_header, LEN_HUND, "  %-3.3s : %-14.14s : %s", x_dur, x_terse,x_focu);
+         IF_COND   yunit_printf  ("%s\n", x_header);
+      }
    }
    /*---(wave-record)------------------*/
    l = strlen (a_stage);
@@ -116,11 +118,11 @@ yUNIT_prcs              (cchar a_exec)
    /*---(print message)-------------------*/
    IF_COND   yunit_printf ("\n");
    if (a_exec == 1) {
-      yunit_footer (TYPE_PRCS);
+      yunit_footer (TYPE_PRCS, '-', '-', 0, 0, 0, 0);
       IF_SUMM   yunit_printf  ("%s\n", s_print);
       yUNIT_prcs_wave ();
    } else  {
-      yunit_footer (TYPE_DRCS);
+      yunit_footer (TYPE_DRCS, '-', '-', 0, 0, 0, 0);
       IF_COND   yunit_printf  ("%s\n", s_print);
    }
    /*---(complete)---------------------*/

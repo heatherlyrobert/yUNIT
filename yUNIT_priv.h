@@ -35,9 +35,9 @@
 #define     P_CREATED   "2008-08"
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
-#define     P_VERMINOR  "2.2-, tighten and harden"
-#define     P_VERNUM    "2.2m"
-#define     P_VERTXT    "cleaned up after yURG/yENV migration"
+#define     P_VERMINOR  "2.3-, new level for unit testing in koios"
+#define     P_VERNUM    "2.3a"
+#define     P_VERTXT    "added generalized statistics from/for koios tracking"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -70,7 +70,6 @@
 #include    <ncurses.h>       /* getch, ungetch                                   */
 
 #include    <yVAR.h>
-#include    <yURG_solo.h>
 #include    <yCOLOR_solo.h>
 #include    "yUNIT.h"
 
@@ -94,10 +93,12 @@
 #define     TYPE_GROUP       'G'
 #define     TYPE_DNOC        'D'
 #define     TYPE_DNOD        '3'
-#define     TYPE_SHARE       '['
-#define     TYPE_ERAHS       ']'
+#define     TYPE_SHARED      '['
+#define     TYPE_DERAHS      ']'
 #define     TYPE_GLOBAL      '{'
 #define     TYPE_LABOLG      '}'
+#define     TYPE_CONFIG      '¸'
+#define     TYPE_GIFNOC      '¹'
 
 #define     TYPE_STEP        '+'
 #define     TYPE_DISP        'd'
@@ -181,18 +182,7 @@ struct cUNIT {
    char        expe        [LEN_RECD];
    char        fixd        [LEN_RECD];
    char        actu        [LEN_RECD];
-   /*---(counters)-----------------*/
-   int         cond_test;
-   int         cond_pass;
-   int         cond_fail;
-   int         cond_badd;
-   int         cond_void;
-   int         scrp_cond;
-   int         scrp_test;
-   int         scrp_pass;
-   int         scrp_fail;
-   int         scrp_badd;
-   int         scrp_void;
+   /*---(unit level)---------------*/
    int         unit_scrp;
    int         unit_cond;
    int         unit_test;
@@ -200,6 +190,19 @@ struct cUNIT {
    int         unit_fail;
    int         unit_badd;
    int         unit_void;
+   /*---(script level)-------------*/
+   int         scrp_cond;
+   int         scrp_test;
+   int         scrp_pass;
+   int         scrp_fail;
+   int         scrp_badd;
+   int         scrp_void;
+   /*---(condition-level)----------*/
+   int         cond_test;
+   int         cond_pass;
+   int         cond_fail;
+   int         cond_badd;
+   int         cond_void;
    /*---(flags)--------------------*/
    int         is_forced_fail;
    void       *is_leak_begin;
@@ -220,9 +223,17 @@ char        yunit_cycle             (void);
 char*       yunit_seqn              (int a_seqn);
 char        yunit__recd_color       (char *a_test);
 char        yunit_result            (int a_resu, int a_code);
-char*       yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char *a_desc);
+char*       yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char *a_desc, char a_share, char a_select);
 
 char        yunit_unage             (char a_age [LEN_SHORT], int *r_secs);
 char        yunit_wave              (char a_act, FILE *f, char a_proj [LEN_LABEL], char a_unit [LEN_TITLE], char a_scrp, char a_desc [LEN_LONG], char a_terse [LEN_LABEL], char a_wave, char a_stage, char a_rate, char a_nunit, char a_nscrp, short a_ncond, short a_nstep, char a_expe [LEN_SHORT], char a_result, short a_npass, short a_nfail, short a_nbadd, short a_nvoid, short a_actual);
+
+char*       yunit_footer            (char a_type, char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
+
+
+char        yunit_stats_clear       (char a_type);
+char*       yunit_stats_all         (char a_prefix [LEN_FULL]);
+char*       yunit_stats__curr       (char a_prefix [LEN_FULL], char a_summ [LEN_DESC]);
+char*       yunit_stats_curr        (char a_prefix [LEN_FULL]);
 
 

@@ -323,8 +323,8 @@ yUNIT_tinu              (cchar a_exec)
    /*---(print message)---------------*/
    IF_SCRP   yunit_printf ("\n");
    IF_SCRP {
-      if (a_exec == 1)  yunit_footer (TYPE_TINU);
-      else              yunit_footer (TYPE_DINU);
+      if (a_exec == 1)  yunit_footer (TYPE_TINU, '-', '-', 0, 0, 0, 0);
+      else              yunit_footer (TYPE_DINU, '-', '-', 0, 0, 0, 0);
       yunit_printf ("%s\n", s_print);
    }
    IF_COND  yunit_printf ("\n");

@@ -32,7 +32,7 @@ LIB_UTIL   =
 
 
 #===(master template)======================================#
-include /usr/local/sbin/make_program
+include /usr/local/sbin/zeno_make
 
 
 
