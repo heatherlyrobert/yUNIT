@@ -1,0 +1,174 @@
+#include    "master.munit"
+
+
+
+char
+UNIT___base_globals     (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_base"    , "(BASE) verify global configuration");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("yUNIT_level");
+   yUNIT_minval ("change the level to yUNIT_MUTE"     , yUNIT_level (YUNIT_MUTE, '-'), 0);
+   yUNIT_minval ("change the level to yUNIT_SUMM"     , yUNIT_level (YUNIT_SUMM, '-'), 1);
+   yUNIT_minval ("change the level to yUNIT_SCRP"     , yUNIT_level (YUNIT_SCRP, '-'), 2);
+   yUNIT_minval ("change the level to yUNIT_COND"     , yUNIT_level (YUNIT_COND, '-'), 3);
+   yUNIT_minval ("change the level to yUNIT_STEP"     , yUNIT_level (YUNIT_STEP, '-'), 4);
+   yUNIT_minval ("change the level to yUNIT_FULL"     , yUNIT_level (YUNIT_FULL, '-'), 5);
+   yUNIT_minval ("change the level too low"           , yUNIT_level (-1        , '-'), 5);
+   yUNIT_minval ("change the level too high"          , yUNIT_level (15        , '-'), 5);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("yUNIT_eterm");
+   yUNIT_minchr ("change the eterm to yUNIT_CONSOLE"  , yUNIT_eterm (YUNIT_CONSOLE, '-'), '-');
+   yUNIT_minchr ("change the eterm to yUNIT_ETERM"    , yUNIT_eterm (YUNIT_ETERM  , '-'), 'y');
+   yUNIT_minchr ("change the eterm to unknown"        , yUNIT_eterm (0            , '-'), '-');
+   yUNIT_minchr ("change the eterm to unknown"        , yUNIT_eterm ('w'          , '-'), '-');
+   yUNIT_minchr ("change the eterm to unknown"        , yUNIT_eterm (' '          , '-'), '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+UNIT___base_unit        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_base"    , "(BASE) verify unit startup");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("configure a new unit test");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_CONSOLE, 1), 0);
+   yUNIT_minstr ("... global name"                    , myUNIT.name             , "/tmp/yunit_unit.urun"       );
+   yUNIT_minval ("... global level"                   , myUNIT.level            , YUNIT_FULL                   );
+   yUNIT_minchr ("... global eterm"                   , myUNIT.eterm            , YUNIT_CONSOLE                );
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    4);
+   yUNIT_minstr ("... check (0) header line"          , yENV_uindex (myUNIT.name, 0), "yUNIT - heatherly unit testing framework --------------------------- - actu once ndit");
+   yUNIT_minstr ("... check (1) patron"               , yENV_uindex (myUNIT.name, 1), "   patron : daktyloi-aeonius (forefinger) automated unit testing     s ···· ···0 ···0");
+   yUNIT_minstr ("... check (2) level line"           , yENV_uindex (myUNIT.name, 2), "   assign output level to (5) YUNIT_FULL                             c ···· ···0 ···0");
+   yUNIT_minstr ("... check (3) eterm line"           , yENV_uindex (myUNIT.name, 3), "   assign format/color to (-) CONSOLE                                x ···· ···0 ···0");
+   yUNIT_minstr ("... check (4) empty line"           , yENV_uindex (myUNIT.name, 4), "(n/a)");
+   yUNIT_minval ("close and remove"                   , yunit_close_and_remove ()   ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("configure a new unit test");
+   yUNIT_minval ("create a unit"                      , yUNIT_unit  ("/tmp/uniter"    , YUNIT_SUMM, YUNIT_ETERM  , 1), 0);
+   yUNIT_minstr ("... global name"                    , myUNIT.name             , "/tmp/uniter.urun"           );
+   yUNIT_minval ("... global level"                   , myUNIT.level            , YUNIT_SUMM                   );
+   yUNIT_minchr ("... global eterm"                   , myUNIT.eterm            , YUNIT_ETERM                  );
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr ("... check (4) empty line"           , yENV_uindex (myUNIT.name, 0), "(n/a)");
+   yUNIT_minval ("close and remove"                   , yunit_close_and_remove ()   ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("configure a new unit test");
+   yUNIT_minval ("create a unit"                      , yUNIT_unit  ("/tmp/unit.urun" , YUNIT_STEP, YUNIT_ETERM  , 1), 0);
+   yUNIT_minstr ("... global name"                    , myUNIT.name             , "/tmp/unit.urun"             );
+   yUNIT_minval ("... global level"                   , myUNIT.level            , YUNIT_STEP                   );
+   yUNIT_minchr ("... global eterm"                   , myUNIT.eterm            , YUNIT_ETERM                  );
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    4);
+   yUNIT_minstr ("... check (0) header line"          , yENV_uindex (myUNIT.name, 0), "yUNIT - heatherly unit testing framework --------------------------- - actu once ndit");
+   yUNIT_minstr ("... check (1) patron"               , yENV_uindex (myUNIT.name, 1), "   patron : daktyloi-aeonius (forefinger) automated unit testing     s ···· ···0 ···0");
+   yUNIT_minstr ("... check (2) level line"           , yENV_uindex (myUNIT.name, 2), "   assign output level to (4) YUNIT_STEP                             c ···· ···0 ···0");
+   yUNIT_minstr ("... check (3) eterm line"           , yENV_uindex (myUNIT.name, 3), "   assign format/color to (y) ETERM                                  x ···· ···0 ···0");
+   yUNIT_minstr ("... check (4) empty line"           , yENV_uindex (myUNIT.name, 4), "(n/a)");
+   yUNIT_minval ("close and remove"                   , yunit_close_and_remove ()   ,    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+UNIT___base_tinu        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_base"    , "(BASE) verify unit shutdown");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("close out a unit test");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_CONSOLE, 1), 0);
+   yunit_force_unit (5, 85, 511, 495, 23, 6, 0);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), -29);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    8);
+   yUNIT_minstr ("... check (1) footer line"          , yENV_uindex (myUNIT.name, 5), "TINU  scrp=5    cond=85    test=511   [ pass=495   fail=23    badd=6     void=0     ]");
+   yUNIT_minstr ("... check (2) empty line"           , yENV_uindex (myUNIT.name, 6), "");
+   yUNIT_minstr ("... check (3) final line"           , yENV_uindex (myUNIT.name, 7), "yUNIT - heatherly unit testing framework ---------------------------------------(end)");
+   yUNIT_minstr ("... check (4) empty line"           , yENV_uindex (myUNIT.name, 8), "(n/a)");
+   yUNIT_minval ("remove the reporting file"          , yunit_remove ()            , 0);
+
+   yUNIT_mincond ("close out a unit test (failing)");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM, 1)  , 0);
+   yunit_force_unit (5, 85, 511, 495, 23, 6, 0);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), -29);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    8);
+   yUNIT_minstr ("... check (1) footer line"          , yENV_uindex (myUNIT.name, 5), BACK_RED "TINU  scrp=5    cond=85    test=511   [ pass=495   fail=23    badd=6     void=0     ]" BACK_OFF);
+   yUNIT_minstr ("... check (2) empty line"           , yENV_uindex (myUNIT.name, 6), "");
+   yUNIT_minstr ("... check (3) final line"           , yENV_uindex (myUNIT.name, 7), "yUNIT - heatherly unit testing framework ---------------------------------------(end)");
+   yUNIT_minstr ("... check (4) empty line"           , yENV_uindex (myUNIT.name, 8), "(n/a)");
+   yUNIT_minval ("remove the reporting file"          , yunit_remove ()            , 0);
+
+   yUNIT_mincond ("close out a unit test (warning)");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM, 1)  , 0);
+   yunit_force_unit (5, 85, 511, 495, 0, 6, 0);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), -6);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    8);
+   yUNIT_minstr ("... check (1) footer line"          , yENV_uindex (myUNIT.name, 5), BACK_YEL "TINU  scrp=5    cond=85    test=511   [ pass=495   fail=0     badd=6     void=0     ]" BACK_OFF);
+   yUNIT_minstr ("... check (2) empty line"           , yENV_uindex (myUNIT.name, 6), "");
+   yUNIT_minstr ("... check (3) final line"           , yENV_uindex (myUNIT.name, 7), "yUNIT - heatherly unit testing framework ---------------------------------------(end)");
+   yUNIT_minstr ("... check (4) empty line"           , yENV_uindex (myUNIT.name, 8), "(n/a)");
+   yUNIT_minval ("remove the reporting file"          , yunit_remove ()            , 0);
+
+   yUNIT_mincond ("close out a unit test (passing)");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  ("/tmp/yunit_unit", YUNIT_FULL, YUNIT_ETERM, 1)  , 0);
+   yunit_force_unit (5, 85, 511, 495, 0, 0, 0);
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    8);
+   yUNIT_minstr ("... check (1) footer line"          , yENV_uindex (myUNIT.name, 5), BACK_GRN "TINU  scrp=5    cond=85    test=511   [ pass=495   fail=0     badd=0     void=0     ]" BACK_OFF);
+   yUNIT_minstr ("... check (2) empty line"           , yENV_uindex (myUNIT.name, 6), "");
+   yUNIT_minstr ("... check (3) final line"           , yENV_uindex (myUNIT.name, 7), "yUNIT - heatherly unit testing framework ---------------------------------------(end)");
+   yUNIT_minstr ("... check (4) empty line"           , yENV_uindex (myUNIT.name, 8), "(n/a)");
+   yUNIT_minval ("remove the reporting file"          , yunit_remove ()            , 0);
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", P_ONELINE);
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   UNIT___base_globals       (++n, x_list, x_unit);
+   UNIT___base_unit          (++n, x_list, x_unit);
+   UNIT___base_tinu          (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+
+

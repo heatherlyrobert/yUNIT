@@ -1,0 +1,727 @@
+#include    "master.munit"
+
+
+
+char
+UNIT___step_char        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify character comparison calls");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify quick success");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'A'                    ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a character ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (65)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : c_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   1åAæ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   1åAæ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a failure");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'B'                    ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a character ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (65)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : c_equal    (rc = -101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   1åAæ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   1åBæ");
+   yUNIT_minstr   ("... check issue"                    , yENV_upeek (myUNIT.name, '>'), "      ISSUE (1/-) å°æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=1     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a bad test");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equaly" , 'A'                    , 'B'                    ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a character ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (65)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : c_equaly   (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   1åAæ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   1åBæ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=3     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'B'                    ,    0),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) CHAR   : verify a character ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_int_size    (char a_scrp, char a_list, char a_unit)
+{
+   char        x_sig       =    0;
+   char        x_exp       =    0;
+   char        x_places    =    0;
+   char        x_digits    =    0;
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify integer number sizing");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("call real sizing"                   , yunit_int_sizing  (1234567      , &x_sig, &x_exp, &x_digits),    0);
+   yUNIT_minval   ("... check exp"                      , x_exp      ,    6);
+   yUNIT_minval   ("... check whole"                    , x_digits   ,    7);
+   yUNIT_minval   ("... check sig"                      , x_sig      ,    7);
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("call real sizing"                   , yunit_int_sizing  (1230000000000, &x_sig, &x_exp, &x_digits),    0);
+   yUNIT_minval   ("... check exp"                      , x_exp      ,   12);
+   yUNIT_minval   ("... check whole"                    , x_digits   ,   13);
+   yUNIT_minval   ("... check sig"                      , x_sig      ,    3);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_int_show    (char a_scrp, char a_list, char a_unit)
+{
+   char        x_expe      [LEN_RECD]  = "";
+   char        x_actu      [LEN_RECD]  = "";
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify integer number sizing");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify integer comparison");
+   yUNIT_eterm ('y', '-');
+   yUNIT_minval   ("call int show"                      , yunit_int_show    (1234567      , 1234567      , x_expe, x_actu),    0);
+   yUNIT_minstr   ("... check expect"                   , x_expe     , "  7å1234567æ   7d   7s  1.23456700000000e+06");
+   yUNIT_minstr   ("... check actual"                   , x_actu     , "  7å1234567æ   7d   7s  1.23456700000000e+06");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify integer comparison (ETERM)");
+   yUNIT_eterm ('y', '-');
+   yUNIT_minval   ("call int show"                      , yunit_int_show    (123456000    , 54000        , x_expe, x_actu),    0);
+   yUNIT_minstr   ("... check expect"                   , x_expe     , "  9å123456000æ   9d   6s  1.23456000000000e+08");
+   yUNIT_minstr   ("... check actual"                   , x_actu     , "  9å····54000æ   5d   2s  5.40000000000000e+04");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify integer comparison");
+   yUNIT_eterm ('-', '-');
+   yUNIT_minval   ("call int show"                      , yunit_int_show    (123456000    , 54000        , x_expe, x_actu),    0);
+   yUNIT_minstr   ("... check expect"                   , x_expe     , "  9[123456000]   9d   6s  1.23456000000000e+08");
+   yUNIT_minstr   ("... check actual"                   , x_actu     , "  9[    54000]   5d   2s  5.40000000000000e+04");
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_int         (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify integer comparison calls");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify quick success");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 12345                  , 12345                  ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify an integer  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (65)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   5å12345æ   5d   5s  1.23450000000000e+04");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   5å12345æ   5d   5s  1.23450000000000e+04");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a failure");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 123456000              , 54000                  ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify an integer  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (65)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc = -101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   9å123456000æ   9d   6s  1.23456000000000e+08");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   9å····54000æ   5d   2s  5.40000000000000e+04");
+   yUNIT_minstr   ("... check issue"                    , yENV_upeek (myUNIT.name, '>'), "      ISSUE  : ····°°°°·°·······°····°···°·°°°°°············°");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=1     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a bad test");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_more"   , 12345                  , 12354                  ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify an integer  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (65)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : i_more     (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   5å12345æ   5d   5s  1.23450000000000e+04");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   5å12354æ   5d   5s  1.23540000000000e+04");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=3     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 12345                  , 12354                  ,    0),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) INT    : verify an integer  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_real_size   (char a_scrp, char a_list, char a_unit)
+{
+   char        x_sig       =    0;
+   char        x_exp       =    0;
+   char        x_places    =    0;
+   char        x_digits    =    0;
+   char        x_fracts    =    0;
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify real number sizing");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("call real sizing"                   , yunit_real_sizing (1234567.26   , &x_sig, &x_exp, &x_places, &x_digits, &x_fracts),    0);
+   yUNIT_minval   ("... check exp"                      , x_exp      ,    6);
+   yUNIT_minval   ("... check whole"                    , x_digits   ,    7);
+   yUNIT_minval   ("... check fraction"                 , x_fracts   ,    2);
+   yUNIT_minval   ("... check sig"                      , x_sig      ,    9);
+   yUNIT_minval   ("... check places"                   , x_places   ,   10);
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("call real sizing"                   , yunit_real_sizing (3.1415927    , &x_sig, &x_exp, &x_places, &x_digits, &x_fracts),    0);
+   yUNIT_minval   ("... check exp"                      , x_exp      ,    0);
+   yUNIT_minval   ("... check whole"                    , x_digits   ,    1);
+   yUNIT_minval   ("... check fraction"                 , x_fracts   ,    7);
+   yUNIT_minval   ("... check sig"                      , x_sig      ,    8);
+   yUNIT_minval   ("... check places"                   , x_places   ,    9);
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("call real sizing"                   , yunit_real_sizing (93000000000000.0, &x_sig, &x_exp, &x_places, &x_digits, &x_fracts),    0);
+   yUNIT_minval   ("... check exp"                      , x_exp      ,   13);
+   yUNIT_minval   ("... check whole"                    , x_digits   ,   14);
+   yUNIT_minval   ("... check fraction"                 , x_fracts   ,    1);
+   yUNIT_minval   ("... check sig"                      , x_sig      ,    2);
+   yUNIT_minval   ("... check places"                   , x_places   ,   16);
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("call real sizing"                   , yunit_real_sizing (0.000000000000012345670, &x_sig, &x_exp, &x_places, &x_digits, &x_fracts),    0);
+   yUNIT_minval   ("... check exp"                      , x_exp      ,  -14);
+   yUNIT_minval   ("... check whole"                    , x_digits   ,    1);
+   yUNIT_minval   ("... check fraction"                 , x_fracts   ,   20);
+   yUNIT_minval   ("... check sig"                      , x_sig      ,    7);
+   yUNIT_minval   ("... check places"                   , x_places   ,   22);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_real_show   (char a_scrp, char a_list, char a_unit)
+{
+   char        x_expe      [LEN_RECD]  = "";
+   char        x_actu      [LEN_RECD]  = "";
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify real number sizing");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify real comparison");
+   yUNIT_eterm ('y', '-');
+   yUNIT_minval   ("call real show"                     , yunit_real_show   (1234567.26   , 1234567.26   , x_expe, x_actu),    0);
+   yUNIT_minstr   ("... check expect"                   , x_expe     , " 10å1234567.26æ   7d   2f  10p   9s  1.23456726000000e+06");
+   yUNIT_minstr   ("... check actual"                   , x_actu     , " 10å1234567.26æ   7d   2f  10p   9s  1.23456726000000e+06");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify real comparison (ETERM)");
+   yUNIT_eterm ('y', '-');
+   yUNIT_minval   ("call real show"                     , yunit_real_show   (1234567.26   , 12.3456726   , x_expe, x_actu),    0);
+   yUNIT_minstr   ("... check expect"                   , x_expe     , " 10å1234567.26·····æ   7d   2f  10p   9s  1.23456726000000e+06");
+   yUNIT_minstr   ("... check actual"                   , x_actu     , " 10å·····12.3456726æ   2d   7f  10p   9s  1.23456726000000e+01");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify real comparison");
+   yUNIT_eterm ('-', '-');
+   yUNIT_minval   ("call real show"                     , yunit_real_show   (1234567.26   , 12.3456726   , x_expe, x_actu),    0);
+   yUNIT_minstr   ("... check expect"                   , x_expe     , " 10[1234567.26     ]   7d   2f  10p   9s  1.23456726000000e+06");
+   yUNIT_minstr   ("... check actual"                   , x_actu     , " 10[     12.3456726]   2d   7f  10p   9s  1.23456726000000e+01");
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_real        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify real number comparison calls");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify quick success");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"            , "r_equal"  , 3.1415927              , 3.1415927              ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a float  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (3)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : r_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   9å3.1415927æ   1d   7f   9p   8s  3.14159270000000e+00");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   9å3.1415927æ   1d   7f   9p   8s  3.14159270000000e+00");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a failure");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"            , "r_equal"  , 3.1415927              , 3.1425917              ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a float  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (3)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : r_equal    (rc = -101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   9å3.1415927æ   1d   7f   9p   8s  3.14159270000000e+00");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   9å3.1425917æ   1d   7f   9p   8s  3.14259170000000e+00");
+   yUNIT_minstr   ("... check issue"                    , yENV_upeek (myUNIT.name, '>'), "      ISSUE  : ········°··°····························°··°············");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=1     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a bad test");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"           , "r_more"   , 3.1415927              , 3.1425917              ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a float  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (3)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : r_more     (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   9å3.1415927æ   1d   7f   9p   8s  3.14159270000000e+00");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   9å3.1425917æ   1d   7f   9p   8s  3.14259170000000e+00");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=3     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"           , "i_equal"  , 3.1415927              , 3.1425917              ,    0),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) REAL   : verify a float  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_point       (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify pointer comparison calls");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify quick success");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "p_equal"  , 0x12345678             , 0x12345678             ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a pointer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : p_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  10å0x12345678æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  10å0x12345678æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify failure");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "p_equal"  , 0x12345678             , 0x12345687             ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a pointer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : p_equal    (rc = -101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  10å0x12345678æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  10å0x12345687æ");
+   yUNIT_minstr   ("... check modify"                   , yENV_upeek (myUNIT.name, '>'), "      ISSUE (2/-) å········°°æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=1     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify bad test");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "i_equal"  , 0x12345678             , 0x12345687             ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a pointer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  10å0x12345678æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  10å0x12345687æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=3     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "i_equal"  , 0x12345678             , 0x12345687             ,    0),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) POINT  : verify a pointer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_string      (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify string comparison calls");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify quick success");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_equal"  , "test 123.76"          , "test 123.76"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : s_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify failure");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_equal"  , "test 123.76"          , "test 122.76"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : s_equal    (rc = -101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  11åtest 122.76æ");
+   yUNIT_minstr   ("... check modify"                   , yENV_upeek (myUNIT.name, '>'), "      ISSUE (1/-) å·······°···æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=1     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify bad test");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_eq"     , "test 123.76"          , "test 122.76"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : s_eq       (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  11åtest 122.76æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=3     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify display only");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_eq"     , "test 123.76"          , "test 122.76"          ,    0),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) STRING : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_wrap        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify wrap string comparison calls");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify quick success");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 123.76"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : s_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  13ååtest 123.76ææ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  13ååtest 123.76ææ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify failure");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 122.76"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : s_equal    (rc = -101, test abbr = e)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  13ååtest 123.76ææ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  13ååtest 122.76ææ");
+   yUNIT_minstr   ("... check modify"                   , yENV_upeek (myUNIT.name, '>'), "      ISSUE (1/-) å········°····æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=1     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify bad test");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_eq"     , "åtest 123.76æ"          , "test 122.76"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : s_eq       (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  13ååtest 123.76ææ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  13ååtest 122.76ææ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=3     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify display only");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 122.76"          ,    0),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) STRING : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_round       (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify round comparison calls");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify quick success");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.76"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : u_round/1  (rc =  117, test abbr = u)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify failure");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.78"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : u_round/1  (rc = -117, test abbr = u)");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  11åtest 123.78æ");
+   yUNIT_minstr   ("... check modify"                   , yENV_upeek (myUNIT.name, '>'), "      ISSUE (1/-) å··········°æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=1     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify bad test");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "i_equal"  , "test 123.76"          , "test 123.78"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :  11åtest 123.78æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=3     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a display only");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.78"          ,    0),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) ROUND  : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___step_unknow      (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_step"    , "(STEP) verify unknown calls");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify quick success");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_unknown   ( 954,  25, "verify a round"       , "simple_function", "p"            , "j_equal"  , "test 123.76"          , "test 123.76"          ,    1),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : simple_function (p)");
+   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : j_equal    (rc =  -94, test abbr = ?) BAD TEST");
+   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :  11åtest 123.76æ");
+   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   5å(n/a)æ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=0     fail=0     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", P_ONELINE);
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   UNIT___step_char          (++n, x_list, x_unit);
+   UNIT___step_int_size      (++n, x_list, x_unit);
+   UNIT___step_int_show      (++n, x_list, x_unit);
+   UNIT___step_int           (++n, x_list, x_unit);
+   UNIT___step_real_size     (++n, x_list, x_unit);
+   UNIT___step_real_show     (++n, x_list, x_unit);
+   UNIT___step_real          (++n, x_list, x_unit);
+   UNIT___step_point         (++n, x_list, x_unit);
+   UNIT___step_string        (++n, x_list, x_unit);
+   UNIT___step_wrap          (++n, x_list, x_unit);
+   UNIT___step_round         (++n, x_list, x_unit);
+   UNIT___step_unknow        (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+

@@ -1,0 +1,78 @@
+#include    "master.munit"
+
+
+
+char
+UNIT___wave_write       (char a_scrp, char a_list, char a_unit)
+{
+   FILE       *f           = NULL;
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_wave"    , "(WAVE) verify wave writing");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("open the wave file");
+   yUNIT_minptr   ("open wave file"                     , f = fopen (s_nwave, "wt") ,    1);
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a single wave");
+   yUNIT_minval   ("call wave beg"                      , yUNIT_wave_beg ("yUNIT"  , "yUNIT_wave"   ,  1,  "testing wave writing"  , "waves"  , '1', 'a', 'K', "2m" ),    0);
+   yUNIT_minval   ("call wave end"                      , yUNIT_wave_end (f,   1,   1,  12, 132),    0);
+   yUNIT_minval   ("... check line count"               , yENV_ulines (s_nwave         ),    4);
+   yUNIT_minstr   ("... check title"                    , yENV_upeek  (s_nwave    , '['), "## ouroboros-aperantos (tail-eater) master unit testing sequencer");
+   yUNIT_minstr   ("... check sub-title"                , yENV_upeek  (s_nwave    , '>'), "## single unit test wave file");
+   yUNIT_minstr   ("... check headers"                  , yENV_upeek  (s_nwave    , '>'), "##--  timestamp-----------------  epoch-----  project-------------  unit--------------------------  sc  S  description-----------------------------------------------------------  terse---------------  w  s  i  nun  nsc  nco  nstp  est  exp  R  pass  fail  badd  void  miss  act ");
+   yUNIT_minstr   ("... check wave"                     , yENV_upeek  (s_nwave    , '>'), "WAVE  ¬¬.¬¬.¬¬.¬¬.¬¬.¬¬.¬.¬¬.¬¬¬  ¬¬¬¬¬¬¬¬¬¬  yUNIT                 yUNIT_wave                       1  Ï  testing wave writing                                                    waves                 1  a  K    1    1   12   132   2m  120  -     0     0     0     0   132    0 ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (s_nwave    , '>'), "(n/a)");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify an actual wave");
+   yUNIT_minval   ("call wave beg"                      , yUNIT_wave_beg ("yUNIT"  , "yUNIT_wave"   ,  2,  "reading back waves"    , "read"   , '1', 'b', '·', "21s"),    0);
+   yUNIT_minval   ("call wave actual"                   , yUNIT_wave_act (f,   1,   1,   5,  41, 'f', 32,  2,  1,  5, 23),    0);
+   yUNIT_minval   ("... check line count"               , yENV_ulines (s_nwave         ),    5);
+   yUNIT_minstr   ("... check title"                    , yENV_upeek  (s_nwave    , '['), "## ouroboros-aperantos (tail-eater) master unit testing sequencer");
+   yUNIT_minstr   ("... check sub-title"                , yENV_upeek  (s_nwave    , '>'), "## single unit test wave file");
+   yUNIT_minstr   ("... check headers"                  , yENV_upeek  (s_nwave    , '>'), "##--  timestamp-----------------  epoch-----  project-------------  unit--------------------------  sc  S  description-----------------------------------------------------------  terse---------------  w  s  i  nun  nsc  nco  nstp  est  exp  R  pass  fail  badd  void  miss  act ");
+   yUNIT_minstr   ("... check wave"                     , yENV_upeek  (s_nwave    , '>'), "WAVE  ¬¬.¬¬.¬¬.¬¬.¬¬.¬¬.¬.¬¬.¬¬¬  ¬¬¬¬¬¬¬¬¬¬  yUNIT                 yUNIT_wave                       1  Ï  testing wave writing                                                    waves                 1  a  K    1    1   12   132   2m  120  -     0     0     0     0   132    0 ");
+   yUNIT_minstr   ("... check wave"                     , yENV_upeek  (s_nwave    , '>'), "WAVE  ¬¬.¬¬.¬¬.¬¬.¬¬.¬¬.¬.¬¬.¬¬¬  ¬¬¬¬¬¬¬¬¬¬  yUNIT                 yUNIT_wave                       2  Ï  reading back waves                                                      read                  1  b  ·    1    1    5    41  21s   21  f    32     2     1     5     1   23 ");
+   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (s_nwave    , '>'), "(n/a)");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("close the wave file");
+   yUNIT_minptr   ("close wave file"                    , fclose (f)                ,    0);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", P_ONELINE);
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   UNIT___wave_write         (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+

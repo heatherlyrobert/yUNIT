@@ -1,72 +1,52 @@
 #include "yUNIT.h"
 #include "yUNIT_priv.h"
 
-static   char    s_share   = ' ';
-static   char    zUNIT_desc    [LEN_HUND]  = "";
 
 
-char    /*  PURPOSE :: display a shared condition message                     */
-yUNIT_shar              (char a_share, char a_select, char *a_desc)
+char
+yunit_share__open       (char a_type, char a_label [LEN_TERSE], char a_share, char a_select, char a_desc [LEN_LONG])
 {
-   char        x_desc      [LEN_HUND] = "???";
-   if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
+   /*---(locals)-----------+-----+-----+-*/
+   char        x_desc      [LEN_LONG]  = "";
+   char        x_on        [LEN_TERSE] = "";
+   char        x_off       [LEN_TERSE] = "";
+   /*---(empty line)---------------------*/
    IF_STEP   yunit_printf  ("\n");
-   yunit_header (TYPE_SHARED, 0, (uchar) a_share, NULL, x_desc, a_share, a_select);
+   /*---(text)---------------------------*/
+   yunit_final_prep  (a_type, a_share, 0, 0, a_desc, 85 - 22, YSTR_TEXT_CEN, 3, YSTR_DASH, NULL, NULL, x_desc);
+   /*---(display)------------------------*/
+   yunit_final_color (YUNIT_MONO, a_type, &x_on, NULL, &x_off, NULL, NULL);
+   if (a_select == '-') sprintf (s_print, "  %s%-6.6s (%c) ==--%s---==%s", x_on, a_label, (uchar) a_share, x_desc, x_off);
+   else                 sprintf (s_print, "  %s%-6.6s (%c/%c) ==-%s--==%s", x_on, a_label, (uchar) a_share, (uchar) a_select, x_desc, x_off);
    IF_STEP   yunit_printf  ("%s\n", s_print);
-   s_share = a_share;
-   strcpy (zUNIT_desc, x_desc);
+   /*---(complete)-----------------------*/
    return 0;
 }
 
-char    /*  PURPOSE :: display a shared condition message                     */
-yUNIT_rahs              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep)
+char yUNIT_shar              (char a_share, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_SHARED, "SHARED", a_share, a_select, a_desc); }
+char yUNIT_glob              (char a_share, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_GLOBAL, "GLOBAL", a_share, a_select, a_desc); }
+char yUNIT_conf              (char a_share, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_CONFIG, "CONFIG", a_share, a_select, a_desc); }
+
+char
+yunit_share__close      (char a_type, char a_label [LEN_LABEL], char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep)
 {
+   /*---(locals)-----------+-----+-----+-*/
+   char        t           [LEN_LONG]  = "";
+   char        x_on        [LEN_TERSE] = "";
+   char        x_off       [LEN_TERSE] = "";
+   /*---(empty line)---------------------*/
    IF_STEP   yunit_printf  ("\n");
-   yunit_footer (TYPE_DERAHS, a_share, a_select, a_econd, a_estep, a_acond, a_astep);
+   /*---(display)------------------------*/
+   yunit_final_color (YUNIT_MONO, a_type, &x_on, NULL, &x_off, NULL, NULL);
+   if (a_select == '-')  sprintf (s_print, "  %s%-6.6s (%c)--[ cond=%-5d test=%-5d ]---------------------[ cond=%-5d test=%-5d ]%s", x_on, a_label, a_share, a_econd, a_estep, a_acond, a_astep, x_off);
+   else                  sprintf (s_print, "  %s%-6.6s (%c)--[ cond=%-5d test=%-5d ]--------( %c >>>------[ cond=%-5d test=%-5d ]%s", x_on, a_label, a_share, a_econd, a_estep, a_select, a_acond, a_astep, x_off);
    IF_STEP   yunit_printf  ("%s\n", s_print);
+   /*---(complete)-----------------------*/
    return 0;
 }
 
-char    /*  PURPOSE :: display a shared condition message                     */
-yUNIT_glob              (char a_share, char a_select, char *a_desc)
-{
-   char        x_desc      [LEN_HUND] = "???";
-   if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
-   IF_STEP   yunit_printf  ("\n");
-   yunit_header (TYPE_GLOBAL, 0, (uchar) a_share, NULL, x_desc, a_share, a_select);
-   IF_STEP   yunit_printf  ("%s\n", s_print);
-   s_share = a_share;
-   strcpy (zUNIT_desc, x_desc);
-   return 0;
-}
+char yUNIT_rahs              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep) { return yunit_share__close (TYPE_DERAHS, "DERAHS", a_share, a_select, a_econd, a_estep, a_acond, a_astep); }
+char yUNIT_bolg              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep) { return yunit_share__close (TYPE_LABOLG, "LABOLG", a_share, a_select, a_econd, a_estep, a_acond, a_astep); }
+char yUNIT_fnoc              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep) { return yunit_share__close (TYPE_GIFNOC, "GIFNOC", a_share, a_select, a_econd, a_estep, a_acond, a_astep); }
 
-char    /*  PURPOSE :: display a shared condition message                     */
-yUNIT_bolg              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep)
-{
-   IF_STEP   yunit_printf  ("\n");
-   yunit_footer (TYPE_LABOLG, a_share, a_select, a_econd, a_estep, a_acond, a_astep);
-   IF_STEP   yunit_printf  ("%s\n", s_print);
-   return 0;
-}
 
-char    /*  PURPOSE :: display a shared condition message                     */
-yUNIT_conf              (char a_share, char a_select, char *a_desc)
-{
-   char        x_desc      [LEN_HUND] = "???";
-   if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
-   IF_STEP   yunit_printf  ("\n");
-   yunit_header (TYPE_CONFIG, 0, (uchar) a_share, NULL, x_desc, a_share, a_select);
-   IF_STEP   yunit_printf  ("%s\n", s_print);
-   s_share = a_share;
-   strcpy (zUNIT_desc, x_desc);
-   return 0;
-}
-
-char    /*  PURPOSE :: display a shared condition message                     */
-yUNIT_fnoc              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep)
-{
-   IF_STEP   yunit_printf  ("\n");
-   yunit_footer (TYPE_GIFNOC, a_share, a_select, a_econd, a_estep, a_acond, a_astep);
-   IF_STEP   yunit_printf  ("%s\n", s_print);
-   return 0;
-}

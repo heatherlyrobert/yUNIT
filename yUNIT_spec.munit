@@ -1,0 +1,271 @@
+#include    "master.munit"
+
+
+char
+UNIT___spec_mode        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_spec"    , "(SPEC) verify mode call");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify forced failure mode");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_mode    (   954,    5, "change mode to forced fail"   , "FORCED_FAIL"         , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "MODE  " BACK_OFF " : ENABLE FORCED FAILURE (pass=fail, fail=pass)  ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=0     fail=0     badd=0     void=1     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify returning to normal mode");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_mode    (   954,    5, "change mode to forced fail"   , "normal"              , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "MODE  " BACK_OFF " : normal (a pass is a pass ;) ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=0     fail=0     badd=0     void=2     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),    0);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___spec_code        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_spec"    , "(SPEC) verify code call");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify inserting a code line");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_code    (   954,    5, "code for execution"           , "x_one = 3.1415927 * r;"                   , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "CODE  " BACK_OFF " : code for execution ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      code   :  22åx_one = 3.1415927 * r;æ");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=0     fail=0     badd=0     void=1     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),    0);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___spec_local       (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_spec"    , "(SPEC) verify local call");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify inserting a code line");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_local   (   954,    5, "local variable for use"       , "int   x_one =   0;"                       , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "LOCAL " BACK_OFF " : local variable for use · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      local  :  18åint   x_one =   0;æ");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=0     fail=0     badd=0     void=1     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),    0);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___spec_load        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_spec"    , "(SPEC) verify load call");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify calling load");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_load    (   954,    5, "push data into queue"         , "pipe"   , "good data for review\n"                   , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "LOAD  " BACK_OFF " : push data into queue  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      pipe   :  21ågood data for review¦æ");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=0     fail=0     badd=0     void=1     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),    0);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___spec_file        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_spec"    , "(SPEC) verify file call");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify calling file");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tmp/crazy"                               , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "PASS  " BACK_OFF " : prepare new file · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      file   :  10å/tmp/crazyæ");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify calling file");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tempy/crazy"                             , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_RED "FAIL  " BACK_OFF " : prepare new file · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    4);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      file   :  12å/tempy/crazyæ");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      ERROR  : 2 > No such file or directory");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=1     badd=0     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___spec_append      (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_spec"    , "(SPEC) verify file appending call");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify calling append");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tmp/crazy"                               , 1), 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_append  (   954,    5, "add data to end"              , "data row to add"                          , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "PASS  " BACK_OFF " : add data to end ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      append :  15ådata row to addæ");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=2     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify calling append");
+   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tempy/crazy"                             , 1), 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_append  (   954,    5, "add data to end"              , "data row to add"                          , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_RED "FAIL  " BACK_OFF " : add data to end ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    4);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      append :  15ådata row to addæ");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      ERROR  : no file is currently specified");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=2     fail=2     badd=0     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___spec_system      (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_spec"    , "(SPEC) verify system call");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify calling system");
+   yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_system  (   954,    5, "quick command"                , "ls -l > /tmp/null 2>&1"  , "ls -l > /tmp/null 2>&1"  , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "PASS  " BACK_OFF " : quick command · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      system :  22åls -l > /tmp/null 2>&1æ");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify calling system");
+   yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_system  (   954,    5, "quick command"                , "LS -l > /tmp/null 2>&1"  , "LS -l > /tmp/null 2>&1"  , 1), 0);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_YEL "WARN  " BACK_OFF " : quick command · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    4);
+   yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      system :  22åLS -l > /tmp/null 2>&1æ");
+   yUNIT_minstr   ("... check main line"                , yENV_upeek (myUNIT.name, '>'), "      ERROR  : 127 > shell command not found in linux");
+   yUNIT_minstr   ("... after"                          , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=2     [ pass=1     fail=0     badd=1     void=0     ]");
+   yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", P_ONELINE);
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   UNIT___spec_mode          (++n, x_list, x_unit);
+   UNIT___spec_code          (++n, x_list, x_unit);
+   UNIT___spec_local         (++n, x_list, x_unit);
+   UNIT___spec_load          (++n, x_list, x_unit);
+   UNIT___spec_file          (++n, x_list, x_unit);
+   UNIT___spec_append        (++n, x_list, x_unit);
+   UNIT___spec_system        (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+

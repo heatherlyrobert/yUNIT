@@ -193,17 +193,27 @@ yUNIT_eterm             (cchar a_eterm, cchar a_quiet)
    /*---(setup verbosity)------------------*/
    if (a_eterm == YUNIT_ETERM)  {
       sprintf (t, "assign format/color to (%c) ETERM", a_eterm);
-      myUNIT.eterm = YUNIT_ETERM;
-      myUNIT.mono  = 0;
-      myUNIT.pure  = 0;
+      YUNIT_TERM  = YUNIT_ETERM;
+      YUNIT_MONO  = '-';
+      YUNIT_PURE  = '-';
+      YUNIT_BEG   = 'å';
+      YUNIT_END   = 'æ';
+      strlcpy (YUNIT_ELIPSIS, "···"     , LEN_TERSE);
+      strlcpy (YUNIT_SDOTS  , YSTR_ESTEP, LEN_FULL);
+      strlcpy (YUNIT_NDOTS  , YSTR_EDOTS, LEN_FULL);
    } else {
       sprintf (t, "assign format/color to (%c) CONSOLE", a_eterm);
-      myUNIT.eterm = YUNIT_CONSOLE;
-      myUNIT.mono  = 1;
-      myUNIT.pure  = 1;
+      YUNIT_TERM  = YUNIT_CONSOLE;
+      YUNIT_MONO  = 'y';
+      YUNIT_PURE  = 'y';
+      YUNIT_BEG   = '[';
+      YUNIT_END   = ']';
+      strlcpy (YUNIT_ELIPSIS, "   "     , LEN_TERSE);
+      strlcpy (YUNIT_SDOTS  , YSTR_CSTEP, LEN_FULL);
+      strlcpy (YUNIT_NDOTS  , YSTR_EMPTY, LEN_FULL);
    }
    if (a_quiet != 'y')  IF_COND   yunit_printf ("   %-65.65s x ···· %4s %-4s\n", t, x_all, x_uniq);
-   return myUNIT.eterm;
+   return YUNIT_TERM;
 }
 
 char       /*----: change the verbosity level --------------------------------*/
@@ -219,7 +229,7 @@ yUNIT_level             (cchar a_level, cchar a_quiet)
    snprintf (x_uniq, LEN_SHORT, "%4d", myUNIT.ucond);
    for (i = 0; i < LEN_SHORT; ++i)  if (x_uniq [i] == ' ')  x_uniq [i] = '·';
    /*---(setup output level)---------------*/
-   if (a_level >= YUNIT_MUTE && a_level <= YUNIT_FULL) myUNIT.level = a_level;
+   if (a_level >= YUNIT_MUTE && a_level <= YUNIT_MAXX) myUNIT.level = a_level;
    else                                                myUNIT.level = YUNIT_FULL;
    switch (myUNIT.level) {
    case YUNIT_MUTE  : case YUNIT_SUMM  : case YUNIT_SCRP  :
@@ -232,6 +242,9 @@ yUNIT_level             (cchar a_level, cchar a_quiet)
       break;
    case YUNIT_FULL  : 
       sprintf (t, "assign output level to (%d) YUNIT_FULL", myUNIT.level);
+      break;
+   case YUNIT_MAXX  : 
+      sprintf (t, "assign output level to (%d) YUNIT_MAXX", myUNIT.level);
       break;
    }
    if (a_quiet != 'y' && myUNIT.level > YUNIT_SCRP) yunit_printf ("   %-65.65s c ···· %4s %-4s\n", t, x_all, x_uniq);
@@ -288,7 +301,7 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
       break;
    }
    /*---(reset summary counters)-------*/
-   UNIT_SCRP  = UNIT_COND  = UNIT_TEST  = UNIT_PASS  = UNIT_FAIL  = UNIT_BADD  = UNIT_VOID  = 0;
+   yunit_actual_init ();
    /*---(setup defaults)-------------------*/
    yUNIT_level (a_level, '-');
    yUNIT_eterm (a_eterm, '-');
@@ -316,23 +329,22 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
 
 char       /*----: close a unit test -----------------------------------------*/
 yUNIT_tinu              (cchar a_exec)
-{  /*---(variables)------------------------*/
-   int     x_failed  = UNIT_FAIL + UNIT_BADD;
+{  /*---(variables)--------+-----+-----+-*/
+   int         x_failed    =    0;
    char        i           =    0;
-   char        x_stat      [LEN_SHORT] = "";
-   /*---(print message)---------------*/
+   /*---(print message)------------------*/
    IF_SCRP   yunit_printf ("\n");
    IF_SCRP {
-      if (a_exec == 1)  yunit_footer (TYPE_TINU, '-', '-', 0, 0, 0, 0);
-      else              yunit_footer (TYPE_DINU, '-', '-', 0, 0, 0, 0);
+      if (a_exec == 1)  yunit_final_footer (TYPE_TINU);
+      else              yunit_final_footer (TYPE_DINU);
       yunit_printf ("%s\n", s_print);
    }
-   IF_COND  yunit_printf ("\n");
+   /*> IF_COND  yunit_printf ("\n");                                                  <*/
    IF_SCRP  {
       yunit_printf ("\n");
       yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(end)\n");
    }
-   /*---(leak testing)---------------------*/
+   /*---(leak testing)-------------------*/
    /*> myUNIT.is_leak_end    = malloc(sizeof(int));                                   <*/
    /*> free(myUNIT.is_leak_end);                                                      <*/
    /*> if (myUNIT.is_leak_begin != myUNIT.is_leak_end) {                                                                                                                                            <* 
@@ -340,30 +352,12 @@ yUNIT_tinu              (cchar a_exec)
     *> } else {                                                                                                                                                                                     <* 
     *>    IF_COND   yunit_printf ("\nno memory leak :: start=%p, end=%p\n", myUNIT.is_leak_begin, myUNIT.is_leak_end);                                                                         <* 
     *> }                                                                                                                                                                                            <*/
-   /*---(update header)---------------------*/
+   /*---(update header)------------------*/
    fflush (yUNIT_out);
    yunit_close ();
-   if (myUNIT.level >= 3) {
-      yUNIT_out = fopen (myUNIT.name, "r+");
-      snprintf (x_stat, LEN_SHORT, "%4d" , UNIT_SCRP);
-      for (i = 0; i < LEN_SHORT; ++i)  if (x_stat [i] == ' ')  x_stat [i] = '·';
-      fseek (yUNIT_out, (86 * 1) + 71, SEEK_SET);
-      fprintf (yUNIT_out, "%4s", x_stat);
-      snprintf (x_stat, LEN_SHORT, "%4d" , UNIT_COND);
-      for (i = 0; i < LEN_SHORT; ++i)  if (x_stat [i] == ' ')  x_stat [i] = '·';
-      fseek (yUNIT_out, (86 * 2) + 71, SEEK_SET);
-      fprintf (yUNIT_out, "%4s", x_stat);
-      snprintf (x_stat, LEN_SHORT, "%4d" , UNIT_TEST);
-      for (i = 0; i < LEN_SHORT; ++i)  if (x_stat [i] == ' ')  x_stat [i] = '·';
-      fseek (yUNIT_out, (86 * 3) + 71, SEEK_SET);
-      fprintf (yUNIT_out, "%4s", x_stat);
-      fflush (yUNIT_out);
-      yunit_close ();
-   }
-   /*---(complete)--------------------------*/
+   x_failed = yunit_actual_wrap (myUNIT.level);
    if (x_failed > 100) x_failed = 100;
-   /*> pr("%d\n", -x_failed);                                                    <*/
-   /*> printf ("done, done\n");                                                       <*/
+   /*---(complete)-----------------------*/
    return -x_failed;
 }
 

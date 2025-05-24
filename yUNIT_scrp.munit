@@ -1,0 +1,321 @@
+#include    "master.munit"
+
+
+
+char
+UNIT___scrp_scrp        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_scrp"    , "(SCRP) verify script openning (yUNIT_scrp)");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("full script openner");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   1, "0a/k", "first script"      , "1s", "quick"    , "yUNIT_scrp"                ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [01] first script ================================================[0a/k]=[00954]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    5);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "");
+   yUNIT_minstr ("... check separator"                , yENV_upeek  (myUNIT.name, '>'), "===[[ NEW SCRIPT ]]==================================================================");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), "SCRP [01] first script ================================================[0a/k]=[00954]");
+   yUNIT_minstr ("... check focus"                    , yENV_upeek  (myUNIT.name, '>'), "  1s  : quick          : yUNIT_scrp");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("condition-level script openner");
+   yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_COND, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   362,   5, "1f/A", "second script"     , "2m", "slowly"   , "yUNIT_scrp_slow"           ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [05] second script ===============================================[1f/A]=[00362]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), "SCRP [05] second script ===============================================[1f/A]=[00362]");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("script-level script openner");
+   yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_SCRP, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  ( 12987,  19, "··/·", "third example"     , "·" , "slowly"   , "yUNIT_scrp_simple"         ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [19] third example ===============================================[··/·]=[12987]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), "SCRP [19] third example ===============================================[··/·]=[12987]");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("summary-level script openner");
+   yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_SUMM, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  ( 98765,  99, "9z/J", "big fourth one"    , "·" , "slowly"   , "yUNIT_scrp_simple"         ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [99] big fourth one ==============================================[9z/J]=[98765]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    1);
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '['), "SCRP [99] big fourth one ==============================================[9z/J]=[98765]");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("full script openner (as ETERM)");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (   954,   1, "0a/k", "first script"      , "1s", "quick"    , "yUNIT_scrp"                ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [01] first script ================================================[0a/k]=[00954]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    5);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "");
+   yUNIT_minstr ("... check separator"                , yENV_upeek  (myUNIT.name, '>'), "===[[ NEW SCRIPT ]]==================================================================");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), "SCRP [01] first script ================================================[0a/k]=[00954]");
+   yUNIT_minstr ("... check focus"                    , yENV_upeek  (myUNIT.name, '>'), "  1s  : quick          : yUNIT_scrp");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("line numbers out-of-bounds");
+   yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_SUMM, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (    -1,  19, "9z/J", "big fourth one"    , "·" , "slowly"   , "yUNIT_scrp_simple"         ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [19] big fourth one ==============================================[9z/J]=[-----]");
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  (100000,  19, "9z/J", "big fourth one"    , "·" , "slowly"   , "yUNIT_scrp_simple"         ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [19] big fourth one ==============================================[9z/J]=[*****]");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("script numbers out-of-bounds");
+   yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_SUMM, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  ( 98765,  -1, "9z/J", "big fourth one"    , "·" , "slowly"   , "yUNIT_scrp_simple"         ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [--] big fourth one ==============================================[9z/J]=[98765]");
+   yUNIT_minval ("call SCRP verb handler"             , yUNIT_scrp  ( 98765, 100, "9z/J", "big fourth one"    , "·" , "slowly"   , "yUNIT_scrp_simple"         ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SCRP [**] big fourth one ==============================================[9z/J]=[98765]");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+UNIT___scrp_prcs        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_scrp"    , "(SCRP) verify script closing (yUNIT_pcrs)");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("verify script closing");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yunit_force_scrp (    55, 511, 495, 23, 6, 0);
+   yUNIT_minval ("call PCRS verb handler"             , yUNIT_prcs  (1)                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  PRCS  ------- cond=55    test=511   [ pass=495   fail=23    badd=6     void=0     ]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), -999);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify script closing (ETERM fail)");
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yunit_force_scrp (    55, 511, 495, 23, 6, 0);
+   yUNIT_minval ("call PCRS verb handler"             , yUNIT_prcs  (1)                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_RED "PRCS  ------- cond=55    test=511   [ pass=495   fail=23    badd=6     void=0     ]" BACK_OFF);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), -999);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify script closing (ETERM warn)");
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yunit_force_scrp (    55, 511, 495,  0, 6, 0);
+   yUNIT_minval ("call PCRS verb handler"             , yUNIT_prcs  (1)                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_YEL "PRCS  ------- cond=55    test=511   [ pass=495   fail=0     badd=6     void=0     ]" BACK_OFF);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), -999);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify script closing (ETERM pass)");
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yunit_force_scrp (    55, 511, 495,  0, 0, 0);
+   yUNIT_minval ("call PCRS verb handler"             , yUNIT_prcs  (1)                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_GRN "PRCS  ------- cond=55    test=511   [ pass=495   fail=0     badd=0     void=0     ]" BACK_OFF);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1),    0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+UNIT___scrp_sect        (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_scrp"    , "(SCRP) verify sectioning (yUNIT_sect)");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("verify simple success, full unit level");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SECT verb handler"             , yUNIT_sect  ("a section"                       ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                          a section                          ----=== TCES");
+   yUNIT_minval ("call SECT with SCRP"                , yUNIT_sect  ("SCRP"                            ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                          a section                          ----=== TCES");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    5);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "");
+   yUNIT_minstr ("... check top divider"              , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check section text"             , yENV_upeek  (myUNIT.name, '>'), "SECT ===----                          a section                          ----=== TCES");
+   yUNIT_minstr ("... check bottom divider"           , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify with longer description, condition-level");
+   yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_COND, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SECT verb handler"             , yUNIT_sect  ("system initialization"           ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                    system initialization                    ----=== TCES");
+   yUNIT_minval ("call SECT with SCRP"                , yUNIT_sect  ("SCRP"                            ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                    system initialization                    ----=== TCES");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    5);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "");
+   yUNIT_minstr ("... check top divider"              , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check section text"             , yENV_upeek  (myUNIT.name, '>'), "SECT ===----                    system initialization                    ----=== TCES");
+   yUNIT_minstr ("... check bottom divider"           , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify script-level");
+   yUNIT_minval ("create a unit on scrp output"       , yUNIT_unit  (s_nconv, YUNIT_SCRP, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SECT verb handler"             , yUNIT_sect  ("system initialization"           ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                    system initialization                    ----=== TCES");
+   yUNIT_minval ("call SECT with SCRP"                , yUNIT_sect  ("SCRP"                            ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                    system initialization                    ----=== TCES");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check section text"             , yENV_upeek  (myUNIT.name, '>'), "SECT ===----                    system initialization                    ----=== TCES");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify at summary level");
+   yUNIT_minval ("create a unit on mute output"       , yUNIT_unit  (s_nconv, YUNIT_SUMM, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SECT verb handler"             , yUNIT_sect  ("system initialization"           ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                    system initialization                    ----=== TCES");
+   yUNIT_minval ("call SECT with SCRP"                , yUNIT_sect  ("SCRP"                            ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                    system initialization                    ----=== TCES");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify full-level in ETERM mode");
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SECT verb handler"             , yUNIT_sect  ("a section"                       ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                          a section                          ----=== TCES");
+   yUNIT_minval ("call SECT with SCRP"                , yUNIT_sect  ("SCRP"                            ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                          a section                          ----=== TCES");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    5);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "");
+   yUNIT_minstr ("... check top divider"              , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check section text"             , yENV_upeek  (myUNIT.name, '>'), "SECT ===----                          a section                          ----=== TCES");
+   yUNIT_minstr ("... check bottom divider"           , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify with null description");
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SECT verb handler"             , yUNIT_sect  (NULL                              ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                           (null)                            ----=== TCES");
+   yUNIT_minval ("call SECT with SCRP"                , yUNIT_sect  ("SCRP"                            ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                           (null)                            ----=== TCES");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    5);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "");
+   yUNIT_minstr ("... check top divider"              , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check section text"             , yENV_upeek  (myUNIT.name, '>'), "SECT ===----                           (null)                            ----=== TCES");
+   yUNIT_minstr ("... check top divider"              , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify with empty description");
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SECT verb handler"             , yUNIT_sect  (""                                ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                           (empty)                           ----=== TCES");
+   yUNIT_minval ("call SECT with SCRP"                , yUNIT_sect  ("SCRP"                            ), 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "SECT ===----                           (empty)                           ----=== TCES");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    5);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "");
+   yUNIT_minstr ("... check top divider"              , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check section text"             , yENV_upeek  (myUNIT.name, '>'), "SECT ===----                           (empty)                           ----=== TCES");
+   yUNIT_minstr ("... check top divider"              , yENV_upeek  (myUNIT.name, '>'), "=========================------------------------------------========================");
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", P_ONELINE);
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   UNIT___scrp_scrp          (++n, x_list, x_unit);
+   UNIT___scrp_prcs          (++n, x_list, x_unit);
+   UNIT___scrp_sect          (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+
+

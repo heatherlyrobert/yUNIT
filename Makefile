@@ -39,9 +39,9 @@ include /usr/local/sbin/zeno_make
 #===(post-processing)======================================#
 # create a rule for...
 #remove_post        :
-install_post       :
-	gcc -c unit_base.c
-	gcc -o unit_base  unit_base.o $(OBJ_NORM) $(LIB_STD) $(LIB_MINE)
+#install_post       :
+#	gcc -c unit_base.c
+#	gcc -o unit_base  unit_base.o $(OBJ_NORM) $(LIB_STD) $(LIB_MINE)
 
 
 

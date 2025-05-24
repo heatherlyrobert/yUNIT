@@ -154,27 +154,10 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
       /*---(header)----------------------*/
       fprintf (a_conv, "\n%-12.12s  %s \n", x_header, x_title);
       /*---(prefix)----------------------*/
-      /*> sprintf (x_prefix, "%-12.12s  %-65.65s  %-2.2s  %-29.29s", x_verb, x_label, x_ref, x_stat);   <*/
       sprintf (x_prefix, "%-12.12s  %-65.65s  %-2.2s", x_verb, x_label, x_ref);
       /*---(suffix)----------------------*/
-      if (strchr ("UM", x_type) != NULL)  {
-         fprintf (a_conv, "%s\n", yunit_stats_all    (x_prefix));
-         /*> if (strcmp (s_ulreuse, "") == 0) strcpy (s_ulreuse, "·");                                                                                                    <* 
-          *> if (strcmp (s_ugreuse, "") == 0) strcpy (s_ugreuse, "·");                                                                                                    <* 
-          *> fprintf (a_conv, "%s      %4d  %4d  %4d  %-10.10s  %4d  %-20.20s  %4d  %-20.20s  %4d      %4d  %4d  %4d  %4d  %4d  -----------------  \n",   <* 
-          *>       x_prefix,                                                                                                                                              <* 
-          *>       s_umidd, s_ucond, s_uditt, "----------", s_ulreu, s_ulreuse, s_ugreu, s_ugreuse, s_uscond,                                                             <* 
-          *>       s_ustep, s_ureal, s_uvars, s_uvoid, s_usstep);                                                                                                         <*/
-      }
-      else {
-         fprintf (a_conv, "%s\n", yunit_stats__curr  (x_prefix, x_stat));
-         /*> if (strcmp (s_nlreuse, "") == 0)  strcpy (s_nlreuse, "·");                                                                                                   <* 
-          *> if (strcmp (s_ngreuse, "") == 0)  strcpy (s_ngreuse, "·");                                                                                                   <* 
-          *> fprintf (a_conv, "%s      %4d  %4d  %4d  %-10.10s  %4d  %-20.20s  %4d  %-20.20s  %4d      %4d  %4d  %4d  %4d  %4d  -----------------  \n",   <* 
-          *>       x_prefix,                                                                                                                                              <* 
-          *>       s_nmidd, s_ncond, s_nditt, s_ndittos, s_nlreu, s_nlreuse, s_ngreu, s_ngreuse, s_nscond,                                                                <* 
-          *>       s_nstep, s_nreal, s_nvars, s_nvoid, s_nsstep);                                                                                                         <*/
-      }
+      if (strchr ("UM", x_type) != NULL)   fprintf (a_conv, "%s\n", yunit_stats_all    (x_prefix));
+      else                                 fprintf (a_conv, "%s\n", yunit_stats__curr  (x_prefix, x_stat));
       /*---(done)------------------------*/
    }
    /*---(save)---------------------------*/
@@ -202,6 +185,7 @@ yUNIT_stats_accum       (void *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
    --rce;  if (a_desc     == NULL)  return --rce;
    /*---(start with summaries)-----------*/
    if (a_type == 'P')  a_major = s_uscrp + 1;
+   if (a_type == 'S' && strchr (YSTR_LOWER, a_major) == NULL)  a_type = 'G';
    yunit_stats_summary (a_conv, a_nscrp, a_type, a_verb, a_major);
    /*---(script-level)-------------------*/
    switch (a_type) {
@@ -289,6 +273,5 @@ yunit_stats__curr       (char a_prefix [LEN_FULL], char a_summ [LEN_DESC])
 }
 
 char* yunit_stats_curr        (char a_prefix [LEN_FULL])  { return yunit_stats__curr (a_prefix, "       -     -     -     -"); }
-
 
 

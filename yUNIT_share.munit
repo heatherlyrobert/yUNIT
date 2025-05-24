@@ -1,0 +1,269 @@
+#include    "master.munit"
+
+
+
+char
+UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SCRP) verify local shares (yUNIT_shar, yUNIT_rahs)");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("verify a full unit-level");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('a', '-', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  SHARED (a) ==---------------------   reusable conditions   ----------------------==");
+                                                                                   /*> 123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-12345   <*/
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call DERAHS verb handler"           , yUNIT_rahs  ('a', '-',  15, 123, 15, 123)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  DERAHS (a)--[ cond=15    test=123   ]---------------------[ cond=15    test=123   ]");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a full unit-level, using selection");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  SHARED (f/a) ==--------------------   reusable conditions   ---------------------==");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call DERAHS verb handler"           , yUNIT_rahs  ('f', 'a',  15, 123, 12,  98)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  DERAHS (f)--[ cond=15    test=123   ]--------( a >>>------[ cond=12    test=98    ]");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a full unit-level, with color");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_MAG "SHARED (f/a) ==--------------------   reusable conditions   ---------------------==" BACK_OFF);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call DERAHS verb handler"           , yUNIT_rahs  ('f', 'a',  15, 123, 12,  98)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_MAG "DERAHS (f)--[ cond=15    test=123   ]--------( a >>>------[ cond=12    test=98    ]" BACK_OFF);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a condition-level");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_COND, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  SHARED (f/a) ==--------------------   reusable conditions   ---------------------==");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call DERAHS verb handler"           , yUNIT_rahs  ('f', 'a',  15, 123, 12,  98)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  DERAHS (f)--[ cond=15    test=123   ]--------( a >>>------[ cond=12    test=98    ]");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a script-level");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_SCRP, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  SHARED (f/a) ==--------------------   reusable conditions   ---------------------==");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call DERAHS verb handler"           , yUNIT_rahs  ('f', 'a',  15, 123, 12,  98)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  DERAHS (f)--[ cond=15    test=123   ]--------( a >>>------[ cond=12    test=98    ]");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+UNIT___share_global     (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SCRP) verify global shares (yUNIT_glob, yUNIT_bolg)");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("verify a full unit-level");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', '-', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  GLOBAL (D) ==---------------------   reusable conditions   ----------------------==");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call LABOLG verb handler"           , yUNIT_bolg  ('D', '-',  15, 123, 15, 123)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  LABOLG (D)--[ cond=15    test=123   ]---------------------[ cond=15    test=123   ]");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a full unit-level (with select)");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', 'k', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  GLOBAL (D/k) ==--------------------   reusable conditions   ---------------------==");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call LABOLG verb handler"           , yUNIT_bolg  ('D', 'k',  15, 123, 12,  98)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  LABOLG (D)--[ cond=15    test=123   ]--------( k >>>------[ cond=12    test=98    ]");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a full unit-level (with color)");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', 'k', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_BLU "GLOBAL (D/k) ==--------------------   reusable conditions   ---------------------==" BACK_OFF);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call LABOLG verb handler"           , yUNIT_bolg  ('D', 'k',  15, 123, 12,  98)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_BLU "LABOLG (D)--[ cond=15    test=123   ]--------( k >>>------[ cond=12    test=98    ]" BACK_OFF);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+UNIT___share_config     (char a_scrp, char a_list, char a_unit)
+{
+   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SCRP) verify special shares (yUNIT_conf, yUNIT_fnoc)");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("verify a full unit-level");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', '-', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  CONFIG (ÿ) ==---------------------   reusable conditions   ----------------------==");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call GIFNOC verb handler"           , yUNIT_fnoc  ('ÿ', '-',  15, 123, 15, 123)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  GIFNOC (ÿ)--[ cond=15    test=123   ]---------------------[ cond=15    test=123   ]");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a full unit-level (with select)");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', 'j', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  CONFIG (ÿ/j) ==--------------------   reusable conditions   ---------------------==");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call GIFNOC verb handler"           , yUNIT_fnoc  ('ÿ', 'j',  15, 123, 12,  98)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  GIFNOC (ÿ)--[ cond=15    test=123   ]--------( j >>>------[ cond=12    test=98    ]");
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a full unit-level (with color)");
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', 'j', "reusable conditions"             ), 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_BLU "CONFIG (ÿ/j) ==--------------------   reusable conditions   ---------------------==" BACK_OFF);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yUNIT_minval ("call GIFNOC verb handler"           , yUNIT_fnoc  ('ÿ', 'j',  15, 123, 12,  98)       , 0);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_BLU "GIFNOC (ÿ)--[ cond=15    test=123   ]--------( j >>>------[ cond=12    test=98    ]" BACK_OFF);
+   yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", P_ONELINE);
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(scripts)------------------------*/
+   UNIT___share_shared       (++n, x_list, x_unit);
+   UNIT___share_global       (++n, x_list, x_unit);
+   UNIT___share_config       (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
