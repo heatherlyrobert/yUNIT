@@ -4,6 +4,7 @@
 
 
 /*---(prog level -- tbd)--------*/
+static int     s_prog_unit = 0;
 static int     s_prog_scrp = 0;
 static int     s_prog_cond = 0;
 static int     s_prog_test = 0;
@@ -40,6 +41,7 @@ static char s_actuals  [LEN_HUND]  = "";
 /*---(done)---------------------*/
 
 /*---(prog level -- tbd)--------*/
+#define      PROG_UNIT      s_prog_unit
 #define      PROG_SCRP      s_prog_scrp
 #define      PROG_COND      s_prog_cond
 #define      PROG_TEST      s_prog_test
@@ -85,6 +87,10 @@ yunit_actual_clear      (char a_type)
 {
    /*---(levels)-------------------------*/
    switch (a_type) {
+   case TYPE_FULL :
+      PROG_UNIT = PROG_SCRP = PROG_COND = 0;
+      PROG_TEST = PROG_PASS = PROG_FAIL = PROG_BADD = PROG_VOID = 0;
+      break;
    case TYPE_UNIT :
       UNIT_SCRP = UNIT_COND = 0;
       UNIT_TEST = UNIT_PASS = UNIT_FAIL = UNIT_BADD = UNIT_VOID = 0;
@@ -110,6 +116,7 @@ yunit_actual_init       (void)
    yunit_actual_clear (TYPE_COND);
    yunit_actual_clear (TYPE_SCRP);
    yunit_actual_clear (TYPE_UNIT);
+   yunit_actual_clear (TYPE_FULL);
    return 0;
 }
 
@@ -117,26 +124,34 @@ char
 yunit_actual_accum      (char a_type, char a_resu, int a_rc)
 {
    switch (a_type) {
+   case TYPE_FULL :
+      /*---(check full)------------------*/
+      yunit_actual_clear (TYPE_COND);
+      yunit_actual_clear (TYPE_SCRP);
+      yunit_actual_clear (TYPE_UNIT);
+      yunit_actual_clear (TYPE_FULL);
+      break;
    case TYPE_UNIT :
       /*---(check unit)------------------*/
+      ++PROG_UNIT;
       yunit_actual_clear (TYPE_COND);
       yunit_actual_clear (TYPE_SCRP);
       yunit_actual_clear (TYPE_UNIT);
       break;
    case TYPE_SCRP :
       /*---(check script)----------------*/
-      UNIT_SCRP++;
+      UNIT_SCRP++;  PROG_SCRP++;
       yunit_actual_clear (TYPE_COND);
       yunit_actual_clear (TYPE_SCRP);
       break;
    case TYPE_COND : case TYPE_CCND : case TYPE_DOND : case TYPE_SOND : case TYPE_GOND :
       /*---(check condition)-------------*/
-      UNIT_COND++; SCRP_COND++;
+       SCRP_COND++;  UNIT_COND++;  PROG_COND++;
       yunit_actual_clear (TYPE_COND);
       break;
    case TYPE_LOCAL  : case TYPE_CODE   : case TYPE_LOAD   : case TYPE_MODE   :
    case TYPE_FILE   : case TYPE_APPEND : case TYPE_SYSTEM : case TYPE_STEP   :
-      ++COND_TEST;  ++SCRP_TEST;  ++UNIT_TEST;
+      ++COND_TEST;  ++SCRP_TEST;  ++UNIT_TEST;  ++PROG_TEST;
       /*---(check forced)----------------*/
       if (a_type = TYPE_STEP && YUNIT_FORCED == 'y') {
          if (a_resu == YUNIT_SUCC)   a_resu = YUNIT_FFAIL;
@@ -144,19 +159,22 @@ yunit_actual_accum      (char a_type, char a_resu, int a_rc)
       }
       /*---(handle step)-----------------*/
       switch (a_resu) {
-      case YUNIT_SUCC  :  ++COND_PASS;  ++SCRP_PASS;  ++UNIT_PASS;  break;
-      case YUNIT_FAIL  :  ++COND_FAIL;  ++SCRP_FAIL;  ++UNIT_FAIL;  break;
-      case YUNIT_FSUCC :  ++COND_PASS;  ++SCRP_PASS;  ++UNIT_PASS;  break;
-      case YUNIT_FFAIL :  ++COND_FAIL;  ++SCRP_FAIL;  ++UNIT_FAIL;  break;
-      case YUNIT_VOID  :  ++COND_VOID;  ++SCRP_VOID;  ++UNIT_VOID;  break;
-      default          :  ++COND_BADD;  ++SCRP_BADD;  ++UNIT_BADD;  break;
+      case YUNIT_SUCC  :  ++COND_PASS;  ++SCRP_PASS;  ++UNIT_PASS;  ++PROG_PASS;  break;
+      case YUNIT_FAIL  :  ++COND_FAIL;  ++SCRP_FAIL;  ++UNIT_FAIL;  ++PROG_FAIL;  break;
+      case YUNIT_FSUCC :  ++COND_PASS;  ++SCRP_PASS;  ++UNIT_PASS;  ++PROG_PASS;  break;
+      case YUNIT_FFAIL :  ++COND_FAIL;  ++SCRP_FAIL;  ++UNIT_FAIL;  ++PROG_FAIL;  break;
+      case YUNIT_VOID  :  ++COND_VOID;  ++SCRP_VOID;  ++UNIT_VOID;  ++PROG_VOID;  break;
+      default          :  ++COND_BADD;  ++SCRP_BADD;  ++UNIT_BADD;  ++PROG_BADD;  break;
       }
       STEP_RESU = a_resu;
       STEP_RC   = a_rc;
       break;
       /*---(done)------------------------*/
    case TYPE_DISP   :
-      ++COND_TEST;  ++SCRP_TEST;  ++UNIT_TEST;
+      ++COND_TEST;  ++SCRP_TEST;  ++UNIT_TEST;  ++PROG_TEST;
+      break;
+   default  :
+      return -1;
       break;
    }
    return 0;
@@ -168,6 +186,12 @@ yunit_actual_last       (char a_type, char *r_resu, int *r_rc)
    char        x_resu      = YUNIT_VOID;
    int         x_rc        =    0;
    switch (a_type) {
+   case TYPE_LUFF  :
+      if      (PROG_TEST == 0)  x_resu = YUNIT_VOID;
+      else if (PROG_FAIL >  0)  x_resu = YUNIT_FAIL;
+      else if (PROG_BADD >  0)  x_resu = YUNIT_WARN;
+      else                      x_resu = YUNIT_SUCC;
+      break;
    case TYPE_TINU  :
       if      (UNIT_TEST == 0)  x_resu = YUNIT_VOID;
       else if (UNIT_FAIL >  0)  x_resu = YUNIT_FAIL;
@@ -210,7 +234,18 @@ char*
 yunit_actual_footer     (char a_type, char *r_unused)
 {
    if (r_unused != NULL)  *r_unused = '-';
+   strcpy (s_actuals, "unknown");
    switch (a_type) {
+   case TYPE_LUFF : /* full program, normal run */
+      sprintf (s_actuals, "[%2d]  scrp=%-4d cond=%-5d test=%-5d [ pass=%-5d fail=%-5d badd=%-5d void=%-5d ]",
+            PROG_UNIT, PROG_SCRP, PROG_COND, PROG_TEST, PROG_PASS, PROG_FAIL, PROG_BADD, PROG_VOID);
+      if (r_unused != NULL && PROG_TEST == 0)  *r_unused = 'y';
+      break;
+   case TYPE_DUFF : /* full program, listing    */
+      sprintf (s_actuals, "[%2d]  scrp=%-4d cond=%-5d test=%-5d [ ------------------------------------------- ]",
+            PROG_UNIT, PROG_SCRP, PROG_COND, PROG_TEST);
+      if (r_unused != NULL && PROG_TEST == 0)  *r_unused = 'y';
+      break;
    case TYPE_TINU : /* full unit, normal run */
       sprintf (s_actuals, "TINU  scrp=%-4d cond=%-5d test=%-5d [ pass=%-5d fail=%-5d badd=%-5d void=%-5d ]",
             UNIT_SCRP, UNIT_COND, UNIT_TEST, UNIT_PASS, UNIT_FAIL, UNIT_BADD, UNIT_VOID);
@@ -289,6 +324,20 @@ yunit_actual_wrap       (char a_level)
 static void      o___UNITTEST__________o (void) {;}
 
 char
+yunit_force_prog        (int a_unit, int a_scrp, int a_cond, int a_test, int a_pass, int a_fail, int a_badd, int a_void)
+{
+   PROG_UNIT = a_unit;
+   PROG_SCRP = a_scrp;
+   PROG_COND = a_cond;
+   PROG_TEST = a_test;
+   PROG_PASS = a_pass;
+   PROG_FAIL = a_fail;
+   PROG_BADD = a_badd;
+   PROG_VOID = a_void;
+   return 0;
+}
+
+char
 yunit_force_unit        (int a_scrp, int a_cond, int a_test, int a_pass, int a_fail, int a_badd, int a_void)
 {
    UNIT_SCRP = a_scrp;
@@ -337,4 +386,16 @@ yunit_force_resu        (char a_resu, int a_rc)
    return 0;
 
 }
+
+char
+yunit_actual_wave       (int *r_test, int *r_pass, int *r_fail, int *r_void, int *r_badd)
+{
+   if (r_test  != NULL)   *r_test  = SCRP_TEST;
+   if (r_pass  != NULL)   *r_pass  = SCRP_PASS;
+   if (r_fail  != NULL)   *r_fail  = SCRP_FAIL;
+   if (r_void  != NULL)   *r_void  = SCRP_VOID;
+   if (r_badd  != NULL)   *r_badd  = SCRP_BADD;
+   return 0;
+}
+
 

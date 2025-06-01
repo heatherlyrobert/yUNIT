@@ -8,81 +8,12 @@ static uchar  s_file      [LEN_HUND] = "";
 
 
 /*====================------------------------------------====================*/
-/*===----                        support functions                     ----===*/
-/*====================------------------------------------====================*/
-static void      o___SUPPORT_________________o (void) {;}
-
-char*
-yunit_header            (char a_type, int a_line, int a_seqn, char *a_note, char a_desc [LEN_LONG], char a_share, char a_select)
-{
-   /*---(locals)-----------+-----+-----+-*/
-   int         l           =    0;
-   int         x_pre       =    0;
-   int         x_suf       =    0;
-   char        x_note      [LEN_TERSE] = "???";
-   char        x_desc      [LEN_HUND]  = "???";
-   char        t           [LEN_RECD]  = "";
-   char        x_test      [LEN_LABEL] = "";
-   char        x_on        [LEN_LABEL] = "";
-   char        x_on2       [LEN_LABEL] = "";
-   char        x_off       [LEN_LABEL] = "";
-   /*---(defense)------------------------*/
-   if (a_line <     0)  a_line = 0;
-   if (a_line > 99999)  a_line = 99999;
-   if (a_seqn <     0)  a_seqn = 0;
-   if (a_seqn >   999)  a_seqn = 999;
-   if (a_note != NULL)  strncpy (x_note, a_note, LEN_TERSE);
-   if (a_desc != NULL)  strncpy (x_desc, a_desc, LEN_HUND);
-   /*---(fix a little)---------------------------*/
-   if      (strncmp (x_desc, "... ", 4) == 0)   strncpy (x_desc, a_desc + 4, LEN_HUND);
-   else if (strncmp (x_desc, "..." , 3) == 0)   strncpy (x_desc, a_desc + 3, LEN_HUND);
-   /*---(colors)-------------------------*/
-   yunit_final_color (YUNIT_MONO, a_type, x_on, NULL, x_off, x_note, NULL);
-   /*---(find merge point)---------------*/
-   /*> strcat (x_desc, " ");                                                          <*/
-   l       = strlen (x_desc);
-   x_pre   = (65 - l) / 2;
-   x_suf   = (65 - x_pre) - l;
-   switch (a_type) {
-   case TYPE_LOCAL : case TYPE_CODE  : case TYPE_LOAD  : case TYPE_MODE  : case TYPE_FILE  : case TYPE_APPEND  :
-      ++l;
-      snprintf (t      , LEN_HUND, "%s %s", x_desc, YSTR_ESTEP + l);
-      snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %63.63s[%05d]", BACK_CYN, yunit_final_step (a_seqn), BACK_GRN, a_note, BACK_OFF, t, a_line);
-      break;
-   case TYPE_SYSTEM :
-      ++l;
-      if (strcmp (x_note, "PASS")   == 0)  strcpy  (x_note, a_note);
-      if (x_note [0] == '!')               sprintf (x_note, "!%s", a_note);
-      if (strcmp (x_on  , BACK_GRN) == 0)  strcpy (x_on  , BACK_CYN);
-      snprintf (t      , LEN_HUND, "%s %s", x_desc, YSTR_ESTEP + l);
-      snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %63.63s[%05d]", x_on, yunit_final_step (a_seqn), x_on2, x_note, x_off, t, a_line);
-      break;
-   case TYPE_STEP  :
-      /*> ++l;                                                                                                                                       <* 
-       *> /+> if (myUNIT.level <= 4)  strncpy (x_note, a_note, LEN_LABEL);                <+/                                                        <* 
-       *> /+> ++l;                                                                        <+/                                                        <* 
-       *> if (YUNIT_PURE == 'y')  snprintf (t      , LEN_HUND, "%s %s", x_desc, YSTR_CSTEP + l);                                                     <* 
-       *> else                    snprintf (t      , LEN_HUND, "%s %s", x_desc, YSTR_ESTEP + l);                                                     <* 
-       *> if (YUNIT_FORCED) {                                                                                                                        <* 
-       *>    snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %63.63s[%05d]", x_on, yunit_final_step (a_seqn), x_on2, x_note, x_off, t, a_line);   <* 
-       *> } else {                                                                                                                                   <* 
-       *>    snprintf (s_print, LEN_RECD, "  %s%s) %-6.6s%s : %63.63s[%05d]", x_on, yunit_final_step (a_seqn), x_note, x_off, t, a_line);            <* 
-       *> }                                                                                                                                          <* 
-       *> break;                                                                                                                                     <*/
-   }
-   /*---(complete)-----------------------*/
-   return s_print;
-}
-
-
-
-/*====================------------------------------------====================*/
 /*===----                       specialty-level                        ----===*/
 /*====================------------------------------------====================*/
 static void      o___SPECIALTY_______________o (void) {;}
 
 char
-yUNIT_mode              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_exec)
+yUNIT_mode              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_exec, char a_dittoing)
 {
    char        x_meth      [LEN_HUND]  = "";
    /*---(display only)---------------------------*/
@@ -110,7 +41,7 @@ yUNIT_mode_reset        (void)
 }
 
 char
-yUNIT_code              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec)
+yUNIT_code              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing)
 {
    if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "CODE"  , a_desc);
    yunit_actual_accum (TYPE_STEP, YUNIT_VOID, 0);
@@ -119,7 +50,7 @@ yUNIT_code              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_local             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec)
+yUNIT_local             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing)
 {
    if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "LOCAL" , a_desc);
    yunit_actual_accum (TYPE_STEP, YUNIT_VOID, 0);
@@ -128,7 +59,7 @@ yUNIT_local             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_recd [LEN_RECD], char a_exec)
+yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_recd [LEN_RECD], char a_exec, char a_dittoing)
 {
    int       x_flags = 0;         /* stdin file flags                         */
    int       i       = 0;
@@ -185,7 +116,7 @@ yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec)
+yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -216,19 +147,12 @@ yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(display)------------------------*/
    yunit_disp_double  (TYPE_FILE  , a_line, a_seqn, a_desc, "file" , a_recd);
    if (x_file == NULL)  yunit_printf ("      ERROR  : %s\n", x_msg);
-   /*> yunit_header (TYPE_FILE, a_line, a_seqn, "FILE"  , a_desc, '-', '-');           <* 
-    *> IF_STEP {                                                                       <* 
-    *>    yunit_printf  ("\n");                                                        <* 
-    *>    yunit_printf  ("%s\n", s_print);                                             <* 
-    *>    sprintf (s_suffix , "      file   : %2då%.65sæ", strlen (a_recd), a_recd);   <* 
-    *>    IF_FULL  yunit_printf  ("%s\n", s_suffix);                                   <* 
-    *> }                                                                               <*/
    /*---(complete)---------------------*/
    return 0;
 }
 
 char
-yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec)
+yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -266,19 +190,12 @@ yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(display)------------------------*/
    yunit_disp_double  (TYPE_APPEND, a_line, a_seqn, a_desc, "append" , a_recd);
    if (x_file == NULL)  yunit_printf ("      ERROR  : %s\n", x_msg);
-   /*> yunit_header (TYPE_FILE, a_line, a_seqn, "APPEND", a_desc, '-', '-');           <* 
-    *> IF_STEP {                                                                       <* 
-    *>    yunit_printf  ("\n");                                                        <* 
-    *>    yunit_printf  ("%s\n", s_print);                                             <* 
-    *>    sprintf (s_suffix , "      recd   : %2då%.65sæ", strlen (a_recd), a_recd);   <* 
-    *>    IF_FULL  yunit_printf  ("%s\n", s_suffix);                                   <* 
-    *> }                                                                               <*/
    /*---(complete)---------------------*/
    return 0;
 }
 
 char
-yUNIT_system            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_disp [LEN_RECD], char a_cmd [LEN_RECD], char a_exec)
+yUNIT_system            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_disp [LEN_RECD], char a_cmd [LEN_RECD], char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         rc          =    0;

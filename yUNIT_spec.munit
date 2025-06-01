@@ -12,7 +12,7 @@ UNIT___spec_mode        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify forced failure mode");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_mode    (   954,    5, "change mode to forced fail"   , "FORCED_FAIL"         , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_mode    (   954,    5, "change mode to forced fail"   , "FORCED_FAIL"         , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "MODE  " BACK_OFF " : ENABLE FORCED FAILURE (pass=fail, fail=pass)  ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -23,7 +23,7 @@ UNIT___spec_mode        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify returning to normal mode");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_mode    (   954,    5, "change mode to forced fail"   , "normal"              , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_mode    (   954,    5, "change mode to forced fail"   , "normal"              , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "MODE  " BACK_OFF " : normal (a pass is a pass ;) ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -48,7 +48,7 @@ UNIT___spec_code        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify inserting a code line");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_code    (   954,    5, "code for execution"           , "x_one = 3.1415927 * r;"                   , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_code    (   954,    5, "code for execution"           , "x_one = 3.1415927 * r;"                   , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "CODE  " BACK_OFF " : code for execution ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -74,7 +74,7 @@ UNIT___spec_local       (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify inserting a code line");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_local   (   954,    5, "local variable for use"       , "int   x_one =   0;"                       , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_local   (   954,    5, "local variable for use"       , "int   x_one =   0;"                       , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "LOCAL " BACK_OFF " : local variable for use · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -100,7 +100,7 @@ UNIT___spec_load        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify calling load");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_load    (   954,    5, "push data into queue"         , "pipe"   , "good data for review\n"                   , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_load    (   954,    5, "push data into queue"         , "pipe"   , "good data for review\n"                   , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "LOAD  " BACK_OFF " : push data into queue  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -126,7 +126,7 @@ UNIT___spec_file        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify calling file");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tmp/crazy"                               , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tmp/crazy"                               , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "PASS  " BACK_OFF " : prepare new file · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -138,7 +138,7 @@ UNIT___spec_file        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify calling file");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tempy/crazy"                             , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tempy/crazy"                             , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_RED "FAIL  " BACK_OFF " : prepare new file · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    4);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -164,9 +164,9 @@ UNIT___spec_append      (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify calling append");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tmp/crazy"                               , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tmp/crazy"                               , 1, '-'), 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_append  (   954,    5, "add data to end"              , "data row to add"                          , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_append  (   954,    5, "add data to end"              , "data row to add"                          , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "PASS  " BACK_OFF " : add data to end ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -177,9 +177,9 @@ UNIT___spec_append      (char a_scrp, char a_list, char a_unit)
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify calling append");
-   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tempy/crazy"                             , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_file    (   954,    5, "prepare new file"             , "/tempy/crazy"                             , 1, '-'), 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_append  (   954,    5, "add data to end"              , "data row to add"                          , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_append  (   954,    5, "add data to end"              , "data row to add"                          , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_RED "FAIL  " BACK_OFF " : add data to end ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    4);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -206,7 +206,7 @@ UNIT___spec_system      (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify calling system");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_system  (   954,    5, "quick command"                , "ls -l > /tmp/null 2>&1"  , "ls -l > /tmp/null 2>&1"  , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_system  (   954,    5, "quick command"                , "ls -l > /tmp/null 2>&1"  , "ls -l > /tmp/null 2>&1"  , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_GRN "PASS  " BACK_OFF " : quick command · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -218,7 +218,7 @@ UNIT___spec_system      (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify calling system");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call INT handler"                   , yUNIT_system  (   954,    5, "quick command"                , "LS -l > /tmp/null 2>&1"  , "LS -l > /tmp/null 2>&1"  , 1), 0);
+   yUNIT_minval   ("call INT handler"                   , yUNIT_system  (   954,    5, "quick command"                , "LS -l > /tmp/null 2>&1"  , "LS -l > /tmp/null 2>&1"  , 1, '-'), 0);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_CYN "ae) " BACK_YEL "WARN  " BACK_OFF " : quick command · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    4);
    yUNIT_minstr   ("... check spacer"                   , yENV_upeek (myUNIT.name, '['), "");
@@ -255,6 +255,8 @@ main                    (int a_argc, char *a_argv [])
    else if (x_list == '!')    printf ("## generate initial wave file\n");
    else                       printf ("## execute conditions and steps\n");
    printf ("\n");
+   /*---(startup)------------------------*/
+   yUNIT_minunit ("yUNIT_spec");
    /*---(scripts)------------------------*/
    UNIT___spec_mode          (++n, x_list, x_unit);
    UNIT___spec_code          (++n, x_list, x_unit);

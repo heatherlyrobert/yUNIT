@@ -9,28 +9,47 @@
 static void      o___CONDITION_______________o (void) {;}
 
 char
-yUNIT_cond              (int a_line, int a_seqn, char a_dittoing, char a_ditto, char a_share, char a_desc [LEN_LONG])
+yunit_cond_type         (char a_dittoing, char a_dtarget, char a_share, char r_label [LEN_TERSE], char r_note [LEN_SHORT])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_type      = TYPE_COND;
    char        x_label     [LEN_TERSE] = "COND";
-   char        x_line      [LEN_TERSE] = "";
-   char        x_seqn      [LEN_TERSE] = "";
-   char        x_desc      [LEN_LONG]  = "";
    char        x_note      [LEN_TERSE] = "";
-   char        x_on        [LEN_TERSE] = "";
-   char        x_off       [LEN_TERSE] = "";
-   /*---(reset summary counters)---------*/
-   yunit_actual_accum (TYPE_COND, 0, 0);
+   /*---(default)------------------------*/
+   if (r_label != NULL)  strcpy (r_label, "");
+   if (r_note  != NULL)  strcpy (r_note , "");
    /*---(identify type)------------------*/
-   if      (strchr (YSTR_NUMBER, a_ditto) != NULL) {
-      if (a_dittoing = 'y')                        { x_type = TYPE_DOND;  strcpy (x_label, "DOND");  sprintf (x_note, "(%c)", a_ditto);  }
-      else                                         { x_type = TYPE_CCND;  strcpy (x_label, "CCND");  sprintf (x_note, "(%c)", a_ditto);  }
+   if      (strchr (YSTR_NUMBER, a_dtarget) != NULL) {
+      if (a_dittoing == 'y')                       { x_type = TYPE_DOND;  strcpy (x_label, "DOND");  sprintf (x_note, "(%c)", a_dtarget);  }
+      else                                         { x_type = TYPE_CCND;  strcpy (x_label, "CCND");  sprintf (x_note, "(%c)", a_dtarget);  }
    }
    else if (strchr (YSTR_LOWER , a_share) != NULL) { x_type = TYPE_SOND;  strcpy (x_label, "SOND");  }
    else if (strchr (YSTR_UPPER , a_share) != NULL) { x_type = TYPE_GOND;  strcpy (x_label, "GOND");  }
    else if (strchr (YSTR_GREEK , a_share) != NULL) { x_type = TYPE_GOND;  strcpy (x_label, "GOND");  }
    else                                            { x_type = TYPE_COND;  strcpy (x_label, "COND");  }
+   /*---(save-back)----------------------*/
+   if (r_label != NULL)  strcpy (r_label, x_label);
+   if (r_note  != NULL)  strcpy (r_note , x_note);
+   /*---(complete)-----------------------*/
+   return x_type;
+}
+
+char
+yUNIT_cond              (int a_line, int a_seqn, char a_dittoing, char a_dtarget, char a_share, char a_desc [LEN_LONG])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        x_type      = TYPE_COND;
+   char        x_label     [LEN_TERSE] = "COND";
+   char        x_note      [LEN_TERSE] = "";
+   char        x_line      [LEN_TERSE] = "";
+   char        x_seqn      [LEN_TERSE] = "";
+   char        x_desc      [LEN_LONG]  = "";
+   char        x_on        [LEN_TERSE] = "";
+   char        x_off       [LEN_TERSE] = "";
+   /*---(reset summary counters)---------*/
+   yunit_actual_accum (TYPE_COND, 0, 0);
+   /*---(identify type)------------------*/
+   x_type = yunit_cond_type (a_dittoing, a_dtarget, a_share, x_label, x_note);
    /*---(get colors)---------------------*/
    yunit_final_color (YUNIT_MONO, x_type, &x_on, NULL, &x_off, NULL, NULL);
    /*---(create message)-----------------*/

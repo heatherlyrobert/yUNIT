@@ -184,6 +184,17 @@ yunit_minstr            (int a_line, char *a_desc, char *a_act, char *a_exp)
    return 0;
 }
 
+static char
+yUNIT_minunit           (char a_unit [LEN_TITLE])
+{
+   char        t           [LEN_RECD]  = "=================================================================================================================";
+   char        l           =    0;
+   l = strlen (a_unit);
+   l = 80 - 6 - l;
+   printf ("UNIT %*.*s %s\n\n", l, l, t, a_unit);
+   return 0;
+}
+
 #define  yUNIT_minstr(a,b,c)    yunit_minstr(__LINE__,a,b,c)
 
 static char

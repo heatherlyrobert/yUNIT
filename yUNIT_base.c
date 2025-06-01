@@ -58,7 +58,7 @@ yUNIT_version           (void)
 static void      o___OUTPUT__________________o (void) {;}
 
 char
-yunit_open         (cchar *a_name)
+yunit_open         (char a_name [LEN_TITLE])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -179,7 +179,7 @@ yUNIT_unique            (int a_nscrp, int a_ncond, int a_nstep, int a_uscrp, int
 }
 
 char       /*----: change the color level)------------------------------------*/
-yUNIT_eterm             (cchar a_eterm, cchar a_quiet)
+yUNIT_eterm             (char a_eterm, char a_quiet)
 {
    char        t           [LEN_HUND]  = "";
    char        i           =    0;
@@ -217,7 +217,7 @@ yUNIT_eterm             (cchar a_eterm, cchar a_quiet)
 }
 
 char       /*----: change the verbosity level --------------------------------*/
-yUNIT_level             (cchar a_level, cchar a_quiet)
+yUNIT_level             (char a_level, char a_quiet)
 {
    char        t           [LEN_HUND]  = "";
    char        i           =    0;
@@ -259,7 +259,7 @@ yUNIT_level             (cchar a_level, cchar a_quiet)
 static void      o___TEST____________________o (void) {;}
 
 char       /*----: create a new unit test ------------------------------------*/
-yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
+yUNIT_unit         (char a_name [LEN_TITLE], char a_level, char a_eterm, char a_exec)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -322,13 +322,17 @@ yUNIT_unit         (cchar *a_name, cchar a_level, cchar a_eterm, cchar a_exec)
    /*---(leak testing)---------------------*/
    myUNIT.is_leak_begin  = malloc(sizeof(int));
    free(myUNIT.is_leak_begin);
+   /*---(unit name)------------------------*/
+   l = strlen (a_name);
+   l = 85 - 6 - l;
+   IF_SUMM  yunit_printf ("\nUNIT %*.*s %s\n", l, l, YSTR_EQUAL, a_name);
    /*---(complete)-------------------------*/
    /*> if (a_exec == 1)  yunit_printf ("\n");                                         <*/
    return 0;
 }
 
 char       /*----: close a unit test -----------------------------------------*/
-yUNIT_tinu              (cchar a_exec)
+yUNIT_tinu              (char a_exec)
 {  /*---(variables)--------+-----+-----+-*/
    int         x_failed    =    0;
    char        i           =    0;

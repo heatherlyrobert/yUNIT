@@ -438,6 +438,8 @@ main                    (int a_argc, char *a_argv [])
    else if (x_list == '!')    printf ("## generate initial wave file\n");
    else                       printf ("## execute conditions and steps\n");
    printf ("\n");
+   /*---(startup)------------------------*/
+   yUNIT_minunit ("yUNIT_final");
    /*---(scripts)------------------------*/
    UNIT___final_seqn         (++n, x_list, x_unit);
    UNIT___final_desc         (++n, x_list, x_unit);

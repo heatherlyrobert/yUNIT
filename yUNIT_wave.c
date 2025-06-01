@@ -108,14 +108,17 @@ yUNIT_wave_beg          (char a_proj [LEN_LABEL], char a_unit [LEN_TITLE], char 
 }
 
 char
-yUNIT_wave_end          (void *f, char a_nunit, char a_nscrp, short a_ncond, short a_nstep)
+yUNIT_wave_end          (void *f)
 {
-   return yunit_wave ('e', f, S_proj, S_unit, S_scrp, S_desc, S_terse, S_wave, S_stage, S_rate, a_nunit, a_nscrp, a_ncond, a_nstep, S_expe, '-', 0, 0, 0, 0, 0);
+   int         x_conds  = 0;
+   int         x_steps  = 0;
+   yunit_stats_of_scrp (&x_conds, &x_steps);
+   /*> printf ("x_conds = %d, x_steps = %d\n", x_conds, x_steps);                     <*/
+   return yunit_wave ('e', f, S_proj, S_unit, S_scrp, S_desc, S_terse, S_wave, S_stage, S_rate, 0, 1, x_conds, x_steps, S_expe, '-', 0, 0, 0, 0, 0);
 }
 
 char
 yUNIT_wave_act          (void *f, char a_nunit, char a_nscrp, short a_ncond, short a_nstep, char a_result, short a_npass, short a_nfail, short a_nbadd, short a_nvoid, short a_actual)
 {
-   return yunit_wave ('a', f, S_proj, S_unit, S_scrp, S_desc, S_terse, S_wave, S_stage, S_rate, a_nunit, a_nscrp, a_ncond, a_nstep, S_expe, a_result, a_npass, a_nfail, a_nbadd, a_nvoid, a_actual);
+   return yunit_wave ('a', f, S_proj, S_unit, S_scrp, S_desc, S_terse, S_wave, S_stage, S_rate, 0, 1, a_ncond, a_nstep, S_expe, a_result, a_npass, a_nfail, a_nbadd, a_nvoid, a_actual);
 }
-

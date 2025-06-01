@@ -1,6 +1,80 @@
 #include    "master.munit"
 
 
+char
+UNIT___cond_type        (char a_scrp, char a_list, char a_unit)
+{
+   char        x_label     [LEN_TERSE] = "";
+   char        x_note      [LEN_SHORT] = "";
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_cond"    , "(COND) verify assigning COND type");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond  ("verify a normal condition (COND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', '-', x_label, x_note), TYPE_COND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "COND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a condition to be repeated later (CCND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', '-', x_label, x_note), TYPE_CCND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "CCND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a condition being repeated (DOND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '3', '-', x_label, x_note), TYPE_DOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "DOND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a local shared condition (SOND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', 'b', x_label, x_note), TYPE_SOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "SOND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a local shared condition to be repeated (CCND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', 'b', x_label, x_note), TYPE_CCND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "CCND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a local shared condition being repeated (DOND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '3', 'b', x_label, x_note), TYPE_DOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "DOND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a global shared condition (GOND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', 'B', x_label, x_note), TYPE_GOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "GOND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a config shared condition (GOND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', 'ò', x_label, x_note), TYPE_GOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "GOND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a global shared condition to be repeated (CCND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', 'B', x_label, x_note), TYPE_CCND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "CCND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_mindnoc  ();
+
+   yUNIT_mincond  ("verify a global shared condition being repeated (DOND)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '3', 'B', x_label, x_note), TYPE_DOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "DOND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_mindnoc  ();
+
+   yUNIT_minprcs ();
+   return 0;
+}
 
 char
 UNIT___cond_cond        (char a_scrp, char a_list, char a_unit)
@@ -363,7 +437,10 @@ main                    (int a_argc, char *a_argv [])
    else if (x_list == '!')    printf ("## generate initial wave file\n");
    else                       printf ("## execute conditions and steps\n");
    printf ("\n");
+   /*---(startup)------------------------*/
+   yUNIT_minunit ("yUNIT_cond");
    /*---(scripts)------------------------*/
+   UNIT___cond_type          (++n, x_list, x_unit);
    UNIT___cond_cond          (++n, x_list, x_unit);
    UNIT___cond_dnoc          (++n, x_list, x_unit);
    UNIT___cond_dnod          (++n, x_list, x_unit);

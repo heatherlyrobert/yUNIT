@@ -9,7 +9,7 @@
 static void      o___STEP____________________o (void) {;}
 
 char
-yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_exec)
+yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_exec, char a_dittoing)
 {
    /*---(display only)---------------------------*/
    if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "void"  , a_desc);
@@ -25,7 +25,7 @@ yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL] , char a_test [LEN_TERSE], uchar a_expe, uchar a_actu, char a_exec)
+yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL] , char a_test [LEN_TERSE], uchar a_expe, uchar a_actu, char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -111,17 +111,17 @@ yunit_int_show          (llong a_expe, llong a_actu, char r_expe [LEN_RECD], cha
    dm = d1;  if (d2 > dm) dm = d2;
    /*---(create text)--------------------*/
    x_pre = dm - d1; if (x_pre < 0)  x_pre = 0;
-   sprintf (x_expe, "%*.*s%*.*lld", x_pre, x_pre, YUNIT_NDOTS, d1, d1, a_expe);
-   if (r_expe != NULL)   snprintf (r_expe, LEN_RECD, "%3d%c%s%c  %2dd  %2ds  %15.14e", dm, YUNIT_BEG, x_expe, YUNIT_END, d1, s1, (double) a_expe);
+   sprintf (x_expe, "%3d%c%*.*s%*.*lld%c", dm, YUNIT_BEG, x_pre, x_pre, YUNIT_NDOTS, d1, d1, a_expe, YUNIT_END);
+   if (r_expe != NULL)  snprintf (r_expe, LEN_RECD, "%-28.28s  %2dd  ···  ···  %2ds  %15.14e", x_expe, d1, s1, (double) a_expe);
    x_pre = dm - d2; if (x_pre < 0)  x_pre = 0;
-   sprintf (x_actu, "%*.*s%*.*lld", x_pre, x_pre, YUNIT_NDOTS, d2, d2, a_actu);
-   if (r_actu != NULL)   snprintf (r_actu, LEN_RECD, "%3d%c%s%c  %2dd  %2ds  %15.14e", dm, YUNIT_BEG, x_actu, YUNIT_END, d2, s2, (double) a_actu);
+   sprintf (x_actu, "%3d%c%*.*s%*.*lld%c", dm, YUNIT_BEG, x_pre, x_pre, YUNIT_NDOTS, d2, d2, a_actu, YUNIT_END);
+   if (r_actu != NULL)  snprintf (r_actu, LEN_RECD, "%-28.28s  %2dd  ···  ···  %2ds  %15.14e", x_actu, d2, s2, (double) a_actu);
    /*---(complete)-------------------------------*/
    return 0;
 }
 
 char
-yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], llong a_expe, llong a_actu, char a_exec)
+yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], llong a_expe, llong a_actu, char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -143,7 +143,7 @@ yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(save return)----------------------------*/
    yUNIT_i_rc = a_actu;
    /*---(record the key data)--------------------*/
-   yunit_int_show ((double) a_expe, (double) a_actu, myUNIT.expe, myUNIT.actu);
+   yunit_int_show (a_expe, a_actu, myUNIT.expe, myUNIT.actu);
    strncpy  (myUNIT.modd, ""    , LEN_RECD);
    yunit_disp_full ('i', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
@@ -252,18 +252,18 @@ yunit_real_show         (double a_expe, double a_actu, char r_expe [LEN_RECD], c
    /*---(create text)--------------------*/
    x_pre = dm - d1; if (x_pre < 0)  x_pre = 0;
    x_suf = fm - f1; if (x_suf < 0)  x_suf = 0;
-   sprintf (x_expe, "%*.*s%*.*lf%*.*s", x_pre, x_pre, YUNIT_NDOTS, p1, f1, a_expe, x_suf, x_suf, YUNIT_NDOTS);
-   if (r_expe != NULL)  snprintf (r_expe, LEN_RECD, "%3d%c%s%c  %2dd  %2df  %2dp  %2ds  %15.14e", pm, YUNIT_BEG, x_expe, YUNIT_END, d1, f1, p1, s1, a_expe);
+   sprintf (x_expe, "%3d%c%*.*s%*.*lf%*.*s%c", pm, YUNIT_BEG, x_pre, x_pre, YUNIT_NDOTS, p1, f1, a_expe, x_suf, x_suf, YUNIT_NDOTS, YUNIT_END);
+   if (r_expe != NULL)  snprintf (r_expe, LEN_RECD, "%-28.28s  %2dd  %2df  %2dp  %2ds  %15.14e", x_expe, d1, f1, p1, s1, a_expe);
    x_pre = dm - d2; if (x_pre < 0)  x_pre = 0;
    x_suf = fm - f2; if (x_suf < 0)  x_suf = 0;
-   sprintf (x_actu, "%*.*s%*.*lf%*.*s", x_pre, x_pre, YUNIT_NDOTS, p2, f2, a_actu, x_suf, x_suf, YUNIT_NDOTS);
-   if (r_actu != NULL)  snprintf (r_actu, LEN_RECD, "%3d%c%s%c  %2dd  %2df  %2dp  %2ds  %15.14e", pm, YUNIT_BEG, x_actu, YUNIT_END, d2, f2, p2, s2, a_actu);
+   sprintf (x_actu, "%3d%c%*.*s%*.*lf%*.*s%c", pm, YUNIT_BEG, x_pre, x_pre, YUNIT_NDOTS, p2, f2, a_actu, x_suf, x_suf, YUNIT_NDOTS, YUNIT_END);
+   if (r_actu != NULL)  snprintf (r_actu, LEN_RECD, "%-28.28s  %2dd  %2df  %2dp  %2ds  %15.14e", x_actu, d2, f2, p2, s2, a_actu);
    /*---(complete)-------------------------------*/
    return 0;
 }
 
 char
-yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], double a_expe, double a_actu, char a_exec)
+yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], double a_expe, double a_actu, char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -286,8 +286,6 @@ yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    yUNIT_r_rc = a_actu;
    /*---(record the key data)--------------------*/
    yunit_real_show (a_expe, a_actu, myUNIT.expe, myUNIT.actu);
-   /*> snprintf (myUNIT.expe, LEN_RECD, "%lf", a_expe);                               <*/
-   /*> snprintf (myUNIT.actu, LEN_RECD, "%lf", a_actu);                               <*/
    strncpy  (myUNIT.modd, ""    , LEN_RECD);
    yunit_disp_full ('r', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
@@ -295,7 +293,7 @@ yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_point             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], void *a_expe, void *a_actu, char a_exec)
+yUNIT_point             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], void *a_expe, void *a_actu, char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -330,7 +328,7 @@ yUNIT_point             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec)
+yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -372,17 +370,17 @@ yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_wrap              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec)
+yUNIT_wrap              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing)
 {
    char        x_test      [LEN_LABEL] = "";
    char        x_actu      [LEN_RECD]  = "";
    sprintf (x_test, "s_%s", a_test + 2);
    sprintf (x_actu, "%c%s%c", YUNIT_BEG, a_actu, YUNIT_END);
-   return yUNIT_string (a_line, a_seqn, a_desc, a_meth, a_args, x_test, a_expe, x_actu, a_exec);
+   return yUNIT_string (a_line, a_seqn, a_desc, a_meth, a_args, x_test, a_expe, x_actu, a_exec, a_dittoing);
 }
 
 char
-yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec)
+yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -425,7 +423,7 @@ yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_unknown           (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec)
+yUNIT_unknown           (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing)
 {
    /*---(display only)---------------------------*/
    if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "????"  , a_desc);

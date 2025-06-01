@@ -14,6 +14,15 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify initial zeroed values");
    yUNIT_minval  ("call init"                          , yunit_actual_init   ()           ,    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 0]  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
+   yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
+   yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
+   yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify initial unit");
+   yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_UNIT  , 0           , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]");
@@ -21,6 +30,7 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify SCRP");
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_SCRP  , 0           , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=1    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=1    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]");
@@ -28,6 +38,7 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify condition");
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_COND  , 0           , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=1    cond=1     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=1    cond=1     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=1     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]");
@@ -35,6 +46,7 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify execution step");
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_SUCC  , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=1    cond=1     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=1    cond=1     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=1     test=1     [ pass=1     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=1     [ pass=1     fail=0     badd=0     void=0     ]");
@@ -45,6 +57,7 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_FAIL  , -1  ),    0);
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_VOID  , 0   ),    0);
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_WARN  , 15  ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=1    cond=1     test=5     [ pass=2     fail=1     badd=1     void=1     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=1    cond=1     test=5     [ pass=2     fail=1     badd=1     void=1     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=1     test=5     [ pass=2     fail=1     badd=1     void=1     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=5     [ pass=2     fail=1     badd=1     void=1     ]");
@@ -52,6 +65,7 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify new condition");
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_COND  , 0           , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=1    cond=2     test=5     [ pass=2     fail=1     badd=1     void=1     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=1    cond=2     test=5     [ pass=2     fail=1     badd=1     void=1     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=2     test=5     [ pass=2     fail=1     badd=1     void=1     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]");
@@ -61,6 +75,7 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_SUCC  , 0   ),    0);
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_SUCC  , 0   ),    0);
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_VOID  , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=1    cond=2     test=8     [ pass=4     fail=1     badd=1     void=2     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=1    cond=2     test=8     [ pass=4     fail=1     badd=1     void=2     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=2     test=8     [ pass=4     fail=1     badd=1     void=2     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=3     [ pass=2     fail=0     badd=0     void=1     ]");
@@ -68,6 +83,7 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify new script");
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_SCRP  , 0           , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=2    cond=2     test=8     [ pass=4     fail=1     badd=1     void=2     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=2    cond=2     test=8     [ pass=4     fail=1     badd=1     void=2     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]");
@@ -78,13 +94,35 @@ UNIT___actual_accum     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_SUCC  , 0   ),    0);
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_SUCC  , 0   ),    0);
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_FAIL  , -1  ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 1]  scrp=2    cond=3     test=11    [ pass=6     fail=2     badd=1     void=2     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=2    cond=3     test=11    [ pass=6     fail=2     badd=1     void=2     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=1     test=3     [ pass=2     fail=1     badd=0     void=0     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=3     [ pass=2     fail=1     badd=0     void=0     ]");
    yUNIT_mindnoc ();
 
-   yUNIT_mincond ("verify clearing for a new unit");
+   yUNIT_mincond ("verify new unit");
    yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_UNIT  , 0           , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 2]  scrp=2    cond=3     test=11    [ pass=6     fail=2     badd=1     void=2     ]");
+   yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
+   yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
+   yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify adding script, condition, and steps");
+   yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_SCRP  , 0           , 0   ),    0);
+   yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_COND  , 0           , 0   ),    0);
+   yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_SUCC  , 0   ),    0);
+   yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_SUCC  , 0   ),    0);
+   yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_STEP  , YUNIT_VOID  ,  0  ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 2]  scrp=3    cond=4     test=14    [ pass=8     fail=2     badd=1     void=3     ]");
+   yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=1    cond=1     test=3     [ pass=2     fail=0     badd=0     void=1     ]");
+   yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=1     test=3     [ pass=2     fail=0     badd=0     void=1     ]");
+   yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=3     [ pass=2     fail=0     badd=0     void=1     ]");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify clearing for a new unit");
+   yUNIT_minval  ("call accum"                         , yunit_actual_accum  (TYPE_FULL  , 0           , 0   ),    0);
+   yUNIT_minstr  ("... prog level"                     , yunit_actual_footer (TYPE_LUFF, &x_unused)  , "[ 0]  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... unit level"                     , yunit_actual_footer (TYPE_TINU, &x_unused)  , "TINU  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... script level"                   , yunit_actual_footer (TYPE_PRCS, &x_unused)  ,   "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]");
    yUNIT_minstr  ("... condition level"                , yunit_actual_footer (TYPE_DNOC, &x_unused)  ,       "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]");
@@ -115,6 +153,8 @@ main                    (int a_argc, char *a_argv [])
    else if (x_list == '!')    printf ("## generate initial wave file\n");
    else                       printf ("## execute conditions and steps\n");
    printf ("\n");
+   /*---(startup)------------------------*/
+   yUNIT_minunit ("yUNIT_actual");
    /*---(scripts)------------------------*/
    UNIT___actual_accum       (++n, x_list, x_unit);
    /*---(wrapup)-------------------------*/

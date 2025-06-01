@@ -5,7 +5,7 @@
 char
 UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
 {
-   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SCRP) verify local shares (yUNIT_shar, yUNIT_rahs)");
+   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SHARE) verify local shares (yUNIT_shar, yUNIT_rahs)");
    if (a_list == '!')    { yUNIT_minprcs (); return 0; }
    if (a_unit != 0 && a_scrp != a_unit)  return 0;
    if (a_list == 'y')                    return 0;
@@ -101,7 +101,7 @@ UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
 char
 UNIT___share_global     (char a_scrp, char a_list, char a_unit)
 {
-   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SCRP) verify global shares (yUNIT_glob, yUNIT_bolg)");
+   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SHARE) verify global shares (yUNIT_glob, yUNIT_bolg)");
    if (a_list == '!')    { yUNIT_minprcs (); return 0; }
    if (a_unit != 0 && a_scrp != a_unit)  return 0;
    if (a_list == 'y')                    return 0;
@@ -170,7 +170,7 @@ UNIT___share_global     (char a_scrp, char a_list, char a_unit)
 char
 UNIT___share_config     (char a_scrp, char a_list, char a_unit)
 {
-   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SCRP) verify special shares (yUNIT_conf, yUNIT_fnoc)");
+   yUNIT_minscrpy ("yUNIT", "yUNIT_share"   , "(SHARE) verify special shares (yUNIT_conf, yUNIT_fnoc)");
    if (a_list == '!')    { yUNIT_minprcs (); return 0; }
    if (a_unit != 0 && a_scrp != a_unit)  return 0;
    if (a_list == 'y')                    return 0;
@@ -257,6 +257,8 @@ main                    (int a_argc, char *a_argv [])
    else if (x_list == '!')    printf ("## generate initial wave file\n");
    else                       printf ("## execute conditions and steps\n");
    printf ("\n");
+   /*---(startup)------------------------*/
+   yUNIT_minunit ("yUNIT_share");
    /*---(scripts)------------------------*/
    UNIT___share_shared       (++n, x_list, x_unit);
    UNIT___share_global       (++n, x_list, x_unit);
