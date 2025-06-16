@@ -5,7 +5,7 @@ char
 UNIT___cond_type        (char a_scrp, char a_list, char a_unit)
 {
    char        x_label     [LEN_TERSE] = "";
-   char        x_note      [LEN_SHORT] = "";
+   char        x_note      [LEN_TERSE] = "";
 
    yUNIT_minscrpy ("yUNIT", "yUNIT_cond"    , "(COND) verify assigning COND type");
    if (a_list == '!')    { yUNIT_minprcs (); return 0; }
@@ -13,63 +13,63 @@ UNIT___cond_type        (char a_scrp, char a_list, char a_unit)
    if (a_list == 'y')                    return 0;
 
    yUNIT_mincond  ("verify a normal condition (COND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', '-', x_label, x_note), TYPE_COND);
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', '-', '-', x_label, x_note), TYPE_COND);
    yUNIT_minstr   ("... check label"                    , x_label          , "COND");
    yUNIT_minstr   ("... check note"                     , x_note           , "");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a condition to be repeated later (CCND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', '-', x_label, x_note), TYPE_CCND);
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', '-', '-', x_label, x_note), TYPE_CCND);
    yUNIT_minstr   ("... check label"                    , x_label          , "CCND");
    yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a condition being repeated (DOND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '3', '-', x_label, x_note), TYPE_DOND);
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '-', '3', '-', x_label, x_note), TYPE_DOND);
    yUNIT_minstr   ("... check label"                    , x_label          , "DOND");
    yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a local shared condition (SOND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', 'b', x_label, x_note), TYPE_SOND);
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', '-', 'b', x_label, x_note), TYPE_SOND);
    yUNIT_minstr   ("... check label"                    , x_label          , "SOND");
-   yUNIT_minstr   ("... check note"                     , x_note           , "");
+   yUNIT_minstr   ("... check note"                     , x_note           , "[b>");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a local shared condition to be repeated (CCND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', 'b', x_label, x_note), TYPE_CCND);
-   yUNIT_minstr   ("... check label"                    , x_label          , "CCND");
-   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', '-', 'b', x_label, x_note), TYPE_SOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "SCND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "[b> (3)");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a local shared condition being repeated (DOND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '3', 'b', x_label, x_note), TYPE_DOND);
-   yUNIT_minstr   ("... check label"                    , x_label          , "DOND");
-   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '-', '3', 'b', x_label, x_note), TYPE_SOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "SDON");
+   yUNIT_minstr   ("... check note"                     , x_note           , "[b> (3)");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a global shared condition (GOND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', 'B', x_label, x_note), TYPE_GOND);
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', '-', 'B', x_label, x_note), TYPE_GOND);
    yUNIT_minstr   ("... check label"                    , x_label          , "GOND");
-   yUNIT_minstr   ("... check note"                     , x_note           , "");
+   yUNIT_minstr   ("... check note"                     , x_note           , "[B>");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a config shared condition (GOND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', 'ò', x_label, x_note), TYPE_GOND);
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '-', '-', 'ò', x_label, x_note), TYPE_GOND);
    yUNIT_minstr   ("... check label"                    , x_label          , "GOND");
-   yUNIT_minstr   ("... check note"                     , x_note           , "");
+   yUNIT_minstr   ("... check note"                     , x_note           , "[ò>");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a global shared condition to be repeated (CCND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', 'B', x_label, x_note), TYPE_CCND);
-   yUNIT_minstr   ("... check label"                    , x_label          , "CCND");
-   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('-', '3', '-', 'B', x_label, x_note), TYPE_GOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "GCND");
+   yUNIT_minstr   ("... check note"                     , x_note           , "[B> (3)");
    yUNIT_mindnoc  ();
 
    yUNIT_mincond  ("verify a global shared condition being repeated (DOND)");
-   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '3', 'B', x_label, x_note), TYPE_DOND);
-   yUNIT_minstr   ("... check label"                    , x_label          , "DOND");
-   yUNIT_minstr   ("... check note"                     , x_note           , "(3)");
+   yUNIT_minval   ("call COND verb handler"             , yunit_cond_type  ('y', '-', '3', 'B', x_label, x_note), TYPE_GOND);
+   yUNIT_minstr   ("... check label"                    , x_label          , "GDON");
+   yUNIT_minstr   ("... check note"                     , x_note           , "[B> (3)");
    yUNIT_mindnoc  ();
 
    yUNIT_minprcs ();
@@ -87,11 +87,11 @@ UNIT___cond_cond        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify quick success, full unit-level (CONSOLE)");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   954,  321, '-', '-', '-', "check the initial values"                         ), 0);
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   954,  321, '-', '-', '-', '-', "check the initial values"                         ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  COND [321] check the initial values -- -- -- -- -- -- -- -- -- -- -- -- -- -[00954]");
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), "  COND [321] check the initial values -- -- -- -- -- -- -- -- -- -- -- -- -- -[00954]");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc ();
@@ -99,11 +99,11 @@ UNIT___cond_cond        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify quick success, full unit-level (ETERM)");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (     5,    1, '-', '-', '-', "check the initial values"                         ), 0);
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (     5,    1, '-', '-', '-', '-', "check the initial values"                         ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr ("... global print"                   , s_print                 , "  COND [001] check the initial values -- -- -- -- -- -- -- -- -- -- -- -- -- -[00005]");
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_BRN "COND [001] check the initial values -- -- -- -- -- -- -- -- -- -- -- -- -- -[00005]" BACK_OFF);
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), "  COND [001] check the initial values -- -- -- -- -- -- -- -- -- -- -- -- -- -[00005]");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc ();
@@ -111,11 +111,11 @@ UNIT___cond_cond        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify condition-level");
    yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_COND, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   123,   10, '-', '-', '-', "check the initial values"                         ), 0);
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   123,   10, '-', '-', '-', '-', "check the initial values"                         ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  COND [010] check the initial values -- -- -- -- -- -- -- -- -- -- -- -- -- -[00123]");
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), "  COND [010] check the initial values -- -- -- -- -- -- -- -- -- -- -- -- -- -[00123]");
+   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc ();
@@ -123,7 +123,7 @@ UNIT___cond_cond        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify script-level");
    yUNIT_minval ("create a unit on scrp output"       , yUNIT_unit  (s_nconv, YUNIT_SCRP, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   954,  321, '-', '-', '-', "check the initial values"                         ), 0);
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (   954,  321, '-', '-', '-', '-', "check the initial values"                         ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  COND [321] check the initial values -- -- -- -- -- -- -- -- -- -- -- -- -- -[00954]");
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '['), "(n/a)");
@@ -133,11 +133,11 @@ UNIT___cond_cond        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify defenses");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (    -1,   -1, '-', '-', '-', NULL                                               ), 0);
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (    -1,   -1, '-', '-', '-', '-', NULL                                               ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  COND [---] (null) -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -[-----]");
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (100000, 1000, '-', '-', '-', "excellent stuffs"                                 ), 0);
+   yUNIT_minval ("call COND verb handler"             , yUNIT_cond  (100000, 1000, '-', '-', '-', '-', "excellent stuffs"                                 ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  COND [***] excellent stuffs - -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -[*****]");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), 0);
@@ -160,8 +160,8 @@ UNIT___cond_dnoc        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 3, 2, 1);
    yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  (1)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "      DNOC  -------------- test=11    [ pass=5     fail=3     badd=2     void=1     ]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
@@ -173,8 +173,8 @@ UNIT___cond_dnoc        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 3, 2, 1);
    yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  (1)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    1);
    yUNIT_minstr ("... global print"                   , s_print                 , "      DNOC  -------------- test=11    [ pass=5     fail=3     badd=2     void=1     ]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    1);
    yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), -999);
@@ -185,8 +185,8 @@ UNIT___cond_dnoc        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 3, 2, 1);
    yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  (1)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
    yUNIT_minstr ("... global print"                   , s_print                 , "      DNOC  -------------- test=11    [ pass=5     fail=3     badd=2     void=1     ]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (1), -999);
    yUNIT_mindnoc ();
@@ -196,8 +196,8 @@ UNIT___cond_dnoc        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 3, 2, 1);
    yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  (1)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "      " BACK_RED "DNOC  -------------- test=11    [ pass=5     fail=3     badd=2     void=1     ]" BACK_OFF);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
@@ -209,8 +209,8 @@ UNIT___cond_dnoc        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 0, 2, 1);
    yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  (1)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "      " BACK_YEL "DNOC  -------------- test=11    [ pass=5     fail=0     badd=2     void=1     ]" BACK_OFF);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
@@ -222,8 +222,8 @@ UNIT___cond_dnoc        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 0, 0, 1);
    yUNIT_minval ("call DNOC verb handler"             , yUNIT_dnoc  (1)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "      " BACK_GRN "DNOC  -------------- test=11    [ pass=5     fail=0     badd=0     void=1     ]" BACK_OFF);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
@@ -243,76 +243,71 @@ UNIT___cond_dnod        (char a_scrp, char a_list, char a_unit)
    if (a_list == 'y')                    return 0;
 
    yUNIT_mincond ("verify full unit-level DNOD");
-   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 0)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 3, 2, 1);
    yUNIT_minval ("call DNOD verb handler"             , yUNIT_dnoc  (0)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "      DNOD  -------------- test=11    [ ------------------------------------------- ]");
-   yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
-   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (0), -999);
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify condition-level DNOD");
-   yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_COND, YUNIT_CONSOLE, 1)  , 0);
-   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yunit_force_cond (11, 5, 3, 2, 1);
-   yUNIT_minval ("call DNOD verb handler"             , yUNIT_dnoc  (0)                                  , 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    1);
-   yUNIT_minstr ("... global print"                   , s_print                 , "      DNOD  -------------- test=11    [ ------------------------------------------- ]");
    yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (0), -999);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify script-level DNOD");
-   yUNIT_minval ("create a unit on scrp output"       , yUNIT_unit  (s_nconv, YUNIT_SCRP, YUNIT_CONSOLE, 1)  , 0);
+   yUNIT_minval ("create a unit on scrp output"       , yUNIT_unit  (s_nconv, YUNIT_SCRP, YUNIT_CONSOLE, 0)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 3, 2, 1);
    yUNIT_minval ("call DNOD verb handler"             , yUNIT_dnoc  (0)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
    yUNIT_minstr ("... global print"                   , s_print                 , "      DNOD  -------------- test=11    [ ------------------------------------------- ]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
    yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (0), -999);
    yUNIT_mindnoc ();
 
-   yUNIT_mincond ("verify full unit-level (ETERM) fail");
-   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_mincond ("verify condition-level DNOD");
+   yUNIT_minval ("create a unit on cond output"       , yUNIT_unit  (s_nconv, YUNIT_COND, YUNIT_CONSOLE, 0)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 3, 2, 1);
    yUNIT_minval ("call DNOD verb handler"             , yUNIT_dnoc  (0)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "      DNOD  -------------- test=11    [ ------------------------------------------- ]");
-   yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '['), "(n/a)");
+   yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (0), -999);
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify full unit-level (ETERM) fail");
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 0)  , 0);
+   yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
+   yunit_force_cond (11, 5, 3, 2, 1);
+   yUNIT_minval ("call DNOD verb handler"             , yUNIT_dnoc  (0)                                  , 0);
+   yUNIT_minstr ("... global print"                   , s_print                 , "      DNOD  -------------- test=11    [ ------------------------------------------- ]");
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    1);
+   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (0), -999);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify full unit-level (ETERM) warning");
-   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 0)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 0, 2, 1);
    yUNIT_minval ("call DNOD verb handler"             , yUNIT_dnoc  (0)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "      DNOD  -------------- test=11    [ ------------------------------------------- ]");
-   yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    1);
+   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (0), -999);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify full unit-level (ETERM) pass");
-   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
+   yUNIT_minval ("create a unit on full/eterm"        , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 0)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yunit_force_cond (11, 5, 0, 0, 1);
    yUNIT_minval ("call DNOD verb handler"             , yUNIT_dnoc  (0)                                  , 0);
-   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "      DNOD  -------------- test=11    [ ------------------------------------------- ]");
-   yUNIT_minstr ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    1);
+   yUNIT_minstr ("... check footer"                   , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("close out a unit test"              , yUNIT_tinu  (0), 0);
    yUNIT_mindnoc ();

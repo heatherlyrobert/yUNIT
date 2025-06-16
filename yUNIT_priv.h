@@ -39,8 +39,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.3-, new level for unit testing in koios"
-#define     P_VERNUM    "2.3c"
-#define     P_VERTXT    "massive update for statistics"
+#define     P_VERNUM    "2.3d"
+#define     P_VERTXT    "updated in support of koios unit testing"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -140,6 +140,7 @@ extern  char      yUNIT_systext [1000];
 extern FILE     *yUNIT_stdin;
 extern FILE     *yUNIT_out;
 
+extern char  YUNIT_SHARES  [LEN_HUND];
 
 
 extern char     s_prefix    [LEN_RECD];
@@ -217,10 +218,25 @@ extern tUNIT   myUNIT;
 #define          YUNIT_NDOTS     myUNIT.b_num_dots
 
 
+extern tyUNIT_COUNTS  g_counts [LEN_HUND];
+
+
+#define FULL_ID    0
+#define FULL       g_counts [0]
+
+#define UNIT_ID    1
+#define UNIT       g_counts [1]
+
+#define SCRP_ID    2
+#define SCRP       g_counts [2]
+
+#define COND_ID    3
+#define COND       g_counts [3]
+
+
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yunit_open              (char a_name [LEN_TITLE]);
-char        yunit_printf            (char *a_format, ...);
 char        yunit_close             (void);
 char        yunit_close_and_remove  (void);
 char        yunit_cycle             (void);
@@ -237,23 +253,17 @@ char        yunit_wave              (char a_act, FILE *f, char a_proj [LEN_LABEL
 /*===[[ yUNIT_stats.c ]]======================================================*/
 /*········· ´······················ ´·········································*/
 /*---(support)-----------------------*/
-char        yunit_stats_clear_one   (char n);
-char        yunit_stats_clear_ditto (void);
 char        yunit_stats_clear       (char a_type);
 /*---(accum)-------------------------*/
 char        yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_LABEL], char a_major);
 /*---(outcome)-----------------------*/
-char*       yunit_stats_show        (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT], char n);
-char*       yunit_stats_show_full   (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT]);
-char*       yunit_stats_show_unit   (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT]);
-char*       yunit_stats_show_scrp   (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT]);
-char        yunit_stats_ditto       (char a_type, char a_ditto, char b_show [LEN_LABEL], char *r_dittoing);
+char*       yunit_stats_show        (char a_prefix [LEN_FULL], char n);
+char*       yunit_full_show         (char a_prefix [LEN_FULL]);
+char*       yunit_unit_show         (char a_prefix [LEN_FULL]);
+char*       yunit_scrp_show         (char a_prefix [LEN_FULL]);
+char*       yunit_cond_show         (char a_prefix [LEN_FULL]);
 char        yunit_stats_reuse       (char a_type, char a_major, char b_full [LEN_HUND], char b_unit [LEN_HUND], char b_scrp [LEN_HUND]);
-char*       yunit_stats_show_cond   (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT]);
 char        yunit_stats_of_scrp     (int *r_conds, int *r_steps);
-char        yunit_stats_ditto_step  (char a_usage, char a_type, char a_dittoing, char a_skip);
-char        yunit_stats_ditto_apply (char a_usage, char a_type, char a_dtarget);
-char*       yunit_stats_show_ditto  (char n);
 
 /*> char*       yunit_stats_all         (char a_prefix [LEN_FULL]);                   <*/
 /*> char*       yunit_stats__curr       (char a_prefix [LEN_FULL], char a_summ [LEN_DESC]);   <*/
@@ -261,11 +271,22 @@ char*       yunit_stats_show_ditto  (char n);
 
 
 
+/*===[[ yUNIT_ditto.c ]]======================================================*/
+/*········· ´······················ ´·········································*/
+char        yunit_ditto_purge       (void);
+char        yunit_ditto_stats       (char a_type, char a_ditto, char b_show [LEN_LABEL], char *r_dittoing);
+char        yunit_ditto_step        (char a_usage, char a_type, char a_dittoing, char a_skip);
+char        yunit_ditto_apply       (char a_usage, char a_type, char a_dtarget);
+char*       yunit_ditto_show        (char n);
+/*---(done)--------------------------*/
+
+
+
 /*===[[ yUNIT_final.c ]]======================================================*/
 /*········· ´······················ ´·········································*/
 char*       yunit_final_step        (int a_seqn);
 char        yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char a_desc [LEN_LONG], char a_max, char a_align, char a_gap, char *a_fill, char r_line [LEN_TERSE], char r_seqn [LEN_TERSE], char r_desc [LEN_LONG]);
-char        yunit_final_color       (char a_mono, char a_type, char *r_on, char *r_on2, char *r_off, char r_note [LEN_TERSE], char r_test [LEN_DESC]);
+char        yunit_final_color       (char a_mono, char a_type, char r_on [LEN_LABEL], char r_on2 [LEN_LABEL], char r_off [LEN_LABEL], char r_note [LEN_TERSE], char r_test [LEN_DESC]);
 char*       yunit_final_footer      (char a_type);
 /*---(done)--------------------------*/
 
@@ -291,13 +312,13 @@ char        yunit_force_resu        (char a_resu, int a_rc);
 char        yunit_actual_wave       (int *r_test, int *r_pass, int *r_fail, int *r_void, int *r_badd);
 /*---(done)--------------------------*/
 
-char        yunit_disp_show         (int a_line, int a_seqn, char a_note [LEN_TERSE], char a_desc [LEN_LONG]);
-char        yunit_disp__top         (char a_type, int a_line, int a_seqn, char a_desc [LEN_LONG]);
+char        yunit_disp_show         (int a_line, int a_seqn, char a_share, char a_note [LEN_TERSE], char a_desc [LEN_LONG]);
+char        yunit_disp__top         (char a_type, int a_line, int a_seqn, char a_desc [LEN_LONG], char a_share);
 char        yunit_disp__mid         (char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE]);
 char        yunit_disp__bot         (char a_source, char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_modd [LEN_RECD]);
-char        yunit_disp_full         (char a_source, int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_expe [LEN_RECD], char a_test [LEN_TERSE], char a_actu [LEN_RECD], char a_modd [LEN_RECD]);
-char        yunit_disp_single       (char a_type, int a_line, int a_seqn, char a_desc [LEN_LONG]);
-char        yunit_disp_double       (char a_type, int a_line, int a_seqn, char a_desc [LEN_LONG], char a_label [LEN_TERSE], char a_detail [LEN_RECD]);
+char        yunit_disp_full         (char a_source, int a_line, int a_seqn, char a_share, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_expe [LEN_RECD], char a_test [LEN_TERSE], char a_actu [LEN_RECD], char a_modd [LEN_RECD]);
+char        yunit_disp_single       (char a_type, int a_line, int a_seqn, char a_share, char a_desc [LEN_LONG]);
+char        yunit_disp_double       (char a_type, int a_line, int a_seqn, char a_share, char a_desc [LEN_LONG], char a_label [LEN_TERSE], char a_detail [LEN_RECD]);
 
 
 char        yunit_int_sizing        (llong a_number, char *r_sig, char *r_exp, char *r_digits);
@@ -305,7 +326,11 @@ char        yunit_int_show          (llong a_expe, llong a_actu, char r_expe [LE
 char        yunit_real_sizing       (double a_number, char *r_sig, char *r_exp, char *r_places, char *r_digits, char *r_fracts);
 char        yunit_real_show         (double a_expe, double a_actu, char r_expe [LEN_HUND], char r_actu [LEN_HUND]);
 
-char        yunit_cond_type         (char a_dittoing, char a_ditto, char a_share, char r_label [LEN_TERSE], char r_note [LEN_SHORT]);
+char        yunit_cond_type         (char a_dittoing, char a_ditto, char a_dtarget, char a_share, char r_label [LEN_TERSE], char r_note [LEN_TERSE]);
+
+
+char        yunit_reuse_clear       (char n);
+
 
 
 #endif

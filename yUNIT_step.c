@@ -9,29 +9,29 @@
 static void      o___STEP____________________o (void) {;}
 
 char
-yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_exec, char a_dittoing)
+yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_exec, char a_dittoing, char a_share)
 {
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "void"  , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "void"  , a_desc);
    /*---(score)--------------------------*/
    yunit_actual_accum (TYPE_STEP, YUNIT_SUCC, 0);
    /*---(record the key data)--------------------*/
    strlcpy  (myUNIT.expe, "VOID", LEN_RECD);
    strlcpy  (myUNIT.actu, "VOID", LEN_RECD);
    strlcpy  (myUNIT.modd, ""    , LEN_RECD);
-   yunit_disp_full ('v', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   yunit_disp_full ('v', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
    return 0;
 }
 
 char
-yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL] , char a_test [LEN_TERSE], uchar a_expe, uchar a_actu, char a_exec, char a_dittoing)
+yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL] , char a_test [LEN_TERSE], uchar a_expe, uchar a_actu, char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
    char        rc          = -1;
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "CHAR"  , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "CHAR"  , a_desc);
    /*---(do the comparisons)---------------------*/
    if (strstr(a_test, "c_") != NULL) {
       rc = yVAR_char (a_test, a_expe, a_actu);
@@ -50,7 +50,7 @@ yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    snprintf (myUNIT.expe, LEN_RECD, "%c", a_expe);
    snprintf (myUNIT.actu, LEN_RECD, "%c", a_actu);
    strncpy  (myUNIT.modd, ""    , LEN_RECD);
-   yunit_disp_full ('c', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   yunit_disp_full ('c', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
    return 1;
 }
@@ -121,13 +121,13 @@ yunit_int_show          (llong a_expe, llong a_actu, char r_expe [LEN_RECD], cha
 }
 
 char
-yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], llong a_expe, llong a_actu, char a_exec, char a_dittoing)
+yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], llong a_expe, llong a_actu, char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
    char        rc          = -1;
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "INT"   , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "INT"   , a_desc);
    /*---(do the comparisons)---------------------*/
    if (strstr(a_test, "i_") != NULL) {
       rc = yVAR_integer (a_test, a_expe, a_actu);
@@ -145,7 +145,7 @@ yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(record the key data)--------------------*/
    yunit_int_show (a_expe, a_actu, myUNIT.expe, myUNIT.actu);
    strncpy  (myUNIT.modd, ""    , LEN_RECD);
-   yunit_disp_full ('i', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   yunit_disp_full ('i', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
    return 1;
 }
@@ -263,13 +263,13 @@ yunit_real_show         (double a_expe, double a_actu, char r_expe [LEN_RECD], c
 }
 
 char
-yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], double a_expe, double a_actu, char a_exec, char a_dittoing)
+yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], double a_expe, double a_actu, char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
    char        rc          =   -1;
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "REAL"  , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "REAL"  , a_desc);
    /*---(do the comparisons)---------------------*/
    if (strstr (a_test, "r_") != NULL) {
       rc = yVAR_real (a_test, a_expe, a_actu);
@@ -287,19 +287,19 @@ yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(record the key data)--------------------*/
    yunit_real_show (a_expe, a_actu, myUNIT.expe, myUNIT.actu);
    strncpy  (myUNIT.modd, ""    , LEN_RECD);
-   yunit_disp_full ('r', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   yunit_disp_full ('r', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
    return 1;
 }
 
 char
-yUNIT_point             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], void *a_expe, void *a_actu, char a_exec, char a_dittoing)
+yUNIT_point             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], void *a_expe, void *a_actu, char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
    char        rc          = -1;
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "POINT" , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "POINT" , a_desc);
    /*---(do the comparisons)---------------------*/
    if (strstr (a_test, "p_") != NULL) {
       rc = yVAR_pointer (a_test, a_expe, a_actu);
@@ -322,13 +322,13 @@ yUNIT_point             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    snprintf  (myUNIT.actu, LEN_RECD, "%p",  a_actu);
    if (a_actu != NULL) myUNIT.is_leak_end = a_actu;
    strncpy  (myUNIT.modd, ""    , LEN_RECD);
-   yunit_disp_full ('p', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   yunit_disp_full ('p', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
    return 1;
 }
 
 char
-yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -337,7 +337,7 @@ yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    char        x_fact      [LEN_RECD]  = "???";
    char        x_modd      [LEN_RECD]  = "???";
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "STRING", a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "STRING", a_desc);
    /*---(do the comparisons)---------------------*/
    if (strstr (a_test, "s_") != NULL) {
       rc = yVAR_string (a_test, a_expe, a_actu);
@@ -364,23 +364,23 @@ yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
       strncpy (myUNIT.actu, a_actu, LEN_RECD);
       strncpy (myUNIT.modd, x_modd, LEN_RECD);
    /*> }                                                                              <*/
-   yunit_disp_full ('s', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   yunit_disp_full ('s', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
    return 1;
 }
 
 char
-yUNIT_wrap              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_wrap              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
    char        x_test      [LEN_LABEL] = "";
    char        x_actu      [LEN_RECD]  = "";
    sprintf (x_test, "s_%s", a_test + 2);
    sprintf (x_actu, "%c%s%c", YUNIT_BEG, a_actu, YUNIT_END);
-   return yUNIT_string (a_line, a_seqn, a_desc, a_meth, a_args, x_test, a_expe, x_actu, a_exec, a_dittoing);
+   return yUNIT_string (a_line, a_seqn, a_desc, a_meth, a_args, x_test, a_expe, x_actu, a_exec, a_dittoing, a_share);
 }
 
 char
-yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -389,7 +389,7 @@ yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    char        x_fact      [LEN_RECD]  = "???";
    char        x_modd      [LEN_RECD]  = "???";
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "ROUND" , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "ROUND" , a_desc);
    /*---(do the comparisons)---------------------*/
    if (strncmp (a_test, "u_round/", 8) == 0) {
       rc = yVAR_round (a_test, a_expe, a_actu);
@@ -417,23 +417,23 @@ yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
       strncpy (myUNIT.actu, a_actu, LEN_RECD);
       strncpy (myUNIT.modd, x_modd, LEN_RECD);
    /*> }                                                                              <*/
-   yunit_disp_full ('u', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   yunit_disp_full ('u', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
    return 1;
 }
 
 char
-yUNIT_unknown           (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_unknown           (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "????"  , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "????"  , a_desc);
    /*---(score)--------------------------*/
    yunit_actual_accum (TYPE_STEP, YUNIT_WARN, '¢');
    /*---(record the key data)--------------------*/
    strncpy  (myUNIT.expe, a_expe , LEN_RECD);
    strncpy  (myUNIT.actu, "(n/a)", LEN_RECD);
    strncpy  (myUNIT.modd, ""     , LEN_RECD);
-   yunit_disp_full ('?', a_line, a_seqn, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   yunit_disp_full ('?', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)---------------------*/
    return 1;
 }

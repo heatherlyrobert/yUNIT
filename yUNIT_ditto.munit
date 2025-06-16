@@ -1,0 +1,366 @@
+#include    "master.munit"
+
+
+
+char
+UNIT___ditto_stats      (char a_scrp, char a_list, char a_unit)
+{
+   char        x_ditto     [LEN_LABEL] = "··········";
+   char        x_dittoing  =   '-';
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_ditto"   , "(DITTO) verify logging dittos");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("verify a COND with ditto target");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_COND, '3', x_ditto, &x_dittoing),    1);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '3');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify calling bottoms while dittoing set");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_EXEC, '7', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '3');
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_VOID, '9', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '3');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify calling topps while dittoing set");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_SCRP, '6', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_SHAR, '8', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt a COND without ditto target");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_COND, '-', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt a COND with illegal target");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_COND,  5 , x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_COND, '?', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_COND, 'A', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify another COND with ditto target");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_COND, '9', x_ditto, &x_dittoing),    1);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´·····´");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '9');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a DITTO with ditto target");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···1·····´");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify a matching DITTO with same ditto target");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt DITTO with illegal target");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '!', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, 'b', x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT,  3 , x_ditto, &x_dittoing),    0);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt a DITTO never set with COND");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '6', x_ditto, &x_dittoing), -999);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt a COND already in use");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_COND, '3', x_ditto, &x_dittoing), -999);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
+   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify running a ditto over the count limit");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···5·····´");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···8·····´");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···9·····´");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···*·····´");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···*·····´");
+   yUNIT_minval  ("run ditto"                          , yunit_ditto_stats     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
+   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···*·····´");
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___ditto_step       (char a_scrp, char a_list, char a_unit)
+{
+   char        x_ditto     [LEN_LABEL] = "··········";
+   char        x_dittoing  =   '-';
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_ditto"   , "(DITTO) verify gathering steps for dittos");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("verify clearing dittos");
+   yUNIT_minval  ("run clear"                          , yunit_ditto_purge (),    0);
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('0'), "0)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('1'), "1)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('2'), "2)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('3'), "3)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('5'), "5)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('6'), "6)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('7'), "7)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('8'), "8)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('9'), "9)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify collecting steps");
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, '3', '-'),    1);
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('0'), "0)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('1'), "1)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('2'), "2)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('3'), "3)    1s    1x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('5'), "5)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('6'), "6)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('7'), "7)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('8'), "8)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('9'), "9)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify collecting a few more");
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_VOID, '3', '-'),    1);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, '3', '-'),    1);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, '3', 'y'),    1);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_VOID, '3', 'y'),    1);
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('0'), "0)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('1'), "1)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('2'), "2)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('3'), "3)    5s    3x    2v    2k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('5'), "5)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('6'), "6)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('7'), "7)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('8'), "8)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('9'), "9)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt same collecting not as CONVERT");
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_BUILD  , YUNIT_IS_VOID, '3', '-'),    0);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_BUILD  , YUNIT_IS_EXEC, '3', '-'),    0);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_RUNTIME, YUNIT_IS_EXEC, '3', 'y'),    0);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_RUNTIME, YUNIT_IS_VOID, '3', 'y'),    0);
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('0'), "0)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('1'), "1)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('2'), "2)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('3'), "3)    5s    3x    2v    2k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('5'), "5)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('6'), "6)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('7'), "7)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('8'), "8)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('9'), "9)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt bad ditto numbers");
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_VOID, '-', '-'),    0);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, '?', '-'),    0);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, 'b', '-'),    0);
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('0'), "0)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('1'), "1)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('2'), "2)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('3'), "3)    5s    3x    2v    2k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('5'), "5)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('6'), "6)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('7'), "7)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('8'), "8)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('9'), "9)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt script level");
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_SCRP, '1', '-'),    0);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_SHAR, '1', '-'),    0);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_UNIT, '1', '-'),    0);
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('0'), "0)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('1'), "1)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('2'), "2)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('3'), "3)    5s    3x    2v    2k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('5'), "5)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('6'), "6)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('7'), "7)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('8'), "8)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('9'), "9)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("attempt cond level");
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_COND, '1', '-'),    0);
+   yUNIT_minval  ("run step"                           , yunit_ditto_step  (YUNIT_CONVERT, YUNIT_IS_DITT, '1', '-'),    0);
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('0'), "0)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('1'), "1)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('2'), "2)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('3'), "3)    5s    3x    2v    2k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('5'), "5)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('6'), "6)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('7'), "7)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('8'), "8)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('9'), "9)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify clearing dittos");
+   yUNIT_minval  ("run clear"                          , yunit_ditto_purge (),    0);
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('0'), "0)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('1'), "1)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('2'), "2)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('3'), "3)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('5'), "5)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('6'), "6)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('7'), "7)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('8'), "8)    0s    0x    0v    0k");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('9'), "9)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+UNIT___ditto_apply      (char a_scrp, char a_list, char a_unit)
+{
+   FILE       *f           = NULL;
+
+   yUNIT_minscrpy ("yUNIT", "yUNIT_ditto"   , "(DITTO) verify applying steps for dittos");
+   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_mincond ("purge all numbers");
+   yUNIT_minval  ("run purge"                          , yUNIT_stats_purge (YUNIT_CONVERT, NULL, NULL, NULL, NULL) ,     0);
+
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("start with a SCRP");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SCRP  , "SCRP"  , '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add a target COND");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_COND  , "COND"  , ""                     , '-', '4', '-', '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     1     1     0  ····´·····     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    0s    0x    0v    0k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("add steps to the target");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "get"   , "åxæ"                  , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "echo"  , ""                     , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_VOID  , "mode"  , ""                     , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     5     4     0     1     1     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     5     4     0     1     1     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     1     1     0  ····´·····     0  ·                        0  ·                        0     5     4     0     1     1     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     5     4     0     1     1     0     0     0     0   ");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    5s    4x    1v    1k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify using a ditto");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '4', '-', '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     2     1     1  ··········     0  ·                        0  ·                        0     5     4     0     1     1     5     4     1     1   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     2     1     1  ··········     0  ·                        0  ·                        0     5     4     0     1     1     5     4     1     1   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     2     1     1  ····1·····     0  ·                        0  ·                        0     5     4     0     1     1     5     4     1     1   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    5s    4x    1v    1k");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify using a ditto again");
+   yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '4', '-', '-', NULL, NULL, NULL, NULL),    1);
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     3     1     2  ··········     0  ·                        0  ·                        0     5     4     0     1     1    10     8     2     2   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     3     1     2  ··········     0  ·                        0  ·                        0     5     4     0     1     1    10     8     2     2   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     3     1     2  ····2·····     0  ·                        0  ·                        0     5     4     0     1     1    10     8     2     2   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check ditto"                    , yunit_ditto_show  ('4'), "4)    5s    4x    1v    1k");
+   yUNIT_mindnoc ();
+
+   yUNIT_minprcs  ();
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_unit      =    0;
+   int         n           =    0;
+   char        x_list      =    0;
+   /*---(arguments)----------------------*/
+   printf ("## %s\n", P_ONELINE);
+   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
+      else                                          x_unit = atoi (a_argv [1]);
+   }
+   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
+   else                       printf ("## selected all scripts\n");
+   if (x_list == 'y')         printf ("## list script(s) only\n");
+   else if (x_list == '!')    printf ("## generate initial wave file\n");
+   else                       printf ("## execute conditions and steps\n");
+   printf ("\n");
+   /*---(startup)------------------------*/
+   yUNIT_minunit ("yUNIT_ditto");
+   /*---(scripts)------------------------*/
+   UNIT___ditto_stats      (++n, x_list, x_unit);
+   UNIT___ditto_step       (++n, x_list, x_unit);
+   UNIT___ditto_apply      (++n, x_list, x_unit);
+   /*---(wrapup)-------------------------*/
+   yUNIT_mintinu    ();
+   /*---(complete)-----------------------*/
+   return 0;
+}
+

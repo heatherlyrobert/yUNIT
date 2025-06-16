@@ -13,21 +13,21 @@ static uchar  s_file      [LEN_HUND] = "";
 static void      o___SPECIALTY_______________o (void) {;}
 
 char
-yUNIT_mode              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_exec, char a_dittoing)
+yUNIT_mode              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_exec, char a_dittoing, char a_share)
 {
    char        x_meth      [LEN_HUND]  = "";
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "MODE"  , a_meth);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "MODE"  , a_meth);
    /*---(score)--------------------------*/
    yunit_actual_accum (TYPE_STEP, YUNIT_VOID, 0);
    /*---(dispaly)------------------------*/
    if (a_meth != NULL)  strncpy (x_meth, a_meth, LEN_HUND);
    if (strcmp (x_meth, "FORCED_FAIL") == 0) {
       YUNIT_FORCED = 1;
-      yunit_disp_single  (TYPE_MODE  , a_line, a_seqn, "ENABLE FORCED FAILURE (pass=fail, fail=pass)");
+      yunit_disp_single  (TYPE_MODE  , a_line, a_seqn, a_share, "ENABLE FORCED FAILURE (pass=fail, fail=pass)");
    } else {
       YUNIT_FORCED = 0;
-      yunit_disp_single  (TYPE_MODE  , a_line, a_seqn, "normal (a pass is a pass ;)");
+      yunit_disp_single  (TYPE_MODE  , a_line, a_seqn, a_share, "normal (a pass is a pass ;)");
    }
    /*---(complete)---------------------*/
    return 0;
@@ -41,25 +41,25 @@ yUNIT_mode_reset        (void)
 }
 
 char
-yUNIT_code              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_code              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "CODE"  , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "CODE"  , a_desc);
    yunit_actual_accum (TYPE_STEP, YUNIT_VOID, 0);
-   yunit_disp_double  (TYPE_CODE  , a_line, a_seqn, a_desc, "code"  , a_code);
+   yunit_disp_double  (TYPE_CODE  , a_line, a_seqn, a_share, a_desc, "code"  , a_code);
    return 0;
 }
 
 char
-yUNIT_local             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_local             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "LOCAL" , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "LOCAL" , a_desc);
    yunit_actual_accum (TYPE_STEP, YUNIT_VOID, 0);
-   yunit_disp_double  (TYPE_LOCAL , a_line, a_seqn, a_desc, "local" , a_code);
+   yunit_disp_double  (TYPE_LOCAL , a_line, a_seqn, a_share, a_desc, "local" , a_code);
    return 0;
 }
 
 char
-yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_recd [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_recd [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
    int       x_flags = 0;         /* stdin file flags                         */
    int       i       = 0;
@@ -69,7 +69,7 @@ yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    char        x_disp      [LEN_RECD]  = "";
    int         l           =   0;
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "LOAD"  , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "LOAD"  , a_desc);
    /*---(score)--------------------------*/
    yunit_actual_accum (TYPE_STEP, YUNIT_VOID, 0);
    /*---(display)------------------------*/
@@ -79,7 +79,7 @@ yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    strncpy (x_disp, x_recd, LEN_RECD);
    l = strlen (x_disp);
    for (i = 0; i < l; ++i)  if (x_disp [i] == '\n')  x_disp [i] = '¦';
-   yunit_disp_double  (TYPE_LOAD  , a_line, a_seqn, a_desc, x_meth  , x_disp);
+   yunit_disp_double  (TYPE_LOAD  , a_line, a_seqn, a_share, a_desc, x_meth  , x_disp);
    /*---(fix record)-------------------*/
    l = strlen (x_recd) - 1;
    if (x_recd [l] == '¦') x_recd [l] = '\n';
@@ -106,7 +106,7 @@ yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
       if (yUNIT_stdin != NULL) fclose(yUNIT_stdin);
       /*---(write new data)------------*/
       yUNIT_stdin = fopen(STDIN, "a");
-      IF_FULL  yunit_printf  ("%s\n", x_recd);
+      IF_FULL  yUNIT_printf  ("%s\n", x_recd);
       fclose  (yUNIT_stdin);
       /*---(reopen for next steps)-----*/
       yUNIT_stdin = fopen(STDIN, "r");
@@ -116,7 +116,7 @@ yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -125,7 +125,7 @@ yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    int         x_error     =    0;
    char        x_msg       [LEN_FULL]  = "";
    /*---(display only)-------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "FILE"  , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "FILE"  , a_desc);
    /*---(display only)-------------------*/
    strcpy (s_file, "");
    /*---(open/freshen file)--------------*/
@@ -145,14 +145,14 @@ yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(score)--------------------------*/
    yunit_actual_accum (TYPE_STEP, x_resu, 0);
    /*---(display)------------------------*/
-   yunit_disp_double  (TYPE_FILE  , a_line, a_seqn, a_desc, "file" , a_recd);
-   if (x_file == NULL)  yunit_printf ("      ERROR  : %s\n", x_msg);
+   yunit_disp_double  (TYPE_FILE  , a_line, a_seqn, a_share, a_desc, "file" , a_recd);
+   if (x_file == NULL)  yUNIT_printf ("      ERROR  : %s\n", x_msg);
    /*---(complete)---------------------*/
    return 0;
 }
 
 char
-yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -164,7 +164,7 @@ yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    char        x_recd      [LEN_RECD]  = "";
    char        x_msg       [LEN_FULL]  = "";
    /*---(display only)-------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "FILE"  , a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "FILE"  , a_desc);
    /*---(open/freshen file)--------------*/
    if (strcmp (s_file, "") == 0) {
       x_resu = YUNIT_FAIL; /* ++COND_FAIL; */
@@ -188,14 +188,14 @@ yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(score)--------------------------*/
    yunit_actual_accum (TYPE_STEP, x_resu, 0);
    /*---(display)------------------------*/
-   yunit_disp_double  (TYPE_APPEND, a_line, a_seqn, a_desc, "append" , a_recd);
-   if (x_file == NULL)  yunit_printf ("      ERROR  : %s\n", x_msg);
+   yunit_disp_double  (TYPE_APPEND, a_line, a_seqn, a_share, a_desc, "append" , a_recd);
+   if (x_file == NULL)  yUNIT_printf ("      ERROR  : %s\n", x_msg);
    /*---(complete)---------------------*/
    return 0;
 }
 
 char
-yUNIT_system            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_disp [LEN_RECD], char a_cmd [LEN_RECD], char a_exec, char a_dittoing)
+yUNIT_system            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_disp [LEN_RECD], char a_cmd [LEN_RECD], char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         rc          =    0;
@@ -203,7 +203,7 @@ yUNIT_system            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    char        x_resu      =    0;
    char        x_msg       [LEN_FULL]  = "";
    /*---(display only)---------------------------*/
-   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, "SYSTEM", a_desc);
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "SYSTEM", a_desc);
    /*---(run system command)-----------*/
    if (a_cmd == NULL || a_cmd [0] == '\0') {
       rc     = -1;
@@ -231,8 +231,8 @@ yUNIT_system            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(score)--------------------------*/
    yunit_actual_accum (TYPE_STEP, x_resu, rc);
    /*---(display)------------------------*/
-   yunit_disp_double  (TYPE_SYSTEM, a_line, a_seqn, a_desc, "system" , a_disp);
-   if (x_resu != YUNIT_SUCC)  yunit_printf ("      ERROR  : %s\n", x_msg);
+   yunit_disp_double  (TYPE_SYSTEM, a_line, a_seqn, a_share, a_desc, "system" , a_disp);
+   if (x_resu != YUNIT_SUCC)  yUNIT_printf ("      ERROR  : %s\n", x_msg);
    /*---(complete)---------------------*/
    return 0;
 }

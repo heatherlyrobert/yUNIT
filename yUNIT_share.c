@@ -8,17 +8,17 @@ yunit_share__open       (char a_type, char a_label [LEN_TERSE], char a_share, ch
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_desc      [LEN_LONG]  = "";
-   char        x_on        [LEN_TERSE] = "";
-   char        x_off       [LEN_TERSE] = "";
+   char        x_on        [LEN_LABEL] = "";
+   char        x_off       [LEN_LABEL] = "";
    /*---(empty line)---------------------*/
-   IF_STEP   yunit_printf  ("\n");
+   IF_STEP   yUNIT_printf  ("\n");
    /*---(text)---------------------------*/
    yunit_final_prep  (a_type, a_share, 0, 0, a_desc, 85 - 22, YSTR_TEXT_CEN, 3, YSTR_DASH, NULL, NULL, x_desc);
    /*---(display)------------------------*/
    yunit_final_color (YUNIT_MONO, a_type, &x_on, NULL, &x_off, NULL, NULL);
    if (a_select == '-') sprintf (s_print, "  %s%-6.6s (%c) ==--%s---==%s", x_on, a_label, (uchar) a_share, x_desc, x_off);
    else                 sprintf (s_print, "  %s%-6.6s (%c/%c) ==-%s--==%s", x_on, a_label, (uchar) a_share, (uchar) a_select, x_desc, x_off);
-   IF_STEP   yunit_printf  ("%s\n", s_print);
+   IF_STEP   yUNIT_printf  ("%s\n", s_print);
    /*---(complete)-----------------------*/
    return 0;
 }
@@ -32,15 +32,15 @@ yunit_share__close      (char a_type, char a_label [LEN_LABEL], char a_share, ch
 {
    /*---(locals)-----------+-----+-----+-*/
    char        t           [LEN_LONG]  = "";
-   char        x_on        [LEN_TERSE] = "";
-   char        x_off       [LEN_TERSE] = "";
+   char        x_on        [LEN_LABEL] = "";
+   char        x_off       [LEN_LABEL] = "";
    /*---(empty line)---------------------*/
-   IF_STEP   yunit_printf  ("\n");
+   IF_STEP   yUNIT_printf  ("\n");
    /*---(display)------------------------*/
    yunit_final_color (YUNIT_MONO, a_type, &x_on, NULL, &x_off, NULL, NULL);
    if (a_select == '-')  sprintf (s_print, "  %s%-6.6s (%c)--[ cond=%-5d test=%-5d ]---------------------[ cond=%-5d test=%-5d ]%s", x_on, a_label, a_share, a_econd, a_estep, a_acond, a_astep, x_off);
    else                  sprintf (s_print, "  %s%-6.6s (%c)--[ cond=%-5d test=%-5d ]--------( %c >>>------[ cond=%-5d test=%-5d ]%s", x_on, a_label, a_share, a_econd, a_estep, a_select, a_acond, a_astep, x_off);
-   IF_STEP   yunit_printf  ("%s\n", s_print);
+   IF_STEP   yUNIT_printf  ("%s\n", s_print);
    /*---(complete)-----------------------*/
    return 0;
 }

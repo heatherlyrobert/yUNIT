@@ -13,8 +13,8 @@ UNIT___step_char        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify quick success");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'A'                    ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a character ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'A'                    ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a character  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -28,8 +28,8 @@ UNIT___step_char        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a failure");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'B'                    ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a character ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'B'                    ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a character  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -44,8 +44,8 @@ UNIT___step_char        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a bad test");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equaly" , 'A'                    , 'B'                    ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a character ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equaly" , 'A'                    , 'B'                    ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a character  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -59,11 +59,10 @@ UNIT___step_char        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a display only");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'B'                    ,    0, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) CHAR   : verify a character ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_char      ( 954,  25, "verify a character"   , "simple_function", "65"          , "c_equal"  , 'A'                    , 'B'                    ,    0, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     ay) CHAR   : verify a character  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    1);
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
@@ -151,8 +150,8 @@ UNIT___step_int         (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify quick success");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 12345                  , 12345                  ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify an integer  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 12345                  , 12345                  ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify an integer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -166,8 +165,8 @@ UNIT___step_int         (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a failure");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 123456000              , 54000                  ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify an integer  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 123456000              , 54000                  ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify an integer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -182,8 +181,8 @@ UNIT___step_int         (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a bad test");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_more"   , 12345                  , 12354                  ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify an integer  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_more"   , 12345                  , 12354                  ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify an integer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -197,11 +196,10 @@ UNIT___step_int         (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a display only");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 12345                  , 12354                  ,    0, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) INT    : verify an integer  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_int       ( 954,  25, "verify an integer"    , "simple_function", "65"          , "i_equal"  , 12345                  , 12354                  ,    0, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     ay) INT    : verify an integer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    1);
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
@@ -312,8 +310,8 @@ UNIT___step_real        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify quick success");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"            , "r_equal"  , 3.1415927              , 3.1415927              ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a float  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"            , "r_equal"  , 3.1415927              , 3.1415927              ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a float · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -327,8 +325,8 @@ UNIT___step_real        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a failure");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"            , "r_equal"  , 3.1415927              , 3.1425917              ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a float  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"            , "r_equal"  , 3.1415927              , 3.1425917              ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a float · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -343,8 +341,8 @@ UNIT___step_real        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a bad test");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"           , "r_more"   , 3.1415927              , 3.1425917              ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a float  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"           , "r_more"   , 3.1415927              , 3.1425917              ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a float · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -358,11 +356,10 @@ UNIT___step_real        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a display only");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"           , "i_equal"  , 3.1415927              , 3.1425917              ,    0, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) REAL   : verify a float  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_real      ( 954,  25, "verify a float"       , "simple_function", "3"           , "i_equal"  , 3.1415927              , 3.1425917              ,    0, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     ay) REAL   : verify a float · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    1);
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
@@ -383,8 +380,8 @@ UNIT___step_point       (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify quick success");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "p_equal"  , 0x12345678             , 0x12345678             ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a pointer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "p_equal"  , 0x12345678             , 0x12345678             ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a pointer ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -398,8 +395,8 @@ UNIT___step_point       (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify failure");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "p_equal"  , 0x12345678             , 0x12345687             ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a pointer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "p_equal"  , 0x12345678             , 0x12345687             ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a pointer ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -414,8 +411,8 @@ UNIT___step_point       (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify bad test");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "i_equal"  , 0x12345678             , 0x12345687             ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a pointer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "i_equal"  , 0x12345678             , 0x12345687             ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a pointer ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -429,11 +426,10 @@ UNIT___step_point       (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a display only");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "i_equal"  , 0x12345678             , 0x12345687             ,    0, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) POINT  : verify a pointer · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_point     ( 954,  25, "verify a pointer"     , "simple_function", "p"            , "i_equal"  , 0x12345678             , 0x12345687             ,    0, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     ay) POINT  : verify a pointer ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    1);
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
@@ -454,8 +450,8 @@ UNIT___step_string      (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify quick success");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_equal"  , "test 123.76"          , "test 123.76"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_equal"  , "test 123.76"          , "test 123.76"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a string  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -469,8 +465,8 @@ UNIT___step_string      (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify failure");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_equal"  , "test 123.76"          , "test 122.76"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_equal"  , "test 123.76"          , "test 122.76"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a string  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -485,8 +481,8 @@ UNIT___step_string      (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify bad test");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_eq"     , "test 123.76"          , "test 122.76"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_eq"     , "test 123.76"          , "test 122.76"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a string  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -500,11 +496,10 @@ UNIT___step_string      (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify display only");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_eq"     , "test 123.76"          , "test 122.76"          ,    0, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) STRING : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_string    ( 954,  25, "verify a string"      , "simple_function", "p"            , "s_eq"     , "test 123.76"          , "test 122.76"          ,    0, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     ay) STRING : verify a string  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    1);
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
@@ -525,8 +520,8 @@ UNIT___step_wrap        (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify quick success");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 123.76"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 123.76"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a string  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -540,8 +535,8 @@ UNIT___step_wrap        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify failure");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 122.76"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 122.76"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a string  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -556,8 +551,8 @@ UNIT___step_wrap        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify bad test");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_eq"     , "åtest 123.76æ"          , "test 122.76"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_eq"     , "åtest 123.76æ"          , "test 122.76"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a string  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -571,11 +566,10 @@ UNIT___step_wrap        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify display only");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 122.76"          ,    0, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) STRING : verify a string ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_wrap      ( 954,  25, "verify a string"      , "simple_function", "p"            , "w_equal"  , "åtest 123.76æ"          , "test 122.76"          ,    0, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     ay) STRING : verify a string  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    1);
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
@@ -596,8 +590,8 @@ UNIT___step_round       (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify quick success");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.76"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.76"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : verify a round · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -611,8 +605,8 @@ UNIT___step_round       (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify failure");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.78"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.78"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : verify a round · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -627,8 +621,8 @@ UNIT___step_round       (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify bad test");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "i_equal"  , "test 123.76"          , "test 123.78"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "i_equal"  , "test 123.76"          , "test 123.78"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a round · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
@@ -642,11 +636,10 @@ UNIT___step_round       (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond  ("verify a display only");
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.78"          ,    0, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) ROUND  : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minval   ("call recd driver"                   , yUNIT_round     ( 954,  25, "verify a round"       , "simple_function", "p"            , "u_round/1", "test 123.76"          , "test 123.78"          ,    0, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     ay) ROUND  : verify a round · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
+   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    1);
+   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '['), s_print);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minstr   ("... unit level"                     , yunit_actual_footer (TYPE_TINU, NULL)  , "TINU  scrp=0    cond=0     test=4     [ pass=1     fail=1     badd=1     void=0     ]");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1),  666);
@@ -667,8 +660,8 @@ UNIT___step_unknow      (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond  ("verify quick success");
    yUNIT_minval   ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_MAXX, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval   ("call recd driver"                   , yUNIT_unknown   ( 954,  25, "verify a round"       , "simple_function", "p"            , "j_equal"  , "test 123.76"          , "test 123.76"          ,    1, '-'),    1);
-   yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a round  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ··[00954]");
+   yUNIT_minval   ("call recd driver"                   , yUNIT_unknown   ( 954,  25, "verify a round"       , "simple_function", "p"            , "j_equal"  , "test 123.76"          , "test 123.76"          ,    1, '-', '-'),    1);
+   yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_YEL "ay) " BACK_YEL "WARN  " BACK_OFF " : verify a round · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
    yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
    yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
    yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);

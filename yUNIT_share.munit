@@ -54,14 +54,14 @@ UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_MAG "SHARED (f/a) ==--------------------   reusable conditions   ---------------------==" BACK_OFF);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_CRI "SHARED (f/a) ==--------------------   reusable conditions   ---------------------==" BACK_OFF);
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
    yUNIT_minstr ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval ("call DERAHS verb handler"           , yUNIT_rahs  ('f', 'a',  15, 123, 12,  98)       , 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_MAG "DERAHS (f)--[ cond=15    test=123   ]--------( a >>>------[ cond=12    test=98    ]" BACK_OFF);
+   yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_CRI "DERAHS (f)--[ cond=15    test=123   ]--------( a >>>------[ cond=12    test=98    ]" BACK_OFF);
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
    yUNIT_minstr ("... check footer"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
    yUNIT_minstr ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");

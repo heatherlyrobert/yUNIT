@@ -172,7 +172,7 @@ UNIT___final_prep       (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify COND inside global share");
    yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_COND  , 'J',   123,  2, "second condition"         , 50, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
-   yUNIT_minstr  ("... check line"                     , x_line     , ">00123<");
+   yUNIT_minstr  ("... check line"                     , x_line     , "º00123»");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "[002]");
    yUNIT_minstr  ("... check description"              , x_desc     , "second condition =================================");
    yUNIT_mindnoc ();
@@ -207,14 +207,14 @@ UNIT___final_prep       (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify STEP level (global share)");
    yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , 'A',    15,  5, "fifth execution step"     , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
-   yUNIT_minstr  ("... check line"                     , x_line     , ">00015<");
+   yUNIT_minstr  ("... check line"                     , x_line     , "º00015»");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "ae");
    yUNIT_minstr  ("... check description"              , x_desc     , "fifth execution step ============================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level (config share)");
    yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP, 'ò',   456, 64, "fifth execution step"       , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
-   yUNIT_minstr  ("... check line"                     , x_line     , ">00456<");
+   yUNIT_minstr  ("... check line"                     , x_line     , "º00456»");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "cl");
    yUNIT_minstr  ("... check description"              , x_desc     , "fifth execution step ============================================");
    yUNIT_mindnoc ();
@@ -261,20 +261,20 @@ UNIT___final_color_fixed  (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("call GROUP"                         , yunit_final_color ('-', TYPE_GROUP , &x_on , &x_on2, &x_off, x_note, x_test),    0);
    yUNIT_minstr  ("... check test"                     , x_test                  , "  one    two  ");
    yUNIT_minstr  ("... check note"                     , x_note                  , "");
-   yUNIT_minval  ("call COND"                          , yunit_final_color ('-', TYPE_COND  , &x_on , &x_on2, &x_off, x_note, x_test),    0);
-   yUNIT_minstr  ("... check test"                     , x_test                  , "  one    two  ");
-   yUNIT_minstr  ("... check note"                     , x_note                  , "");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify local shared coloration");
+   yUNIT_minval  ("call COND"                          , yunit_final_color ('-', TYPE_COND  , &x_on , &x_on2, &x_off, x_note, x_test),    1);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_BRN "  one    two  " BACK_OFF);
+   yUNIT_minstr  ("... check note"                     , x_note                  , "");
    yUNIT_minval  ("call SHARED"                        , yunit_final_color ('-', TYPE_SHARED, &x_on , &x_on2, &x_off, x_note, x_test),    1);
-   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_MAG "  one    two  " BACK_OFF);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_CRI "  one    two  " BACK_OFF);
    yUNIT_minstr  ("... check note"                     , x_note                  , "");
    yUNIT_minval  ("call DERAHS"                        , yunit_final_color ('-', TYPE_DERAHS, &x_on , &x_on2, &x_off, x_note, x_test),    1);
-   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_MAG "  one    two  " BACK_OFF);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_CRI "  one    two  " BACK_OFF);
    yUNIT_minstr  ("... check note"                     , x_note                  , "");
    yUNIT_minval  ("call SOND"                          , yunit_final_color ('-', TYPE_SOND  , &x_on , &x_on2, &x_off, x_note, x_test),    1);
-   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_MAG "  one    two  " BACK_OFF);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_CRI "  one    two  " BACK_OFF);
    yUNIT_minstr  ("... check note"                     , x_note                  , "");
    yUNIT_mindnoc ();
 
@@ -298,16 +298,16 @@ UNIT___final_color_fixed  (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify void line coloration");
    yUNIT_minval  ("call LOCAL"                         , yunit_final_color ('-', TYPE_LOCAL , &x_on , &x_on2, &x_off, x_note, x_test),    1);
-   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_CYN "  one  " BACK_GRN "  two  " BACK_OFF);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_BRN "  one  " BACK_GRN "  two  " BACK_OFF);
    yUNIT_minstr  ("... check note"                     , x_note                  , "LOCAL");
    yUNIT_minval  ("call CODE"                          , yunit_final_color ('-', TYPE_CODE  , &x_on , &x_on2, &x_off, x_note, x_test),    1);
-   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_CYN "  one  " BACK_GRN "  two  " BACK_OFF);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_BRN "  one  " BACK_GRN "  two  " BACK_OFF);
    yUNIT_minstr  ("... check note"                     , x_note                  , "CODE");
    yUNIT_minval  ("call LOAD"                          , yunit_final_color ('-', TYPE_LOAD  , &x_on , &x_on2, &x_off, x_note, x_test),    1);
-   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_CYN "  one  " BACK_GRN "  two  " BACK_OFF);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_BRN "  one  " BACK_GRN "  two  " BACK_OFF);
    yUNIT_minstr  ("... check note"                     , x_note                  , "LOAD");
    yUNIT_minval  ("call MODE"                          , yunit_final_color ('-', TYPE_MODE  , &x_on , &x_on2, &x_off, x_note, x_test),    1);
-   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_CYN "  one  " BACK_GRN "  two  " BACK_OFF);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_BRN "  one  " BACK_GRN "  two  " BACK_OFF);
    yUNIT_minstr  ("... check note"                     , x_note                  , "MODE");
    yUNIT_mindnoc ();
 
@@ -367,7 +367,7 @@ UNIT___final_color_vary   (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify void");
    yunit_force_resu (YUNIT_VOID, 0);
    yUNIT_minval  ("call SCRP"                          , yunit_final_color ('-', TYPE_STEP  , &x_on , &x_on2, &x_off, x_note, x_test),    1);
-   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_CYN "  one  " BACK_CYN "  two  " BACK_OFF);
+   yUNIT_minstr  ("... check test"                     , x_test                  , BACK_BRN "  one  " BACK_BRN "  two  " BACK_OFF);
    yUNIT_minstr  ("... check note"                     , x_note                  , "----");
    yUNIT_mindnoc ();
 
@@ -408,9 +408,9 @@ UNIT___final_footer     (char a_scrp, char a_list, char a_unit)
    yunit_force_cond ( 0, 0, 0, 0, 0);
    yunit_force_scrp ( 0, 0, 0, 0, 0, 0);
    yunit_force_unit ( 0, 0, 0, 0, 0, 0, 0);
-   yUNIT_minstr  ("... unit level"                     , yunit_final_footer  (TYPE_TINU)  , BACK_BLK    "TINU  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
-   yUNIT_minstr  ("... script level"                   , yunit_final_footer  (TYPE_PRCS)  , "  " BACK_BLK "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
-   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "      " BACK_BLK "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
+   yUNIT_minstr  ("... unit level"                     , yunit_final_footer  (TYPE_TINU)  , BACK_BRN    "TINU  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
+   yUNIT_minstr  ("... script level"                   , yunit_final_footer  (TYPE_PRCS)  , "  " BACK_BRN "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
+   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "      " BACK_BRN "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
    yUNIT_mindnoc ();
 
    yUNIT_minprcs ();

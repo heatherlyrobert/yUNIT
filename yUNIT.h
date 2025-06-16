@@ -363,7 +363,7 @@ char        yUNIT_sect              (char a_desc [LEN_LONG]);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        yUNIT_cond              (int a_line, int a_seqn, char , char a_dtarget, char a_share, char a_desc [LEN_LONG]);
+char        yUNIT_cond              (int a_line, int a_seqn, char a_dittoing, char a_ditto, char a_dtarget, char a_share, char a_desc [LEN_LONG]);
 char        yUNIT_dnoc              (char a_exec);
 char        yUNIT_group             (char a_desc [LEN_LONG]);
 
@@ -386,26 +386,26 @@ char        yUNIT_fnoc              (char a_share, char a_select, int a_econd, i
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_mode_reset        (void);
-char        yUNIT_mode              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_exec, char a_dittoing);
-char        yUNIT_local             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing);
-char        yUNIT_code              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing);
-char        yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_recd [LEN_RECD], char a_exec, char a_dittoing);
-char        yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing);
-char        yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing);
-char        yUNIT_system            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_disp [LEN_RECD], char a_cmd [LEN_RECD], char a_exec, char a_dittoing);
+char        yUNIT_mode              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_local             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_code              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_code [LEN_RECD], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_load              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_recd [LEN_RECD], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_file              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_append            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_recd [LEN_RECD], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_system            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_disp [LEN_RECD], char a_cmd [LEN_RECD], char a_exec, char a_dittoing, char a_share);
 char*       yUNIT_read              (cchar *a_name, int n, int *c);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_exec, char a_dittoing);
-char        yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], uchar a_expe, uchar a_actu, char a_exec, char a_dittoing);
-char        yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], llong a_expe, llong a_actu, char a_exec, char a_dittoing);
-char        yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], double a_expe, double a_actu, char a_exec, char a_dittoing);
-char        yUNIT_point             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], void *a_expe, void *a_actu, char a_exec, char a_dittoing);
-char        yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing);
-char        yUNIT_wrap              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing);
-char        yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing);
-char        yUNIT_unknown           (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing);
+char        yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], uchar a_expe, uchar a_actu, char a_exec, char a_dittoing, char a_share);
+char        yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], llong a_expe, llong a_actu, char a_exec, char a_dittoing, char a_share);
+char        yUNIT_real              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], double a_expe, double a_actu, char a_exec, char a_dittoing, char a_share);
+char        yUNIT_point             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], void *a_expe, void *a_actu, char a_exec, char a_dittoing, char a_share);
+char        yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_wrap              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing, char a_share);
+char        yUNIT_unknown           (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL], char a_test [LEN_TERSE], char a_expe [LEN_RECD], char a_actu [LEN_RECD], char a_exec, char a_dittoing, char a_share);
 
 
 /*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
@@ -438,10 +438,79 @@ char        yUNIT_stats_purge       (char a_usage, int *r_cunit, int *r_nscrp, i
 char        yUNIT_stats_full        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_TERSE], char a_major, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep);
 char        yUNIT_stats_unit        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_TERSE], char a_major, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep);
 char        yUNIT_stats_scrp        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_TERSE], char a_major, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep);
-char        yUNIT_stats_cond        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_LABEL], char a_desc [LEN_LONG], char a_dittoing, char a_dtarget, char a_major, char a_share, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep);
-char        yUNIT_stats_step        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_LABEL], char a_desc [LEN_LONG], char a_dittoing, char a_dtarget, char a_major, char a_share, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep);
+char        yUNIT_stats_cond        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_TERSE], char a_desc [LEN_LONG], char a_dittoing, char a_dtarget, char a_major, char a_share, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep);
+char        yUNIT_stats_step        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_TERSE], char a_desc [LEN_LONG], char a_dittoing, char a_dtarget, char a_major, char a_share, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep);
 
 char        yUNIT_force_prog        (int a_scrp, int a_cond, int a_step);
+
+char        yUNIT_printf            (char *a_format, ...);
+
+
+
+typedef struct cyUNIT_COUNTS tyUNIT_COUNTS;
+static struct cyUNIT_COUNTS {
+   /*---(identifier)---------------------*/
+   char        c_id;                        /* script, global, config, or shared identifier/sequence */
+   char        c_type;                      /* specific type --  global, config, or shared           */
+   int         c_line;                      /* location in file                                      */
+   char        c_desc    [LEN_LONG];        /* description of purpose                                */
+   /*---(unit)---------------------------*/
+   int         c_unit;                      /* all units                                             */
+   /*---(top)----------------------------*/
+   int         c_topp;                      /* all count                                             */
+   int         c_scrp;                      /* script count                                          */
+   int         c_glob;                      /* global count                                          */
+   int         c_shar;                      /* shared count                                          */
+   /*---(middle)-------------------------*/
+   int         c_midd;                      /* condition, ditto, reuse count                         */
+   int         c_cond;                      /* condition count                                       */
+   int         c_ditt;                      /* ditto count                                           */
+   char        c_dittos    [LEN_LABEL];     /* dittos usage list                                     */
+   int         c_lreu;                      /* local (shared) reuse count                            */
+   char        c_lreuse    [LEN_HUND];      /* local reuse usage list                                */
+   int         c_greu;                      /* global (global/config) reuse count                    */
+   char        c_greuse    [LEN_HUND];      /* global reuse usage list                               */
+   int         c_skipc;                     /* skipped conditions                                    */
+   /*---(step)---------------------------*/
+   int         c_step;                      /* all step count                                        */
+   int         c_real;                      /* steps returning non-void                              */
+   int         c_vars;                      /* local and global variables                            */
+   int         c_void;                      /* steps returning void                                  */
+   int         c_skips;                     /* skipped steps                                         */
+   /*---(ditto)--------------------------*/
+   int         c_dstep;                     /* dittoed all steps                                     */
+   int         c_dreal;                     /* dittoed non-void steps                                */
+   int         c_dvoid;                     /* dittoed void steps                                    */
+   int         c_dskip;                     /* dittoed skipped steps                                 */
+   /*---(usage)--------------------------*/
+   char        c_called;                    /* number of times reused/called                         */
+   /*---(done)---------------------------*/
+};
+
+
+
+/*===[[ yUNIT_reuse.c ]]======================================================*/
+/*········· ´······················ ´·········································*/
+char      yUNIT_reuse_type        (char a_abbr);
+int       yUNIT_reuse_index       (char a_abbr);
+char      yUNIT_reuse_clear       (char a_abbr);
+char      yUNIT_reuse_purge       (char a_type);
+char      yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called);
+char      yUNIT_reuse_set         (char a_abbr, int a_line, char a_desc [LEN_LONG]);
+char      yUNIT_reuse_called      (char a_abbr);
+char      yUNIT_reuse_save        (char a_abbr);
+char      yUNIT_reuse_add         (char a_abbr);
+char*     yUNIT_reuse_show        (char a_abbr);
+char      yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD]);
+/*---(debugging)------------*/
+char*     yUNIT_reuse_actuals     (void);
+char*     yUNIT_reuse_used        (void);
+char*     yUNIT_reuse_detail      (char a_abbr);
+/*---(exim)-----------------*/
+char      yUNIT_reuse_export      (void *a_file);
+char      yUNIT_reuse_import      (void *a_file);
+/*---(done)-----------------*/
+
 
 
 #endif

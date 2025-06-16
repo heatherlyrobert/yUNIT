@@ -38,17 +38,16 @@ yUNIT_scrp              (int a_line, int a_seqn, char a_stage [LEN_SHORT], char 
    /*---(show sect)--------------------*/
    yUNIT_sect   ("SCRP");
    /*---(print leader)-----------------*/
-   IF_SCRP   yunit_printf  ("\n");
-   IF_COND   yunit_printf  ("\n");
-   IF_STEP   yunit_printf  ("===[[ NEW SCRIPT ]]==================================================================\n");
+   IF_SCRP   yUNIT_printf  ("\n");
+   IF_STEP   yUNIT_printf  ("===[[ NEW SCRIPT ]]==================================================================\n");
    /*---(print title)------------------*/
    snprintf (s_print, LEN_RECD, "SCRP %-4.4s %61.61s[%4s]=%-7.7s", x_seqn, x_desc, x_fstage, x_line);
-   IF_SUMM   yunit_printf  ("%s\n", s_print);
+   IF_SUMM   yUNIT_printf  ("%s\n", s_print);
    /*---(print detail)-----------------*/
    IF_STEP {
       if (strlen (x_focu) > 0)  {
          snprintf (x_header, LEN_HUND, "  %-3.3s : %-14.14s : %s", x_dur, x_terse, x_focu);
-         IF_COND   yunit_printf  ("%s\n", x_header);
+         IF_COND   yUNIT_printf  ("%s\n", x_header);
       }
    }
    /*---(wave-record)------------------*/
@@ -90,14 +89,14 @@ char
 yUNIT_prcs              (char a_exec)
 {
    /*---(print message)-------------------*/
-   IF_COND   yunit_printf ("\n");
+   IF_COND   yUNIT_printf ("\n");
    if (a_exec == 1) {
       yunit_final_footer (TYPE_PRCS);
-      IF_SUMM   yunit_printf  ("%s\n", s_print);
+      IF_SUMM   yUNIT_printf  ("%s\n", s_print);
       yUNIT_prcs_wave ();
    } else  {
       yunit_final_footer (TYPE_DRCS);
-      IF_COND   yunit_printf  ("%s\n", s_print);
+      IF_COND   yUNIT_printf  ("%s\n", s_print);
    }
    /*---(complete)---------------------*/
    return 0;
@@ -109,28 +108,23 @@ yUNIT_sect              (char a_desc [LEN_LONG])
    /* a SECT title is only printed when the next SCRP is found so footers     */
    /* will be correctly situated.                                             */
    char        x_desc      [LEN_LONG]  = "";
-   /*> char        l           =    0;                                                <*/
-   /*> char        x_pre       =    0;                                                <*/
-   /*> char        x_suf       =    0;                                                <*/
-   /*> char        t           [LEN_FULL]  = "";                                      <*/
-   yunit_final_prep  (TYPE_SECT, '-', 0, 0, a_desc, 85 - 24, YSTR_TEXT_CEN, 1, YSTR_EMPTY, NULL, NULL, x_desc);
+   yunit_final_prep  (TYPE_SECT, '-', 0, 0, a_desc, 85 - 24, YSTR_TEXT_CEN, 1, YSTR_DASH, NULL, NULL, x_desc);
    /*---(print title)--------------------*/
    if (a_desc != NULL && strcmp (a_desc, "SCRP") == 0) {
       /*---(print)----------*/
       if (strcmp (s_sect, "") != 0) {
-         IF_COND   yunit_printf ("\n");
-         IF_SCRP   yunit_printf ("\n");
-         IF_COND   yunit_printf ("=========================------------------------------------========================\n");
+         /*> IF_COND   yUNIT_printf ("\n");                                           <*/
+         IF_SCRP   yUNIT_printf ("\n");
+         IF_COND   yUNIT_printf ("=========================------------------------------------========================\n");
          strcpy (s_print, s_sect);
-         IF_SCRP   yunit_printf ("%s\n", s_print);
-         IF_COND   yunit_printf ("=========================------------------------------------========================\n");
+         IF_SCRP   yUNIT_printf ("%s\n", s_print);
+         IF_COND   yUNIT_printf ("=========================------------------------------------========================\n");
       }
       /*---(clear)----------*/
       strcpy (s_sect, "");
    }
    /*---(save title)---------------------*/
    else {
-      /*> sprintf (t, "%*.*s %s %*.*s", x_pre, x_pre, YSTR_EMPTY, x_desc, x_suf, x_suf, YSTR_EMPTY);   <*/
       sprintf (s_print, "SECT ===----%s----=== TCES", x_desc);
       strcpy  (s_sect, s_print);
    }

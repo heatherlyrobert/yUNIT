@@ -2,125 +2,6 @@
 #include    "yUNIT_unit.h"
 
 
-
-char
-UNIT__stats_ditto       (char a_scrp, char a_list, char a_unit)
-{
-   char        x_ditto     [LEN_LABEL] = "··········";
-   char        x_dittoing  =   '-';
-
-   yUNIT_minscrpy ("yUNIT", "yUNIV_stats"   , "(STATS) verify logging dittos");
-   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
-   if (a_unit != 0 && a_scrp != a_unit)  return 0;
-   if (a_list == 'y')                    return 0;
-
-   yUNIT_mincond ("verify a COND with ditto target");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_COND, '3', x_ditto, &x_dittoing),    1);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '3');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify calling bottoms while dittoing set");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_EXEC, '7', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '3');
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_VOID, '9', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '3');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify calling topps while dittoing set");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_SCRP, '6', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_SHAR, '8', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt a COND without ditto target");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_COND, '-', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt a COND with illegal target");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_COND,  5 , x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_COND, '?', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_COND, 'A', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´······");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify another COND with ditto target");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_COND, '9', x_ditto, &x_dittoing),    1);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···´·····´");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '9');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify a DITTO with ditto target");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···1·····´");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify a matching DITTO with same ditto target");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt DITTO with illegal target");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '!', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, 'b', x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT,  3 , x_ditto, &x_dittoing),    0);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt a DITTO never set with COND");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '6', x_ditto, &x_dittoing), -999);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt a COND already in use");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_COND, '3', x_ditto, &x_dittoing), -999);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···2·····´");
-   yUNIT_minchr  ("... check dittoing"                 , x_dittoing            , '-');
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify running a ditto over the count limit");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···5·····´");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···8·····´");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···9·····´");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···*·····´");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···*·····´");
-   yUNIT_minval  ("run ditto"                          , yunit_stats_ditto     (YUNIT_IS_DITT, '3', x_ditto, &x_dittoing),    2);
-   yUNIT_minstr  ("... check dittos"                   , x_ditto               , "···*·····´");
-   yUNIT_mindnoc ();
-
-   yUNIT_minprcs  ();
-   return 0;
-}
-
 char
 UNIT__stats_reuse       (char a_scrp, char a_list, char a_unit)
 {
@@ -215,217 +96,6 @@ UNIT__stats_reuse       (char a_scrp, char a_list, char a_unit)
 }
 
 char
-UNIT__stats_ditto_step  (char a_scrp, char a_list, char a_unit)
-{
-   char        x_ditto     [LEN_LABEL] = "··········";
-   char        x_dittoing  =   '-';
-
-   yUNIT_minscrpy ("yUNIT", "yUNIV_stats"   , "(STATS) verify gathering steps for dittos");
-   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
-   if (a_unit != 0 && a_scrp != a_unit)  return 0;
-   if (a_list == 'y')                    return 0;
-
-   yUNIT_mincond ("verify clearing dittos");
-   yUNIT_minval  ("run clear"                          , yunit_stats_clear_ditto (),    0);
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('0'), "0)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('1'), "1)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('2'), "2)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('3'), "3)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('5'), "5)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('6'), "6)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('7'), "7)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('8'), "8)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('9'), "9)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify collecting steps");
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, '3', '-'),    1);
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('0'), "0)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('1'), "1)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('2'), "2)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('3'), "3)    1s    1x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('5'), "5)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('6'), "6)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('7'), "7)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('8'), "8)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('9'), "9)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify collecting a few more");
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_VOID, '3', '-'),    1);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, '3', '-'),    1);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, '3', 'y'),    1);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_VOID, '3', 'y'),    1);
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('0'), "0)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('1'), "1)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('2'), "2)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('3'), "3)    5s    3x    2v    2k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('5'), "5)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('6'), "6)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('7'), "7)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('8'), "8)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('9'), "9)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt same collecting not as CONVERT");
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_BUILD  , YUNIT_IS_VOID, '3', '-'),    0);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_BUILD  , YUNIT_IS_EXEC, '3', '-'),    0);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_RUNTIME, YUNIT_IS_EXEC, '3', 'y'),    0);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_RUNTIME, YUNIT_IS_VOID, '3', 'y'),    0);
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('0'), "0)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('1'), "1)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('2'), "2)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('3'), "3)    5s    3x    2v    2k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('5'), "5)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('6'), "6)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('7'), "7)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('8'), "8)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('9'), "9)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt bad ditto numbers");
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_VOID, '-', '-'),    0);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, '?', '-'),    0);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_EXEC, 'b', '-'),    0);
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('0'), "0)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('1'), "1)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('2'), "2)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('3'), "3)    5s    3x    2v    2k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('5'), "5)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('6'), "6)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('7'), "7)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('8'), "8)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('9'), "9)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt script level");
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_SCRP, '1', '-'),    0);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_SHAR, '1', '-'),    0);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_UNIT, '1', '-'),    0);
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('0'), "0)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('1'), "1)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('2'), "2)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('3'), "3)    5s    3x    2v    2k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('5'), "5)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('6'), "6)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('7'), "7)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('8'), "8)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('9'), "9)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("attempt cond level");
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_COND, '1', '-'),    0);
-   yUNIT_minval  ("run step"                           , yunit_stats_ditto_step  (YUNIT_CONVERT, YUNIT_IS_DITT, '1', '-'),    0);
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('0'), "0)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('1'), "1)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('2'), "2)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('3'), "3)    5s    3x    2v    2k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('5'), "5)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('6'), "6)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('7'), "7)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('8'), "8)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('9'), "9)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify clearing dittos");
-   yUNIT_minval  ("run clear"                          , yunit_stats_clear_ditto (),    0);
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('0'), "0)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('1'), "1)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('2'), "2)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('3'), "3)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('5'), "5)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('6'), "6)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('7'), "7)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('8'), "8)    0s    0x    0v    0k");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('9'), "9)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_minprcs  ();
-   return 0;
-}
-
-char
-UNIT__stats_ditto_apply  (char a_scrp, char a_list, char a_unit)
-{
-   FILE       *f           = NULL;
-
-   yUNIT_minscrpy ("yUNIT", "yUNIV_stats"   , "(STATS) verify applying steps for dittos");
-   if (a_list == '!')    { yUNIT_minprcs (); return 0; }
-   if (a_unit != 0 && a_scrp != a_unit)  return 0;
-   if (a_list == 'y')                    return 0;
-
-   yUNIT_mincond ("purge all numbers");
-   yUNIT_minval  ("run purge"                          , yUNIT_stats_purge (YUNIT_CONVERT, NULL, NULL, NULL, NULL) ,     0);
-
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("start with a SCRP");
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SCRP  , "SCRP"  , '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("add a target COND");
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_COND  , "COND"  , ""                     , '-', '4', '-', '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     1     1     0  ····´·····     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    0s    0x    0v    0k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("add steps to the target");
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "get"   , "åxæ"                  , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "echo"  , ""                     , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_VOID  , "mode"  , ""                     , '-', '-', '-', '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     5     4     0     1     1     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     5     4     0     1     1     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     1     1     0  ····´·····     0  ·                        0  ·                        0     5     4     0     1     1     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     5     4     0     1     1     0     0     0     0  ");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    5s    4x    1v    1k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify using a ditto");
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '4', '-', '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     2     1     1  ··········     0  ·                        0  ·                        0     5     4     0     1     1     5     4     1     1  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     2     1     1  ··········     0  ·                        0  ·                        0     5     4     0     1     1     5     4     1     1  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     2     1     1  ····1·····     0  ·                        0  ·                        0     5     4     0     1     1     5     4     1     1  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    5s    4x    1v    1k");
-   yUNIT_mindnoc ();
-
-   yUNIT_mincond ("verify using a ditto again");
-   yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '4', '-', '-', NULL, NULL, NULL, NULL),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     3     1     2  ··········     0  ·                        0  ·                        0     5     4     0     1     1    10     8     2     2  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     3     1     2  ··········     0  ·                        0  ·                        0     5     4     0     1     1    10     8     2     2  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     3     1     2  ····2·····     0  ·                        0  ·                        0     5     4     0     1     1    10     8     2     2  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check ditto"                    , yunit_stats_show_ditto ('4'), "4)    5s    4x    1v    1k");
-   yUNIT_mindnoc ();
-
-   yUNIT_minprcs  ();
-   return 0;
-}
-
-char
 UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
 {
    /*---(locals)-----------+-----+-----+-*/
@@ -446,18 +116,18 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("purge all numbers");
    yUNIT_minval  ("run purge"                          , yUNIT_stats_purge (YUNIT_CONVERT, &x_cunit, &x_cscrp, &x_ccond, &x_cstep) ,     0);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("start with a SCRP");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SCRP  , "SCRP"  , '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -468,100 +138,100 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("verify a SHARED");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SHAR  , "SHARED", 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
    yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify a GLOBAL");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SHAR  , "GLOBAL", 'B', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     3     1     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     3     1     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     3     1     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     3     1     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
    yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    6);
    yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  3 )  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   DERAHS     local shared code statistics ------------------------------------   b     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   DERAHS     local shared code statistics ------------------------------------   b     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify a CONFIG");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SHAR  , "CONFIG", 'ò', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     4     2     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     4     2     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     4     2     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     4     2     1     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
    yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    9);
    yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  6 )  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   LABOLG     global shared code statistics -----------------------------------   B     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   LABOLG     global shared code statistics -----------------------------------   B     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify another SCRP");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SCRP  , "SCRP"  , '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
    yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,   12);
    yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  9 )  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   GIFNOC     global shared code statistics -----------------------------------   ò     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   GIFNOC     global shared code statistics -----------------------------------   ò     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify final UNIT");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_unit   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_UNIT  , "UNIT"  , '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    0);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
    yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,   20);
    yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  12)  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   2     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   2     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TNIU          final unit test statistics --------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TNIU          final unit test statistics --------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify FULL");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_full   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_FULL  , "FULL"  , '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    0);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -570,8 +240,8 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  20)  , ""                                         );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "LUFF          full program statistics -----------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "LUFF          full program statistics -----------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
@@ -607,18 +277,18 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("purge all numbers");
    yUNIT_minval  ("run purge"                          , yUNIT_stats_purge     (YUNIT_CONVERT, &x_cunit, &x_cscrp, &x_ccond, &x_cstep) ,     0);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("start with a SCRP");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp      (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SCRP  , "SCRP"  , '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -632,10 +302,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("add a COND");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_COND  , "COND"  , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -646,10 +316,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("add a EXEC");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "EXEC"  , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     1     1     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     1     1     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     1     1     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     1     1     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     1     1     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     1     1     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     1     1     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     1     1     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    1);
@@ -664,10 +334,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "get"   , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    3);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "echo"  , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     1     1     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    4);
@@ -678,10 +348,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("add another COND");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_COND  , "COND"  , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     4     4     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -696,10 +366,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_VARS  , "local" , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    2);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_VOID  , "mode"  , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     3     0     1     2     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     3     0     1     2     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    1);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    3);
@@ -710,27 +380,27 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("then another SCRP");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SCRP  , "SCRP"  , '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     0     2     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     0     2     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     0     2     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     0     2     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
    yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a COND (with ditto mark)");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_COND  , "COND"  , ""                     , '-', '3', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     0     2     3     3     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     0     2     3     3     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     1     1     0  ···´······     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     0     2     3     3     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     0     2     3     3     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     1     1     0  ···´······     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -740,10 +410,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("add a DITTO");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '3', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     0     2     4     3     1  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     0     2     4     3     1  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     2     1     1  ···1······     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     0     2     4     3     1  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     0     2     4     3     1  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     2     1     1  ···1······     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -753,10 +423,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("add another DITTO");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '3', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     0     2     5     3     2  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     0     2     5     3     2  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     3     1     2  ···2······     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     0     2     5     3     2  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     0     2     5     3     2  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     3     1     2  ···2······     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    3);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -766,10 +436,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("add local REUSE");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_REUS  , "REUSE" , ""                     , '-', '-', 'f', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     0     2     6     3     2  ··········     1  f                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     0     2     6     3     2  ··········     1  f                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     4     1     2  ···2······     1  f                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     0  ··········     1  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     0     2     6     3     2  ··········     1  f                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     0     2     6     3     2  ··········     1  f                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     4     1     2  ···2······     1  f                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     0  ··········     1  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    4);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -781,10 +451,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_REUS  , "REUSE" , ""                     , '-', '-', 'z', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_REUS  , "REUSE" , ""                     , '-', '-', 'f', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_REUS  , "REUSE" , ""                     , '-', '-', 'a', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     0     2     9     3     2  ··········     4  fza                      0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     0     2     9     3     2  ··········     4  fza                      0  ·                        0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     7     1     2  ···2······     4  fzfa                     0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     0  ··········     1  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     0     2     9     3     2  ··········     4  fza                      0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     0     2     9     3     2  ··········     4  fza                      0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     7     1     2  ···2······     4  fzfa                     0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     0  ··········     1  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    7);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -796,10 +466,10 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_GREU  , "REUSE" , ""                     , '-', '-', 'D', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_GREU  , "REUSE" , ""                     , '-', '-', 'ò', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_GREU  , "REUSE" , ""                     , '-', '-', 'D', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1    10     1     2  ···2······     4  fzfa                     3  DòD                      0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     0  ··········     0  ·                        1  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1    10     1     2  ···2······     4  fzfa                     3  DòD                      0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     0  ··········     0  ·                        1  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    2);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,   10);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -809,35 +479,35 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("call final UNIT process");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_unit   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_UNIT  , "UNIT"  , '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    0);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
    yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,   11);
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   2     1     0     0     1    10     1     2  ···2······     4  fzfa                     3  DòD                      0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   2     1     0     0     1    10     1     2  ···2······     4  fzfa                     3  DòD                      0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TNIU          final unit test statistics --------------------------------------   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TNIU          final unit test statistics --------------------------------------   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("purge all numbers");
    yUNIT_minval  ("run purge"                          , yUNIT_stats_purge (YUNIT_CONVERT, &x_cunit, &x_cscrp, &x_ccond, &x_cstep) ,     0);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minval  ("... verify script number"           , x_cscrp    ,    0);
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
@@ -869,10 +539,10 @@ UNIT__stats_convert_plus  (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("purge all numbers");
    yUNIT_minval  ("run purge"                          , yUNIT_stats_purge     (YUNIT_CONVERT, &x_cunit, &x_cscrp, &x_ccond, &x_cstep) ,     0);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("prepare file");
@@ -881,19 +551,19 @@ UNIT__stats_convert_plus  (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("start with a SHARE");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SHAR  , "SHARED", 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add two locals");       
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_VARS  , "local" , ""                     , '-', '-', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_VARS  , "local" , ""                     , '-', '-', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     2     0     2     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     2     0     2     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     2     0     2     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     2     0     2     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     2     0     2     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     2     0     2     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     2     0     2     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     2     0     2     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a condition with some steps");
@@ -901,52 +571,52 @@ UNIT__stats_convert_plus  (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     1     0     1     1     0  ··········     0  ·                        0  ·                        0     5     3     2     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     1     0     1     1     0  ··········     0  ·                        0  ·                        0     5     3     2     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     1     0     1     1     0  ·´········     0  ·                        0  ·                        0     5     3     2     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     3     3     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     1     0     1     1     0  ··········     0  ·                        0  ·                        0     5     3     2     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     1     0     1     1     0  ··········     0  ·                        0  ·                        0     5     3     2     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     1     0     1     1     0  ·´········     0  ·                        0  ·                        0     5     3     2     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     3     3     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a ditto call");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '1', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     1     0     2     1     1  ··········     0  ·                        0  ·                        0     5     3     2     0     0     3     3     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     1     0     2     1     1  ··········     0  ·                        0  ·                        0     5     3     2     0     0     3     3     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     1     0     2     1     1  ·1········     0  ·                        0  ·                        0     5     3     2     0     0     3     3     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     1     0     2     1     1  ··········     0  ·                        0  ·                        0     5     3     2     0     0     3     3     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     1     0     2     1     1  ··········     0  ·                        0  ·                        0     5     3     2     0     0     3     3     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     1     0     2     1     1  ·1········     0  ·                        0  ·                        0     5     3     2     0     0     3     3     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a condition with some steps");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_COND  , "COND"  , ""                     , '-', '-', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_VOID  , "mode"  , ""                     , '-', '-', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     1     0     3     2     1  ··········     0  ·                        0  ·                        0     7     4     2     1     0     3     3     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     1     0     3     2     1  ··········     0  ·                        0  ·                        0     7     4     2     1     0     3     3     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     1     0     3     2     1  ·1········     0  ·                        0  ·                        0     7     4     2     1     0     3     3     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     2     1     0     1     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     1     0     3     2     1  ··········     0  ·                        0  ·                        0     7     4     2     1     0     3     3     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     1     0     3     2     1  ··········     0  ·                        0  ·                        0     7     4     2     1     0     3     3     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     1     0     3     2     1  ·1········     0  ·                        0  ·                        0     7     4     2     1     0     3     3     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     2     1     0     1     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a ditto call");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '1', '-', 'b', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     1     0     1     0     4     2     2  ··········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     1     0     1     0     4     2     2  ··········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     1     0     4     2     2  ·2········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     1     0     1     0     4     2     2  ··········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     1     0     1     0     4     2     2  ··········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     1     0     4     2     2  ·2········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("start with a SCRP");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_scrp   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_SCRP  , "SCRP"  , '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     1     1     4     2     2  ··········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     1     1     4     2     2  ··········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     1     1     4     2     2  ··········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     1     1     4     2     2  ··········     0  ·                        0  ·                        0     7     4     2     1     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a local");       
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_VARS  , "local" , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     1     1     4     2     2  ··········     0  ·                        0  ·                        0     8     4     3     1     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     1     1     4     2     2  ··········     0  ·                        0  ·                        0     8     4     3     1     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     1     0     1     0     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     1     0     1     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     1     1     4     2     2  ··········     0  ·                        0  ·                        0     8     4     3     1     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     1     1     4     2     2  ··········     0  ·                        0  ·                        0     8     4     3     1     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     1     0     1     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     0     0     0  ··········     0  ·                        0  ·                        0     1     0     1     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a condition with some steps");
@@ -955,26 +625,26 @@ UNIT__stats_convert_plus  (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
    yUNIT_minval  ("run accum"                          , yUNIT_stats_step   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_EXEC  , "exec"  , ""                     , '-', '-', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     1     1     5     3     2  ··········     0  ·                        0  ·                        0    12     7     3     2     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     1     1     5     3     2  ··········     0  ·                        0  ·                        0    12     7     3     2     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     1     1     0  ···´······     0  ·                        0  ·                        0     5     3     1     1     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     4     3     0     1     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     1     1     5     3     2  ··········     0  ·                        0  ·                        0    12     7     3     2     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     1     1     5     3     2  ··········     0  ·                        0  ·                        0    12     7     3     2     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     1     1     0  ···´······     0  ·                        0  ·                        0     5     3     1     1     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     1     0  ··········     0  ·                        0  ·                        0     4     3     0     1     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a reuse on existing share");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_REUS  , "REUSE" , ""                     , '-', '-', 'b', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     1     1     6     3     2  ··········     1  b                        0  ·                        0    12     7     3     2     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     1     1     6     3     2  ··········     1  b                        0  ·                        0    12     7     3     2     0     6     6     0     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     2     1     0  ···´······     1  b                        0  ·                        0     5     3     1     1     0     0     0     0     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     0  ··········     1  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     1     1     6     3     2  ··········     1  b                        0  ·                        0    12     7     3     2     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     1     1     6     3     2  ··········     1  b                        0  ·                        0    12     7     3     2     0     6     6     0     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     2     1     0  ···´······     1  b                        0  ·                        0     5     3     1     1     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     0  ··········     1  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a ditto");
    yUNIT_minval  ("run accum"                          , yUNIT_stats_cond   (YUNIT_CONVERT, f, "apate.unit", YUNIT_IS_DITT  , "DITTO" , ""                     , '-', '3', '-', '-', &x_cunit, &x_cscrp, &x_ccond, &x_cstep),    1);
-   yUNIT_minstr  ("... check full"                     , yunit_stats_show_full ("FULL"  , " -")  , "FULL   -     2     0     1     1     7     3     3  ··········     1  b                        0  ·                        0    12     7     3     2     0    10     9     1     0  ");
-   yUNIT_minstr  ("... check unit"                     , yunit_stats_show_unit ("UNIT"  , " -")  , "UNIT   -     2     0     1     1     7     3     3  ··········     1  b                        0  ·                        0    12     7     3     2     0    10     9     1     0  ");
-   yUNIT_minstr  ("... check scrp"                     , yunit_stats_show_scrp ("SCRP"  , " -")  , "SCRP   -     1     0     0     1     3     1     1  ···1······     1  b                        0  ·                        0     5     3     1     1     0     4     3     1     0  ");
-   yUNIT_minstr  ("... check cond"                     , yunit_stats_show_cond ("COND"  , " -")  , "COND   -     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0  ");
+   yUNIT_minstr  ("... check full"                     , yunit_full_show   ("FULL")  , "FULL     2     0     1     1     7     3     3  ··········     1  b                        0  ·                        0    12     7     3     2     0    10     9     1     0   ");
+   yUNIT_minstr  ("... check unit"                     , yunit_unit_show   ("UNIT")  , "UNIT     2     0     1     1     7     3     3  ··········     1  b                        0  ·                        0    12     7     3     2     0    10     9     1     0   ");
+   yUNIT_minstr  ("... check scrp"                     , yunit_scrp_show   ("SCRP")  , "SCRP     1     0     0     1     3     1     1  ···1······     1  b                        0  ·                        0     5     3     1     1     0     4     3     1     0   ");
+   yUNIT_minstr  ("... check cond"                     , yunit_cond_show   ("COND")  , "COND     0     0     0     0     1     0     1  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_mindnoc ();
 
    yUNIT_minprcs  ();
@@ -1005,10 +675,7 @@ main                    (int a_argc, char *a_argv [])
    /*---(startup)------------------------*/
    yUNIT_minunit ("yUNIT_stats");
    /*---(scripts)------------------------*/
-   UNIT__stats_ditto         (++n, x_list, x_unit);
    UNIT__stats_reuse         (++n, x_list, x_unit);
-   UNIT__stats_ditto_step    (++n, x_list, x_unit);
-   UNIT__stats_ditto_apply   (++n, x_list, x_unit);
    UNIT__stats_scrp          (++n, x_list, x_unit);
    UNIT__stats_convert       (++n, x_list, x_unit);
    UNIT__stats_convert_plus  (++n, x_list, x_unit);

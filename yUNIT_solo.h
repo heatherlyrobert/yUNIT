@@ -178,8 +178,8 @@ yunit_minstr            (int a_line, char *a_desc, char *a_act, char *a_exp)
    l = strlen (a_desc) + 1;
    sprintf (t, "%s %s", a_desc, x_fill + l);
    printf ("  %s%02d) %-6.6s%s : %-57.57s [%05d]\n", x_on, ++s_stepn, x_note, BACK_OFF, t, a_line);
-   printf ("      expect : %2d[%s]\n", strlen (x_exp), x_exp);
-   printf ("      actual : %2d[%s]\n", strlen (a_act), a_act);
+   printf ("      expect : %3d[%s]\n", strlen (x_exp), x_exp);
+   printf ("      actual : %3d[%s]\n", strlen (a_act), a_act);
    printf ("\n");
    return 0;
 }

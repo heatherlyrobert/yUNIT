@@ -58,7 +58,7 @@ yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char
       else if (strchr ("-" YSTR_LOWER, a_share) != NULL)  {
          if (r_line != NULL)  sprintf (r_line, "[%05d]", a_line);
       } else {
-         if (r_line != NULL)  sprintf (r_line, ">%05d<", a_line);
+         if (r_line != NULL)  sprintf (r_line, "º%05d»", a_line);
       }
    }
    /*---(handle sequence)----------------*/
@@ -129,12 +129,12 @@ yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char
 }
 
 char
-yunit_final_color       (char a_mono, char a_type, char *r_on, char *r_on2, char *r_off, char r_note [LEN_TERSE], char r_test [LEN_DESC])
+yunit_final_color       (char a_mono, char a_type, char r_on [LEN_LABEL], char r_on2 [LEN_LABEL], char r_off [LEN_LABEL], char r_note [LEN_TERSE], char r_test [LEN_DESC])
 {
    /*---(locals)-----------+-----+-----+-*/
-   char        x_on        [LEN_TERSE] = "";
-   char        x_on2       [LEN_TERSE] = "";
-   char        x_off       [LEN_TERSE] = "";
+   char        x_on        [LEN_LABEL] = "";
+   char        x_on2       [LEN_LABEL] = "";
+   char        x_off       [LEN_LABEL] = "";
    char        x_note      [LEN_TERSE] = "";
    char        x_test      [LEN_DESC]  = "";
    char        x_resu      = YUNIT_VOID;
@@ -146,28 +146,28 @@ yunit_final_color       (char a_mono, char a_type, char *r_on, char *r_on2, char
    if (r_test != NULL)   strcpy (r_test, "  one    two  ");
    /*---(headings)-----------------------*/
    switch (a_type) {
-   case TYPE_SCRP  : case TYPE_SECT  : case TYPE_COND  : case TYPE_GROUP :
+   case TYPE_SCRP  : case TYPE_SECT  : case TYPE_GROUP :
       return 0;
       break;
-   case TYPE_DINU  :case TYPE_DRCS  : case TYPE_DNOD  : case TYPE_DISP  :
+   case TYPE_DINU  : case TYPE_DRCS  : case TYPE_DNOD  : case TYPE_DISP  :
       return 0;
       break;
    }
    /*---(non-mono)-----------------------*/
    strcpy (x_off, BACK_OFF);
-   /*---(dittoing)-----------------------*/
+   /*---(scripts)------------------------*/
    switch (a_type) {
-   case TYPE_CCND  :
-      strcpy (x_on , BACK_CYN);
+   case TYPE_COND  :
+      strcpy (x_on , BACK_BRN);
       break;
-   case TYPE_DOND  :
-      strcpy (x_on , BACK_CYN);
+   case TYPE_CCND  : case TYPE_DOND  :
+      strcpy (x_on , BACK_PUR);
       break;
    }
    /*---(shared)-------------------------*/
    switch (a_type) {
    case TYPE_SHARED : case TYPE_DERAHS : case TYPE_SOND   :
-      strcpy (x_on , BACK_MAG);
+      strcpy (x_on , BACK_CRI);
       break;
    case TYPE_GLOBAL : case TYPE_LABOLG : case TYPE_GOND   :
    case TYPE_CONFIG : case TYPE_GIFNOC :
@@ -178,7 +178,7 @@ yunit_final_color       (char a_mono, char a_type, char *r_on, char *r_on2, char
    switch (a_type) {
    case TYPE_TINU  : case TYPE_PRCS  : case TYPE_DNOC  :
       yunit_actual_last (a_type, &x_resu, NULL);
-      if      (x_resu == YUNIT_VOID)  strcpy (x_on , BACK_BLK);
+      if      (x_resu == YUNIT_VOID)  strcpy (x_on , BACK_BRN);
       else if (x_resu == YUNIT_FAIL)  strcpy (x_on , BACK_RED);
       else if (x_resu == YUNIT_WARN)  strcpy (x_on , BACK_YEL);
       else                            strcpy (x_on , BACK_GRN);
@@ -187,7 +187,7 @@ yunit_final_color       (char a_mono, char a_type, char *r_on, char *r_on2, char
    /*---(special)------------------------*/
    switch (a_type) {
    case TYPE_LOCAL  : case TYPE_CODE   : case TYPE_LOAD   : case TYPE_MODE   :
-      strcpy (x_on , BACK_CYN);
+      strcpy (x_on , BACK_BRN);
       strcpy (x_on2, BACK_GRN);
       switch (a_type) {
       case TYPE_LOCAL  : strcpy (x_note, "LOCAL" );  break;
@@ -205,13 +205,13 @@ yunit_final_color       (char a_mono, char a_type, char *r_on, char *r_on2, char
       case YUNIT_FAIL  :  strcpy (x_note, "FAIL" );  strcpy (x_on, BACK_RED);  strcpy (x_on2, BACK_RED);  break;
       case YUNIT_FSUCC :  strcpy (x_note, "!PASS");  strcpy (x_on, BACK_RED);  strcpy (x_on2, BACK_GRN);  break;
       case YUNIT_FFAIL :  strcpy (x_note, "!FAIL");  strcpy (x_on, BACK_GRN);  strcpy (x_on2, BACK_RED);  break;
-      case YUNIT_VOID  :  strcpy (x_note, "----" );  strcpy (x_on, BACK_CYN);  strcpy (x_on2, BACK_CYN);  break;
+      case YUNIT_VOID  :  strcpy (x_note, "----" );  strcpy (x_on, BACK_BRN);  strcpy (x_on2, BACK_BRN);  break;
       default          :  strcpy (x_note, "WARN" );  strcpy (x_on, BACK_YEL);  strcpy (x_on2, BACK_YEL);  break;
       }
       switch (a_type) {  /* override note */
-      case TYPE_SYSTEM : /* strcpy (x_note, "SYSTEM"); */  strcpy (x_on, BACK_CYN);  break;
-      case TYPE_FILE   : /* strcpy (x_note, "FILE"  ); */  strcpy (x_on, BACK_CYN);  break;
-      case TYPE_APPEND : /* strcpy (x_note, "APPEND"); */  strcpy (x_on, BACK_CYN);  break;
+      case TYPE_SYSTEM : /* strcpy (x_note, "SYSTEM"); */  strcpy (x_on, BACK_BRN);  break;
+      case TYPE_FILE   : /* strcpy (x_note, "FILE"  ); */  strcpy (x_on, BACK_BRN);  break;
+      case TYPE_APPEND : /* strcpy (x_note, "APPEND"); */  strcpy (x_on, BACK_BRN);  break;
       }
    }
    /*---(mono-override)------------------*/

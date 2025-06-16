@@ -3,121 +3,22 @@
 
 
 
-/*                                  main --------local------------- --------global------------ --------config---------- */
-static char  S_VALID  [LEN_HUND] = "···· abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ èéêëìíîïðñòóôõö÷øùúûüýþÿ";
+static char  s_dittoing  = '-';
 
 
-
-typedef struct cCOUNTS tCOUNTS;
-static struct cCOUNTS {
-   /*---(identifier)---------------------*/
-   char        c_id;                        /* script, global, config, or shared identifier/sequence */
-   /*---(unit)---------------------------*/
-   int         c_unit;                      /* all units                                             */
-   /*---(top)----------------------------*/
-   int         c_topp;                      /* all count                                             */
-   int         c_scrp;                      /* script count                                          */
-   int         c_glob;                      /* global count                                          */
-   int         c_shar;                      /* shared count                                          */
-   /*---(middle)-------------------------*/
-   int         c_midd;                      /* condition, ditto, reuse count                         */
-   int         c_cond;                      /* condition count                                       */
-   int         c_ditt;                      /* ditto count                                           */
-   char        c_dittos    [LEN_LABEL];     /* dittos usage list                                     */
-   int         c_lreu;                      /* local (shared) reuse count                            */
-   char        c_lreuse    [LEN_HUND];      /* local reuse usage list                                */
-   int         c_greu;                      /* global (global/config) reuse count                    */
-   char        c_greuse    [LEN_HUND];      /* global reuse usage list                               */
-   int         c_skipc;                     /* skipped conditions                                    */
-   /*---(step)---------------------------*/
-   int         c_step;                      /* all step count                                        */
-   int         c_real;                      /* steps returning non-void                              */
-   int         c_vars;                      /* local and global variables                            */
-   int         c_void;                      /* steps returning void                                  */
-   int         c_skips;                     /* skipped steps                                         */
-   /*---(ditto)--------------------------*/
-   int         c_dstep;                     /* dittoed all steps                                     */
-   int         c_dreal;                     /* dittoed non-void steps                                */
-   int         c_dvoid;                     /* dittoed void steps                                    */
-   int         c_dskip;                     /* dittoed skipped steps                                 */
-   /*---(done)---------------------------*/
-};
-static tCOUNTS  s_counts [LEN_HUND];
-
-
-#define FULL_ID    0
-#define FULL       s_counts [0]
-
-#define UNIT_ID    1
-#define UNIT       s_counts [1]
-
-#define SCRP_ID    2
-#define SCRP       s_counts [2]
-
-#define COND_ID    3
-#define COND       s_counts [3]
-
-
-static char s_dittoing  = '-';
-typedef struct cDITTOS tDITTOS;
-static struct cDITTOS {
-   int         c_step;                      /* all step count                                        */
-   int         c_real;                      /* steps returning non-void                              */
-   int         c_void;                      /* steps returning void                                  */
-   int         c_skips;                     /* skipped steps                                         */
-};
-static tDITTOS  s_dittos [LEN_TERSE];
-
-
-char
-yunit_stats_clear_one   (char n)
-{
-   /*---(identifier)---------------------*/
-   s_counts [n].c_id    =    0;
-   /*---(units)--------------------------*/
-   s_counts [n].c_unit  =    0;
-   /*---(top)----------------------------*/
-   s_counts [n].c_topp  =    0;
-   s_counts [n].c_scrp  =    0;
-   s_counts [n].c_glob  =    0;
-   s_counts [n].c_shar  =    0;
-   /*---(middle)-------------------------*/
-   s_counts [n].c_midd  =    0;
-   s_counts [n].c_cond  =    0;
-   s_counts [n].c_ditt  =    0;
-   strcpy (s_counts [n].c_dittos, "··········");
-   s_counts [n].c_lreu  =    0;
-   strcpy (s_counts [n].c_lreuse, "");
-   s_counts [n].c_greu  =    0;
-   strcpy (s_counts [n].c_greuse, "");
-   s_counts [n].c_skipc =    0;
-   /*---(step)---------------------------*/
-   s_counts [n].c_step  =    0;
-   s_counts [n].c_real  =    0;
-   s_counts [n].c_vars  =    0;
-   s_counts [n].c_void  =    0;
-   s_counts [n].c_skips =    0;
-   /*---(ditto)--------------------------*/
-   s_counts [n].c_dstep =    0;
-   s_counts [n].c_dreal =    0;
-   s_counts [n].c_dvoid =    0;
-   s_counts [n].c_dskip =    0;
-   /*---(done)---------------------------*/
-   return 0;
-}
-
-char
-yunit_stats_clear_ditto (void)
-{
-   int         i           =    0;
-   for (i = 0; i < LEN_TERSE; ++i) {
-      s_dittos [i].c_step  = 0;
-      s_dittos [i].c_real  = 0;
-      s_dittos [i].c_void  = 0;
-      s_dittos [i].c_skips = 0;
-   }
-   return 0;
-}
+/*>                                                                                   <* 
+ *> #define FULL_ID    0                                                              <* 
+ *> #define FULL       g_counts [0]                                                   <* 
+ *>                                                                                   <* 
+ *> #define UNIT_ID    1                                                              <* 
+ *> #define UNIT       g_counts [1]                                                   <* 
+ *>                                                                                   <* 
+ *> #define SCRP_ID    2                                                              <* 
+ *> #define SCRP       g_counts [2]                                                   <* 
+ *>                                                                                   <* 
+ *> #define COND_ID    3                                                              <* 
+ *> #define COND       g_counts [3]                                                   <* 
+ *>                                                                                   <*/
 
 char
 yunit_stats_clear       (char a_type)
@@ -125,26 +26,26 @@ yunit_stats_clear       (char a_type)
    /*---(clear)--------------------------*/
    switch (a_type) {
    case YUNIT_IS_FULL :
-      yunit_stats_clear_one (COND_ID);
-      yunit_stats_clear_one (SCRP_ID);
-      yunit_stats_clear_one (UNIT_ID);
-      yunit_stats_clear_one (FULL_ID);
-      yunit_stats_clear_ditto ();
+      yunit_reuse_clear (COND_ID);
+      yunit_reuse_clear (SCRP_ID);
+      yunit_reuse_clear (UNIT_ID);
+      yunit_reuse_clear (FULL_ID);
+      yunit_ditto_purge  ();
       yunit_stats_summary (0x1, "", '0', "", '-');
       break;
    case YUNIT_IS_UNIT :
-      yunit_stats_clear_one (COND_ID);
-      yunit_stats_clear_one (SCRP_ID);
-      yunit_stats_clear_one (UNIT_ID);
-      yunit_stats_clear_ditto ();
+      yunit_reuse_clear (COND_ID);
+      yunit_reuse_clear (SCRP_ID);
+      yunit_reuse_clear (UNIT_ID);
+      yunit_ditto_purge  ();
       break;
    case YUNIT_IS_SCRP :
-      yunit_stats_clear_one (COND_ID);
-      yunit_stats_clear_one (SCRP_ID);
-      yunit_stats_clear_ditto ();
+      yunit_reuse_clear (COND_ID);
+      yunit_reuse_clear (SCRP_ID);
+      yunit_ditto_purge  ();
       break;
    case YUNIT_IS_COND :
-      yunit_stats_clear_one (COND_ID);
+      yunit_reuse_clear (COND_ID);
       break;
    }
    s_dittoing = '-';
@@ -161,7 +62,7 @@ yUNIT_stats_purge       (char a_usage, int *r_cunit, int *r_cscrp, int *r_ccond,
    yunit_stats_clear (YUNIT_IS_FULL);
    yunit_stats_summary (0x1, "", '0', "", '-');
    /*---(clear share areas)--------------*/
-   for (i = 0; i < LEN_HUND; ++i)   yunit_stats_clear_one (i);
+   for (i = 0; i < LEN_HUND; ++i)   yunit_reuse_clear (i);
    /*---(save-back)----------------------*/
    if (r_cunit != NULL)  *r_cunit = FULL.c_unit;
    if (r_cscrp != NULL)  *r_cscrp = UNIT.c_scrp;
@@ -185,7 +86,7 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
    char        x_prefix    [LEN_FULL]  = "";
    char        x_suffix    [LEN_FULL]  = "";
    char        x_header    [LEN_LABEL] = "";
-   char       *x_title     = "=================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip ";
+   char       *x_title     = "=================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ";
    /*---(saves)--------------------------*/
    static char x_save      [LEN_LABEL] = "";
    static char x_stype     =  '-';
@@ -229,18 +130,17 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
       if (strchr (YUNIT_IS_FULLS YUNIT_IS_UNITS, x_type) != NULL)   fprintf (a_conv, "\n\n");
       fprintf (a_conv, "\n%-12.12s  %s \n", x_header, x_title);
       /*---(prefix)----------------------*/
-      /*> sprintf (x_prefix, "%-12.12s  %-65.65s  %-2.2s", x_verb, x_label, x_ref);   <*/
-      sprintf (x_prefix, "%-12.12s  %-65.65s", x_verb, x_label);
+      sprintf (x_prefix, "%-12.12s  %-65.65s  %-2.2s", x_verb, x_label, x_ref);
       /*---(suffix)----------------------*/
       switch (x_type) {
       case YUNIT_IS_FULL :
-         fprintf (a_conv, "%s\n", yunit_stats_show_full (x_prefix, x_ref));
+         fprintf (a_conv, "%s\n", yunit_full_show (x_prefix));
          break;
       case YUNIT_IS_UNIT : case YUNIT_IS_MAST :
-         fprintf (a_conv, "%s\n", yunit_stats_show_unit (x_prefix, x_ref));
+         fprintf (a_conv, "%s\n", yunit_unit_show (x_prefix));
          break;
       default :
-         fprintf (a_conv, "%s\n", yunit_stats_show_scrp (x_prefix, x_ref));
+         fprintf (a_conv, "%s\n", yunit_scrp_show (x_prefix));
          break;
       }
       /*---(done)------------------------*/
@@ -327,6 +227,7 @@ yUNIT_stats_scrp        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], c
    --rce;  if (a_major == 0)        return rce;
    /*---(quick-out)----------------------*/
    --rce;  if (strchr (YUNIT_IS_TOPPS, a_type) == NULL)  return rce;
+   /*> if (a_usage != YUNIT_BUILD)  return 0;                                         <*/
    /*---(previous summary)---------------*/
    if (a_type == YUNIT_IS_SCRP) a_major = UNIT.c_scrp;
    yunit_stats_summary (a_conv, a_nscrp, a_type, a_verb, a_major);
@@ -354,7 +255,7 @@ yUNIT_stats_scrp        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], c
 }
 
 char /* zero globals or static variables */
-yunit_stats_ditto       (char a_type, char a_ditto, char b_show [LEN_LABEL], char *r_dittoing)
+yunit_ditto_stats       (char a_type, char a_ditto, char b_show [LEN_LABEL], char *r_dittoing)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -410,7 +311,7 @@ yunit_stats_reuse       (char a_type, char a_major, char b_full [LEN_HUND], char
 }
 
 char
-yUNIT_stats_cond        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_LABEL], char a_desc [LEN_LONG], char a_dittoing, char a_ditto, char a_major, char a_share, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep)
+yUNIT_stats_cond        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_TERSE], char a_desc [LEN_LONG], char a_dittoing, char a_ditto, char a_major, char a_share, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -463,14 +364,14 @@ yUNIT_stats_cond        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], c
     *>    if (strchr (SCRP.c_greuse, a_major) == NULL)  strlcat (SCRP.c_greuse, t, LEN_LABEL);   <* 
     *> }                                                                                         <*/
    /*---(dittos)---------------*/
-   rc = yunit_stats_ditto (a_type, a_ditto, SCRP.c_dittos, &s_dittoing);
+   rc = yunit_ditto_stats (a_type, a_ditto, SCRP.c_dittos, &s_dittoing);
    /*> if (a_type == YUNIT_IS_COND && (a_ditto >= '0' && a_ditto <= '9'))  SCRP.c_dittos [a_ditto - '0'] = '´';                                 <* 
     *> if (a_type == YUNIT_IS_DITT && (a_ditto >= '0' && a_ditto <= '9')) {                                                                     <* 
     *>    if      (strchr ("´·", SCRP.c_dittos [a_ditto - '0']) != NULL)   SCRP.c_dittos [a_ditto - '0'] = '1';                                 <* 
     *>    else if (strchr ("9*", SCRP.c_dittos [a_ditto - '0']) != NULL)   SCRP.c_dittos [a_ditto - '0'] = '*';                                 <* 
     *>    else                                                             SCRP.c_dittos [a_ditto - '0'] = SCRP.c_dittos [a_ditto - '0'] + 1;   <* 
     *> }                                                                                                                                        <*/
-   rc = yunit_stats_ditto_apply (a_usage, a_type, a_ditto);
+   rc = yunit_ditto_apply (a_usage, a_type, a_ditto);
    /*---(save-back)----------------------*/
    if (r_cunit != NULL)  *r_cunit = FULL.c_unit;
    if (r_cscrp != NULL)  *r_cscrp = UNIT.c_scrp;
@@ -481,62 +382,7 @@ yUNIT_stats_cond        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], c
 }
 
 char
-yunit_stats_ditto_step  (char a_usage, char a_type, char a_dittoing, char a_skip)
-{
-   /*---(locals)-----------+-----+-----+-*/
-   char        rce         =  -10;
-   char        n           =    0;
-   /*---(quick-out)----------------------*/
-   if (strchr ("xv", a_type) == NULL)   return 0;
-   /*---(defense)------------------------*/
-   if (a_usage != YUNIT_CONVERT)  return 0;
-   if (a_dittoing < '0')          return 0;
-   if (a_dittoing > '9')          return 0;
-   /*---(prepare)------------------------*/
-   n = a_dittoing - '0';
-   /*---(count)--------------------------*/
-   switch (a_type) {
-   case YUNIT_IS_EXEC : /* exec     */  ++(s_dittos [n].c_real);  break;
-   case YUNIT_IS_VOID : /* void     */  ++(s_dittos [n].c_void);  break;
-   }
-   /*---(add total)----------------------*/
-   ++(s_dittos [n].c_step);
-   /*---(record skip)--------------------*/
-   if (a_skip == 'y')  ++s_dittos [n].c_skips;
-   /*---(complete)-----------------------*/
-   return 1;
-}
-
-char
-yunit_stats_ditto_apply (char a_usage, char a_type, char a_dtarget)
-{
-   /*---(locals)-----------+-----+-----+-*/
-   char        rce         =  -10;
-   char        n           =    0;
-   int         d           =    0;
-   /*---(quick-out)----------------------*/
-   if (a_usage != YUNIT_CONVERT)  return 0;
-   /*---(defense)------------------------*/
-   if (a_type  != YUNIT_IS_DITT)  return 0;
-   if (a_dtarget < '0')  return 0;
-   if (a_dtarget > '9')  return 0;
-   /*---(prepare)------------------------*/
-   n = a_dtarget - '0';
-   /*---(statistics)---------------------*/
-   d = s_dittos [n].c_step;
-   SCRP.c_dstep += d;  UNIT.c_dstep += d;  FULL.c_dstep += d;  
-   d = s_dittos [n].c_real;
-   SCRP.c_dreal += d;  UNIT.c_dreal += d;  FULL.c_dreal += d;  
-   d = s_dittos [n].c_void;
-   SCRP.c_dvoid += d;  UNIT.c_dvoid += d;  FULL.c_dvoid += d;  
-   d = s_dittos [n].c_skips;
-   SCRP.c_dskip += d;  UNIT.c_dskip += d;  FULL.c_dskip += d;  
-   /*---(complete)-----------------------*/
-   return 1;
-}
-
-char
-yUNIT_stats_step        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_LABEL], char a_desc [LEN_LONG], char a_dittoing, char a_ditto, char a_major, char a_share, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep)
+yUNIT_stats_step        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], char a_type, char a_verb [LEN_TERSE], char a_desc [LEN_LONG], char a_dittoing, char a_ditto, char a_major, char a_share, int *r_cunit, int *r_cscrp, int *r_ccond, int *r_cstep)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -573,7 +419,7 @@ yUNIT_stats_step        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], c
    /*---(skips)----------------*/
    if (strchr (a_desc, 'å') != NULL)  { ++(COND.c_skips);  ++(SCRP.c_skips);  ++(UNIT.c_skips);  ++(FULL.c_skips);  x_skip = 'y';  }
    /*---(setting dittos)-------*/
-   rc = yunit_stats_ditto_step  (a_usage, a_type, s_dittoing, x_skip);
+   rc = yunit_ditto_step  (a_usage, a_type, s_dittoing, x_skip);
    /*> if (a_usage == YUNIT_CONVERT && s_dittoing != '-') {                                                                                             <* 
     *>    n = a_ditto - '0';                                                                                                                            <* 
     *>    switch (a_type) {                                                                                                                             <* 
@@ -591,47 +437,36 @@ yUNIT_stats_step        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], c
 }
 
 char*
-yunit_stats_show        (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT], char n)
+yunit_stats_show        (char a_prefix [LEN_FULL], char n)
 {
    char x_part    [LEN_FULL]  = "";
    char x_ulreuse [LEN_HUND]  = "·";
    char x_ugreuse [LEN_HUND]  = "·";
-   if (strcmp (s_counts [n].c_lreuse, "") == 0) strcpy (x_ulreuse, "·"); else strlcpy (x_ulreuse, s_counts [n].c_lreuse, LEN_HUND);
-   if (strcmp (s_counts [n].c_greuse, "") == 0) strcpy (x_ugreuse, "·"); else strlcpy (x_ugreuse, s_counts [n].c_greuse, LEN_HUND);
+   if (strcmp (g_counts [n].c_lreuse, "") == 0) strcpy (x_ulreuse, "·"); else strlcpy (x_ulreuse, g_counts [n].c_lreuse, LEN_HUND);
+   if (strcmp (g_counts [n].c_greuse, "") == 0) strcpy (x_ugreuse, "·"); else strlcpy (x_ugreuse, g_counts [n].c_greuse, LEN_HUND);
    strcpy (s_print, "");
-   sprintf (x_part , "%s  %s  %4d  %4d  %4d  %4d  ",
-         a_prefix, a_ref, s_counts [n].c_topp , s_counts [n].c_glob , s_counts [n].c_shar , s_counts [n].c_scrp);
+   sprintf (x_part , "%s  %4d  %4d  %4d  %4d  ",
+         a_prefix, g_counts [n].c_topp , g_counts [n].c_glob , g_counts [n].c_shar , g_counts [n].c_scrp);
    strlcat (s_print, x_part, LEN_RECD);
    sprintf (x_part , "%4d  %4d  %4d  %-10.10s  ",
-         s_counts [n].c_midd , s_counts [n].c_cond , s_counts [n].c_ditt , s_counts [n].c_dittos);
+         g_counts [n].c_midd , g_counts [n].c_cond , g_counts [n].c_ditt , g_counts [n].c_dittos);
    strlcat (s_print, x_part, LEN_RECD);
    sprintf (x_part , "%4d  %-20.20s  %4d  %-20.20s  %4d  ",
-         s_counts [n].c_lreu , x_ulreuse, s_counts [n].c_greu , x_ugreuse, s_counts [n].c_skipc);
+         g_counts [n].c_lreu , x_ulreuse, g_counts [n].c_greu , x_ugreuse, g_counts [n].c_skipc);
    strlcat (s_print, x_part, LEN_RECD);
    sprintf (x_part , "%4d  %4d  %4d  %4d  %4d  ",
-         s_counts [n].c_step , s_counts [n].c_real , s_counts [n].c_vars , s_counts [n].c_void  , s_counts [n].c_skips);
+         g_counts [n].c_step , g_counts [n].c_real , g_counts [n].c_vars , g_counts [n].c_void  , g_counts [n].c_skips);
    strlcat (s_print, x_part, LEN_RECD);
-   sprintf (x_part , "%4d  %4d  %4d  %4d  ",
-         s_counts [n].c_dstep, s_counts [n].c_dreal, s_counts [n].c_dvoid, s_counts [n].c_dskip);
+   sprintf (x_part , "%4d  %4d  %4d  %4d   ",
+         g_counts [n].c_dstep, g_counts [n].c_dreal, g_counts [n].c_dvoid, g_counts [n].c_dskip);
    strlcat (s_print, x_part, LEN_RECD);
    return s_print;
 }
 
-char*   yunit_stats_show_full (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT]) { return yunit_stats_show (a_prefix, a_ref, FULL_ID); }
-char*   yunit_stats_show_unit (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT]) { return yunit_stats_show (a_prefix, a_ref, UNIT_ID); }
-char*   yunit_stats_show_scrp (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT]) { return yunit_stats_show (a_prefix, a_ref, SCRP_ID); }
-char*   yunit_stats_show_cond (char a_prefix [LEN_FULL], char a_ref [LEN_SHORT]) { return yunit_stats_show (a_prefix, a_ref, COND_ID); }
-
-char*
-yunit_stats_show_ditto  (char a_ditto)
-{
-   char        n           =    0;
-   if (a_ditto < '0')             return "(bad-ref)";
-   if (a_ditto > '9')             return "(bad-ref)";
-   n = a_ditto - '0';
-   sprintf (s_print, "%d)  %3ds  %3dx  %3dv  %3dk", n, s_dittos [n].c_step, s_dittos [n].c_real, s_dittos [n].c_void, s_dittos [n].c_skips);
-   return s_print;
-}
+char*   yunit_full_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, FULL_ID); }
+char*   yunit_unit_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, UNIT_ID); }
+char*   yunit_scrp_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, SCRP_ID); }
+char*   yunit_cond_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, COND_ID); }
 
 
 char

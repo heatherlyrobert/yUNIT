@@ -1,5 +1,6 @@
-#include "yUNIT.h"
-#include "yUNIT_priv.h"
+#include    "yUNIT.h"
+#include    "yUNIT_priv.h"
+#include    <ySTR_uver.h>
 
 void     *yUNIT_p_rc;
 long      yUNIT_i_rc;
@@ -83,7 +84,7 @@ yunit_open         (char a_name [LEN_TITLE])
 }
 
 char
-yunit_printf            (char *a_format, ...)
+yUNIT_printf            (char *a_format, ...)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -199,7 +200,8 @@ yUNIT_eterm             (char a_eterm, char a_quiet)
       YUNIT_BEG   = 'å';
       YUNIT_END   = 'æ';
       strlcpy (YUNIT_ELIPSIS, "···"     , LEN_TERSE);
-      strlcpy (YUNIT_SDOTS  , YSTR_ESTEP, LEN_FULL);
+      strlcpy (YUNIT_SDOTS  , " "       , LEN_FULL);
+      strlcat (YUNIT_SDOTS  , YSTR_ESTEP, LEN_FULL);
       strlcpy (YUNIT_NDOTS  , YSTR_EDOTS, LEN_FULL);
    } else {
       sprintf (t, "assign format/color to (%c) CONSOLE", a_eterm);
@@ -212,7 +214,7 @@ yUNIT_eterm             (char a_eterm, char a_quiet)
       strlcpy (YUNIT_SDOTS  , YSTR_CSTEP, LEN_FULL);
       strlcpy (YUNIT_NDOTS  , YSTR_EMPTY, LEN_FULL);
    }
-   if (a_quiet != 'y')  IF_COND   yunit_printf ("   %-65.65s x ···· %4s %-4s\n", t, x_all, x_uniq);
+   if (a_quiet != 'y')  IF_COND   yUNIT_printf ("   %-65.65s x ···· %4s %-4s\n", t, x_all, x_uniq);
    return YUNIT_TERM;
 }
 
@@ -247,7 +249,7 @@ yUNIT_level             (char a_level, char a_quiet)
       sprintf (t, "assign output level to (%d) YUNIT_MAXX", myUNIT.level);
       break;
    }
-   if (a_quiet != 'y' && myUNIT.level > YUNIT_SCRP) yunit_printf ("   %-65.65s c ···· %4s %-4s\n", t, x_all, x_uniq);
+   if (a_quiet != 'y' && myUNIT.level > YUNIT_SCRP) yUNIT_printf ("   %-65.65s c ···· %4s %-4s\n", t, x_all, x_uniq);
    return myUNIT.level;
 }
 
@@ -293,11 +295,11 @@ yUNIT_unit         (char a_name [LEN_TITLE], char a_level, char a_eterm, char a_
    case  YUNIT_SUMM : case  YUNIT_MUTE :
       break;
    case  YUNIT_SCRP :
-      yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
+      yUNIT_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(beg)\n");
       break;
    case  YUNIT_COND : case  YUNIT_STEP : case  YUNIT_FULL :
-      yunit_printf ("yUNIT - heatherly unit testing framework --------------------------- - actu once ndit\n");
-      yunit_printf ("   patron : %-56.56s s ···· %4s %4s\n"  , P_ONELINE, x_all, x_uniq);
+      yUNIT_printf ("yUNIT - heatherly unit testing framework --------------------------- - actu once ndit\n");
+      yUNIT_printf ("   patron : %-56.56s s ···· %4s %4s\n"  , P_ONELINE, x_all, x_uniq);
       break;
    }
    /*---(reset summary counters)-------*/
@@ -325,9 +327,9 @@ yUNIT_unit         (char a_name [LEN_TITLE], char a_level, char a_eterm, char a_
    /*---(unit name)------------------------*/
    l = strlen (a_name);
    l = 85 - 6 - l;
-   IF_SUMM  yunit_printf ("\nUNIT %*.*s %s\n", l, l, YSTR_EQUAL, a_name);
+   IF_SUMM  yUNIT_printf ("\nUNIT %*.*s %s\n", l, l, YSTR_EQUAL, a_name);
    /*---(complete)-------------------------*/
-   /*> if (a_exec == 1)  yunit_printf ("\n");                                         <*/
+   /*> if (a_exec == 1)  yUNIT_printf ("\n");                                         <*/
    return 0;
 }
 
@@ -337,24 +339,24 @@ yUNIT_tinu              (char a_exec)
    int         x_failed    =    0;
    char        i           =    0;
    /*---(print message)------------------*/
-   IF_SCRP   yunit_printf ("\n");
+   IF_SCRP   yUNIT_printf ("\n");
    IF_SCRP {
       if (a_exec == 1)  yunit_final_footer (TYPE_TINU);
       else              yunit_final_footer (TYPE_DINU);
-      yunit_printf ("%s\n", s_print);
+      yUNIT_printf ("%s\n", s_print);
    }
-   /*> IF_COND  yunit_printf ("\n");                                                  <*/
+   /*> IF_COND  yUNIT_printf ("\n");                                                  <*/
    IF_SCRP  {
-      yunit_printf ("\n");
-      yunit_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(end)\n");
+      yUNIT_printf ("\n");
+      yUNIT_printf ("yUNIT - heatherly unit testing framework ---------------------------------------(end)\n");
    }
    /*---(leak testing)-------------------*/
    /*> myUNIT.is_leak_end    = malloc(sizeof(int));                                   <*/
    /*> free(myUNIT.is_leak_end);                                                      <*/
    /*> if (myUNIT.is_leak_begin != myUNIT.is_leak_end) {                                                                                                                                            <* 
-    *>    IF_COND   yunit_printf ("\nMEMORY LEAK    :: start=%p, end=%p, so %d bytes lost\n", myUNIT.is_leak_begin, myUNIT.is_leak_end, (int) (myUNIT.is_leak_end - myUNIT.is_leak_begin));    <* 
+    *>    IF_COND   yUNIT_printf ("¦MEMORY LEAK    :: start=%p, end=%p, so %d bytes lost\n", myUNIT.is_leak_begin, myUNIT.is_leak_end, (int) (myUNIT.is_leak_end - myUNIT.is_leak_begin));    <* 
     *> } else {                                                                                                                                                                                     <* 
-    *>    IF_COND   yunit_printf ("\nno memory leak :: start=%p, end=%p\n", myUNIT.is_leak_begin, myUNIT.is_leak_end);                                                                         <* 
+    *>    IF_COND   yUNIT_printf ("¦no memory leak :: start=%p, end=%p\n", myUNIT.is_leak_begin, myUNIT.is_leak_end);                                                                         <* 
     *> }                                                                                                                                                                                            <*/
    /*---(update header)------------------*/
    fflush (yUNIT_out);
