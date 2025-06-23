@@ -372,13 +372,13 @@ char        yUNIT_group             (char a_desc [LEN_LONG]);
 /*===[[ yUNIT_share.c ]]======================================================*/
 /*········· ´······················ ´·········································*/
 /*---(local share)----------*/
-char        yUNIT_shar              (char a_share, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_shar              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]);
 char        yUNIT_rahs              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(global share)---------*/
-char        yUNIT_glob              (char a_share, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_glob              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]);
 char        yUNIT_bolg              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(config share)---------*/
-char        yUNIT_conf              (char a_share, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_conf              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]);
 char        yUNIT_fnoc              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(done)-----------------*/
 
@@ -491,13 +491,19 @@ static struct cyUNIT_COUNTS {
 
 /*===[[ yUNIT_reuse.c ]]======================================================*/
 /*········· ´······················ ´·········································*/
+/*---(support)--------------*/
 char      yUNIT_reuse_type        (char a_abbr);
 int       yUNIT_reuse_index       (char a_abbr);
 char      yUNIT_reuse_clear       (char a_abbr);
 char      yUNIT_reuse_purge       (char a_type);
+/*---(data)-----------------*/
 char      yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called);
+int       yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r_conds, short *r_steps);
+int       yUNIT_reuse_line        (char a_abbr);
+int       yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN_LONG]);
 char      yUNIT_reuse_set         (char a_abbr, int a_line, char a_desc [LEN_LONG]);
 char      yUNIT_reuse_called      (char a_abbr);
+/*---(full record)----------*/
 char      yUNIT_reuse_save        (char a_abbr);
 char      yUNIT_reuse_add         (char a_abbr);
 char*     yUNIT_reuse_show        (char a_abbr);
@@ -509,6 +515,7 @@ char*     yUNIT_reuse_detail      (char a_abbr);
 /*---(exim)-----------------*/
 char      yUNIT_reuse_export      (void *a_file);
 char      yUNIT_reuse_import      (void *a_file);
+char      yUNIT_reuse_list        (void);
 /*---(done)-----------------*/
 
 

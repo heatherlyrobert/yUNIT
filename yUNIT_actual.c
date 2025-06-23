@@ -267,12 +267,12 @@ yunit_actual_footer     (char a_type, char *r_unused)
       if (r_unused != NULL && SCRP_TEST == 0)  *r_unused = 'y';
       break;
    case TYPE_DNOC :
-      sprintf (s_actuals, "DNOC  -------------- test=%-5d [ pass=%-5d fail=%-5d badd=%-5d void=%-5d ]",
+      sprintf (s_actuals, "DNOC  --------------- test=%-5d [ pass=%-5d fail=%-5d badd=%-5d void=%-5d ]",
             COND_TEST, COND_PASS, COND_FAIL, COND_BADD, COND_VOID);
       if (r_unused != NULL && COND_TEST == 0)  *r_unused = 'y';
       break;
    case TYPE_DNOD :
-      sprintf (s_actuals, "DNOD  -------------- test=%-5d [ ------------------------------------------- ]",
+      sprintf (s_actuals, "DNOD  --------------- test=%-5d [ ------------------------------------------- ]",
             COND_TEST);
       if (r_unused != NULL && COND_TEST == 0)  *r_unused = 'y';
       break;

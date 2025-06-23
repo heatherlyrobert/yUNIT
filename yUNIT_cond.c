@@ -86,18 +86,18 @@ yUNIT_cond              (int a_line, int a_seqn, char a_dittoing, char a_ditto, 
    /*---(create message)-----------------*/
    switch (x_type) {
    case TYPE_COND :
-      strlcpy (t, x_desc, LEN_LONG);
+      /*> strlcpy (t, x_desc, LEN_LONG);                                              <*/
       break;
    case TYPE_CCND : case TYPE_DOND :
-      if (x_type == TYPE_DOND)  sprintf (t, "%s [ %s ]", x_note, x_desc);
-      else                      sprintf (t, "%s %s"    , x_note, x_desc);
+      /*> if (x_type == TYPE_DOND)  sprintf (t, "%s [ %s ]", x_note, x_desc);         <* 
+       *> else                      sprintf (t, "%s %s"    , x_note, x_desc);         <*/
       break;
    case TYPE_SOND : case TYPE_GOND :
-      if (strcmp (x_note, "") == 0)  strlcpy (t, x_desc, LEN_LONG);
-      else                           sprintf (t, "%s %s", x_note, x_desc);
+      /*> if (strcmp (x_note, "") == 0)  strlcpy (t, x_desc, LEN_LONG);               <* 
+       *> else                           sprintf (t, "%s %s", x_note, x_desc);        <*/
       break;
    }
-   yunit_final_prep  (x_type, a_share, a_line, a_seqn, t, 85 - 13 - 7, YSTR_TEXT_LEF, 1, YSTR_COND, x_line, x_seqn, x_final);
+   yunit_final_prep  (x_type, a_share, a_line, a_seqn, x_note, x_desc, 85 - 13 - 7, YSTR_TEXT_LEF, 1, YSTR_COND, x_line, x_seqn, x_final);
    sprintf (s_print, "  %s%-4.4s %-5.5s %s%-7.7s%s", x_on, x_label, x_seqn, x_final, x_line, x_off);
    /*---(print)--------------------------*/
    IF_COND   yUNIT_printf  ("\n%s\n", s_print);
@@ -115,11 +115,11 @@ yUNIT_dnoc              (char a_exec)
    if (a_exec == 1)  yunit_final_footer (TYPE_DNOC);
    else              yunit_final_footer (TYPE_DNOD);
    /*---(output message)---------------*/
-   IF_STEP {
+   IF_FULL {
       if (a_exec == 1) yUNIT_printf  ("\n%s\n", s_print);
-      else             yUNIT_printf  ("%s\n"  , s_print);
+   } else IF_COND {
+      if (a_exec == 1) yUNIT_printf  ("%s\n", s_print);
    }
-   else if (a_exec == 1 && myUNIT.level == YUNIT_COND)  yUNIT_printf  ("%s\n", s_print);
    /*---(close stdin and remove)-------*/
    if (yUNIT_stdin != NULL) fclose (yUNIT_stdin);
    system ("/bin/rm -f yUNIT.stdin 2> /dev/null");
@@ -137,7 +137,7 @@ yUNIT_group             (char a_desc [LEN_LONG])
    char        x_suf       =    0;
    char        t           [LEN_FULL]  = "";
    /*---(print title)--------------------*/
-   yunit_final_prep  (TYPE_GROUP, '-', 0, 0 , a_desc, 85 - 20, YSTR_TEXT_CEN, 3, YSTR_DASH, NULL, NULL, x_desc);
+   yunit_final_prep  (TYPE_GROUP, '-', 0, 0, "", a_desc, 85 - 20, YSTR_TEXT_CEN, 3, YSTR_DASH, NULL, NULL, x_desc);
    IF_COND   yUNIT_printf ("\n");
    sprintf (s_print, "  GROUP ===---%s---===", x_desc);
    IF_COND   yUNIT_printf ("%s\n", s_print);

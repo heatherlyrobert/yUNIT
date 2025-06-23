@@ -43,91 +43,131 @@ UNIT___final_desc       (char a_scrp, char a_list, char a_unit)
    if (a_list == 'y')                    return 0;
 
    yUNIT_mincond ("verify basic fill");
-   yUNIT_minval  ("call equal"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call equal"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script ====================================================");
-   yUNIT_minval  ("call dash"                          , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_DASH , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call dash"                          , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_DASH , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script ----------------------------------------------------");
-   yUNIT_minval  ("call empty"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_EMPTY, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call empty"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_EMPTY, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script                                                     ");
-   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -");
-   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_ESTEP, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_ESTEP, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·");
-   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_CSTEP, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_CSTEP, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . ");
    yUNIT_mindnoc ();
 
+   yUNIT_mincond ("verify removing head and tail spaces");
+   yUNIT_minval  ("call equal"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "     first script"        , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "first script ====================================================");
+   yUNIT_minval  ("call equal"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script     "        , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "first script ====================================================");
+   yUNIT_minval  ("call equal"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "   first script   "       , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "first script ====================================================");
+   yUNIT_mindnoc ();
+
    yUNIT_mincond ("verify left alignment plus gap");
-   yUNIT_minval  ("first left, gap 0"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 0, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("first left, gap 0"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 0, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script=====================================================");
-   yUNIT_minval  ("first left, gap 0"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 0, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("first left, gap 0"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 0, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -");
-   yUNIT_minval  ("first left, gap 1"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("first left, gap 1"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -");
-   yUNIT_minval  ("first left, gap 2"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 2, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("first left, gap 2"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 2, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script  - -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -");
-   yUNIT_minval  ("first left, gap 5"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 5, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("first left, gap 5"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 5, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script     - -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify right alignment, plus gap");
-   yUNIT_minval  ("then right, gap 0"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_RIG, 0, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("then right, gap 0"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_RIG, 0, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "=====================================================first script");
-   yUNIT_minval  ("then right, gap 0"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_RIG, 0, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("then right, gap 0"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_RIG, 0, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -first script");
-   yUNIT_minval  ("then right, gap 1"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_RIG, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("then right, gap 1"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_RIG, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --  first script");
-   yUNIT_minval  ("then right, gap 2"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_RIG, 2, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("then right, gap 2"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_RIG, 2, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --  first script");
-   yUNIT_minval  ("then right, gap 5"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_RIG, 5, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("then right, gap 5"                  , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_RIG, 5, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --     first script");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify center alignment, plus gap");
-   yUNIT_minval  ("finally center, gap 0"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_CEN, 0, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("finally center, gap 0"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_CEN, 0, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "==========================first script===========================");
-   yUNIT_minval  ("finally center, gap 0"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_CEN, 0, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("finally center, gap 0"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_CEN, 0, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " -- -- -- -- -- -- -- -- -first script- -- -- -- -- -- -- -- -- -");
-   yUNIT_minval  ("finally center, gap 1"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_CEN, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("finally center, gap 1"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_CEN, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " -- -- -- -- -- -- -- --  first script  -- -- -- -- -- -- -- -- -");
-   yUNIT_minval  ("finally center, gap 2"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_CEN, 2, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("finally center, gap 2"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_CEN, 2, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " -- -- -- -- -- -- -- --  first script  -- -- -- -- -- -- -- -- -");
-   yUNIT_minval  ("finally center, gap 5"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_CEN, 5, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("finally center, gap 5"              , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_CEN, 5, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " -- -- -- -- -- -- --     first script     -- -- -- -- -- -- -- -");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify adjusting max");
-   yUNIT_minval  ("call equal"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 60, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call equal"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 60, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script ===============================================");
-   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 60, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 60, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --");
-   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 50, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 50, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script -- -- -- -- -- -- -- -- -- -- -- -- -");
-   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 30, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call condition line"                , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 30, YSTR_TEXT_LEF, 1, YSTR_COND , NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script -- -- -- -- -- --");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify text length");
-   yUNIT_minval  ("call short"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call short"                         , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script ====================================================");
-   yUNIT_minval  ("call moderate"                      , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text"                 , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call moderate"                      , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text"                 , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script with longer text ===================================");
-   yUNIT_minval  ("call longer"                        , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text to start to test", 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call longer"                        , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text to start to test", 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script with longer text to start to test ==================");
-   yUNIT_minval  ("call just fits"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text to start to test boundaries on txt"              , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call just fits"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text to start to test boundaries on txt"              , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script with longer text to start to test boundaries on txt ");
-   yUNIT_minval  ("call just fits"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text to start to test boundaries on txt"              , 65, YSTR_TEXT_RIG, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call just fits"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text to start to test boundaries on txt"              , 65, YSTR_TEXT_RIG, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " first script with longer text to start to test boundaries on txt");
-   yUNIT_minval  ("call just fits"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text to start to test boundaries on txt"              , 65, YSTR_TEXT_CEN, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
-   yUNIT_minstr  ("... check description"              , x_desc     , " first script with longer text to start to test boundaries on >> ");
-   yUNIT_minval  ("call just over"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text to start to test boundaries on text"             , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call just fits"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text to start to test boundaries on tx"               , 65, YSTR_TEXT_CEN, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , " first script with longer text to start to test boundaries on tx ");
+   yUNIT_minval  ("call just over"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text to start to test boundaries on text"             , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script with longer text to start to test boundaries on t>> ");
-   yUNIT_minval  ("call just over"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text to start to test boundaries on text"             , 65, YSTR_TEXT_RIG, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call just over"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text to start to test boundaries on text"             , 65, YSTR_TEXT_RIG, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " first script with longer text to start to test boundaries on t>>");
-   yUNIT_minval  ("call just over"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text to start to test boundaries on text"             , 65, YSTR_TEXT_CEN, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call just over"                     , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text to start to test boundaries on text"             , 65, YSTR_TEXT_CEN, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , " first script with longer text to start to test boundaries on >> ");
-   yUNIT_minval  ("call way over"                      , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "first script with longer text to start to test boundaries on text over-length" , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minval  ("call way over"                      , yunit_final_prep (TYPE_SCRP  , '-',     0,  0, "", "first script with longer text to start to test boundaries on text over-length" , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
    yUNIT_minstr  ("... check description"              , x_desc     , "first script with longer text to start to test boundaries on t>> ");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify prefixed with ellipsis (...)");
+   yUNIT_minval  ("call with ellipsis"                 , yunit_final_prep (TYPE_STEP  , '-',     0,  0, "", "... check value"          , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "check value =====================================================");
+   yUNIT_minval  ("call with ellipsis (no space)"      , yunit_final_prep (TYPE_STEP  , '-',     0,  0, "", "...check value"           , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "check value =====================================================");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify prefixed with select å´´´æ");
+   yUNIT_minval  ("call with select"                   , yunit_final_prep (TYPE_STEP  , '-',     0,  0, "", "åabcæ check value"        , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "åabcæ check value ===============================================");
+   yUNIT_minval  ("call with select (much space)"      , yunit_final_prep (TYPE_STEP  , '-',     0,  0, "", "åabcæ     check value"    , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "åabcæ check value ===============================================");
+   yUNIT_minval  ("call with select (no space)"        , yunit_final_prep (TYPE_STEP  , '-',     0,  0, "", "åabcæcheck value"         , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "åabcæ check value ===============================================");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify prefixed and selected");
+   yUNIT_minval  ("call with select"                   , yunit_final_prep (TYPE_STEP  , '-',     0,  0, "", "åabcæ ... check value"    , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "åabcæ check value ===============================================");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify adding notes");
+   yUNIT_minval  ("call with select"                   , yunit_final_prep (TYPE_STEP  , '-',     0,  0, "[b>", "åabcæ ... check value"    , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "[b> åabcæ check value ===========================================");
+   yUNIT_mindnoc ();
+
+   yUNIT_mincond ("verify adding ditto");
+   yUNIT_minval  ("call with select"                   , yunit_final_prep (TYPE_DOND  , '-',     0,  0, "[b>", "åabcæ ... check value"    , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, NULL  , NULL  , x_desc),    0);
+   yUNIT_minstr  ("... check description"              , x_desc     , "[b> åabcæ [[ check value ]] =====================================");
    yUNIT_mindnoc ();
 
    yUNIT_minprcs ();
@@ -150,84 +190,84 @@ UNIT___final_prep       (char a_scrp, char a_list, char a_unit)
    if (a_list == 'y')                    return 0;
 
    yUNIT_mincond ("verify SCRP level");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_SCRP  , '-', 12345, 21, "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),    0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_SCRP  , '-', 12345, 21, "", "first script"             , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),    0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[12345]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "[21]");
    yUNIT_minstr  ("... check description"              , x_desc     , "first script ====================================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify SHARED level");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_SHARED, '-',     0,  0, "great data share"         , 70, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_SHARED, '-',     0,  0, "", "great data share"         , 70, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[-----]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "[--]");
    yUNIT_minstr  ("... check description"              , x_desc     , "great data share =====================================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify COND level");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_COND  , '-',   123,  2, "second condition"         , 50, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_COND  , '-',   123,  2, "", "second condition"         , 50, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[00123]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "[002]");
    yUNIT_minstr  ("... check description"              , x_desc     , "second condition =================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify COND inside global share");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_COND  , 'J',   123,  2, "second condition"         , 50, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_COND  , 'J',   123,  2, "", "second condition"         , 50, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "º00123»");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "[002]");
    yUNIT_minstr  ("... check description"              , x_desc     , "second condition =================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , '-',    15,  5, "fifth execution step"     , 40, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , '-',    15,  5, "", "fifth execution step"     , 40, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[00015]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "ae");
    yUNIT_minstr  ("... check description"              , x_desc     , "fifth execution step ===================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level (NULL desc)");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , '-',  5115, 27, NULL                       , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , '-',  5115, 27, "", NULL                       , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[05115]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "ba");
    yUNIT_minstr  ("... check description"              , x_desc     , "(null) ==========================================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level (empty desc)");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , '-',    15,  5, ""                         , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , '-',    15,  5, "", ""                         , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[00015]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "ae");
    yUNIT_minstr  ("... check description"              , x_desc     , "(empty) =========================================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level (local share)");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , 'a',    15,  5, "fifth execution step"     , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , 'a',    15,  5, "", "fifth execution step"     , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[00015]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "ae");
    yUNIT_minstr  ("... check description"              , x_desc     , "fifth execution step ============================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level (global share)");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , 'A',    15,  5, "fifth execution step"     , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP  , 'A',    15,  5, "", "fifth execution step"     , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "º00015»");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "ae");
    yUNIT_minstr  ("... check description"              , x_desc     , "fifth execution step ============================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level (config share)");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP, 'ò',   456, 64, "fifth execution step"       , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP, 'ò',   456, 64, "", "fifth execution step"       , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "º00456»");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "cl");
    yUNIT_minstr  ("... check description"              , x_desc     , "fifth execution step ============================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level (with prefix)");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP, '-',    15,  5, "... fifth execution step"   , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP, '-',    15,  5, "", "... fifth execution step"   , 65, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[00015]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "ae");
    yUNIT_minstr  ("... check description"              , x_desc     , "fifth execution step ============================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify STEP level (too long)");
-   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP, '-',    15,  5, "fifth execution step after a more important initial step to prepare the data" , 40, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
+   yUNIT_minval  ("generate sequence string"           , yunit_final_prep (TYPE_STEP, '-',    15,  5, "", "fifth execution step after a more important initial step to prepare the data" , 40, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc),   0);
    yUNIT_minstr  ("... check line"                     , x_line     , "[00015]");
    yUNIT_minstr  ("... check sequence"                 , x_seqn     , "ae");
    yUNIT_minstr  ("... check description"              , x_desc     , "fifth execution step after a more imp>> ");
@@ -387,21 +427,21 @@ UNIT___final_footer     (char a_scrp, char a_list, char a_unit)
    yunit_force_cond (11, 5, 0, 0, 0);
    yUNIT_minstr  ("... unit level"                     , yunit_final_footer  (TYPE_TINU)  , BACK_GRN    "TINU  scrp=1    cond=1     test=11    [ pass=5     fail=0     badd=0     void=0     ]" BACK_OFF);
    yUNIT_minstr  ("... script level"                   , yunit_final_footer  (TYPE_PRCS)  , "  " BACK_GRN "PRCS  ------- cond=1     test=11    [ pass=5     fail=0     badd=0     void=0     ]" BACK_OFF);
-   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "      " BACK_GRN "DNOC  -------------- test=11    [ pass=5     fail=0     badd=0     void=0     ]" BACK_OFF);
+   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "     " BACK_GRN "DNOC  --------------- test=11    [ pass=5     fail=0     badd=0     void=0     ]" BACK_OFF);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify failure");
    yunit_force_cond (11, 5, 3, 0, 0);
    yUNIT_minstr  ("... unit level"                     , yunit_final_footer  (TYPE_TINU)  , BACK_RED    "TINU  scrp=1    cond=1     test=11    [ pass=5     fail=3     badd=0     void=0     ]" BACK_OFF);
    yUNIT_minstr  ("... script level"                   , yunit_final_footer  (TYPE_PRCS)  , "  " BACK_RED "PRCS  ------- cond=1     test=11    [ pass=5     fail=3     badd=0     void=0     ]" BACK_OFF);
-   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "      " BACK_RED "DNOC  -------------- test=11    [ pass=5     fail=3     badd=0     void=0     ]" BACK_OFF);
+   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "     " BACK_RED "DNOC  --------------- test=11    [ pass=5     fail=3     badd=0     void=0     ]" BACK_OFF);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify warning");
    yunit_force_cond (11, 5, 0, 2, 0);
    yUNIT_minstr  ("... unit level"                     , yunit_final_footer  (TYPE_TINU)  , BACK_YEL    "TINU  scrp=1    cond=1     test=11    [ pass=5     fail=0     badd=2     void=0     ]" BACK_OFF);
    yUNIT_minstr  ("... script level"                   , yunit_final_footer  (TYPE_PRCS)  , "  " BACK_YEL "PRCS  ------- cond=1     test=11    [ pass=5     fail=0     badd=2     void=0     ]" BACK_OFF);
-   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "      " BACK_YEL "DNOC  -------------- test=11    [ pass=5     fail=0     badd=2     void=0     ]" BACK_OFF);
+   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "     " BACK_YEL "DNOC  --------------- test=11    [ pass=5     fail=0     badd=2     void=0     ]" BACK_OFF);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify success");
@@ -410,7 +450,7 @@ UNIT___final_footer     (char a_scrp, char a_list, char a_unit)
    yunit_force_unit ( 0, 0, 0, 0, 0, 0, 0);
    yUNIT_minstr  ("... unit level"                     , yunit_final_footer  (TYPE_TINU)  , BACK_BRN    "TINU  scrp=0    cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
    yUNIT_minstr  ("... script level"                   , yunit_final_footer  (TYPE_PRCS)  , "  " BACK_BRN "PRCS  ------- cond=0     test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
-   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "      " BACK_BRN "DNOC  -------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
+   yUNIT_minstr  ("... condition level"                , yunit_final_footer  (TYPE_DNOC)  , "     " BACK_BRN "DNOC  --------------- test=0     [ pass=0     fail=0     badd=0     void=0     ]" BACK_OFF);
    yUNIT_mindnoc ();
 
    yUNIT_minprcs ();

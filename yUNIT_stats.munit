@@ -222,7 +222,7 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TNIU          final unit test statistics --------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TINU          final unit test statistics --------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
@@ -498,7 +498,7 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TNIU          final unit test statistics --------------------------------------   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TINU          final unit test statistics --------------------------------------   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0   ");
    yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 

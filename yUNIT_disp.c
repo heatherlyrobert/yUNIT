@@ -17,10 +17,10 @@ yunit_disp_show         (int a_line, int a_seqn, char a_share, char a_note [LEN_
    /*---(format description)-------------*/
    /*---(create line)--------------------*/
    if (strcmp (a_note, "LOCAL") == 0) {
-      yunit_final_prep  (TYPE_STEP, a_share, a_line, a_seqn, a_desc, 85 - 15 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
+      yunit_final_prep  (TYPE_STEP, a_share, a_line, a_seqn, "", a_desc, 85 - 15 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
       snprintf (s_print, LEN_RECD, "  %s) %-6.6s : %s%07s", x_seqn, a_note, x_desc, x_line);
    } else {
-      yunit_final_prep  (TYPE_STEP, a_share, a_line, a_seqn, a_desc, 85 - 18 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
+      yunit_final_prep  (TYPE_STEP, a_share, a_line, a_seqn, "", a_desc, 85 - 18 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
       snprintf (s_print, LEN_RECD, "     %s) %-6.6s : %s%07s", x_seqn, a_note, x_desc, x_line);
    }
    /*---(output)-------------------------*/
@@ -42,19 +42,23 @@ yunit_disp__top         (char a_type, int a_line, int a_seqn, char a_desc [LEN_L
    char        x_off       [LEN_LABEL] = "";
    char        x_note      [LEN_TERSE] = "";
    /*---(format description)-------------*/
-   yunit_final_prep  (a_type, a_share, a_line, a_seqn, a_desc, 85 - 15 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
+   yunit_final_prep  (a_type, a_share, a_line, a_seqn, "", a_desc, 85 - 15 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
    /*---(colors)-------------------------*/
    yunit_final_color (YUNIT_MONO, a_type, x_on, x_on2, x_off, x_note, NULL);
    /*---(create line)--------------------*/
    if (a_type == TYPE_LOCAL) {
-      yunit_final_prep  (a_type, a_share, a_line, a_seqn, a_desc, 85 - 15 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
+      yunit_final_prep  (a_type, a_share, a_line, a_seqn, "", a_desc, 85 - 15 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
+      snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %s%07s", x_on, x_seqn, x_on2, x_note, x_off, x_desc, x_line);
+   } else IF_FULL {
+      yunit_final_prep  (a_type, a_share, a_line, a_seqn, "", a_desc, 85 - 15 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
       snprintf (s_print, LEN_RECD, "  %s%s) %s%-6.6s%s : %s%07s", x_on, x_seqn, x_on2, x_note, x_off, x_desc, x_line);
    } else {
-      yunit_final_prep  (a_type, a_share, a_line, a_seqn, a_desc, 85 - 18 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
+      yunit_final_prep  (a_type, a_share, a_line, a_seqn, "", a_desc, 85 - 18 - 7, YSTR_TEXT_LEF, 1, YUNIT_SDOTS, x_line, x_seqn, x_desc);
       snprintf (s_print, LEN_RECD, "     %s%s) %s%-6.6s%s : %s%07s", x_on, x_seqn, x_on2, x_note, x_off, x_desc, x_line);
    }
    /*---(output)-------------------------*/
-   IF_STEP  yUNIT_printf  ("\n%s\n", s_print);
+   IF_FULL       yUNIT_printf  ("\n%s\n", s_print);
+   else IF_STEP  yUNIT_printf  ("%s\n"  , s_print);
    /*---(complete)-----------------------*/
    return 1;
 }

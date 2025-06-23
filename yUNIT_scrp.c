@@ -30,7 +30,7 @@ yUNIT_scrp              (int a_line, int a_seqn, char a_stage [LEN_SHORT], char 
    /*---(start)------------------------*/
    S_beg = time (NULL);
    /*---(prepare)----------------------*/
-   yunit_final_prep  (TYPE_SCRP, '-', a_line, a_seqn, a_desc, 85 - 24, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc);
+   yunit_final_prep  (TYPE_SCRP, '-', a_line, a_seqn, "", a_desc, 85 - 24, YSTR_TEXT_LEF, 1, YSTR_EQUAL, x_line, x_seqn, x_desc);
    if (a_stage != NULL)  strncpy (x_fstage, a_stage, LEN_SHORT);
    if (a_dur   != NULL)  strncpy (x_dur   , a_dur  , LEN_SHORT);
    if (a_terse != NULL)  strncpy (x_terse , a_terse, LEN_LABEL);
@@ -108,7 +108,7 @@ yUNIT_sect              (char a_desc [LEN_LONG])
    /* a SECT title is only printed when the next SCRP is found so footers     */
    /* will be correctly situated.                                             */
    char        x_desc      [LEN_LONG]  = "";
-   yunit_final_prep  (TYPE_SECT, '-', 0, 0, a_desc, 85 - 24, YSTR_TEXT_CEN, 1, YSTR_DASH, NULL, NULL, x_desc);
+   yunit_final_prep  (TYPE_SECT, '-', 0, 0, "", a_desc, 85 - 24, YSTR_TEXT_CEN, 1, YSTR_DASH, NULL, NULL, x_desc);
    /*---(print title)--------------------*/
    if (a_desc != NULL && strcmp (a_desc, "SCRP") == 0) {
       /*---(print)----------*/

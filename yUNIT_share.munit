@@ -13,7 +13,7 @@ UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('a', '-', "reusable conditions"             ), 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('a', 1234, '-', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  SHARED (a) ==---------------------   reusable conditions   ----------------------==");
                                                                                    /*> 123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-12345   <*/
@@ -33,7 +33,7 @@ UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level, using selection");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 1234, 'a', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  SHARED (f/a) ==--------------------   reusable conditions   ---------------------==");
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
@@ -52,7 +52,7 @@ UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level, with color");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 1234, 'a', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_CRI "SHARED (f/a) ==--------------------   reusable conditions   ---------------------==" BACK_OFF);
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
@@ -71,7 +71,7 @@ UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a condition-level");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_COND, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 1234, 'a', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  SHARED (f/a) ==--------------------   reusable conditions   ---------------------==");
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
@@ -84,7 +84,7 @@ UNIT___share_shared     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a script-level");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_SCRP, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 'a', "reusable conditions"             ), 0);
+   yUNIT_minval ("call SHARED verb handler"           , yUNIT_shar  ('f', 1234, 'a', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
    yUNIT_minstr ("... global print"                   , s_print                 , "  SHARED (f/a) ==--------------------   reusable conditions   ---------------------==");
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
@@ -109,7 +109,7 @@ UNIT___share_global     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', '-', "reusable conditions"             ), 0);
+   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', 1234, '-', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  GLOBAL (D) ==---------------------   reusable conditions   ----------------------==");
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
@@ -128,7 +128,7 @@ UNIT___share_global     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level (with select)");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', 'k', "reusable conditions"             ), 0);
+   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', 1234, 'k', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  GLOBAL (D/k) ==--------------------   reusable conditions   ---------------------==");
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
@@ -147,7 +147,7 @@ UNIT___share_global     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level (with color)");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', 'k', "reusable conditions"             ), 0);
+   yUNIT_minval ("call GLOBAL verb handler"           , yUNIT_glob  ('D', 1234, 'k', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_BLU "GLOBAL (D/k) ==--------------------   reusable conditions   ---------------------==" BACK_OFF);
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
@@ -178,7 +178,7 @@ UNIT___share_config     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', '-', "reusable conditions"             ), 0);
+   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', 1234, '-', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  CONFIG (ÿ) ==---------------------   reusable conditions   ----------------------==");
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
@@ -197,7 +197,7 @@ UNIT___share_config     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level (with select)");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_CONSOLE, 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', 'j', "reusable conditions"             ), 0);
+   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', 1234, 'j', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  CONFIG (ÿ/j) ==--------------------   reusable conditions   ---------------------==");
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
@@ -216,7 +216,7 @@ UNIT___share_config     (char a_scrp, char a_list, char a_unit)
    yUNIT_mincond ("verify a full unit-level (with color)");
    yUNIT_minval ("create a unit on full output"       , yUNIT_unit  (s_nconv, YUNIT_FULL, YUNIT_ETERM  , 1)  , 0);
    yUNIT_minval ("cycle reporting file"               , yunit_cycle ()             , 0);
-   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', 'j', "reusable conditions"             ), 0);
+   yUNIT_minval ("call CONFIG verb handler"           , yUNIT_conf  ('ÿ', 1234, 'j', "reusable conditions"             ), 0);
    yUNIT_minval ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
    yUNIT_minstr ("... global print"                   , s_print                 , "  " BACK_BLU "CONFIG (ÿ/j) ==--------------------   reusable conditions   ---------------------==" BACK_OFF);
    yUNIT_minstr ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");

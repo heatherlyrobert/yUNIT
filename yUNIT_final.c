@@ -29,7 +29,7 @@ yunit_final_step        (int a_seqn)
 }
 
 char
-yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char a_desc [LEN_LONG], char a_max, char a_align, char a_gap, char *a_fill, char r_line [LEN_TERSE], char r_seqn [LEN_TERSE], char r_desc [LEN_LONG])
+yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char a_prefix [LEN_TERSE], char a_desc [LEN_LONG], char a_max, char a_align, char a_gap, char *a_fill, char r_line [LEN_TERSE], char r_seqn [LEN_TERSE], char r_desc [LEN_LONG])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -37,7 +37,11 @@ yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char
    int         l           =    0;
    int         x_pre       =    0;
    int         x_suf       =    0;
+   char        x_trunc     [LEN_LONG]  = "";
+   char        x_select    [LEN_LONG]  = "";
    char        x_desc      [LEN_LONG]  = "????";
+   char       *x_beg       = NULL;
+   char       *x_end       = NULL;
    char        x_left      =    0;
    char        n           =    0;
    char        x_temp      [LEN_LONG]  = "";
@@ -83,18 +87,45 @@ yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char
       if (r_seqn != NULL)  sprintf (r_seqn, yunit_final_step (a_seqn));
       break;
    }
-   /*---(fix description)------------------------*/
-   x_len = strlen (x_desc);
+   /*---(pull select)----------------------------*/
+   /*> printf ("desc %2d, %s\n", strlen (x_desc), x_desc);                            <*/
+   ystrutrim (x_desc, LEN_LONG);
+   /*> printf ("desc %2d, %s\n", strlen (x_desc), x_desc);                            <*/
+   x_beg = strchr (x_desc, 'å');
+   /*> printf ("beg  %p\n", x_beg);                                                   <*/
+   if (x_beg != NULL) {
+      x_end = strchr (x_beg, 'æ');
+      /*> printf ("end  %p\n", x_end);                                                <*/
+      if (x_end != NULL) {
+         strncpy (x_select, x_desc, x_end - x_beg + 1);
+         ystrutrim (x_select, LEN_LONG);
+         strncpy (x_desc, x_end + 1, LEN_LONG);
+         ystrutrim (x_desc  , LEN_LONG);
+      }
+   }
+   /*---(fix ellipsis)---------------------------*/
+   n = 0;
    if      (strncmp (x_desc, "... ", 4) == 0)   n = 4;
    else if (strncmp (x_desc, "..." , 3) == 0)   n = 3;
    else                                         n = 0;
-   strncpy (x_temp, x_desc + n, a_max);
-   x_len -= n;
-   /*---(sizing)-------------------------*/
-   l       = strlen (x_temp);
+   /*---(handle special DOND)--------------------*/
+   if (a_type == TYPE_DOND)  sprintf (x_trunc, "[[ %s ]]", x_desc + n);
+   else                      sprintf (x_trunc, x_desc + n);
+   /*---(concat description)---------------------*/
+   if (strcmp (a_prefix, "") != 0) {
+      if (strcmp (x_select, "") != 0) snprintf (x_temp, LEN_LONG, "%s %s %s", a_prefix, x_select, x_trunc);
+      else                            snprintf (x_temp, LEN_LONG, "%s %s"   , a_prefix, x_trunc);
+   } else {
+      if (strcmp (x_select, "") != 0) snprintf (x_temp, LEN_LONG, "%s %s"   , x_select, x_trunc);
+      else                            snprintf (x_temp, LEN_LONG, "%s"      , x_trunc);
+   }
+   /*---(overrun)------------------------*/
+   l     = strlen (x_temp);
    if (a_align == YSTR_TEXT_CEN)    n = a_gap * 2;
    else                             n = a_gap;
-   if (x_len + n > a_max)  { x_temp [a_max - n - 0] = '\0'; x_temp [a_max - n - 1] = '>'; x_temp [a_max - n - 2] = '>'; }
+   if (l + n > a_max)  { x_temp [a_max - n - 0] = '\0'; x_temp [a_max - n - 1] = '>'; x_temp [a_max - n - 2] = '>'; }
+   l     = strlen (x_temp);
+   /*---(sizing)-------------------------*/
    x_left  = a_max - l;
    if (x_left < 0)  x_left = 0;
    x_pre   = x_left / 2;
@@ -256,7 +287,7 @@ yunit_final_footer      (char a_type)
    case TYPE_DNOC  : case TYPE_DNOD  :
       strlcpy (x_foot, yunit_actual_footer (a_type, &x_unused), LEN_HUND);
       /*> if (a_type == TYPE_DNOC && x_unused == 'y')  strcpy (x_on, BACK_YEL);       <*/
-      sprintf (s_print, "      %s%s%s", x_on, x_foot, x_off);
+      sprintf (s_print, "     %s%s%s", x_on, x_foot, x_off);
       break;
    }
    /*---(complete)-----------------------*/

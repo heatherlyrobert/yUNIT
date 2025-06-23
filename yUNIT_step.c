@@ -56,20 +56,26 @@ yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yunit_int_sizing        (llong a_number, char *r_sig, char *r_exp, char *r_digits)
+yunit_int_sizing        (llong a_number, char *r_sign, char *r_sig, char *r_exp, char *r_digits)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;
    char        t           [LEN_HUND]  = "";
    char        r           [LEN_HUND]  = "";
+   char        x_sign      =  '+';
    char        x_exp       =    0;
    char        x_digits    =    0;
    char        x_sig       =    0;
    /*---(default)--------------------------------*/
-   if (r_sig    != NULL)  *r_sig    = 0;
-   if (r_exp    != NULL)  *r_exp    = 0;
-   if (r_digits != NULL)  *r_digits = 0;
+   if (r_sign   != NULL)  *r_sign   = '+';
+   if (r_sig    != NULL)  *r_sig    =   0;
+   if (r_exp    != NULL)  *r_exp    =   0;
+   if (r_digits != NULL)  *r_digits =   0;
    /*---(learing)--------------------------------*/
+   if (a_number < 0) {
+      x_sign = '-';
+      a_number *= -1;
+   }
    sprintf (t, "%5.3e", (double) a_number);
    x_exp  = t [8] - '0';
    /*> printf ("exp   %c  %3d\n", t [8], x_exp);                                      <*/
@@ -77,7 +83,7 @@ yunit_int_sizing        (llong a_number, char *r_sig, char *r_exp, char *r_digit
    /*> printf ("exp   %c  %3d\n", t [7], x_exp);                                      <*/
    /*---(integer sizing)-------------------------*/
    x_digits = x_exp + 1;
-   /*---(significan)-----------------------------*/
+   /*---(significant)----------------------------*/
    sprintf (r, "%lld", a_number);
    x_sig    = x_digits;
    for (i = x_sig - 1; i >= 0; --i) {
@@ -85,6 +91,7 @@ yunit_int_sizing        (llong a_number, char *r_sig, char *r_exp, char *r_digit
       --x_sig;
    }
    /*---(save-back)------------------------------*/
+   if (r_sign   != NULL)  *r_sign   = x_sign;
    if (r_sig    != NULL)  *r_sig    = x_sig;
    if (r_exp    != NULL)  *r_exp    = x_exp;
    if (r_digits != NULL)  *r_digits = x_digits;
@@ -96,6 +103,7 @@ char
 yunit_int_show          (llong a_expe, llong a_actu, char r_expe [LEN_RECD], char r_actu [LEN_RECD])
 {
    /*---(locals)-----------+-----+-----+-*/
+   char        x1, x2;
    char        s1, s2, sm;
    char        e1, e2, em;
    char        d1, d2, dm;
@@ -103,19 +111,21 @@ yunit_int_show          (llong a_expe, llong a_actu, char r_expe [LEN_RECD], cha
    char        x_expe      [LEN_HUND]  = "";
    char        x_actu      [LEN_HUND]  = "";
    /*---(aquire details)-----------------*/
-   yunit_int_sizing (a_expe, &s1, &e1, &d1);
-   yunit_int_sizing (a_actu, &s2, &e2, &d2);
+   yunit_int_sizing (a_expe, &x1, &s1, &e1, &d1);
+   if (a_expe < 0)  a_expe *= -1;
+   yunit_int_sizing (a_actu, &x2, &s2, &e2, &d2);
+   if (a_actu < 0)  a_actu *= -1;
    /*---(get maximums)-------------------*/
    sm = s1;  if (s2 > sm) sm = s2;
    em = e1;  if (e2 > em) em = e2;
    dm = d1;  if (d2 > dm) dm = d2;
    /*---(create text)--------------------*/
    x_pre = dm - d1; if (x_pre < 0)  x_pre = 0;
-   sprintf (x_expe, "%3d%c%*.*s%*.*lld%c", dm, YUNIT_BEG, x_pre, x_pre, YUNIT_NDOTS, d1, d1, a_expe, YUNIT_END);
-   if (r_expe != NULL)  snprintf (r_expe, LEN_RECD, "%-28.28s  %2dd  ···  ···  %2ds  %15.14e", x_expe, d1, s1, (double) a_expe);
+   sprintf (x_expe, "%3d%c%c%*.*s%*.*lld%c", dm + 1, YUNIT_BEG, x1, x_pre, x_pre, YUNIT_NDOTS, d1, d1, a_expe, YUNIT_END);
+   if (r_expe != NULL)  snprintf (r_expe, LEN_RECD, "%-24.24s  %c  %2dd  ···  ···  %2ds  %c%15.14e", x_expe, x1, d1, s1, x1, (double) a_expe);
    x_pre = dm - d2; if (x_pre < 0)  x_pre = 0;
-   sprintf (x_actu, "%3d%c%*.*s%*.*lld%c", dm, YUNIT_BEG, x_pre, x_pre, YUNIT_NDOTS, d2, d2, a_actu, YUNIT_END);
-   if (r_actu != NULL)  snprintf (r_actu, LEN_RECD, "%-28.28s  %2dd  ···  ···  %2ds  %15.14e", x_actu, d2, s2, (double) a_actu);
+   sprintf (x_actu, "%3d%c%c%*.*s%*.*lld%c", dm + 1, YUNIT_BEG, x2, x_pre, x_pre, YUNIT_NDOTS, d2, d2, a_actu, YUNIT_END);
+   if (r_actu != NULL)  snprintf (r_actu, LEN_RECD, "%-24.24s  %c  %2dd  ···  ···  %2ds  %c%15.14e", x_actu, x2, d2, s2, x2, (double) a_actu);
    /*---(complete)-------------------------------*/
    return 0;
 }
@@ -151,7 +161,7 @@ yUNIT_int               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yunit_real_sizing       (double a_number, char *r_sig, char *r_exp, char *r_places, char *r_digits, char *r_fracts)
+yunit_real_sizing       (double a_number, char *r_sign, char *r_sig, char *r_exp, char *r_places, char *r_digits, char *r_fracts)
 {
    int         i           =    0;
    char        t           [LEN_HUND]  = "";
@@ -164,21 +174,24 @@ yunit_real_sizing       (double a_number, char *r_sig, char *r_exp, char *r_plac
    char        x_fracts    =    0;
    double      x_part      =  0.0;
    char        x_sig       =    0;
+   char        x_sign      =  '+';
    /*---(default)--------------------------------*/
+   if (r_sign   != NULL)  *r_sign   = '+';
    if (r_sig    != NULL)  *r_sig    = 0;
    if (r_exp    != NULL)  *r_exp    = 0;
    if (r_places != NULL)  *r_places = 0;
    if (r_digits != NULL)  *r_digits = 0;
    if (r_fracts != NULL)  *r_fracts = 0;
+   /*---(sign)-----------------------------------*/
+   if (a_number < 0) {
+      x_sign = '-';
+      a_number *= -1.0;
+   }
    /*---(learing)--------------------------------*/
    sprintf (t, "%5.3e", a_number);
    x_exp  = t [8] - '0';
-   /*> printf ("exp   %c  %3d\n", t [8], x_exp);                                      <*/
    x_exp += 10 * (t [7] - '0');
-   /*> printf ("exp   %c  %3d\n", t [7], x_exp);                                      <*/
    if (t [6] == '-')  x_exp *= -1;
-   /*> printf ("exp   %c  %3d\n", t [6], x_exp);                                      <*/
-   /*> printf ("exp   å%sæ %3d\n", t, x_exp);                                         <*/
    /*---(integer sizing)-------------------------*/
    x_number = a_number;
    if (x_exp >= 0) {
@@ -219,6 +232,7 @@ yunit_real_sizing       (double a_number, char *r_sig, char *r_exp, char *r_plac
       --x_sig;
    }
    /*---(save-back)------------------------------*/
+   if (r_sign   != NULL)  *r_sign   = x_sign;
    if (r_sig    != NULL)  *r_sig    = x_sig;
    if (r_exp    != NULL)  *r_exp    = x_exp;
    if (r_places != NULL)  *r_places = x_digits + 1 + x_fracts;
@@ -232,6 +246,7 @@ char
 yunit_real_show         (double a_expe, double a_actu, char r_expe [LEN_RECD], char r_actu [LEN_RECD])
 {
    /*---(locals)-----------+-----+-----+-*/
+   char        x1, x2;
    char        s1, s2, sm;
    char        e1, e2, em;
    char        p1, p2, pm;
@@ -240,24 +255,26 @@ yunit_real_show         (double a_expe, double a_actu, char r_expe [LEN_RECD], c
    char        x_pre, x_suf;
    char        x_expe      [LEN_HUND]  = "";
    char        x_actu      [LEN_HUND]  = "";
+   char        x_max       =    0;
    /*---(aquire details)-----------------*/
-   yunit_real_sizing (a_expe, &s1, &e1, &p1, &d1, &f1);
-   yunit_real_sizing (a_actu, &s2, &e2, &p2, &d2, &f2);
+   yunit_real_sizing (a_expe, &x1, &s1, &e1, &p1, &d1, &f1);
+   yunit_real_sizing (a_actu, &x2, &s2, &e2, &p2, &d2, &f2);
    /*---(get maximums)-------------------*/
-   sm = s1;  if (s2 > sm) sm = s2;
-   em = e1;  if (e2 > em) em = e2;
-   pm = p1;  if (p2 > pm) pm = p2;
-   dm = d1;  if (d2 > dm) dm = d2;
-   fm = f1;  if (f2 > fm) fm = f2;
+   sm = s1;  if (s2 > sm)  sm = s2;
+   em = e1;  if (e2 > em)  em = e2;
+   pm = p1;  if (p2 > pm)  pm = p2;
+   dm = d1;  if (d2 > dm)  dm = d2;
+   fm = f1;  if (f2 > fm)  fm = f2;
+   x_max = dm + fm + 2;
    /*---(create text)--------------------*/
    x_pre = dm - d1; if (x_pre < 0)  x_pre = 0;
    x_suf = fm - f1; if (x_suf < 0)  x_suf = 0;
-   sprintf (x_expe, "%3d%c%*.*s%*.*lf%*.*s%c", pm, YUNIT_BEG, x_pre, x_pre, YUNIT_NDOTS, p1, f1, a_expe, x_suf, x_suf, YUNIT_NDOTS, YUNIT_END);
-   if (r_expe != NULL)  snprintf (r_expe, LEN_RECD, "%-28.28s  %2dd  %2df  %2dp  %2ds  %15.14e", x_expe, d1, f1, p1, s1, a_expe);
+   sprintf (x_expe, "%3d%c%c%*.*s%*.*lf%*.*s%c", x_max, YUNIT_BEG, x1, x_pre, x_pre, YUNIT_NDOTS, p1, f1, a_expe, x_suf, x_suf, YUNIT_NDOTS, YUNIT_END);
+   if (r_expe != NULL)  snprintf (r_expe, LEN_RECD, "%-24.24s  %c  %2dd  %2df  %2dp  %2ds  %c%15.14e", x_expe, x1, d1, f1, p1, s1, x1, a_expe);
    x_pre = dm - d2; if (x_pre < 0)  x_pre = 0;
    x_suf = fm - f2; if (x_suf < 0)  x_suf = 0;
-   sprintf (x_actu, "%3d%c%*.*s%*.*lf%*.*s%c", pm, YUNIT_BEG, x_pre, x_pre, YUNIT_NDOTS, p2, f2, a_actu, x_suf, x_suf, YUNIT_NDOTS, YUNIT_END);
-   if (r_actu != NULL)  snprintf (r_actu, LEN_RECD, "%-28.28s  %2dd  %2df  %2dp  %2ds  %15.14e", x_actu, d2, f2, p2, s2, a_actu);
+   sprintf (x_actu, "%3d%c%c%*.*s%*.*lf%*.*s%c", x_max, YUNIT_BEG, x2, x_pre, x_pre, YUNIT_NDOTS, p2, f2, a_actu, x_suf, x_suf, YUNIT_NDOTS, YUNIT_END);
+   if (r_actu != NULL)  snprintf (r_actu, LEN_RECD, "%-24.24s  %c  %2dd  %2df  %2dp  %2ds  %c%15.14e", x_actu, x2, d2, f2, p2, s2, x2, a_actu);
    /*---(complete)-------------------------------*/
    return 0;
 }

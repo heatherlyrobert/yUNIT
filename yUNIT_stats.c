@@ -23,6 +23,7 @@ static char  s_dittoing  = '-';
 char
 yunit_stats_clear       (char a_type)
 {
+   /*> printf ("yunit_stats_clear\n");                                                <*/
    /*---(clear)--------------------------*/
    switch (a_type) {
    case YUNIT_IS_FULL :
@@ -118,11 +119,11 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
    switch (x_stype) {
    case YUNIT_IS_FULL  :  strcpy (x_verb, "LUFF        ");  strcpy (x_header, "#===========");  strcpy (x_label, "full program statistics -----------------------------------------");  strcpy  (x_ref, " -");                     sprintf (x_stat, "    %4d  %4d  %4d  %4d", FULL.c_topp, FULL.c_glob, FULL.c_shar, FULL.c_scrp);   break;
    case YUNIT_IS_MAST  :  strcpy (x_verb, "RETSAM      ");  strcpy (x_header, "#===========");  strcpy (x_label, "final master file statistics ------------------------------------");  strcpy  (x_ref, " -");                     sprintf (x_stat, "    %4d  %4d  %4d  %4d", UNIT.c_topp, UNIT.c_glob, UNIT.c_shar, UNIT.c_scrp);   break;
-   case YUNIT_IS_UNIT  :  strcpy (x_verb, "TNIU        ");  strcpy (x_header, "#===========");  strcpy (x_label, "final unit test statistics --------------------------------------");  strcpy  (x_ref, " -");                     sprintf (x_stat, "    %4d  %4d  %4d  %4d", UNIT.c_topp, UNIT.c_glob, UNIT.c_shar, UNIT.c_scrp);   break;
-   case YUNIT_IS_SCRP  :  strcpy (x_verb, "   PRCS     ");  strcpy (x_header, "   #========");  strcpy (x_label, "script statistics -----------------------------------------------");  sprintf (x_ref, "%2d", UNIT.c_scrp);       sprintf (x_stat, "       1     ·     ·     1");   break;
-   case YUNIT_IS_GLOB  :  strcpy (x_verb, "   LABOLG   ");  strcpy (x_header, "   #========");  strcpy (x_label, "global shared code statistics -----------------------------------");  sprintf (x_ref, " %c", (uchar) x_smajor);  sprintf (x_stat, "       1     1     ·     ·");   break;
-   case YUNIT_IS_CONF  :  strcpy (x_verb, "   GIFNOC   ");  strcpy (x_header, "   #========");  strcpy (x_label, "global shared code statistics -----------------------------------");  sprintf (x_ref, " %c", (uchar) x_smajor);  sprintf (x_stat, "       1     1     ·     ·");   break;
-   case YUNIT_IS_SHAR  :  strcpy (x_verb, "   DERAHS   ");  strcpy (x_header, "   #========");  strcpy (x_label, "local shared code statistics ------------------------------------");  sprintf (x_ref, " %c", x_smajor);          sprintf (x_stat, "       1     ·     1     ·");   break;
+   case YUNIT_IS_UNIT  :  strcpy (x_verb, "TINU        ");  strcpy (x_header, "#===========");  strcpy (x_label, "final unit test statistics --------------------------------------");  strcpy  (x_ref, " -");                     sprintf (x_stat, "    %4d  %4d  %4d  %4d", UNIT.c_topp, UNIT.c_glob, UNIT.c_shar, UNIT.c_scrp);   break;
+   case YUNIT_IS_SCRP  :  strcpy (x_verb, "   PRCS     ");  strcpy (x_header, "   #========");  strcpy (x_label, "script statistics -----------------------------------------------");  sprintf (x_ref, "%2d", UNIT.c_scrp);       sprintf (x_stat, "       1     ·     ·     1");  break;
+   case YUNIT_IS_GLOB  :  strcpy (x_verb, "   LABOLG   ");  strcpy (x_header, "   #========");  strcpy (x_label, "global shared code statistics -----------------------------------");  sprintf (x_ref, " %c", (uchar) x_smajor);  sprintf (x_stat, "       1     1     ·     ·");  yUNIT_reuse_save (x_smajor);   break;
+   case YUNIT_IS_CONF  :  strcpy (x_verb, "   GIFNOC   ");  strcpy (x_header, "   #========");  strcpy (x_label, "global shared code statistics -----------------------------------");  sprintf (x_ref, " %c", (uchar) x_smajor);  sprintf (x_stat, "       1     1     ·     ·");  yUNIT_reuse_save (x_smajor);   break;
+   case YUNIT_IS_SHAR  :  strcpy (x_verb, "   DERAHS   ");  strcpy (x_header, "   #========");  strcpy (x_label, "local shared code statistics ------------------------------------");  sprintf (x_ref, " %c", x_smajor);          sprintf (x_stat, "       1     ·     1     ·");  yUNIT_reuse_save (x_smajor);   break;
    }
    /*---(header)-------------------------*/
    if (x_stype != '-')  {

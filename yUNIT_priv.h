@@ -39,8 +39,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.3-, new level for unit testing in koios"
-#define     P_VERNUM    "2.3d"
-#define     P_VERTXT    "updated in support of koios unit testing"
+#define     P_VERNUM    "2.3e"
+#define     P_VERTXT    "huge number of updates to formatted output (units all pass)"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -285,7 +285,7 @@ char*       yunit_ditto_show        (char n);
 /*===[[ yUNIT_final.c ]]======================================================*/
 /*········· ´······················ ´·········································*/
 char*       yunit_final_step        (int a_seqn);
-char        yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char a_desc [LEN_LONG], char a_max, char a_align, char a_gap, char *a_fill, char r_line [LEN_TERSE], char r_seqn [LEN_TERSE], char r_desc [LEN_LONG]);
+char        yunit_final_prep        (char a_type, char a_share, int a_line, int a_seqn, char a_prefix [LEN_TERSE], char a_desc [LEN_LONG], char a_max, char a_align, char a_gap, char *a_fill, char r_line [LEN_TERSE], char r_seqn [LEN_TERSE], char r_desc [LEN_LONG]);
 char        yunit_final_color       (char a_mono, char a_type, char r_on [LEN_LABEL], char r_on2 [LEN_LABEL], char r_off [LEN_LABEL], char r_note [LEN_TERSE], char r_test [LEN_DESC]);
 char*       yunit_final_footer      (char a_type);
 /*---(done)--------------------------*/
@@ -321,9 +321,9 @@ char        yunit_disp_single       (char a_type, int a_line, int a_seqn, char a
 char        yunit_disp_double       (char a_type, int a_line, int a_seqn, char a_share, char a_desc [LEN_LONG], char a_label [LEN_TERSE], char a_detail [LEN_RECD]);
 
 
-char        yunit_int_sizing        (llong a_number, char *r_sig, char *r_exp, char *r_digits);
+char        yunit_int_sizing        (llong a_number, char *r_sign, char *r_sig, char *r_exp, char *r_digits);
 char        yunit_int_show          (llong a_expe, llong a_actu, char r_expe [LEN_RECD], char r_actu [LEN_RECD]);
-char        yunit_real_sizing       (double a_number, char *r_sig, char *r_exp, char *r_places, char *r_digits, char *r_fracts);
+char        yunit_real_sizing       (double a_number, char *r_sign, char *r_sig, char *r_exp, char *r_places, char *r_digits, char *r_fracts);
 char        yunit_real_show         (double a_expe, double a_actu, char r_expe [LEN_HUND], char r_actu [LEN_HUND]);
 
 char        yunit_cond_type         (char a_dittoing, char a_ditto, char a_dtarget, char a_share, char r_label [LEN_TERSE], char r_note [LEN_TERSE]);

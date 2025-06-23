@@ -52,6 +52,7 @@ yUNIT_reuse_index       (char a_abbr)
 char
 yunit_reuse_clear       (char n)
 {
+   /*> printf ("yunit_reuse_clear  %c, %d\n", YUNIT_SHARES [n], n);                   <*/
    /*---(identifier)---------------------*/
    g_counts [n].c_id     = YUNIT_SHARES [n];
    g_counts [n].c_type   = yUNIT_reuse_type (g_counts [n].c_id);
@@ -147,6 +148,30 @@ yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], in
    return 1;
 }
 
+int
+yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r_conds, short *r_steps)
+{
+   int         x_line      =   -1;
+   yUNIT_reuse_data (a_abbr, NULL, NULL, &x_line, r_desc, r_conds, r_steps, NULL);
+   return x_line;
+}
+
+int
+yUNIT_reuse_line        (char a_abbr)
+{
+   int         x_line      =   -1;
+   yUNIT_reuse_data (a_abbr, NULL, NULL, &x_line, NULL, NULL, NULL, NULL);
+   return x_line;
+}
+
+int
+yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN_LONG])
+{
+   int         x_line      =   -1;
+   yUNIT_reuse_data (a_abbr, NULL, r_tdesc, &x_line, r_desc, NULL, NULL, NULL);
+   return x_line;
+}
+
 char
 yUNIT_reuse_save        (char a_abbr)
 {
@@ -154,11 +179,12 @@ yUNIT_reuse_save        (char a_abbr)
    char        n           =   -1;
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
+   /*> printf ("a_abbr %c, n %d\n", a_abbr, n);                                       <*/
    if (n < 0) return n;
-   yunit_reuse_clear (n);
+   /*> yunit_reuse_clear (n);                                                         <*/
    /*---(identifier)---------------------*/
-   g_counts [n].c_line   = g_counts [SCRP_ID].c_line;
-   strcpy (g_counts [n].c_desc, g_counts [SCRP_ID].c_desc);
+   /*> g_counts [n].c_line   = g_counts [SCRP_ID].c_line;                             <*/
+   /*> strcpy (g_counts [n].c_desc, g_counts [SCRP_ID].c_desc);                       <*/
    /*---(units)--------------------------*/
    g_counts [n].c_unit   = g_counts [SCRP_ID].c_unit;
    /*---(top)----------------------------*/
@@ -239,6 +265,7 @@ yUNIT_reuse_set         (char a_abbr, int a_line, char a_desc [LEN_LONG])
    n = yUNIT_reuse_index (a_abbr);
    if (n < 0) return n;
    yunit_reuse_clear (n);
+   /*> printf ("a_abbr %c, a_line %d, n %d, %s\n", a_abbr, a_line, n, a_desc);        <*/
    /*---(update list)--------------------*/
    g_counts [n].c_line = a_line;
    if (a_desc != NULL)  strlcpy (g_counts [n].c_desc, a_desc, LEN_LONG);
@@ -513,6 +540,7 @@ yUNIT_reuse_export     (void *a_file)
    FILE       *f           = NULL;
    char        i           =    0;
    char        c           =    0;
+   /*> printf ("yUNIT_reuse_export (enter)\n");                                       <*/
    --rce;  if (a_file == NULL)  return rce;
    f = (FILE *) a_file;
    for (i = 0; i < LEN_HUND; ++i) {
@@ -520,6 +548,22 @@ yUNIT_reuse_export     (void *a_file)
       if (g_counts [i].c_line < 0)                     continue;
       yUNIT_reuse_show (g_counts [i].c_id);
       fprintf (f, "%s\n", s_print);
+      ++c;
+   }
+   /*> yUNIT_reuse_list ();                                                           <*/
+   /*> printf ("yUNIT_reuse_export (exit)\n");                                        <*/
+   return c;
+}
+char
+yUNIT_reuse_list        (void)
+{
+   int         i           =    0;
+   char        c           =    0;
+   /*> printf ("yUNIT_reuse_list\n");                                                 <*/
+   for (i = 0; i < LEN_HUND; ++i) {
+      if (g_counts [i].c_line < 0)  continue;
+      yUNIT_reuse_show (g_counts [i].c_id);
+      printf ("%2d %s\n", c, s_print);
       ++c;
    }
    return c;
@@ -534,6 +578,7 @@ yUNIT_reuse_import      (void *a_file)
    char        c           =    0;
    char        x_recd      [LEN_RECD]  = "";
    int         l           =    0;
+   /*> printf ("yUNIT_reuse_import (enter)\n");                                       <*/
    --rce;  if (a_file == NULL)  return rce;
    f = (FILE *) a_file;
    for (i = 0; i < LEN_HUND; ++i) {
@@ -548,6 +593,8 @@ yUNIT_reuse_import      (void *a_file)
       ++c;
       /*---(done)------------------------*/
    }
+   /*> yUNIT_reuse_list ();                                                           <*/
+   /*> printf ("yUNIT_reuse_import (exit)\n");                                        <*/
    return c;
 }
 
