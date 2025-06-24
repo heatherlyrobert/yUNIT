@@ -335,6 +335,13 @@ UNIT___step_real_show   (char a_scrp, char a_list, char a_unit)
    yUNIT_minstr   ("... check actual"                   , x_actu     , " 16å+·····12.3456726æ     +   2d   7f  10p   9s  +1.23456726000000e+01");
    yUNIT_mindnoc  ();
 
+   yUNIT_mincond  ("verify really wide comparison (ETERM)");
+   yUNIT_eterm ('y', '-');
+   yUNIT_minval   ("call real show"                     , yunit_real_show   (12345678901234.0   , 0.12345678901234   , x_expe, x_actu),    0);
+   yUNIT_minstr   ("... check expect"                   , x_expe     , " 30å+12345678901234.0·············æ              +1.23456789012340e+13");
+   yUNIT_minstr   ("... check actual"                   , x_actu     , " 30å+·············0.12345678901234æ              +1.23456789012340e-01");
+   yUNIT_mindnoc  ();
+
    yUNIT_minprcs  ();
    return 0;
 }

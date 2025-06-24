@@ -25,6 +25,37 @@ yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
+yUNIT_rc                (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL] , char a_test [LEN_TERSE], char a_expe, char a_actu, char a_exec, char a_dittoing, char a_share)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        x_resu      = YUNIT_FAIL;
+   char        rc          = -1;
+   /*---(display only)---------------------------*/
+   if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "RC"    , a_desc);
+   /*---(do the comparisons)---------------------*/
+   if (strstr(a_test, "z_") != NULL) {
+      rc = yVAR_rc   (a_test, a_expe, a_actu);
+      if      (rc >   0 ) x_resu = YUNIT_SUCC;
+      else if (rc == '¢') x_resu = YUNIT_WARN;
+      else                x_resu = YUNIT_FAIL;
+   } else {
+      x_resu = YUNIT_WARN;
+      rc     = '¢';
+   }
+   /*---(score)--------------------------*/
+   yunit_actual_accum (TYPE_STEP, x_resu, rc);
+   /*---(save return)----------------------------*/
+   yUNIT_i_rc = a_actu;
+   /*---(record the key data)--------------------*/
+   snprintf (myUNIT.expe, LEN_RECD, "%4d", a_expe);
+   snprintf (myUNIT.actu, LEN_RECD, "%4d", a_actu);
+   strncpy  (myUNIT.modd, ""    , LEN_RECD);
+   yunit_disp_full ('z', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
+   /*---(complete)-------------------------------*/
+   return 1;
+}
+
+char
 yUNIT_char              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL] , char a_test [LEN_TERSE], uchar a_expe, uchar a_actu, char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
@@ -256,6 +287,7 @@ yunit_real_show         (double a_expe, double a_actu, char r_expe [LEN_RECD], c
    char        x_expe      [LEN_HUND]  = "";
    char        x_actu      [LEN_HUND]  = "";
    char        x_max       =    0;
+   int         l           =    0;
    /*---(aquire details)-----------------*/
    yunit_real_sizing (a_expe, &x1, &s1, &e1, &p1, &d1, &f1);
    yunit_real_sizing (a_actu, &x2, &s2, &e2, &p2, &d2, &f2);
@@ -270,11 +302,18 @@ yunit_real_show         (double a_expe, double a_actu, char r_expe [LEN_RECD], c
    x_pre = dm - d1; if (x_pre < 0)  x_pre = 0;
    x_suf = fm - f1; if (x_suf < 0)  x_suf = 0;
    sprintf (x_expe, "%3d%c%c%*.*s%*.*lf%*.*s%c", x_max, YUNIT_BEG, x1, x_pre, x_pre, YUNIT_NDOTS, p1, f1, a_expe, x_suf, x_suf, YUNIT_NDOTS, YUNIT_END);
-   if (r_expe != NULL)  snprintf (r_expe, LEN_RECD, "%-24.24s  %c  %2dd  %2df  %2dp  %2ds  %c%15.14e", x_expe, x1, d1, f1, p1, s1, x1, a_expe);
+   l = strlen (x_expe);
+   if (r_expe != NULL) {
+      if      (l <= 24)  snprintf (r_expe, LEN_RECD, "%-24.24s  %c  %2dd  %2df  %2dp  %2ds  %c%15.14e", x_expe, x1, d1, f1, p1, s1, x1, a_expe);
+      else               snprintf (r_expe, LEN_RECD, "%-47.47s  %c%15.14e", x_expe, x1, a_expe);
+   }
    x_pre = dm - d2; if (x_pre < 0)  x_pre = 0;
    x_suf = fm - f2; if (x_suf < 0)  x_suf = 0;
    sprintf (x_actu, "%3d%c%c%*.*s%*.*lf%*.*s%c", x_max, YUNIT_BEG, x2, x_pre, x_pre, YUNIT_NDOTS, p2, f2, a_actu, x_suf, x_suf, YUNIT_NDOTS, YUNIT_END);
-   if (r_actu != NULL)  snprintf (r_actu, LEN_RECD, "%-24.24s  %c  %2dd  %2df  %2dp  %2ds  %c%15.14e", x_actu, x2, d2, f2, p2, s2, x2, a_actu);
+   if (r_actu != NULL) {
+      if      (l <= 24)  snprintf (r_actu, LEN_RECD, "%-24.24s  %c  %2dd  %2df  %2dp  %2ds  %c%15.14e", x_actu, x2, d2, f2, p2, s2, x2, a_actu);
+      else               snprintf (r_actu, LEN_RECD, "%-47.47s  %c%15.14e", x_actu, x2, a_actu);
+   }
    /*---(complete)-------------------------------*/
    return 0;
 }
@@ -377,9 +416,9 @@ yUNIT_string            (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
     *>    strncpy (myUNIT.actu, x_fact, LEN_RECD);                                      <* 
     *>    strncpy (myUNIT.modd, x_modd, LEN_RECD);                                      <* 
     *> } else {                                                                         <*/
-      strncpy (myUNIT.expe, a_expe, LEN_RECD);
-      strncpy (myUNIT.actu, a_actu, LEN_RECD);
-      strncpy (myUNIT.modd, x_modd, LEN_RECD);
+   strncpy (myUNIT.expe, a_expe, LEN_RECD);
+   strncpy (myUNIT.actu, a_actu, LEN_RECD);
+   strncpy (myUNIT.modd, x_modd, LEN_RECD);
    /*> }                                                                              <*/
    yunit_disp_full ('s', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
@@ -430,9 +469,9 @@ yUNIT_round             (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
     *>    strncpy (myUNIT.actu, x_fact, LEN_RECD);                                    <* 
     *>    strncpy (myUNIT.modd, x_modd, LEN_RECD);                                    <* 
     *> } else {                                                                       <*/
-      strncpy (myUNIT.expe, a_expe, LEN_RECD);
-      strncpy (myUNIT.actu, a_actu, LEN_RECD);
-      strncpy (myUNIT.modd, x_modd, LEN_RECD);
+   strncpy (myUNIT.expe, a_expe, LEN_RECD);
+   strncpy (myUNIT.actu, a_actu, LEN_RECD);
+   strncpy (myUNIT.modd, x_modd, LEN_RECD);
    /*> }                                                                              <*/
    yunit_disp_full ('u', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/
