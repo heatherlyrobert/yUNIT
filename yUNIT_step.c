@@ -25,7 +25,7 @@ yUNIT_void              (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
 }
 
 char
-yUNIT_rc                (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL] , char a_test [LEN_TERSE], char a_expe, char a_actu, char a_exec, char a_dittoing, char a_share)
+yUNIT_num               (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_meth [LEN_HUND], char a_args [LEN_FULL] , char a_test [LEN_TERSE], int a_expe, int a_actu, char a_exec, char a_dittoing, char a_share)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_resu      = YUNIT_FAIL;
@@ -34,7 +34,7 @@ yUNIT_rc                (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    if (a_exec == 0)   return yunit_disp_show (a_line, a_seqn, a_share, "RC"    , a_desc);
    /*---(do the comparisons)---------------------*/
    if (strstr(a_test, "z_") != NULL) {
-      rc = yVAR_rc   (a_test, a_expe, a_actu);
+      rc = yVAR_num  (a_test, a_expe, a_actu);
       if      (rc >   0 ) x_resu = YUNIT_SUCC;
       else if (rc == '¢') x_resu = YUNIT_WARN;
       else                x_resu = YUNIT_FAIL;
@@ -47,8 +47,8 @@ yUNIT_rc                (int a_line, int a_seqn, char a_desc [LEN_LONG], char a_
    /*---(save return)----------------------------*/
    yUNIT_i_rc = a_actu;
    /*---(record the key data)--------------------*/
-   snprintf (myUNIT.expe, LEN_RECD, "%4d", a_expe);
-   snprintf (myUNIT.actu, LEN_RECD, "%4d", a_actu);
+   snprintf (myUNIT.expe, LEN_RECD, "%d", a_expe);
+   snprintf (myUNIT.actu, LEN_RECD, "%d", a_actu);
    strncpy  (myUNIT.modd, ""    , LEN_RECD);
    yunit_disp_full ('z', a_line, a_seqn, a_share, a_desc, a_meth, a_args, myUNIT.expe, a_test, myUNIT.actu, myUNIT.modd);
    /*---(complete)-------------------------------*/

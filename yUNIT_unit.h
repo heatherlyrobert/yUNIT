@@ -130,7 +130,8 @@ yUNIT_args              (int a_argc, char *a_argv[])
       else if (strcmp (a, "--cond"      )  == 0)      v = 3;
       else if (strcmp (a, "--step"      )  == 0)      v = 4;
       else if (strcmp (a, "--full"      )  == 0)      v = 5;
-      else if (strcmp (a, "--loud"      )  == 0)      v = 5;
+      else if (strcmp (a, "--maxx"      )  == 0)      v = 6;
+      else if (strcmp (a, "--loud"      )  == 0)      v = 6;
       /*---(information)------------------*/
       else if (strcmp (a, "--scrps"     )  == 0)    { cyUNIT.exec = 0; v = 2; }
       else if (strcmp (a, "--conds"     )  == 0)    { cyUNIT.exec = 0; v = 3; }
@@ -176,7 +177,7 @@ yUNIT_args              (int a_argc, char *a_argv[])
          }
       }
       else {
-         printf("option not understood <<%%s>>\n", a);
+         printf("option not understood <<%s>>\n", a);
          ++x_bad;
       }
       /*---(done)-------------------------*/
