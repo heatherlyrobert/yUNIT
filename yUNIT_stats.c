@@ -114,7 +114,7 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
    else if   (strcmp (a_verb, "FULL"  ) == 0) { x_type = YUNIT_IS_FULL; x_stype = YUNIT_IS_FULL; }
    else { fprintf (a_conv, "# BOOM===  %s \n", x_title); return rce; }
    /*---(master exception)---------------*/
-   if (x_type == YUNIT_IS_UNIT && strcmp (a_nscrp, "master.unit") == 0)  { x_type = YUNIT_IS_MAST; x_stype = YUNIT_IS_MAST;  }
+   if (x_type == YUNIT_IS_UNIT && strcmp (a_nscrp, "unit_head.unit") == 0)  { x_type = YUNIT_IS_MAST; x_stype = YUNIT_IS_MAST;  }
    /*---(data preparation)---------------*/
    switch (x_stype) {
    case YUNIT_IS_FULL  :  strcpy (x_verb, "LUFF        ");  strcpy (x_header, "#===========");  strcpy (x_label, "full program statistics -----------------------------------------");  strcpy  (x_ref, " -");                     sprintf (x_stat, "    %4d  %4d  %4d  %4d", FULL.c_topp, FULL.c_glob, FULL.c_shar, FULL.c_scrp);   break;
