@@ -14,6 +14,8 @@ static void      o___MINI_UNIT_______________o (void) {;}
 
 typedef struct tm        tTIME;
 
+static char        s_home      [LEN_PATH]  = "";
+
 static int         s_stepn     = 0;
 
 static int         s_condt     = 0;
@@ -204,6 +206,8 @@ yunit_minscrp           (int a_line, char a_proj [LEN_LABEL], char a_unit [LEN_L
    char        x_wave      [LEN_RECD] = "";
    long        x_now       =    0;
    tTIME      *x_broke     = NULL;
+   getcwd (s_home, LEN_PATH);
+   /*> printf ("remembering location å%sæ\n", s_home);                                <*/
    sprintf (t, "%s ==============================================================================", a_desc);
    printf ("SCRP [%02d] %63.63s[%05d]\n", ++s_scrpn, t, a_line);
    printf ("\n");
@@ -275,6 +279,8 @@ yUNIT_minprcs           (void)
    sprintf (x_wave, "  0    1  %3d  %4d   0s    0  %c  %4d  %4d  %4d  %4d  %4d  %3d \n\" >> %s.wave", s_condn, s_scrpa, x_result, s_scrpg, s_scrpa - s_scrpg, 0, 0, 0, 0, s_unit);
    strcat  (s_system, x_wave);
    system  (s_system);
+   /*> printf ("returning to location å%sæ\n", s_home);                               <*/
+   chdir (s_home);
    return 0;
 }
 
