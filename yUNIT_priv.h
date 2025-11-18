@@ -39,8 +39,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.3-, new level for unit testing in koios"
-#define     P_VERNUM    "2.3i"
-#define     P_VERTXT    "added remembering current dir to yUNIT_minscrp and yUNIT_minprcs"
+#define     P_VERNUM    "2.3j"
+#define     P_VERTXT    "updated to latest yenv_ naming vs yENV_"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -62,6 +62,7 @@
 #include    <stdio.h>        /* printf(), snprintf()                             */
 #include    <string.h>
 #include    <stdlib.h>
+#include    <unistd.h>
 #include    <time.h>
 #include    <memory.h>       /* malloc(), free()                                 */
 #include    <fcntl.h>              /* clibc standard file control              */

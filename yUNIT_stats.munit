@@ -132,8 +132,8 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    0);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    0);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify a SHARED");
@@ -146,11 +146,11 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    3);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify a GLOBAL");
@@ -163,11 +163,11 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    6);
-   yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  3 )  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   DERAHS     local shared code statistics ------------------------------------   b     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    6);
+   yUNIT_minstr  ("... check result"                   , yenv_uindex     (s_nconv  ,  3 )  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   DERAHS     local shared code statistics ------------------------------------   b     1     0     1     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify a CONFIG");
@@ -180,11 +180,11 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    9);
-   yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  6 )  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   LABOLG     global shared code statistics -----------------------------------   B     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    9);
+   yUNIT_minstr  ("... check result"                   , yenv_uindex     (s_nconv  ,  6 )  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   LABOLG     global shared code statistics -----------------------------------   B     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify another SCRP");
@@ -197,11 +197,11 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,   12);
-   yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  9 )  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   GIFNOC     global shared code statistics -----------------------------------   ò     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,   12);
+   yUNIT_minstr  ("... check result"                   , yenv_uindex     (s_nconv  ,  9 )  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   GIFNOC     global shared code statistics -----------------------------------   ò     1     1     0     0     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify final UNIT");
@@ -214,16 +214,16 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,   20);
-   yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  12)  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   2     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TINU          final unit test statistics --------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,   20);
+   yUNIT_minstr  ("... check result"                   , yenv_uindex     (s_nconv  ,  12)  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   2     1     0     0     1     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                                        );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                                        );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                                        );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "TINU          final unit test statistics --------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify FULL");
@@ -236,13 +236,13 @@ UNIT__stats_scrp        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,   25);
-   yUNIT_minstr  ("... check result"                   , yENV_uindex     (s_nconv  ,  20)  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                                        );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "LUFF          full program statistics -----------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,   25);
+   yUNIT_minstr  ("... check result"                   , yenv_uindex     (s_nconv  ,  20)  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                                        );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                                        );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "LUFF          full program statistics -----------------------------------------   -     5     2     1     2     0     0     0  ··········     0  ·                        0  ·                        0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("close file");
@@ -271,8 +271,8 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
 
    yUNIT_mincond ("prepare file");
    yUNIT_minptr  ("open file"                          , f = fopen (s_nconv, "wt"),     1);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    0);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    0);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("purge all numbers");
@@ -293,11 +293,11 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    0);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    0);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a COND");
@@ -310,8 +310,8 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    0);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    0);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a EXEC");
@@ -324,8 +324,8 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    1);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    0);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    0);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a couple other steps");
@@ -342,8 +342,8 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    4);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    0);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    0);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add another COND");
@@ -356,8 +356,8 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    0);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    0);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add some different types of steps");
@@ -374,8 +374,8 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    3);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    0);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    0);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("then another SCRP");
@@ -388,11 +388,11 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    3);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                                   );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a COND (with ditto mark)");
@@ -405,7 +405,7 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    1);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    3);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add a DITTO");
@@ -418,7 +418,7 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    2);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    3);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add another DITTO");
@@ -431,7 +431,7 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    3);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    3);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add local REUSE");
@@ -444,7 +444,7 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    4);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    3);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add more local REUSE");
@@ -459,7 +459,7 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    7);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    3);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("add global REUSE");
@@ -474,7 +474,7 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,   10);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,    3);
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,    3);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("call final UNIT process");
@@ -487,19 +487,19 @@ UNIT__stats_convert     (char a_scrp, char a_list, char a_unit)
    yUNIT_minval  ("... verify condition number"        , x_ccond    ,    0);
    yUNIT_minval  ("... verify step number"             , x_cstep    ,    0);
    yUNIT_minval  ("... flush the output"               , fflush (f) ,    0);
-   yUNIT_minval  ("... check count"                    , yENV_ulines     (s_nconv)         ,   11);
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '[')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   2     1     0     0     1    10     1     2  ···2······     4  fzfa                     3  DòD                      0     0     0     0     0     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , ""                                         );
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "TINU          final unit test statistics --------------------------------------   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0   ");
-   yUNIT_minstr  ("... check result"                   , yENV_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
+   yUNIT_minval  ("... check count"                    , yenv_ulines     (s_nconv)         ,   11);
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '[')  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   1     1     0     0     1     2     2     0  ··········     0  ·                        0  ·                        0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   #========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "   PRCS       script statistics -----------------------------------------------   2     1     0     0     1    10     1     2  ···2······     4  fzfa                     3  DòD                      0     0     0     0     0     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , ""                                         );
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "#===========  =================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "TINU          final unit test statistics --------------------------------------   -     2     0     0     2    12     3     2  ··········     4  fza                      3  Dò                       0     7     4     1     2     0     0     0     0     0   ");
+   yUNIT_minstr  ("... check result"                   , yenv_upeek      (s_nconv  , '>')  , "(n/a)"                                    );
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("purge all numbers");

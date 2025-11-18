@@ -16,10 +16,10 @@ UNIT___disp_top         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call top line"                      , yunit_disp__top  (TYPE_STEP  ,   954,   1, "sample step"      , '-'),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  aa) PASS   : sample step .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check header"                   , yenv_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -29,10 +29,10 @@ UNIT___disp_top         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call top line"                      , yunit_disp__top  (TYPE_STEP  ,   954,   1, "sample step"      , '-'),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "aa) " BACK_GRN "PASS  " BACK_OFF " : sample step · ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check header"                   , yenv_upeek  (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -42,9 +42,9 @@ UNIT___disp_top         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call top line"                      , yunit_disp__top  (TYPE_STEP  ,   954,   1, "sample step"      , '-'),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "     aa) PASS   : sample step .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    1);
-   yUNIT_minstr   ("... check header"                   , yENV_upeek  (myUNIT.name, '['), s_print);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    1);
+   yUNIT_minstr   ("... check header"                   , yenv_upeek  (myUNIT.name, '['), s_print);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -54,8 +54,8 @@ UNIT___disp_top         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call top line"                      , yunit_disp__top  (TYPE_STEP  ,   954,   1, "sample step"      , '-'),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "     aa) PASS   : sample step .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '['), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '['), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -65,8 +65,8 @@ UNIT___disp_top         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call top line"                      , yunit_disp__top  (TYPE_STEP  ,   954,   1, "sample step"      , '-'),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "     aa) PASS   : sample step .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '['), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '['), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -177,10 +177,10 @@ UNIT___disp_mid         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__mid  ("critical_function"      , "15, 27, \"text\""                  , "s_equal"  ),   1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      method : critical_function (15, 27, \"text\")");
-   yUNIT_minstr   ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), "      test   : s_equal    (rc =    0, test abbr = -)");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      method : critical_function (15, 27, \"text\")");
+   yUNIT_minstr   ("... check header"                   , yenv_upeek  (myUNIT.name, '>'), "      test   : s_equal    (rc =    0, test abbr = -)");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -189,10 +189,10 @@ UNIT___disp_mid         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__mid  ("critical_function"      , "15, 27, \"text\""                  , "s_equal"  ),   1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      method : critical_function (15, 27, \"text\")");
-   yUNIT_minstr   ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), "      test   : s_equal    (rc =    0, test abbr = -)");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      method : critical_function (15, 27, \"text\")");
+   yUNIT_minstr   ("... check header"                   , yenv_upeek  (myUNIT.name, '>'), "      test   : s_equal    (rc =    0, test abbr = -)");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -225,10 +225,10 @@ UNIT___disp_mid         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 'e')                 ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__mid  ("critical_function"      , "15, 27, \"text\""                  , "i_equal"  ),   1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      method : critical_function (15, 27, \"text\")");
-   yUNIT_minstr   ("... check header"                   , yENV_upeek  (myUNIT.name, '>'), "      test   : i_equal    (rc =  101, test abbr = e)");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      method : critical_function (15, 27, \"text\")");
+   yUNIT_minstr   ("... check header"                   , yenv_upeek  (myUNIT.name, '>'), "      test   : i_equal    (rc =  101, test abbr = e)");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -249,10 +249,10 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "nice test string"                    , "nice test string"                    , "                "                    ),    1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      expect :  16[nice test string]");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      actual :  16[nice test string]");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      expect :  16[nice test string]");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      actual :  16[nice test string]");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -261,10 +261,10 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "nice test string"                    , "nice test string"                    , "                "                    ),    1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      expect :  16ånice test stringæ");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      actual :  16ånice test stringæ");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      expect :  16ånice test stringæ");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      actual :  16ånice test stringæ");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -273,8 +273,8 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "nice test string"                    , "nice test string"                    , "                "                    ),    0);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -283,8 +283,8 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "nice test string"                    , "nice test string"                    , "                "                    ),    0);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -293,8 +293,8 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "nice test string"                    , "nice test string"                    , "                "                    ),    0);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -303,8 +303,8 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC, 0)                   ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "nice test string"                    , "nice test string"                    , "                "                    ),    0);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    0);
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    0);
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -313,10 +313,10 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_FAIL,   -1)                ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "42"                                  , "forty-two"                           , "                "                    ),    1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      expect :   2[42]");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      actual :   9[forty-two]");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      expect :   2[42]");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      actual :   9[forty-two]");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -325,10 +325,10 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_FAIL,   -1)                ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "forti-lwo"                           , "forty-two plus"                      , "    x x  >>>>>"                      ),    1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      expect :   9[forti-lwo]");       
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      actual :  14[forty-two plus]");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      expect :   9[forti-lwo]");       
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      actual :  14[forty-two plus]");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -337,11 +337,11 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_FAIL,   -1)                ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "forti-lwo"                           , "forty-two plus"                      , "    x x  >>>>>"                      ),    1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      expect :   9[forti-lwo]");       
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      actual :  14[forty-two plus]");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      ISSUE (2/5) [    x x  >>>>>]");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      expect :   9[forti-lwo]");       
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      actual :  14[forty-two plus]");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      ISSUE (2/5) [    x x  >>>>>]");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -350,11 +350,11 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_FAIL,   -1)                ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "forti-lwo"                           , "forty-two plus"                      , "    x x  >>>>>"                      ),    1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    3);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      expect :   9åforti-lwoæ");       
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      actual :  14åforty-two plusæ");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      ISSUE (2/5) å····°·°··>>>>>æ");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    3);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      expect :   9åforti-lwoæ");       
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      actual :  14åforty-two plusæ");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      ISSUE (2/5) å····°·°··>>>>>æ");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -363,10 +363,10 @@ UNIT___disp_bot         (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_FAIL,   -1)                ,    0);
    yUNIT_minval   ("call mid lines"                     , yunit_disp__bot  ('s', "s_equal"  , "forty-two"                           , "forty-two"                           , "         "                           ),    1);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name   ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '['), "      expect :   9[forty-two]");       
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek  (myUNIT.name, '>'), "      actual :   9[forty-two]");
-   yUNIT_minstr   ("... check end"                      , yENV_upeek  (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name   ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '['), "      expect :   9[forty-two]");       
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek  (myUNIT.name, '>'), "      actual :   9[forty-two]");
+   yUNIT_minstr   ("... check end"                      , yenv_upeek  (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -388,14 +388,14 @@ UNIT___disp_full        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_full ('i',  954,  25, '-', "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "  2å42æ"              , "i_equal"  , "  2å42æ"              , ""                     ), 1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) PASS   : run function   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : yUNIT_void (0, 15, \"test\")");
-   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =    0, test abbr = -)");
-   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   2å42æ");
-   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   2å42æ");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yenv_upeek (myUNIT.name, '>'), "      method : yUNIT_void (0, 15, \"test\")");
+   yUNIT_minstr   ("... check test/result"              , yenv_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =    0, test abbr = -)");
+   yUNIT_minstr   ("... check expected"                 , yenv_upeek (myUNIT.name, '>'), "      expect :   2å42æ");
+   yUNIT_minstr   ("... check actual"                   , yenv_upeek (myUNIT.name, '>'), "      actual :   2å42æ");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -405,14 +405,14 @@ UNIT___disp_full        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_full ('i',  954,  25, '-', "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "  2å42æ"              , "i_equal"  , "  2å42æ"              , ""                     ), 1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : run function  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    6);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : yUNIT_void (0, 15, \"test\")");
-   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =    0, test abbr = -)");
-   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   2å42æ");
-   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   2å42æ");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    6);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yenv_upeek (myUNIT.name, '>'), "      method : yUNIT_void (0, 15, \"test\")");
+   yUNIT_minstr   ("... check test/result"              , yenv_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =    0, test abbr = -)");
+   yUNIT_minstr   ("... check expected"                 , yenv_upeek (myUNIT.name, '>'), "      expect :   2å42æ");
+   yUNIT_minstr   ("... check actual"                   , yenv_upeek (myUNIT.name, '>'), "      actual :   2å42æ");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -422,9 +422,9 @@ UNIT___disp_full        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_full ('i',  954,  25, '-', "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "  2å42æ"              , "i_equal"  , "  2å42æ"              , ""                     ), 1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "     " BACK_GRN "ay) " BACK_GRN "PASS  " BACK_OFF " : run function  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    1);
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '['), s_print);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    1);
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '['), s_print);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -433,8 +433,8 @@ UNIT___disp_full        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_full ('i',  954,  25, '-', "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "  2å42æ"              , "i_equal"  , "  2å42æ"              , ""                     ), 0);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    0);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    0);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -443,8 +443,8 @@ UNIT___disp_full        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_full ('i',  954,  25, '-', "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "  2å42æ"              , "i_equal"  , "  2å42æ"              , ""                     ), 0);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    0);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    0);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -453,8 +453,8 @@ UNIT___disp_full        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("cycle reporting file"               , yunit_cycle ()             , 0);
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_full ('i',  954,  25, '-', "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "  2å42æ"              , "i_equal"  , "  2å42æ"              , ""                     ), 0);
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    0);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    0);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -464,15 +464,15 @@ UNIT___disp_full        (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_FAIL,  -10)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_full ('i',  954,  25, '-', "run function"   , "yUNIT_void"     , "0, 15, \"test\""                   , "  4å·····1234æ"       , "i_equal"  , "  9å223456789æ"       , ""                     ), 1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_RED "ay) " BACK_RED "FAIL  " BACK_OFF " : run function  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    7);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check method/args"              , yENV_upeek (myUNIT.name, '>'), "      method : yUNIT_void (0, 15, \"test\")");
-   yUNIT_minstr   ("... check test/result"              , yENV_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =  -10, test abbr = -)");
-   yUNIT_minstr   ("... check expected"                 , yENV_upeek (myUNIT.name, '>'), "      expect :   4å·····1234æ");
-   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      actual :   9å223456789æ");
-   yUNIT_minstr   ("... check actual"                   , yENV_upeek (myUNIT.name, '>'), "      ISSUE  : ····°°°°°°°°°·");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    7);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check method/args"              , yenv_upeek (myUNIT.name, '>'), "      method : yUNIT_void (0, 15, \"test\")");
+   yUNIT_minstr   ("... check test/result"              , yenv_upeek (myUNIT.name, '>'), "      test   : i_equal    (rc =  -10, test abbr = -)");
+   yUNIT_minstr   ("... check expected"                 , yenv_upeek (myUNIT.name, '>'), "      expect :   4å·····1234æ");
+   yUNIT_minstr   ("... check actual"                   , yenv_upeek (myUNIT.name, '>'), "      actual :   9å223456789æ");
+   yUNIT_minstr   ("... check actual"                   , yenv_upeek (myUNIT.name, '>'), "      ISSUE  : ····°°°°°°°°°·");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -494,10 +494,10 @@ UNIT___disp_single      (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_single (TYPE_MODE,  954,  25, '-', "change to forced fail"   ),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) MODE   : change to forced fail   .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -507,10 +507,10 @@ UNIT___disp_single      (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_single (TYPE_MODE,  954,  25, '-', "change to forced fail"   ),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_BRN "ay) " BACK_GRN "MODE  " BACK_OFF " : change to forced fail  ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    2);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    2);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -532,11 +532,11 @@ UNIT___disp_double      (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_double (TYPE_SYSTEM,  954,  25, '-', "run a quick command"   , "system", "rm -fv \"test.tmp\"  > /dev/null  2>&1"),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  ay) PASS   : run a quick command  .  .  .  .  .  .  .  .  .  .  .  .  .  .  [00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    3);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), "      system :  36[rm -fv \"test.tmp\"  > /dev/null  2>&1]");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    3);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), "      system :  36[rm -fv \"test.tmp\"  > /dev/null  2>&1]");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -546,11 +546,11 @@ UNIT___disp_double      (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_SUCC,    0)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_double (TYPE_SYSTEM,  954,  25, '-', "run a quick command"   , "system", "rm -fv \"test.tmp\"  > /dev/null  2>&1"),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_BRN "ay) " BACK_GRN "PASS  " BACK_OFF " : run a quick command ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    3);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), "      system :  36årm -fv \"test.tmp\"  > /dev/null  2>&1æ");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    3);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), "      system :  36årm -fv \"test.tmp\"  > /dev/null  2>&1æ");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 
@@ -560,11 +560,11 @@ UNIT___disp_double      (char a_scrp, char a_list, char a_unit)
    yUNIT_minval   ("set the result"                     , yunit_force_resu (YUNIT_FAIL,   -1)                ,    0);
    yUNIT_minval   ("call recd driver"                   , yunit_disp_double (TYPE_SYSTEM,  954,  25, '-', "run a quick command"   , "system", "rm -fv \"test.tmp\"  > /dev/null  2>&1"),    1);
    yUNIT_minstr   ("... global print"                   , s_print                 , "  " BACK_BRN "ay) " BACK_RED "FAIL  " BACK_OFF " : run a quick command ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·· ·[00954]");
-   yUNIT_minval   ("... check line count"               , yENV_ulines (myUNIT.name    ),    3);
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '['), "");
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), s_print);
-   yUNIT_minstr   ("... check top line"                 , yENV_upeek (myUNIT.name, '>'), "      system :  36årm -fv \"test.tmp\"  > /dev/null  2>&1æ");
-   yUNIT_minstr   ("... check empty"                    , yENV_upeek (myUNIT.name, '>'), "(n/a)");
+   yUNIT_minval   ("... check line count"               , yenv_ulines (myUNIT.name    ),    3);
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '['), "");
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), s_print);
+   yUNIT_minstr   ("... check top line"                 , yenv_upeek (myUNIT.name, '>'), "      system :  36årm -fv \"test.tmp\"  > /dev/null  2>&1æ");
+   yUNIT_minstr   ("... check empty"                    , yenv_upeek (myUNIT.name, '>'), "(n/a)");
    yUNIT_minval   ("close out a unit test"              , yUNIT_tinu  (1), 0);
    yUNIT_mindnoc  ();
 

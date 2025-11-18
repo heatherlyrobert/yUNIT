@@ -52,10 +52,10 @@ yUNIT_reuse_index       (char a_abbr)
 char
 yunit_reuse_clear       (char n)
 {
-   /*> printf ("yunit_reuse_clear  %c, %d\n", YUNIT_SHARES [n], n);                   <*/
    /*---(identifier)---------------------*/
    g_counts [n].c_id     = YUNIT_SHARES [n];
    g_counts [n].c_type   = yUNIT_reuse_type (g_counts [n].c_id);
+   g_counts [n].c_file   =  '·';
    g_counts [n].c_line   =   -1;
    strcpy (g_counts [n].c_desc, "·");
    /*---(units)--------------------------*/

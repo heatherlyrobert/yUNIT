@@ -453,6 +453,7 @@ static struct cyUNIT_COUNTS {
    /*---(identifier)---------------------*/
    char        c_id;                        /* script, global, config, or shared identifier/sequence */
    char        c_type;                      /* specific type --  global, config, or shared           */
+   char        c_file;                      /* file -- h=unit_head, s=unit_share, d=unit_data        */
    int         c_line;                      /* location in file                                      */
    char        c_desc    [LEN_LONG];        /* description of purpose                                */
    /*---(unit)---------------------------*/
