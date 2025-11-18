@@ -372,13 +372,13 @@ char        yUNIT_group             (char a_desc [LEN_LONG]);
 /*===[[ yUNIT_share.c ]]======================================================*/
 /*········· ´······················ ´·········································*/
 /*---(local share)----------*/
-char        yUNIT_shar              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_shar              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]);
 char        yUNIT_rahs              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(global share)---------*/
-char        yUNIT_glob              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_glob              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]);
 char        yUNIT_bolg              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(config share)---------*/
-char        yUNIT_conf              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_conf              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]);
 char        yUNIT_fnoc              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(done)-----------------*/
 
@@ -451,13 +451,13 @@ char        yUNIT_printf            (char *a_format, ...);
 typedef struct cyUNIT_COUNTS tyUNIT_COUNTS;
 static struct cyUNIT_COUNTS {
    /*---(identifier)---------------------*/
-   char        c_id;                        /* script, global, config, or shared identifier/sequence */
-   char        c_type;                      /* specific type --  global, config, or shared           */
-   char        c_file;                      /* file -- h=unit_head, s=unit_share, d=unit_data        */
-   int         c_line;                      /* location in file                                      */
-   char        c_desc    [LEN_LONG];        /* description of purpose                                */
+   char        c_id;                        /* script, global, config, or shared identifier/sequence      */
+   char        c_type;                      /* type -- g=global   , c=config    , l=shared     -=special  */
+   char        c_ftype;                     /* file -- h=unit_head, s=unit_share, d=unit_data, -=other    */
+   int         c_line;                      /* location in file                                           */
+   char        c_desc    [LEN_LONG];        /* description of purpose                                     */
    /*---(unit)---------------------------*/
-   int         c_unit;                      /* all units                                             */
+   int         c_unit;                      /* all units                                                  */
    /*---(top)----------------------------*/
    int         c_topp;                      /* all count                                             */
    int         c_scrp;                      /* script count                                          */
@@ -499,11 +499,11 @@ int       yUNIT_reuse_index       (char a_abbr);
 char      yUNIT_reuse_clear       (char a_abbr);
 char      yUNIT_reuse_purge       (char a_type);
 /*---(data)-----------------*/
-char      yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called);
+char      yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called);
 int       yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r_conds, short *r_steps);
 int       yUNIT_reuse_line        (char a_abbr);
 int       yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN_LONG]);
-char      yUNIT_reuse_set         (char a_abbr, int a_line, char a_desc [LEN_LONG]);
+char      yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG]);
 char      yUNIT_reuse_called      (char a_abbr);
 /*---(full record)----------*/
 char      yUNIT_reuse_save        (char a_abbr);

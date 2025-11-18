@@ -4,7 +4,7 @@
 
 
 char
-yunit_share__open       (char a_type, char a_label [LEN_TERSE], char a_share, int a_line, char a_select, char a_desc [LEN_LONG])
+yunit_share__open       (char a_type, char a_label [LEN_TERSE], char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_desc      [LEN_LONG]  = "";
@@ -13,7 +13,7 @@ yunit_share__open       (char a_type, char a_label [LEN_TERSE], char a_share, in
    /*---(empty line)---------------------*/
    IF_STEP   yUNIT_printf  ("\n");
    /*---(save)---------------------------*/
-   yUNIT_reuse_set   (a_share, a_line, a_desc);
+   yUNIT_reuse_set   (a_share, a_ftype, a_line, a_desc);
    /*---(text)---------------------------*/
    yunit_final_prep  (a_type, a_share, 0, 0, "", a_desc, 85 - 22, YSTR_TEXT_CEN, 3, YSTR_DASH, NULL, NULL, x_desc);
    /*---(display)------------------------*/
@@ -26,9 +26,9 @@ yunit_share__open       (char a_type, char a_label [LEN_TERSE], char a_share, in
    return 0;
 }
 
-char yUNIT_shar              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_SHARED, "SHARED", a_share, a_line, a_select, a_desc); }
-char yUNIT_glob              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_GLOBAL, "GLOBAL", a_share, a_line, a_select, a_desc); }
-char yUNIT_conf              (char a_share, int a_line, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_CONFIG, "CONFIG", a_share, a_line, a_select, a_desc); }
+char yUNIT_shar              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_SHARED, "SHARED", a_share, a_ftype, a_line, a_select, a_desc); }
+char yUNIT_glob              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_GLOBAL, "GLOBAL", a_share, a_ftype, a_line, a_select, a_desc); }
+char yUNIT_conf              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]) { return yunit_share__open (TYPE_CONFIG, "CONFIG", a_share, a_ftype, a_line, a_select, a_desc); }
 
 char
 yunit_share__close      (char a_type, char a_label [LEN_LABEL], char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep)

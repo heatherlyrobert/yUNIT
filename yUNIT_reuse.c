@@ -14,8 +14,8 @@ char  YUNIT_SHARES  [LEN_HUND] = "0123 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMN
  */
 tyUNIT_COUNTS  g_counts [LEN_HUND];
 
-#define     T_MASTER    'm'
-#define     T_SHARES    'r'
+#define     T_MASTER    'g'
+#define     T_SHARES    's'
 #define     T_CONFIG    'c'
 
 
@@ -55,7 +55,7 @@ yunit_reuse_clear       (char n)
    /*---(identifier)---------------------*/
    g_counts [n].c_id     = YUNIT_SHARES [n];
    g_counts [n].c_type   = yUNIT_reuse_type (g_counts [n].c_id);
-   g_counts [n].c_file   =  '·';
+   g_counts [n].c_ftype  =  '-';
    g_counts [n].c_line   =   -1;
    strcpy (g_counts [n].c_desc, "·");
    /*---(units)--------------------------*/
@@ -120,7 +120,7 @@ yUNIT_reuse_purge       (char a_type)
 }
 
 char
-yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called)
+yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called)
 {
    char        rce         =  -10;
    int         n           =    0;
@@ -141,6 +141,7 @@ yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], in
       default       : strlcpy (r_tdesc, "special", LEN_TERSE);  break;
       }
    }
+   if (r_ftype != NULL)  *r_ftype  = g_counts [n].c_ftype;
    if (r_line  != NULL)  *r_line   = g_counts [n].c_line;
    if (r_desc  != NULL)  strlcpy (r_desc, g_counts [n].c_desc, LEN_LONG);
    if (r_conds != NULL)  *r_conds  = g_counts [n].c_midd;
@@ -152,7 +153,7 @@ int
 yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r_conds, short *r_steps)
 {
    int         x_line      =   -1;
-   yUNIT_reuse_data (a_abbr, NULL, NULL, &x_line, r_desc, r_conds, r_steps, NULL);
+   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, &x_line, r_desc, r_conds, r_steps, NULL);
    return x_line;
 }
 
@@ -160,7 +161,7 @@ int
 yUNIT_reuse_line        (char a_abbr)
 {
    int         x_line      =   -1;
-   yUNIT_reuse_data (a_abbr, NULL, NULL, &x_line, NULL, NULL, NULL, NULL);
+   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, &x_line, NULL, NULL, NULL, NULL);
    return x_line;
 }
 
@@ -168,7 +169,7 @@ int
 yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN_LONG])
 {
    int         x_line      =   -1;
-   yUNIT_reuse_data (a_abbr, NULL, r_tdesc, &x_line, r_desc, NULL, NULL, NULL);
+   yUNIT_reuse_data (a_abbr, NULL, r_tdesc, NULL, &x_line, r_desc, NULL, NULL, NULL);
    return x_line;
 }
 
@@ -183,8 +184,9 @@ yUNIT_reuse_save        (char a_abbr)
    if (n < 0) return n;
    /*> yunit_reuse_clear (n);                                                         <*/
    /*---(identifier)---------------------*/
-   /*> g_counts [n].c_line   = g_counts [SCRP_ID].c_line;                             <*/
-   /*> strcpy (g_counts [n].c_desc, g_counts [SCRP_ID].c_desc);                       <*/
+   g_counts [n].c_ftype  = g_counts [SCRP_ID].c_ftype;
+   g_counts [n].c_line   = g_counts [SCRP_ID].c_line;
+   strcpy (g_counts [n].c_desc, g_counts [SCRP_ID].c_desc);
    /*---(units)--------------------------*/
    g_counts [n].c_unit   = g_counts [SCRP_ID].c_unit;
    /*---(top)----------------------------*/
@@ -257,19 +259,24 @@ yUNIT_reuse_add         (char a_abbr)
 }
 
 char
-yUNIT_reuse_set         (char a_abbr, int a_line, char a_desc [LEN_LONG])
+yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG])
 {
    /*---(locals)-------------------------*/
+   char        rce         =  -10;
    char        n           =   -1;
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
-   if (n < 0) return n;
+   --rce;  if (n < 0)                                             return rce;
    yunit_reuse_clear (n);
+   /*---(defense)------------------------*/
+   --rce;  if (a_ftype == 0 || strchr ("hwd-", a_ftype) == NULL)  return rce;
+   --rce;  if (a_line  <= 0 || a_line  >  9999)                   return rce;
+   --rce;  if (a_desc == NULL || a_desc [0] == '\0')              return rce;
    /*> printf ("a_abbr %c, a_line %d, n %d, %s\n", a_abbr, a_line, n, a_desc);        <*/
    /*---(update list)--------------------*/
-   g_counts [n].c_line = a_line;
-   if (a_desc != NULL)  strlcpy (g_counts [n].c_desc, a_desc, LEN_LONG);
-   else                 strcpy  (g_counts [n].c_desc, "");
+   g_counts [n].c_ftype = a_ftype;;
+   g_counts [n].c_line  = a_line;
+   strlcpy (g_counts [n].c_desc, a_desc, LEN_LONG);
    /*---(complete)-----------------------*/
    return 1;
 }
@@ -297,8 +304,62 @@ yUNIT_reuse_show        (char a_abbr)
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
    if (n < 0) return "((n/a))";
-   sprintf (x_prefix, "%c  %4d  %-65.65s", g_counts [n].c_id, g_counts [n].c_line, g_counts [n].c_desc);
+   sprintf (x_prefix, "%c  %c  %c  %4d  %-65.65s", g_counts [n].c_id, g_counts [n].c_type, g_counts [n].c_ftype, g_counts [n].c_line, g_counts [n].c_desc);
    return yunit_stats_show (x_prefix, n);
+}
+
+char
+yUNIT__reuse_parse_more (char n, char *p, char *q, char *r)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         i           =    0;
+   char        x_field     [LEN_LONG]  = "";
+   /*---(walk remaining data)------------*/
+   --rce;  for (i = 0; i <= 21; ++i) {
+      /*---(check field)-----------------*/
+      if (p == NULL)   return rce;
+      strlcpy   (x_field, p, LEN_LONG);
+      ystrutrim (x_field,    LEN_LONG);
+      /*---(script-level)----------------*/
+      switch (i) {
+      case  0 :  g_counts [n].c_topp   = atoi (x_field);  break;
+      case  1 :  g_counts [n].c_glob   = atoi (x_field);  break;
+      case  2 :  g_counts [n].c_shar   = atoi (x_field);  break;
+      case  3 :  g_counts [n].c_scrp   = atoi (x_field);  break;
+      }
+      /*---(condition-level)-------------*/
+      switch (i) {
+      case  4 :  g_counts [n].c_midd   = atoi (x_field);  break;
+      case  5 :  g_counts [n].c_cond   = atoi (x_field);  break;
+      case  6 :  g_counts [n].c_ditt   = atoi (x_field);  break;
+      case  7 :  strlcpy (g_counts [n].c_dittos, x_field, LEN_LABEL);  break;
+      case  8 :  g_counts [n].c_lreu   = atoi (x_field);  break;
+      case  9 :  strlcpy (g_counts [n].c_lreuse, x_field, LEN_HUND);   break;
+      case 10 :  g_counts [n].c_greu   = atoi (x_field);  break;
+      case 11 :  strlcpy (g_counts [n].c_greuse, x_field, LEN_HUND);   break;
+      case 12 :  g_counts [n].c_skipc  = atoi (x_field);  break;
+      }
+      /*---(step-level)------------------*/
+      switch (i) {
+      case 13 :  g_counts [n].c_step   = atoi (x_field);  break;
+      case 14 :  g_counts [n].c_real   = atoi (x_field);  break;
+      case 15 :  g_counts [n].c_vars   = atoi (x_field);  break;
+      case 16 :  g_counts [n].c_void   = atoi (x_field);  break;
+      case 17 :  g_counts [n].c_skips  = atoi (x_field);  break;
+      }
+      /*---(ditto)-----------------------*/
+      switch (i) {
+      case 18 :  g_counts [n].c_dstep  = atoi (x_field);  break;
+      case 19 :  g_counts [n].c_dreal  = atoi (x_field);  break;
+      case 20 :  g_counts [n].c_dvoid  = atoi (x_field);  break;
+      case 21 :  g_counts [n].c_dskip  = atoi (x_field);  break;
+      }
+      /*---(next)------------------------*/
+      p = strtok_r (NULL, q, &r);
+   }
+   /*---(complete)-----------------------*/
+   return 1;
 }
 
 char
@@ -321,7 +382,7 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
    /*---(initial parse)------------------*/
    p = strtok_r (x_recd, q, &r);
    /*---(walk data)----------------------*/
-   --rce;  for (i = 0; i <= 24; ++i) {
+   --rce;  for (i = 0; i <= 5; ++i) {
       /*---(check field)-----------------*/
       if (p == NULL)   return rce;
       strlcpy   (x_field, p, LEN_LONG);
@@ -332,9 +393,18 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
          case  0 :  n = yUNIT_reuse_index (x_field [0]);
                     if (n < 0)  return rce;
                     break;
-         case  1 :  g_counts [n].c_line   = atoi (x_field);
+         case  1 :  break;
+         case  2 :  if (x_field [0] != '\0' && strchr ("hwd-", x_field [0]) != NULL) {
+                       g_counts [n].c_ftype  = x_field [0];
+                    } else {
+                       g_counts [n].c_ftype  = '-';
+                    }
                     break;
-         case  2 :  strlcpy (g_counts [n].c_desc  , x_field, LEN_LONG);
+         case  3 :  g_counts [n].c_line   = atoi (x_field);
+                    break;
+         case  4 :  strlcpy (g_counts [n].c_desc  , x_field, LEN_LONG);
+                    break;
+         case  5 :  yUNIT__reuse_parse_more (n, p, q, r);
                     break;
          }
       } else if (a_type == 'r') {
@@ -345,12 +415,21 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
                     break;
          case  1 :  strlcpy (g_counts [n].c_desc  , x_field, LEN_LONG);
                     break;
+         case  2 :  break;
+         case  3 :  yUNIT__reuse_parse_more (n, p, q, r);
+                    i = 5;
+                    break;
          }
       } else if (a_type == 'u') {
          switch (i) {
+         case  0 :  break;
+         case  1 :  break;
          case  2 :  n = yUNIT_reuse_index (x_field [0]);
                     if (n < 0)  return rce;
                     if (g_counts [n].c_line < 0)  g_counts [n].c_line   = 0;
+                    break;
+         case  3 :  yUNIT__reuse_parse_more (n, p, q, r);
+                    i = 5;
                     break;
          }
       } else {
@@ -358,39 +437,39 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
          break;
       }
       /*---(script-level)----------------*/
-      switch (i) {
-      case  3 :  g_counts [n].c_topp   = atoi (x_field);  break;
-      case  4 :  g_counts [n].c_glob   = atoi (x_field);  break;
-      case  5 :  g_counts [n].c_shar   = atoi (x_field);  break;
-      case  6 :  g_counts [n].c_scrp   = atoi (x_field);  break;
-      }
+      /*> switch (i) {                                                                <* 
+       *> case  5 :  g_counts [n].c_topp   = atoi (x_field);  break;                  <* 
+       *> case  6 :  g_counts [n].c_glob   = atoi (x_field);  break;                  <* 
+       *> case  7 :  g_counts [n].c_shar   = atoi (x_field);  break;                  <* 
+       *> case  8 :  g_counts [n].c_scrp   = atoi (x_field);  break;                  <* 
+       *> }                                                                           <*/
       /*---(condition-level)-------------*/
-      switch (i) {
-      case  7 :  g_counts [n].c_midd   = atoi (x_field);  break;
-      case  8 :  g_counts [n].c_cond   = atoi (x_field);  break;
-      case  9 :  g_counts [n].c_ditt   = atoi (x_field);  break;
-      case 10 :  strlcpy (g_counts [n].c_dittos, x_field, LEN_LABEL);  break;
-      case 11 :  g_counts [n].c_lreu   = atoi (x_field);  break;
-      case 12 :  strlcpy (g_counts [n].c_lreuse, x_field, LEN_HUND);   break;
-      case 13 :  g_counts [n].c_greu   = atoi (x_field);  break;
-      case 14 :  strlcpy (g_counts [n].c_greuse, x_field, LEN_HUND);   break;
-      case 15 :  g_counts [n].c_skipc  = atoi (x_field);  break;
-      }
+      /*> switch (i) {                                                                <* 
+       *> case  9 :  g_counts [n].c_midd   = atoi (x_field);  break;                  <* 
+       *> case 10 :  g_counts [n].c_cond   = atoi (x_field);  break;                  <* 
+       *> case 11 :  g_counts [n].c_ditt   = atoi (x_field);  break;                  <* 
+       *> case 12 :  strlcpy (g_counts [n].c_dittos, x_field, LEN_LABEL);  break;     <* 
+       *> case 13 :  g_counts [n].c_lreu   = atoi (x_field);  break;                  <* 
+       *> case 14 :  strlcpy (g_counts [n].c_lreuse, x_field, LEN_HUND);   break;     <* 
+       *> case 15 :  g_counts [n].c_greu   = atoi (x_field);  break;                  <* 
+       *> case 16 :  strlcpy (g_counts [n].c_greuse, x_field, LEN_HUND);   break;     <* 
+       *> case 17 :  g_counts [n].c_skipc  = atoi (x_field);  break;                  <* 
+       *> }                                                                           <*/
       /*---(step-level)------------------*/
-      switch (i) {
-      case 16 :  g_counts [n].c_step   = atoi (x_field);  break;
-      case 17 :  g_counts [n].c_real   = atoi (x_field);  break;
-      case 18 :  g_counts [n].c_vars   = atoi (x_field);  break;
-      case 19 :  g_counts [n].c_void   = atoi (x_field);  break;
-      case 20 :  g_counts [n].c_skips  = atoi (x_field);  break;
-      }
+      /*> switch (i) {                                                                <* 
+       *> case 18 :  g_counts [n].c_step   = atoi (x_field);  break;                  <* 
+       *> case 19 :  g_counts [n].c_real   = atoi (x_field);  break;                  <* 
+       *> case 20 :  g_counts [n].c_vars   = atoi (x_field);  break;                  <* 
+       *> case 21 :  g_counts [n].c_void   = atoi (x_field);  break;                  <* 
+       *> case 22 :  g_counts [n].c_skips  = atoi (x_field);  break;                  <* 
+       *> }                                                                           <*/
       /*---(ditto)-----------------------*/
-      switch (i) {
-      case 21 :  g_counts [n].c_dstep  = atoi (x_field);  break;
-      case 22 :  g_counts [n].c_dreal  = atoi (x_field);  break;
-      case 23 :  g_counts [n].c_dvoid  = atoi (x_field);  break;
-      case 24 :  g_counts [n].c_dskip  = atoi (x_field);  break;
-      }
+      /*> switch (i) {                                                                <* 
+       *> case 23 :  g_counts [n].c_dstep  = atoi (x_field);  break;                  <* 
+       *> case 24 :  g_counts [n].c_dreal  = atoi (x_field);  break;                  <* 
+       *> case 25 :  g_counts [n].c_dvoid  = atoi (x_field);  break;                  <* 
+       *> case 26 :  g_counts [n].c_dskip  = atoi (x_field);  break;                  <* 
+       *> }                                                                           <*/
       /*---(next)------------------------*/
       p = strtok_r (NULL, q, &r);
       /*---(done)------------------------*/
@@ -512,23 +591,23 @@ yUNIT_reuse_detail    (char a_abbr)
    char        rc          =    0;
    char        x_type      =  '-';
    char        x_tdesc     [LEN_TERSE] = "";
+   char        x_ftype     =  '-';
    int         x_line      =  '-';
    char        x_desc      [LEN_LONG]  = "";
    short       x_conds     =    0;
    short       x_steps     =    0;
    strcpy (s_print, "");
-   rc = yUNIT_reuse_data (a_abbr, &x_type, x_tdesc, &x_line, x_desc, &x_conds, &x_steps, NULL);
+   rc = yUNIT_reuse_data (a_abbr, &x_type, x_tdesc, &x_ftype, &x_line, x_desc, &x_conds, &x_steps, NULL);
    if (rc <= 0) {
       sprintf (s_print, "((n/a))");
-      /*> sprintf (s_print, "- · ····  ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´  ···· ····  ·········  Ï");   <*/
    } else if (x_conds > 0) {
       ystruencode (x_desc);
-      sprintf (s_print, "%c %c %4d  %-51.51s  %4d %4d  %-9.9s  Ï", a_abbr, x_type, x_line, x_desc, x_conds, x_steps, x_tdesc);
+      sprintf (s_print, "%c %c %c %4d  %-51.51s  %4d %4d  %-9.9s  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_conds, x_steps, x_tdesc);
    } else if (x_line  > 0) {
       ystruencode (x_desc);
-      sprintf (s_print, "%c %c %4d  %-51.51s  ···· ····  %-9.9s  Ï", a_abbr, x_type, x_line, x_desc, x_tdesc);
+      sprintf (s_print, "%c %c %c %4d  %-51.51s  ···· ····  %-9.9s  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_tdesc);
    } else {
-      sprintf (s_print, "%c %c ····  ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´  ···· ····  %-9.9s  Ï", a_abbr, x_type, x_tdesc);
+      sprintf (s_print, "%c %c - ····  ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´  ···· ····  %-9.9s  Ï", a_abbr, x_type, x_tdesc);
    }
    return s_print;
 }
@@ -544,7 +623,7 @@ yUNIT_reuse_export     (void *a_file)
    --rce;  if (a_file == NULL)  return rce;
    f = (FILE *) a_file;
    for (i = 0; i < LEN_HUND; ++i) {
-      if (strchr ("mc", g_counts [i].c_type) == NULL)  continue;
+      if (strchr ("gc", g_counts [i].c_type) == NULL)  continue;
       if (g_counts [i].c_line < 0)                     continue;
       yUNIT_reuse_show (g_counts [i].c_id);
       fprintf (f, "%s\n", s_print);
