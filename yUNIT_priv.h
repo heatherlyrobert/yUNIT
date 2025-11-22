@@ -39,8 +39,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.3-, new level for unit testing in koios"
-#define     P_VERNUM    "2.3k"
-#define     P_VERTXT    "yUNIT_reuse unit tested and handling file types as well"
+#define     P_VERNUM    "2.3l"
+#define     P_VERTXT    "enhanced yUNIT_reuse export, added some quick koios support functions"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -76,6 +76,13 @@
 #include    <yVAR.h>
 #include    <yCOLOR_solo.h>
 #include    "yUNIT.h"
+
+#include    <yLOG_solo.h>
+#include    <yENV_solo.h>
+
+
+extern char zUNIT_debug;
+#define     DEBUG_MUNIT  if (zUNIT_debug == 'y') 
 
 
 #define     TYPE_FULL        'Ô'
@@ -206,6 +213,54 @@ struct cUNIT {
 extern tUNIT   myUNIT;
 
 
+
+
+
+typedef struct cyUNIT_COUNTS tyUNIT_COUNTS;
+static struct cyUNIT_COUNTS {
+   /*---(identifier)---------------------*/
+   char        c_id;                        /* script, global, config, or shared identifier/sequence      */
+   char        c_type;                      /* type -- g=global   , c=config   , l=shared     -=special   */
+   char        c_ftype;                     /* file -- h=unit_head, w=unit_wide, d=unit_data, -=other     */
+   char        c_major;                     /* for use in koios programming                               */
+   int         c_line;                      /* location in file                                           */
+   char        c_desc    [LEN_LONG];        /* description of purpose                                     */
+   /*---(unit)---------------------------*/
+   int         c_unit;                      /* all units                                                  */
+   /*---(top)----------------------------*/
+   int         c_topp;                      /* all count                                             */
+   int         c_scrp;                      /* script count                                          */
+   int         c_glob;                      /* global count                                          */
+   int         c_shar;                      /* shared count                                          */
+   /*---(middle)-------------------------*/
+   int         c_midd;                      /* condition, ditto, reuse count                         */
+   int         c_cond;                      /* condition count                                       */
+   int         c_ditt;                      /* ditto count                                           */
+   char        c_dittos    [LEN_LABEL];     /* dittos usage list                                     */
+   int         c_lreu;                      /* local (shared) reuse count                            */
+   char        c_lreuse    [LEN_HUND];      /* local reuse usage list                                */
+   int         c_greu;                      /* global (global/config) reuse count                    */
+   char        c_greuse    [LEN_HUND];      /* global reuse usage list                               */
+   int         c_skipc;                     /* skipped conditions                                    */
+   /*---(step)---------------------------*/
+   int         c_step;                      /* all step count                                        */
+   int         c_real;                      /* steps returning non-void                              */
+   int         c_vars;                      /* local and global variables                            */
+   int         c_void;                      /* steps returning void                                  */
+   int         c_skips;                     /* skipped steps                                         */
+   /*---(ditto)--------------------------*/
+   int         c_dstep;                     /* dittoed all steps                                     */
+   int         c_dreal;                     /* dittoed non-void steps                                */
+   int         c_dvoid;                     /* dittoed void steps                                    */
+   int         c_dskip;                     /* dittoed skipped steps                                 */
+   /*---(usage)--------------------------*/
+   char        c_called;                    /* number of times reused/called                         */
+   /*---(done)---------------------------*/
+};
+extern tyUNIT_COUNTS  g_counts [LEN_HUND];
+
+
+
 #define          YUNIT_TERM      myUNIT.eterm
 #define          YUNIT_PURE      myUNIT.pure
 #define          YUNIT_MONO      myUNIT.mono
@@ -219,7 +274,6 @@ extern tUNIT   myUNIT;
 #define          YUNIT_NDOTS     myUNIT.b_num_dots
 
 
-extern tyUNIT_COUNTS  g_counts [LEN_HUND];
 
 
 #define FULL_ID    0

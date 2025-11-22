@@ -347,6 +347,7 @@ typedef long long       llong;
 
 /*===[[ FUNCTION PROTOTYPES ]]================================================*/
 char*       yUNIT_version           (void);
+char        yUNIT_debugging         (void);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        yUNIT_unique            (int a_nscrp, int a_ncond, int a_nstep, int a_uscrp, int a_ucond, int a_ustep);
@@ -448,63 +449,25 @@ char        yUNIT_printf            (char *a_format, ...);
 
 
 
-typedef struct cyUNIT_COUNTS tyUNIT_COUNTS;
-static struct cyUNIT_COUNTS {
-   /*---(identifier)---------------------*/
-   char        c_id;                        /* script, global, config, or shared identifier/sequence      */
-   char        c_type;                      /* type -- g=global   , c=config    , l=shared     -=special  */
-   char        c_ftype;                     /* file -- h=unit_head, s=unit_share, d=unit_data, -=other    */
-   int         c_line;                      /* location in file                                           */
-   char        c_desc    [LEN_LONG];        /* description of purpose                                     */
-   /*---(unit)---------------------------*/
-   int         c_unit;                      /* all units                                                  */
-   /*---(top)----------------------------*/
-   int         c_topp;                      /* all count                                             */
-   int         c_scrp;                      /* script count                                          */
-   int         c_glob;                      /* global count                                          */
-   int         c_shar;                      /* shared count                                          */
-   /*---(middle)-------------------------*/
-   int         c_midd;                      /* condition, ditto, reuse count                         */
-   int         c_cond;                      /* condition count                                       */
-   int         c_ditt;                      /* ditto count                                           */
-   char        c_dittos    [LEN_LABEL];     /* dittos usage list                                     */
-   int         c_lreu;                      /* local (shared) reuse count                            */
-   char        c_lreuse    [LEN_HUND];      /* local reuse usage list                                */
-   int         c_greu;                      /* global (global/config) reuse count                    */
-   char        c_greuse    [LEN_HUND];      /* global reuse usage list                               */
-   int         c_skipc;                     /* skipped conditions                                    */
-   /*---(step)---------------------------*/
-   int         c_step;                      /* all step count                                        */
-   int         c_real;                      /* steps returning non-void                              */
-   int         c_vars;                      /* local and global variables                            */
-   int         c_void;                      /* steps returning void                                  */
-   int         c_skips;                     /* skipped steps                                         */
-   /*---(ditto)--------------------------*/
-   int         c_dstep;                     /* dittoed all steps                                     */
-   int         c_dreal;                     /* dittoed non-void steps                                */
-   int         c_dvoid;                     /* dittoed void steps                                    */
-   int         c_dskip;                     /* dittoed skipped steps                                 */
-   /*---(usage)--------------------------*/
-   char        c_called;                    /* number of times reused/called                         */
-   /*---(done)---------------------------*/
-};
-
-
-
 /*===[[ yUNIT_reuse.c ]]======================================================*/
 /*········· ´······················ ´·········································*/
 /*---(support)--------------*/
 char      yUNIT_reuse_type        (char a_abbr);
+char      yUNIT_reuse_major       (char a_abbr);
 int       yUNIT_reuse_index       (char a_abbr);
 char      yUNIT_reuse_clear       (char a_abbr);
-char      yUNIT_reuse_purge       (char a_type);
+char      yUNIT_reuse_purge       (char a_ftype);
+char      yUNIT_reuse_ftype       (char a_nscrp [LEN_TITLE], char r_header [LEN_TITLE]);
 /*---(data)-----------------*/
-char      yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called);
+char      yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_major, char r_label [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called);
 int       yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r_conds, short *r_steps);
 int       yUNIT_reuse_line        (char a_abbr);
 int       yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN_LONG]);
 char      yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG]);
+/*---(in-use)---------------*/
 char      yUNIT_reuse_called      (char a_abbr);
+char      yUNIT_parse_update      (char a_abbr, int a_conds, int a_steps);
+char      yUNIT_parse_addback     (char a_abbr, int *b_conds, int *b_steps);
 /*---(full record)----------*/
 char      yUNIT_reuse_save        (char a_abbr);
 char      yUNIT_reuse_add         (char a_abbr);
@@ -514,10 +477,11 @@ char      yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD]);
 char*     yUNIT_reuse_actuals     (void);
 char*     yUNIT_reuse_used        (void);
 char*     yUNIT_reuse_detail      (char a_abbr);
-/*---(exim)-----------------*/
-char      yUNIT_reuse_export      (void *a_file);
-char      yUNIT_reuse_import      (void *a_file);
 char      yUNIT_reuse_list        (void);
+/*---(exim)-----------------*/
+char      yUNIT_reuse_export      (char a_name [LEN_PATH]);
+char      yUNIT_reuse_header      (char a_ftype, char a_header [LEN_TITLE]);
+char      yUNIT_reuse_import      (char a_name [LEN_PATH]);
 /*---(done)-----------------*/
 
 

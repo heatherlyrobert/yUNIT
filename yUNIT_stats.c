@@ -115,6 +115,8 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
    else { fprintf (a_conv, "# BOOM===  %s \n", x_title); return rce; }
    /*---(master exception)---------------*/
    if (x_type == YUNIT_IS_UNIT && strcmp (a_nscrp, "unit_head.unit") == 0)  { x_type = YUNIT_IS_MAST; x_stype = YUNIT_IS_MAST;  }
+   if (x_type == YUNIT_IS_UNIT && strcmp (a_nscrp, "unit_wide.unit") == 0)  { x_type = YUNIT_IS_MAST; x_stype = YUNIT_IS_MAST;  }
+   if (x_type == YUNIT_IS_UNIT && strcmp (a_nscrp, "unit_data.unit") == 0)  { x_type = YUNIT_IS_MAST; x_stype = YUNIT_IS_MAST;  }
    /*---(data preparation)---------------*/
    switch (x_stype) {
    case YUNIT_IS_FULL  :  strcpy (x_verb, "LUFF        ");  strcpy (x_header, "#===========");  strcpy (x_label, "full program statistics -----------------------------------------");  strcpy  (x_ref, " -");                     sprintf (x_stat, "    %4d  %4d  %4d  %4d", FULL.c_topp, FULL.c_glob, FULL.c_shar, FULL.c_scrp);   break;
@@ -455,10 +457,10 @@ yunit_stats_show        (char a_prefix [LEN_FULL], char n)
    sprintf (x_part , "%4d  %-20.20s  %4d  %-20.20s  %4d  ",
          g_counts [n].c_lreu , x_ulreuse, g_counts [n].c_greu , x_ugreuse, g_counts [n].c_skipc);
    strlcat (s_print, x_part, LEN_RECD);
-   sprintf (x_part , "%4d  %4d  %4d  %4d  %4d  ",
+   sprintf (x_part , "%5d  %5d  %5d  %5d  %5d  ",
          g_counts [n].c_step , g_counts [n].c_real , g_counts [n].c_vars , g_counts [n].c_void  , g_counts [n].c_skips);
    strlcat (s_print, x_part, LEN_RECD);
-   sprintf (x_part , "%4d  %4d  %4d  %4d   ",
+   sprintf (x_part , "%5d  %5d  %5d  %5d   ",
          g_counts [n].c_dstep, g_counts [n].c_dreal, g_counts [n].c_dvoid, g_counts [n].c_dskip);
    strlcat (s_print, x_part, LEN_RECD);
    return s_print;

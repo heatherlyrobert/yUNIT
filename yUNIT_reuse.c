@@ -28,25 +28,48 @@ static void  o___PROGRAM_________o () { return; }
 char
 yUNIT_reuse_type        (char a_abbr)
 {
-   if      (a_abbr == 0)                          return '-';
-   else if (strchr (YSTR_UPPER, a_abbr) != NULL)  return T_MASTER;
-   else if (strchr (YSTR_LOWER, a_abbr) != NULL)  return T_SHARES;
-   else if (strchr (YSTR_GREEK, a_abbr) != NULL)  return T_CONFIG;
-   return '-';
+   char        x_type      =  '-';
+   /*---(header)-------------------------*/
+   if      (a_abbr == 0)                          x_type = '-';
+   else if (strchr (YSTR_UPPER, a_abbr) != NULL)  x_type = T_MASTER;
+   else if (strchr (YSTR_LOWER, a_abbr) != NULL)  x_type = T_SHARES;
+   else if (strchr (YSTR_GREEK, a_abbr) != NULL)  x_type = T_CONFIG;
+   /*---(complete)-----------------------*/
+   return x_type;
+}
+
+char
+yUNIT_reuse_major       (char a_abbr)
+{
+   char        x_major     =  '-';
+   /*---(header)-------------------------*/
+   if      (a_abbr == 0)                          x_major = '-';
+   else if (strchr (YSTR_LOWER, a_abbr) != NULL)  x_major = a_abbr;
+   else if (strchr (YSTR_UPPER, a_abbr) != NULL)  x_major = a_abbr;
+   else if (strchr (YSTR_GREEK, a_abbr) != NULL)  x_major = (uchar) a_abbr - (uchar) 'è' + 'a';
+   /*---(complete)-----------------------*/
+   return x_major;
 }
 
 int
 yUNIT_reuse_index       (char a_abbr)
 {
+   char        x_index     =   -1;
    int         i           =    0;
-   if (a_abbr == ' ')   return -1;
-   if (a_abbr == '·')   return -1;
-   if (a_abbr == '\0')  return -1;
-   for (i = 0; i < LEN_HUND; ++i) {
-      if (YUNIT_SHARES [i] == a_abbr)   return i;
+   /*---(header)-------------------------*/
+   if      (a_abbr == ' ')   x_index = -1;
+   else if (a_abbr == '·')   x_index = -1;
+   else if (a_abbr == 0)     x_index = -1;
+   else {
+      for (i = 0; i < LEN_HUND; ++i) {
+         if (YUNIT_SHARES [i] == a_abbr) {
+            x_index = i;
+            break;
+         }
+      }
    }
-   /*---(trouble)------------------------*/
-   return -1;
+   /*---(complete)-----------------------*/
+   return x_index;
 }
 
 char
@@ -54,8 +77,9 @@ yunit_reuse_clear       (char n)
 {
    /*---(identifier)---------------------*/
    g_counts [n].c_id     = YUNIT_SHARES [n];
-   g_counts [n].c_type   = yUNIT_reuse_type (g_counts [n].c_id);
+   g_counts [n].c_type   = yUNIT_reuse_type  (g_counts [n].c_id);
    g_counts [n].c_ftype  =  '-';
+   g_counts [n].c_major  = yUNIT_reuse_major (g_counts [n].c_id);
    g_counts [n].c_line   =   -1;
    strcpy (g_counts [n].c_desc, "·");
    /*---(units)--------------------------*/
@@ -96,56 +120,102 @@ char
 yUNIT_reuse_clear       (char a_abbr)
 {
    /*---(locals)-------------------------*/
+   char        rce         =  -10;
    char        n           =   -1;
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
-   if (n < 0) return n;
+   --rce;  if (n < 0)   return rce;
    yunit_reuse_clear (n);
    /*---(complete)-----------------------*/
    return 0;
 }
 
 char
-yUNIT_reuse_purge       (char a_type)
+yUNIT_reuse_purge       (char a_ftype)
 {
    /*---(locals)-------------------------*/
    int         i           =    0;
    /*---(set defaults)-------------------*/
+   if (a_ftype == 0 || strchr ("*hwd", a_ftype) == NULL)  return -1;
    for (i = 0; i < LEN_HUND; ++i) {
-      if      (a_type == '*')                  yunit_reuse_clear (i);
-      else if (g_counts [i].c_type == a_type)  yunit_reuse_clear (i);
+      if      (a_ftype == '*')                   yunit_reuse_clear (i);
+      else if (g_counts [i].c_ftype == a_ftype)  yunit_reuse_clear (i);
    }
    /*---(complete)-----------------------*/
    return 0;
 }
 
 char
-yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called)
+yUNIT_reuse_ftype       (char a_nscrp [LEN_TITLE], char r_header [LEN_TITLE])
+{
+   char        x_ftype     =  '-';
+   char        x_header    [LEN_TITLE] = "";
+   if (r_header != NULL)  strcpy  (r_header, "");
+   if      (a_nscrp == NULL)                         { x_ftype = '-'; }
+   else if (strcmp (a_nscrp, "unit_head.unit") == 0) { x_ftype = 'h'; }
+   else if (strcmp (a_nscrp, "unit_wide.unit") == 0) { x_ftype = 'w'; strcpy (x_header, "unit_wide.h"); }
+   else if (strcmp (a_nscrp, "unit_data.unit") == 0) { x_ftype = 'd'; strcpy (x_header, "unit_data.h"); }
+   else                                              { x_ftype = '-'; }
+   if (r_header != NULL)  strlcpy (r_header, x_header, LEN_TITLE);
+   return x_ftype;
+}
+
+char
+yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_major, char r_label [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called)
 {
    char        rce         =  -10;
    int         n           =    0;
-   if (r_type  != NULL)  *r_type   = '-';
-   if (r_line  != NULL)  *r_line   =  -1;
-   if (r_tdesc != NULL)  strcpy (r_tdesc, "");
-   if (r_desc  != NULL)  strcpy (r_desc , "");
-   if (r_conds != NULL)  *r_conds  =  -1;
-   if (r_steps != NULL)  *r_steps  =  -1;
+   char        x_tdesc     [LEN_TERSE] = "";
+   char        x_label     [LEN_TERSE] = "";
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   /*---(default)------------------------*/
+   if (r_type   != NULL)  *r_type   = '-';
+   if (r_tdesc  != NULL)  strcpy (r_tdesc, "");
+   if (r_major  != NULL)  *r_major  = '-';
+   if (r_label  != NULL)  strcpy (r_label, "");
+   if (r_ftype  != NULL)  *r_ftype  = '-';
+   if (r_line   != NULL)  *r_line   =  -1;
+   if (r_desc   != NULL)  strcpy (r_desc , "");
+   if (r_conds  != NULL)  *r_conds  =  -1;
+   if (r_steps  != NULL)  *r_steps  =  -1;
+   if (r_called != NULL)  *r_called =  -1;
+   /*---(get reuse)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
-   --rce;  if (n < 0)  return rce;
-   if (r_type  != NULL)  *r_type   = g_counts [n].c_type;
-   if (r_tdesc != NULL) {
-      switch (g_counts [n].c_type) {
-      case T_MASTER : strlcpy (r_tdesc, "GLOBAL" , LEN_TERSE);  break;
-      case T_SHARES : strlcpy (r_tdesc, "SHARED" , LEN_TERSE);  break;
-      case T_CONFIG : strlcpy (r_tdesc, "CONFIG" , LEN_TERSE);  break;
-      default       : strlcpy (r_tdesc, "special", LEN_TERSE);  break;
-      }
+   --rce;  if (n < 0) {
+      DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+      return rce;
    }
+   /*---(get labels)---------------------*/
+   switch (g_counts [n].c_type) {
+   case T_SHARES :
+      strlcpy (x_tdesc, "SHARED" , LEN_TERSE);
+      strlcpy (x_label, "shared" , LEN_TERSE);
+      break;
+   case T_MASTER :
+      strlcpy (x_tdesc, "GLOBAL" , LEN_TERSE);
+      strlcpy (x_label, "global" , LEN_TERSE);
+      break;
+   case T_CONFIG :
+      strlcpy (x_tdesc, "CONFIG" , LEN_TERSE);
+      strlcpy (x_label, "config" , LEN_TERSE);
+      break;
+   default       :
+      strlcpy (x_tdesc, "special", LEN_TERSE);
+      break;
+   }
+   /*---(save-back)----------------------*/
+   if (r_type  != NULL)  *r_type   = g_counts [n].c_type;
+   if (r_tdesc != NULL)  strlcpy (r_tdesc, x_tdesc, LEN_TERSE);
+   if (r_major != NULL)  *r_major  = g_counts [n].c_major;
+   if (r_label != NULL)  strlcpy (r_label, x_label, LEN_TERSE);
    if (r_ftype != NULL)  *r_ftype  = g_counts [n].c_ftype;
    if (r_line  != NULL)  *r_line   = g_counts [n].c_line;
    if (r_desc  != NULL)  strlcpy (r_desc, g_counts [n].c_desc, LEN_LONG);
    if (r_conds != NULL)  *r_conds  = g_counts [n].c_midd;
    if (r_steps != NULL)  *r_steps  = g_counts [n].c_step;
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return 1;
 }
 
@@ -153,7 +223,11 @@ int
 yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r_conds, short *r_steps)
 {
    int         x_line      =   -1;
-   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, &x_line, r_desc, r_conds, r_steps, NULL);
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, NULL, NULL, &x_line, r_desc, r_conds, r_steps, NULL);
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return x_line;
 }
 
@@ -161,7 +235,11 @@ int
 yUNIT_reuse_line        (char a_abbr)
 {
    int         x_line      =   -1;
-   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, &x_line, NULL, NULL, NULL, NULL);
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, NULL, NULL, &x_line, NULL, NULL, NULL, NULL);
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return x_line;
 }
 
@@ -169,24 +247,28 @@ int
 yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN_LONG])
 {
    int         x_line      =   -1;
-   yUNIT_reuse_data (a_abbr, NULL, r_tdesc, NULL, &x_line, r_desc, NULL, NULL, NULL);
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   yUNIT_reuse_data (a_abbr, NULL, r_tdesc, NULL, NULL, NULL, &x_line, r_desc, NULL, NULL, NULL);
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return x_line;
 }
 
-char
+char         /*-> at end shared, save stats ----------------------------------*/
 yUNIT_reuse_save        (char a_abbr)
 {
    /*---(locals)-------------------------*/
+   char        rce         =  -10;
    char        n           =   -1;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
-   /*> printf ("a_abbr %c, n %d\n", a_abbr, n);                                       <*/
-   if (n < 0) return n;
-   /*> yunit_reuse_clear (n);                                                         <*/
-   /*---(identifier)---------------------*/
-   g_counts [n].c_ftype  = g_counts [SCRP_ID].c_ftype;
-   g_counts [n].c_line   = g_counts [SCRP_ID].c_line;
-   strcpy (g_counts [n].c_desc, g_counts [SCRP_ID].c_desc);
+   --rce;  if (n < 0) {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
    /*---(units)--------------------------*/
    g_counts [n].c_unit   = g_counts [SCRP_ID].c_unit;
    /*---(top)----------------------------*/
@@ -217,6 +299,8 @@ yUNIT_reuse_save        (char a_abbr)
    g_counts [n].c_dskip  = g_counts [SCRP_ID].c_dskip;
    /*---(usage)--------------------------*/
    g_counts [n].c_called = g_counts [SCRP_ID].c_called;
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    /*---(done)---------------------------*/
    return 1;
 }
@@ -225,10 +309,16 @@ char
 yUNIT_reuse_add         (char a_abbr)
 {
    /*---(locals)-------------------------*/
+   char        rce         =  -10;
    char        n           =   -1;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
-   if (n < 0) return n;
+   if (n < 0) {
+      DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+      return rce;
+   }
    /*---(top)----------------------------*/
    g_counts [SCRP_ID].c_topp  += g_counts [n].c_topp;
    g_counts [SCRP_ID].c_scrp  += g_counts [n].c_scrp;
@@ -254,6 +344,8 @@ yUNIT_reuse_add         (char a_abbr)
    g_counts [SCRP_ID].c_dreal += g_counts [n].c_dreal;
    g_counts [SCRP_ID].c_dvoid += g_counts [n].c_dvoid;
    g_counts [SCRP_ID].c_dskip += g_counts [n].c_dskip;
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    /*---(done)---------------------------*/
    return 1;
 }
@@ -264,36 +356,125 @@ yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN
    /*---(locals)-------------------------*/
    char        rce         =  -10;
    char        n           =   -1;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT  ylog_uenter   (__FUNCTION__);
    /*---(get index)----------------------*/
+   DEBUG_MUNIT  ylog_uchar    ("a_abbr"    , a_abbr);
    n = yUNIT_reuse_index (a_abbr);
-   --rce;  if (n < 0)                                             return rce;
+   DEBUG_MUNIT  ylog_uvalue   ("n"         , n);
+   --rce;  if (n < 0) {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
    yunit_reuse_clear (n);
    /*---(defense)------------------------*/
-   --rce;  if (a_ftype == 0 || strchr ("hwd-", a_ftype) == NULL)  return rce;
-   --rce;  if (a_line  <= 0 || a_line  >  9999)                   return rce;
-   --rce;  if (a_desc == NULL || a_desc [0] == '\0')              return rce;
+   DEBUG_MUNIT  ylog_uchar    ("a_ftype"   , a_ftype);
+   --rce;  if (a_ftype == 0 || strchr ("hwd-", a_ftype) == NULL) {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT  ylog_uvalue   ("a_line"    , a_line);
+   --rce;  if (a_line  <= 0 || a_line  >  99999) {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT  ylog_upoint   ("a_desc"    , a_desc);
+   --rce;  if (a_desc == NULL || a_desc [0] == '\0') {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT  ylog_uinfo    ("a_desc"    , a_desc);
    /*> printf ("a_abbr %c, a_line %d, n %d, %s\n", a_abbr, a_line, n, a_desc);        <*/
    /*---(update list)--------------------*/
    g_counts [n].c_ftype = a_ftype;;
    g_counts [n].c_line  = a_line;
    strlcpy (g_counts [n].c_desc, a_desc, LEN_LONG);
    /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return 1;
 }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                        code/conv use                         ----===*/
+/*====================------------------------------------====================*/
+static void  o___IN_USE__________o () { return; }
 
 char
 yUNIT_reuse_called      (char a_abbr)
 {
    /*---(locals)-------------------------*/
+   char        rce         =  -10;
    char        n           =   -1;
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
-   if (n < 0) return n;
+   --rce;  if (n < 0)   return rce;
    /*---(update list)--------------------*/
    ++(g_counts [n].c_called);
    /*---(complete)-----------------------*/
    return 1;
 }
+
+char
+yUNIT_parse_update      (char a_abbr, int a_conds, int a_steps)
+{
+   /*---(locals)-------------------------*/
+   char        rce         =  -10;
+   int         n           =  -10;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   /*---(lookup)-------------------------*/
+   n = yUNIT_reuse_index (a_abbr);
+   --rce;  if (n < 0)  {
+      DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   --rce;  if (g_counts [n].c_line < 0) {
+      DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(update list)--------------------*/
+   g_counts [n].c_cond = a_conds;
+   g_counts [n].c_step = a_steps;
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
+   return 1;
+}
+
+char
+yUNIT_parse_addback     (char a_abbr, int *b_conds, int *b_steps)
+{
+   /*---(locals)-------------------------*/
+   char        rce         =  -10;
+   int         n           =  -10;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   /*---(lookup)-------------------------*/
+   n = yUNIT_reuse_index (a_abbr);
+   --rce;  if (n < 0)  {
+      DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   --rce;  if (g_counts [n].c_line  <  0) {
+      DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   --rce;  if (g_counts [n].c_cond  <= 0) {
+      DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(update list)--------------------*/
+   if (b_conds != NULL)  *b_conds += g_counts [n].c_cond;
+   if (b_steps != NULL)  *b_steps += g_counts [n].c_step;
+   /*---(after)--------------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
+   /*---(complete)-----------------------*/
+   return 1;
+}
+
 
 char*
 yUNIT_reuse_show        (char a_abbr)
@@ -301,10 +482,12 @@ yUNIT_reuse_show        (char a_abbr)
    /*---(locals)-------------------------*/
    char        n           =   -1;
    char        x_prefix    [LEN_FULL]  = "";
+   /*---(header)-------------------------*/
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
-   if (n < 0) return "((n/a))";
-   sprintf (x_prefix, "%c  %c  %c  %4d  %-65.65s", g_counts [n].c_id, g_counts [n].c_type, g_counts [n].c_ftype, g_counts [n].c_line, g_counts [n].c_desc);
+   if (n < 0)  return "((n/a))";
+   sprintf (x_prefix, "%c  %c  %c  %5d  %-65.65s", g_counts [n].c_id, g_counts [n].c_type, g_counts [n].c_ftype, g_counts [n].c_line, g_counts [n].c_desc);
+   /*---(complete)-----------------------*/
    return yunit_stats_show (x_prefix, n);
 }
 
@@ -315,10 +498,15 @@ yUNIT__reuse_parse_more (char n, char *p, char *q, char *r)
    char        rce         =  -10;
    int         i           =    0;
    char        x_field     [LEN_LONG]  = "";
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
    /*---(walk remaining data)------------*/
    --rce;  for (i = 0; i <= 21; ++i) {
       /*---(check field)-----------------*/
-      if (p == NULL)   return rce;
+      if (p == NULL)  {
+         DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+         return rce;
+      }
       strlcpy   (x_field, p, LEN_LONG);
       ystrutrim (x_field,    LEN_LONG);
       /*---(script-level)----------------*/
@@ -358,6 +546,10 @@ yUNIT__reuse_parse_more (char n, char *p, char *q, char *r)
       /*---(next)------------------------*/
       p = strtok_r (NULL, q, &r);
    }
+   /*---(after)--------------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    /*---(complete)-----------------------*/
    return 1;
 }
@@ -375,23 +567,41 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
    char       *r           = NULL;
    int         j           =    0;
    char        x_field     [LEN_LONG]  = "";
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   /*---(existing)-----------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
    /*---(defense)------------------------*/
-   --rce;  if (a_recd == NULL)        return rce;
-   --rce;  if (strlen (a_recd) == 0)  return rce;
+   DEBUG_MUNIT   ylog_upoint  ("a_recd"    , a_recd);
+   --rce;  if (a_recd == NULL || a_recd [0] == '\0') {
+      DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT   ylog_uinfo   ("a_recd"    , a_recd);
    strlcpy (x_recd, a_recd, LEN_RECD);
    /*---(initial parse)------------------*/
    p = strtok_r (x_recd, q, &r);
    /*---(walk data)----------------------*/
    --rce;  for (i = 0; i <= 5; ++i) {
       /*---(check field)-----------------*/
-      if (p == NULL)   return rce;
+      DEBUG_MUNIT   ylog_upoint  ("p"         , p);
+      if (p == NULL) {
+         DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+         return rce;
+      }
       strlcpy   (x_field, p, LEN_LONG);
       ystrutrim (x_field,    LEN_LONG);
+      DEBUG_MUNIT   ylog_uinfo   ("x_field"   , x_field);
       /*---(master)----------------------*/
+      DEBUG_MUNIT   ylog_uchar   ("a_type"    , a_type);
       --rce;  if (a_type == 'g') {
          switch (i) {
          case  0 :  n = yUNIT_reuse_index (x_field [0]);
-                    if (n < 0)  return rce;
+                    DEBUG_MUNIT   ylog_uvalue  ("n"         , n);
+                    if (n < 0) {
+                       DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+                       return rce;
+                    }
                     break;
          case  1 :  break;
          case  2 :  if (x_field [0] != '\0' && strchr ("hwd-", x_field [0]) != NULL) {
@@ -399,10 +609,13 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
                     } else {
                        g_counts [n].c_ftype  = '-';
                     }
+                    DEBUG_MUNIT   ylog_uchar   ("c_ftype"   , g_counts [n].c_ftype);
                     break;
          case  3 :  g_counts [n].c_line   = atoi (x_field);
+                    DEBUG_MUNIT   ylog_uvalue  ("c_line"    , g_counts [n].c_line);
                     break;
          case  4 :  strlcpy (g_counts [n].c_desc  , x_field, LEN_LONG);
+                    DEBUG_MUNIT   ylog_uinfo   ("c_desc"    , g_counts [n].c_desc);
                     break;
          case  5 :  yUNIT__reuse_parse_more (n, p, q, r);
                     break;
@@ -410,10 +623,16 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
       } else if (a_type == 'r') {
          switch (i) {
          case  0 :  n = yUNIT_reuse_index ('!'); 
-                    if (n < 0)  return rce;
+                    DEBUG_MUNIT   ylog_uvalue  ("n"         , n);
+                    if (n < 0) {
+                       DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+                       return rce;
+                    }
                     if (g_counts [n].c_line < 0)  g_counts [n].c_line   = 0;
+                    DEBUG_MUNIT   ylog_uvalue  ("c_line"    , g_counts [n].c_line);
                     break;
          case  1 :  strlcpy (g_counts [n].c_desc  , x_field, LEN_LONG);
+                    DEBUG_MUNIT   ylog_uinfo   ("c_desc"    , g_counts [n].c_desc);
                     break;
          case  2 :  break;
          case  3 :  yUNIT__reuse_parse_more (n, p, q, r);
@@ -425,14 +644,21 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
          case  0 :  break;
          case  1 :  break;
          case  2 :  n = yUNIT_reuse_index (x_field [0]);
-                    if (n < 0)  return rce;
+                    DEBUG_MUNIT   ylog_uvalue  ("n"         , n);
+                    if (n < 0) {
+                       DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
+                       return rce;
+                    }
                     if (g_counts [n].c_line < 0)  g_counts [n].c_line   = 0;
+                    DEBUG_MUNIT   ylog_uvalue  ("c_line"    , g_counts [n].c_line);
                     break;
          case  3 :  yUNIT__reuse_parse_more (n, p, q, r);
                     i = 5;
                     break;
          }
       } else {
+         DEBUG_MUNIT   ylog_unote   ("unknown type");
+         DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
          return rce;
          break;
       }
@@ -474,7 +700,10 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
       p = strtok_r (NULL, q, &r);
       /*---(done)------------------------*/
    }
+   /*---(existing)-----------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
    /*---(complete)-----------------------*/
+   DEBUG_MUNIT   ylog_uexit   (__FUNCTION__);
    return 1;
 }
 
@@ -591,89 +820,272 @@ yUNIT_reuse_detail    (char a_abbr)
    char        rc          =    0;
    char        x_type      =  '-';
    char        x_tdesc     [LEN_TERSE] = "";
+   char        x_major     =  '-';
    char        x_ftype     =  '-';
    int         x_line      =  '-';
    char        x_desc      [LEN_LONG]  = "";
    short       x_conds     =    0;
    short       x_steps     =    0;
    strcpy (s_print, "");
-   rc = yUNIT_reuse_data (a_abbr, &x_type, x_tdesc, &x_ftype, &x_line, x_desc, &x_conds, &x_steps, NULL);
+   rc = yUNIT_reuse_data (a_abbr, &x_type, x_tdesc, &x_major, NULL, &x_ftype, &x_line, x_desc, &x_conds, &x_steps, NULL);
    if (rc <= 0) {
       sprintf (s_print, "((n/a))");
    } else if (x_conds > 0) {
       ystruencode (x_desc);
-      sprintf (s_print, "%c %c %c %4d  %-51.51s  %4d %4d  %-9.9s  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_conds, x_steps, x_tdesc);
+      sprintf (s_print, "%c %c %c %4d  %-51.51s  %4d %4d  %-9.9s %c  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_conds, x_steps, x_tdesc, x_major);
    } else if (x_line  > 0) {
       ystruencode (x_desc);
-      sprintf (s_print, "%c %c %c %4d  %-51.51s  ···· ····  %-9.9s  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_tdesc);
+      sprintf (s_print, "%c %c %c %4d  %-51.51s  ···· ····  %-9.9s %c  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_tdesc, x_major);
    } else {
-      sprintf (s_print, "%c %c - ····  ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´  ···· ····  %-9.9s  Ï", a_abbr, x_type, x_tdesc);
+      sprintf (s_print, "%c %c - ····  ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´  ···· ····  %-9.9s %c  Ï", a_abbr, x_type, x_tdesc, x_major);
    }
+   /*---(complete)-----------------------*/
    return s_print;
 }
 
+
+
+/*====================------------------------------------====================*/
+/*===----                     export/import                            ----===*/
+/*====================------------------------------------====================*/
+static void  o___EXIM____________o () { return; }
+
 char
-yUNIT_reuse_export     (void *a_file)
+yUNIT_reuse_export     (char a_name [LEN_PATH])
 {
+   /*---(locals)-------------------------*/
    char        rce         =  -10;
+   char        rc          =    0;
    FILE       *f           = NULL;
    char        i           =    0;
    char        c           =    0;
-   /*> printf ("yUNIT_reuse_export (enter)\n");                                       <*/
-   --rce;  if (a_file == NULL)  return rce;
-   f = (FILE *) a_file;
+   char       *x_big       = "            #===line   DESC==============================================================   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT========real=====vars=====void=====skip====DITTO=====real=====void=====skip\n";
+   char       *x_sml       = "            #··· ···   ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ·\n";
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT ylog_uenter   (__FUNCTION__);
+   DEBUG_MUNIT ylog_uchar    ("zUNIT_debug", zUNIT_debug);
+   /*---(existing)-----------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
+   /*---(defense)------------------------*/
+   DEBUG_MUNIT ylog_upoint   ("a_name"    , a_name);
+   --rce;  if (a_name == NULL || a_name [0] == '\0') {
+      DEBUG_MUNIT ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT ylog_uinfo    ("a_name"    , a_name);
+   /*---(open file)----------------------*/
+   rc = yenv_uopen_detail (__FILE__, __FUNCTION__, __LINE__, a_name, 'w', &f);
+   DEBUG_MUNIT ylog_uvalue   ("uopen"     , rc);
+   DEBUG_MUNIT ylog_upoint   ("f"         , f);
+   --rce;  if (rc < 0 || f == NULL) {
+      DEBUG_MUNIT ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(header)-------------------------*/
+   fprintf (f, "#!/usr/local/bin/koios\n");
+   fprintf (f, "#   shared global reuse inventory\n\n");
+   /*---(walk shares)--------------------*/
    for (i = 0; i < LEN_HUND; ++i) {
-      if (strchr ("gc", g_counts [i].c_type) == NULL)  continue;
-      if (g_counts [i].c_line < 0)                     continue;
+      DEBUG_MUNIT ylog_ucomplex ("entry"     , "%c %c %c %5d", g_counts [i].c_id, g_counts [i].c_type, g_counts [i].c_ftype, g_counts [i].c_line);
+      if (strchr ("gc", g_counts [i].c_type) == NULL) {
+         DEBUG_MUNIT ylog_unote    ("not global or config");
+         continue;
+      }
+      if (g_counts [i].c_line < 0) {
+         DEBUG_MUNIT ylog_unote    ("line is not set");
+         continue;
+      }
+      if (c % 25 == 0) fprintf (f, "%s", x_big);
+      else if (c %  5 == 0 && c > 0) fprintf (f, "%s", x_sml);
+      DEBUG_MUNIT ylog_unote    ("found a good one");
       yUNIT_reuse_show (g_counts [i].c_id);
+      DEBUG_MUNIT ylog_uinfo    ("s_print"   , s_print);
       fprintf (f, "%s\n", s_print);
       ++c;
    }
-   /*> yUNIT_reuse_list ();                                                           <*/
-   /*> printf ("yUNIT_reuse_export (exit)\n");                                        <*/
+   DEBUG_MUNIT ylog_uvalue   ("c"         , c);
+   /*---(footer)-------------------------*/
+   if (c % 25 >= 4) fprintf (f, "%s", x_big);
+   if (c > 0)   fprintf (f, "\n# found %d entries\n", c);
+   else         fprintf (f, "\n# zero entries found\n");
+   fprintf (f, "\n# end-of-file.  done, finito, completare, whimper [Ï´···\n");
+   /*---(close file)---------------------*/
+   rc = yenv_uclose_detail (__FILE__, __FUNCTION__, __LINE__, a_name, &f);
+   DEBUG_MUNIT ylog_uvalue   ("uclose"    , rc);
+   DEBUG_MUNIT ylog_upoint   ("f"         , f);
+   --rce;  if (rc < 0 || f != NULL) {
+      DEBUG_MUNIT ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(after)--------------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT ylog_uexit    (__FUNCTION__);
    return c;
 }
+
+char
+yUNIT_reuse_header      (char a_ftype, char a_header [LEN_TITLE])
+{
+   /*---(locals)-------------------------*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   FILE       *f           = NULL;
+   char        i           =    0;
+   char        c           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT ylog_uenter   (__FUNCTION__);
+   /*---(existing)-----------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
+   /*---(defense)------------------------*/
+   DEBUG_MUNIT ylog_uchar    ("a_ftype"   , a_ftype);
+   --rce;  if (a_ftype == 0 || strchr ("wd", a_ftype) == NULL) {
+      DEBUG_MUNIT ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT ylog_upoint   ("a_header"  , a_header);
+   --rce;  if (a_header == NULL || a_header [0] == '\0') {
+      DEBUG_MUNIT ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT ylog_uinfo    ("a_header"  , a_header);
+   /*---(open file)----------------------*/
+   rc = yenv_uopen_detail (__FILE__, __FUNCTION__, __LINE__, a_header, 'w', &f);
+   DEBUG_MUNIT ylog_uvalue   ("uopen"     , rc);
+   DEBUG_MUNIT ylog_upoint   ("f"         , f);
+   --rce;  if (rc < 0 || f == NULL) {
+      DEBUG_MUNIT ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(walk shares)--------------------*/
+   for (i = 0; i < LEN_HUND; ++i) {
+      DEBUG_MUNIT ylog_ucomplex ("entry"     , "%c %c %c %4d", g_counts [i].c_id, g_counts [i].c_type, g_counts [i].c_ftype, g_counts [i].c_line);
+      /*---(filter)----------------------*/
+      if (g_counts [i].c_ftype != a_ftype) {
+         DEBUG_MUNIT ylog_unote    ("line is not for current file");
+         continue;
+      }
+      if (strchr ("gc", g_counts [i].c_type) == NULL) {
+         DEBUG_MUNIT ylog_unote    ("not global or config");
+         continue;
+      }
+      if (g_counts [i].c_line < 0) {
+         DEBUG_MUNIT ylog_unote    ("line is not set");
+         continue;
+      }
+      /*---(write line)------------------*/
+      if (c == 0) fprintf (f, "/*········· ´······················ ´·········································*/\n");
+      switch (g_counts [i].c_type) {
+      case 'g'  :
+         fprintf (f, "int         yUNIT_global_%c          (char a_select);\n", g_counts [i].c_major);
+         break;
+      case 'c'  :
+         fprintf (f, "int         yUNIT_config_%c          (char a_select);\n", g_counts [i].c_major);
+         break;
+      }
+      ++c;
+      /*---(done)------------------------*/
+   }
+   DEBUG_MUNIT ylog_uvalue   ("c"         , c);
+   if (c >  0) fprintf (f, "/*········· ´······················ ´·········································*/\n");
+   /*---(close file)---------------------*/
+   rc = yenv_uclose_detail (__FILE__, __FUNCTION__, __LINE__, a_header, &f);
+   DEBUG_MUNIT ylog_uvalue   ("uclose"    , rc);
+   DEBUG_MUNIT ylog_upoint   ("f"         , f);
+   --rce;  if (rc < 0 || f != NULL) {
+      DEBUG_MUNIT ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
+   return c;
+}
+
 char
 yUNIT_reuse_list        (void)
 {
    int         i           =    0;
    char        c           =    0;
    /*> printf ("yUNIT_reuse_list\n");                                                 <*/
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
    for (i = 0; i < LEN_HUND; ++i) {
       if (g_counts [i].c_line < 0)  continue;
       yUNIT_reuse_show (g_counts [i].c_id);
       printf ("%2d %s\n", c, s_print);
       ++c;
    }
+   /*---(after)--------------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return c;
 }
 
 char
-yUNIT_reuse_import      (void *a_file)
+yUNIT_reuse_import     (char a_name [LEN_PATH])
 {
+   /*---(locals)-------------------------*/
    char        rce         =  -10;
+   char        rc          =    0;
    FILE       *f           = NULL;
    char        i           =    0;
    char        c           =    0;
    char        x_recd      [LEN_RECD]  = "";
    int         l           =    0;
-   /*> printf ("yUNIT_reuse_import (enter)\n");                                       <*/
-   --rce;  if (a_file == NULL)  return rce;
-   f = (FILE *) a_file;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT  ylog_uenter   (__FUNCTION__);
+   /*---(existing)-----------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
+   /*---(defense)------------------------*/
+   DEBUG_MUNIT  ylog_upoint   ("a_name"    , a_name);
+   --rce;  if (a_name == NULL || a_name [0] == '\0') {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT  ylog_uinfo    ("a_name"    , a_name);
+   /*---(open file)----------------------*/
+   rc = yenv_uopen_detail (__FILE__, __FUNCTION__, __LINE__, a_name, 'r', &f);
+   DEBUG_MUNIT  ylog_uvalue   ("uopen"     , rc);
+   DEBUG_MUNIT  ylog_upoint   ("f"         , f);
+   --rce;  if (rc < 0 || f == NULL) {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(parse shares)-------------------*/
    for (i = 0; i < LEN_HUND; ++i) {
       /*---(read data)-------------------*/
       fgets   (x_recd, LEN_RECD, f);
-      if (feof (f))  break;
+      if (feof (f)) {
+         DEBUG_MUNIT  ylog_unote    ("found end-of-file");
+         break;
+      }
       /*---(fix line)--------------------*/
       l = strlen (x_recd);
       if (x_recd [l - 1] == '\n')   x_recd [--l] = '\0';
+      DEBUG_MUNIT  ylog_ucomplex ("x_recd"    , "%3då%sæ", l, x_recd);
+      /*---(filter)----------------------*/
+      if (x_recd [0] == '\0')  continue;
+      if (x_recd [0] == ' ')   continue;
+      if (x_recd [0] == '#')   continue;
       /*---(parse)-----------------------*/
-      yUNIT_reuse_parse ('g', x_recd);
+      rc = yUNIT_reuse_parse ('g', x_recd);
+      DEBUG_MUNIT  ylog_uvalue   ("parse"     , rc);
       ++c;
       /*---(done)------------------------*/
    }
-   /*> yUNIT_reuse_list ();                                                           <*/
-   /*> printf ("yUNIT_reuse_import (exit)\n");                                        <*/
+   /*---(close file)---------------------*/
+   rc = yenv_uclose_detail (__FILE__, __FUNCTION__, __LINE__, a_name, &f);
+   DEBUG_MUNIT  ylog_uvalue   ("uclose"    , rc);
+   DEBUG_MUNIT  ylog_upoint   ("f"         , f);
+   --rce;  if (rc < 0 || f != NULL) {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(after)--------------------------*/
+   DEBUG_MUNIT ylog_uinfo    ("used"      , yUNIT_reuse_used ());
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return c;
 }
 

@@ -2,12 +2,6 @@
 #include    "yUNIT_priv.h"
 #include    "yUNIT_solo.h"
 
-#include    <yLOG_solo.h>
-#include    <yENV_solo.h>
-
-#include    <yLOG_uver.h>
-#include    <yENV_uver.h>
-
 
 char yUNIT_stats (void) { return 0; }
 

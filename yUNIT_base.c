@@ -1,6 +1,9 @@
 #include    "yUNIT.h"
 #include    "yUNIT_priv.h"
+
 #include    <ySTR_uver.h>
+#include    <yLOG_uver.h>
+#include    <yENV_uver.h>
 
 void     *yUNIT_p_rc;
 long      yUNIT_i_rc;
@@ -8,6 +11,7 @@ double    yUNIT_r_rc;
 char     *yUNIT_s_rc;
 char      yUNIT_systext [1000];
 
+char      zUNIT_debug = '-';
 
 tUNIT   myUNIT;
 
@@ -50,6 +54,9 @@ yUNIT_version           (void)
    snprintf (verstring, LEN_HUND, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
    return verstring;
 }
+
+char  yUNIT_debugging (void)  { zUNIT_debug = 'y'; return zUNIT_debug;  }
+
 
 
 

@@ -12,6 +12,12 @@ static void      o___MINI_UNIT_______________o (void) {;}
 #include    <yCOLOR_solo.h>
 #include    <time.h>
 
+/*> static char  myunit_debug = '-';                                                    <* 
+ *> static char  yunit_debugging (void)  { myunit_debug = 'y'; return myunit_debug; }   <* 
+ *> #define   DEBUG_UUNIT   if (myunit_debug == 'y')                                    <*/
+
+
+
 typedef struct tm        tTIME;
 
 static char        s_home      [LEN_PATH]  = "";

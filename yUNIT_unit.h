@@ -12,8 +12,6 @@
 /*---(custom headers)-----------------*/
 #include    <yUNIT.h>                    /* unit testing functions                   */
 
-
-
 /*---(globals)------------------------*/
 struct {
    char        eterm;                    /* handle console vs eterm           */
