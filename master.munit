@@ -3,7 +3,7 @@
 #include    "yUNIT_solo.h"
 
 
-char yUNIT_stats (void) { return 0; }
+/*> char yUNIT_stats (void) { return 0; }                                             <*/
 
 static char       *s_nconv     = "/tmp/yunit_test.txt";
 static char       *s_nwave     = "/tmp/yunit_test.wave";

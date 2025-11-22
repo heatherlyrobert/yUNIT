@@ -39,8 +39,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.3-, new level for unit testing in koios"
-#define     P_VERNUM    "2.3l"
-#define     P_VERTXT    "enhanced yUNIT_reuse export, added some quick koios support functions"
+#define     P_VERNUM    "2.3m"
+#define     P_VERTXT    "made cosmetic changes to output for polymnia stress testing"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

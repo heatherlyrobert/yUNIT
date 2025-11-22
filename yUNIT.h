@@ -270,6 +270,29 @@
 #include <ySTR_solo.h>
 
 
+/*---(globals)------------------------*/
+typedef    struct cUNIT_RUN  tUNIT_RUN;
+struct cUNIT_RUN {
+   char        eterm;                    /* handle console vs eterm           */
+   int         level;                    /* how loud things should be         */
+   int         exec;                     /* run scripts                       */
+   int         scrp;                     /* script selected for focus         */
+   int         offset;                   /* shared code condition offset      */
+   int         origin;                   /* shared code scription offset      */
+   char        debug       [LEN_HUND];   /* display debugging info            */
+   char        CUSTOM      [LEN_RECD];   /* holder for custom expect strings  */
+   char       *s_rc;
+   long        i_rc;
+   double      r_rc;
+   void       *p_rc;
+   char       *scrps       [LEN_HUND];
+   char        all;
+};
+extern tUNIT_RUN  myUNIT_RUN;
+
+
+
+
 #define     YUNIT_CONVERT   'C'
 #define     YUNIT_BUILD     'B'
 #define     YUNIT_RUNTIME   'R'
@@ -416,10 +439,10 @@ char        yUNIT_user_add          (cchar *a_name, cchar *a_pass, cchar *a_shel
 
 
 /*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/
-char        yUNIT_usage             (void);
-char        yUNIT_args              (int a_argc, char *a_argv[]);
-char        yUNIT_reset_rc          (void);
-char        yUNIT_run_scrp          (char a_scrp);
+/*> char        yUNIT_usage             (void);                                       <*/
+/*> char        yUNIT_args              (int a_argc, char *a_argv[]);                 <*/
+/*> char        yUNIT_reset_rc          (void);                                       <*/
+/*> char        yUNIT_run_scrp          (char a_scrp);                                <*/
 
 
 /*345678901 12345678901 12345678901 12345678901 12345678901 12345678901 123456*/

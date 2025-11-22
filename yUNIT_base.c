@@ -13,7 +13,8 @@ char      yUNIT_systext [1000];
 
 char      zUNIT_debug = '-';
 
-tUNIT   myUNIT;
+tUNIT       myUNIT;
+tUNIT_RUN   myUNIT_RUN;
 
 
 char          s_prefix    [LEN_RECD]  = "";

@@ -87,7 +87,7 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
    char        x_prefix    [LEN_FULL]  = "";
    char        x_suffix    [LEN_FULL]  = "";
    char        x_header    [LEN_LABEL] = "";
-   char       *x_title     = "=================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT======real====vars====void====skip===DITTO====real====void====skip  ";
+   char       *x_title     = "=================================================================  ID   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT========real=====vars=====void=====skip====DITTO=====real=====void=====skip";
    /*---(saves)--------------------------*/
    static char x_save      [LEN_LABEL] = "";
    static char x_stype     =  '-';
@@ -112,7 +112,7 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
    else if   (strcmp (a_verb, "SECT"  ) == 0)   x_type = YUNIT_IS_SECT;
    else if   (strcmp (a_verb, "UNIT"  ) == 0) { x_type = YUNIT_IS_UNIT; x_stype = YUNIT_IS_UNIT; }
    else if   (strcmp (a_verb, "FULL"  ) == 0) { x_type = YUNIT_IS_FULL; x_stype = YUNIT_IS_FULL; }
-   else { fprintf (a_conv, "# BOOM===  %s \n", x_title); return rce; }
+   else { fprintf (a_conv, "# BOOM===  %s\n", x_title); return rce; }
    /*---(master exception)---------------*/
    if (x_type == YUNIT_IS_UNIT && strcmp (a_nscrp, "unit_head.unit") == 0)  { x_type = YUNIT_IS_MAST; x_stype = YUNIT_IS_MAST;  }
    if (x_type == YUNIT_IS_UNIT && strcmp (a_nscrp, "unit_wide.unit") == 0)  { x_type = YUNIT_IS_MAST; x_stype = YUNIT_IS_MAST;  }
@@ -131,7 +131,7 @@ yunit_stats_summary     (FILE *a_conv, char a_nscrp [LEN_TITLE], char a_type, ch
    if (x_stype != '-')  {
       /*---(header)----------------------*/
       if (strchr (YUNIT_IS_FULLS YUNIT_IS_UNITS, x_type) != NULL)   fprintf (a_conv, "\n\n");
-      fprintf (a_conv, "\n%-12.12s  %s \n", x_header, x_title);
+      fprintf (a_conv, "\n%-12.12s  %s\n", x_header, x_title);
       /*---(prefix)----------------------*/
       sprintf (x_prefix, "%-12.12s  %-65.65s  %-2.2s", x_verb, x_label, x_ref);
       /*---(suffix)----------------------*/
