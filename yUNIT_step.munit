@@ -729,25 +729,25 @@ char
 main                    (int a_argc, char *a_argv [])
 {
    /*---(locals)-----------+-----+-----+-*/
-   int         x_unit      =    0;
-   int         n           =    0;
+   char        x_unit      =    0;
    char        x_list      =    0;
+   char        n           =    0;
    /*---(arguments)----------------------*/
-   printf ("## %s\n", P_ONELINE);
-   printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);
-   if (a_argc >= 2) {
-      if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';
-      else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';
-      else                                          x_unit = atoi (a_argv [1]);
-   }
-   if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);
-   else                       printf ("## selected all scripts\n");
-   if (x_list == 'y')         printf ("## list script(s) only\n");
-   else if (x_list == '!')    printf ("## generate initial wave file\n");
-   else                       printf ("## execute conditions and steps\n");
-   printf ("\n");
+   /*> printf ("## %s\n", P_ONELINE);                                                     <* 
+    *> printf ("## pre-yUNIT unit testing : %s\n", a_argv [0]);                           <* 
+    *> if (a_argc >= 2) {                                                                 <* 
+    *>    if (strcmp (a_argv [1], "--list") == 0)       x_list = 'y';                     <* 
+    *>    else if (strcmp (a_argv [1], "--inst") == 0)  x_list = '!';                     <* 
+    *>    else                                          x_unit = atoi (a_argv [1]);       <* 
+    *> }                                                                                  <* 
+    *> if (x_unit  >  0 )         printf ("## selected single script (%2d)\n", x_unit);   <* 
+    *> else                       printf ("## selected all scripts\n");                   <* 
+    *> if (x_list == 'y')         printf ("## list script(s) only\n");                    <* 
+    *> else if (x_list == '!')    printf ("## generate initial wave file\n");             <* 
+    *> else                       printf ("## execute conditions and steps\n");           <* 
+    *> printf ("\n");                                                                     <*/
    /*---(startup)------------------------*/
-   yUNIT_minunit ("yUNIT_step");
+   yUNIT_minunit (a_argc, a_argv, "yUNIT_step"  , P_ONELINE, &x_unit, &x_list);
    /*---(scripts)------------------------*/
    UNIT___step_char          (++n, x_list, x_unit);
    UNIT___step_int_size      (++n, x_list, x_unit);

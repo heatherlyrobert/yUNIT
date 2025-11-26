@@ -1,0 +1,172 @@
+#include    "master.munit"
+
+
+static char  *sm_munit   = "yUNIT_solo";
+static char  *sm_output  = "yUNIT_solo_munit.urun";
+
+
+char
+MUNIT__exact_str   (char c_pass, char c_both, char *a_exp, char *a_act)
+{
+   char        x_fail      =  '-';
+   char        t           [LEN_FULL]  = "";
+   if (c_pass == '-') {
+      if (strcmp (a_exp, a_act) == 0) { sprintf (t, "%sPASS  %s", BACK_GRN, BACK_OFF); x_fail = '-'; }
+      else                            { sprintf (t, "%sFAIL  %s", BACK_RED, BACK_OFF); x_fail = 'y'; }
+   } else {
+      if (strcmp (a_exp, a_act) != 0) { sprintf (t, "%sPASS  %s", BACK_GRN, BACK_OFF); x_fail = '-'; }
+      else                            { sprintf (t, "%sFAIL  %s", BACK_RED, BACK_OFF); x_fail = 'y'; }
+   }
+   printf ("   %s   å%sæ\n", t, a_exp);
+   if (c_both == 'y')  printf ("   %s   å%sæ\n", t, a_act);
+}
+
+char
+MUNIT__solo_unit        (char a_scrp, char a_list, char a_unit)
+{
+   char        t           [LEN_FULL]  = "";
+   char       *x_argA  [1] =  { "yUNIT_solo_munit"  };
+   char       *x_argB  [2] =  { "yUNIT_solo_munit"  , "02"};
+   char       *x_argC  [2] =  { "yUNIT_solo_munit"  , "--list"};
+   char        x_nunit     =   0;
+   char        x_list      = '-';
+
+   if (a_list == '!')                    return 0;
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yUNIT_minunit (1, x_argA, sm_munit, P_ONELINE, &x_nunit, &x_list);
+   yUNIT_mintinu ();
+   MUNIT__exact_str ('-', '-', "UNIT ================================================================ yUNIT_solo"                  , yenv_upeek    (sm_output, '['));
+   MUNIT__exact_str ('-', '-', ""                                                                                                  , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', BACK_GRN "TINU  scrp  0, cond   0, test    0, pass    0, fail    0 =======================" BACK_OFF, yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', ""                                                                                                  , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "(n/a)"                                                                                             , yenv_upeek    (sm_output, '>'));
+   system ("rm -f yUNIT_solo_munit.urun");
+   printf ("\n");
+
+   yUNIT_minunit (0, x_argA, sm_munit, P_ONELINE, &x_nunit, &x_list);
+   yUNIT_mintinu ();
+   printf ("x_nunit = %2d (%c), x_list  = %c (%c)\n", x_nunit, (x_nunit == 0) ? 'p' : 'F', x_list , (x_list  == '-') ? 'p' : 'F');
+   printf ("\n");
+
+   yUNIT_minunit (1, NULL  , sm_munit, P_ONELINE, &x_nunit, &x_list);
+   yUNIT_mintinu ();
+   printf ("x_nunit = %2d (%c), x_list  = %c (%c)\n", x_nunit, (x_nunit == 0) ? 'p' : 'F', x_list , (x_list  == '-') ? 'p' : 'F');
+   printf ("\n");
+
+   yUNIT_minunit (1, NULL  , NULL    , P_ONELINE, &x_nunit, &x_list);
+   yUNIT_mintinu ();
+   printf ("x_nunit = %2d (%c), x_list  = %c (%c)\n", x_nunit, (x_nunit == 0) ? 'p' : 'F', x_list , (x_list  == '-') ? 'p' : 'F');
+   printf ("\n");
+
+   yUNIT_minunit (1, NULL  , ""      , P_ONELINE, &x_nunit, &x_list);
+   yUNIT_mintinu ();
+   printf ("x_nunit = %2d (%c), x_list  = %c (%c)\n", x_nunit, (x_nunit == 0) ? 'p' : 'F', x_list , (x_list  == '-') ? 'p' : 'F');
+   printf ("\n");
+
+   yUNIT_minunit (1, x_argA, "/tempty/temp.txt", P_ONELINE, &x_nunit, &x_list);
+   yUNIT_mintinu ();
+   printf ("x_nunit = %2d (%c), x_list  = %c (%c)\n", x_nunit, (x_nunit == 0) ? 'p' : 'F', x_list , (x_list  == '-') ? 'p' : 'F');
+   printf ("\n");
+
+   yUNIT_minunit (2, x_argB, sm_munit, P_ONELINE, &x_nunit, &x_list);
+   yUNIT_mintinu ();
+   MUNIT__exact_str ('-', 'y', "UNIT ================================================================ yUNIT_solo"                  , yenv_upeek    (sm_output, '['));
+   MUNIT__exact_str ('-', 'y', ""                                                                                                  , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', 'y', BACK_GRN "TINU  scrp  0, cond   0, test    0, pass    0, fail    0 =======================" BACK_OFF, yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', 'y', ""                                                                                                  , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', 'y', "(n/a)"                                                                                             , yenv_upeek    (sm_output, '>'));
+   system ("rm -f yUNIT_solo_munit.urun");
+   printf ("x_nunit = %2d (%c), x_list  = %c (%c)\n", x_nunit, (x_nunit == 2) ? 'p' : 'F', x_list , (x_list  == '-') ? 'p' : 'F');
+   printf ("\n");
+
+   yUNIT_minunit (2, x_argC, sm_munit, P_ONELINE, &x_nunit, &x_list);
+   yUNIT_mintinu ();
+   MUNIT__exact_str ('-', 'y', "UNIT ================================================================ yUNIT_solo"                  , yenv_upeek    (sm_output, '['));
+   MUNIT__exact_str ('-', 'y', ""                                                                                                  , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', 'y', BACK_GRN "TINU  scrp  0, cond   0, test    0, pass    0, fail    0 =======================" BACK_OFF, yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', 'y', ""                                                                                                  , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', 'y', "(n/a)"                                                                                             , yenv_upeek    (sm_output, '>'));
+   system ("rm -f yUNIT_solo_munit.urun");
+   printf ("x_nunit = %2d (%c), x_list  = %c (%c)\n", x_nunit, (x_nunit == 0) ? 'p' : 'F', x_list , (x_list  == 'y') ? 'p' : 'F');
+   printf ("\n");
+
+   return 0;
+}
+
+char
+MUNIT__solo_str         (char a_scrp, char a_list, char a_unit)
+{
+   char        t           [LEN_FULL]  = "";
+   if (a_list == '!')                    return 0;
+   if (a_unit != 0 && a_scrp != a_unit)  return 0;
+   if (a_list == 'y')                    return 0;
+
+   yunit_minstr  (51, "verify short literal", "one", "one");
+   MUNIT__exact_str ('-', '-', "  " BACK_GRN "01) PASS  " BACK_OFF " : verify short literal .  .  .  .  .  .  .  .  .  .  .  .   [00051]", yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      expect :   3åoneæ"                                                                                 , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      actual :   3åoneæ"                                                                                 , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', ""                                                                                                        , yenv_upeek    (sm_output, '>'));
+   printf ("\n");
+
+   yunit_minstr  (52, "attempt a failed short literal", "two", "one");
+   MUNIT__exact_str ('F', '-', "  " BACK_RED "02) PASS  " BACK_OFF " : attempt a failed short literal   .  .  .  .  .  .  .  .   [00052]", yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      expect :   3å°°°æ"                                                                                 , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      actual :   3åtwoæ"                                                                                 , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', ""                                                                                                        , yenv_upeek    (sm_output, '>'));
+   printf ("\n");
+
+   yunit_minstr  (53, "verify longer literal", "this is a test of a longer string", "this is a test of a longer string");
+   MUNIT__exact_str ('-', '-', "  " BACK_GRN "03) PASS  " BACK_OFF " : verify longer literal   .  .  .  .  .  .  .  .  .  .  .   [00053]", yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      expect :  33åthis is a test of a longer stringæ"                                                   , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      actual :  33åthis is a test of a longer stringæ"                                                   , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', ""                                                                                                        , yenv_upeek    (sm_output, '>'));
+   printf ("\n");
+
+   yunit_minstr  (54, "verify a whole mask"  , "this is a test of a longer string", "¬");
+   MUNIT__exact_str ('-', '-', "  " BACK_GRN "04) PASS  " BACK_OFF " : verify a whole mask  .  .  .  .  .  .  .  .  .  .  .  .   [00054]", yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      expect :  33å¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬æ"                                                   , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      actual :  33åthis is a test of a longer stringæ"                                                   , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', ""                                                                                                        , yenv_upeek    (sm_output, '>'));
+   printf ("\n");
+
+   yunit_minstr  (55, "verify tail mask"     , "this is a test of a longer string", "this is a t¬");
+   MUNIT__exact_str ('-', '-', "  " BACK_GRN "05) PASS  " BACK_OFF " : verify tail mask  .  .  .  .  .  .  .  .  .  .  .  .  .   [00055]", yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      expect :  33åthis is a t¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬æ"                                                   , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      actual :  33åthis is a test of a longer stringæ"                                                   , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', ""                                                                                                        , yenv_upeek    (sm_output, '>'));
+   printf ("\n");
+
+   yunit_minstr  (56, "verify spot mask"     , "this is a tXWt of a longer ?tring", "this is a t¬¬t of a longer ¬tring");
+   MUNIT__exact_str ('-', '-', "  " BACK_GRN "06) PASS  " BACK_OFF " : verify spot mask  .  .  .  .  .  .  .  .  .  .  .  .  .   [00056]", yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      expect :  33åthis is a t¬¬t of a longer ¬tringæ"                                                   , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', "      actual :  33åthis is a tXWt of a longer ?tringæ"                                                   , yenv_upeek    (sm_output, '>'));
+   MUNIT__exact_str ('-', '-', ""                                                                                                        , yenv_upeek    (sm_output, '>'));
+   printf ("\n");
+
+   yUNIT_mintinu ();
+
+   return 0;
+}
+
+char
+main                    (int a_argc, char *a_argv [])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        x_nunit     =    0;
+   char        x_list      =  '-';
+   char        n           =    0;
+   /*---(arguments)----------------------*/
+   if (a_argc >= 2) {
+      if (strcmp (a_argv [1], "--list") == 0)       x_list  = 'y';
+      else if (strcmp (a_argv [1], "--inst") == 0)  x_list  = '!';
+      else                                          x_nunit = atoi (a_argv [1]);
+   }
+   /*---(scripts)------------------------*/
+   MUNIT__solo_unit          (++n, x_list, x_nunit);
+   MUNIT__solo_str           (++n, x_list, x_nunit);
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
