@@ -243,32 +243,13 @@ main                    (int a_argc, char *a_argv [])
    char        n           =    0;
    /*---(startup)------------------------*/
    yUNIT_minunit (a_argc, a_argv, "yUNIT_share" , P_ONELINE, &x_nunit, &x_list);
-   printf ("x_nunit = %d\n", x_nunit);
-   printf ("x_list  = %c\n", x_list);
    /*---(scripts)------------------------*/
+   UNIT___share_shared       (++n, x_list, x_nunit);
+   UNIT___share_global       (++n, x_list, x_nunit);
+   UNIT___share_config       (++n, x_list, x_nunit);
    /*---(wrapup)-------------------------*/
    yUNIT_mintinu    ();
    /*---(complete)-----------------------*/
    return 0;
 }
-
-/*> char                                                                               <* 
- *> main                    (int a_argc, char *a_argv [])                              <* 
- *> {                                                                                  <* 
- *>    /+---(locals)-----------+-----+-----+-+/                                        <* 
- *>    char        x_nunit     =    0;                                                 <* 
- *>    char        x_list      =  '-';                                                 <* 
- *>    char        n           =    0;                                                 <* 
- *>    /+---(startup)------------------------+/                                        <* 
- *>    yUNIT_minunit (a_argc, a_argv, "yUNIT_share" , P_ONELINE, &x_nunit, &x_list);   <* 
- *>    printf ("x_nunit = %d\n", x_nunit);                                             <* 
- *>    printf ("x_list  = %c\n", x_list);                                              <* 
- *>    /+---(scripts)------------------------+/                                        <* 
- *>    UNIT___share_shared       (++n, x_list, x_nunit);                               <* 
- *>    UNIT___share_global       (++n, x_list, x_nunit);                               <* 
- *>    UNIT___share_config       (++n, x_list, x_nunit);                               <* 
- *>    /+---(complete)-----------------------+/                                        <* 
- *>    yUNIT_mintinu    ();                                                            <* 
- *>    return 1;                                                                       <* 
- *> }                                                                                  <*/
 

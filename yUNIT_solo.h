@@ -271,7 +271,7 @@ yunit_minunit           (char a_file [LEN_TITLE], char a_func [LEN_TITLE], int a
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
-   char        x_out       [LEN_TITLE] = "temp.urun";
+   char        x_out       [LEN_TITLE] = "";
    char        x_prog      [LEN_TITLE] = "";
    char        x_oneline   [LEN_HUND]  = "";
    char        x_unit      [LEN_TITLE] = "(n/a)";
@@ -287,7 +287,7 @@ yunit_minunit           (char a_file [LEN_TITLE], char a_func [LEN_TITLE], int a
    else if (a_unit [0] == '\0')  strcpy  (x_unit, "(stdout)");
    else  {
       strlcpy (x_unit, a_unit, LEN_TITLE);
-      sprintf (x_out, "%s_munit.urun", x_unit);
+      sprintf (x_out, "%s.murun", x_unit);
    }
    rc = yUNIT_minout (x_out);
    /*---(defense)------------------------*/
@@ -347,7 +347,7 @@ yunit_minscrp           (int a_line, char a_proj [LEN_LABEL], char a_unit [LEN_L
    if (s_out == NULL)  return -10;
    /*---(remember home)------------------*/
    getcwd (s_home, LEN_PATH);
-   printf ("remembering location å%sæ\n", s_home);
+   /*> printf ("remembering location å%sæ\n", s_home);                                <*/
    /*---(display)------------------------*/
    sprintf (t, "%s ==============================================================================", a_desc);
    fprintf (s_out, "SCRP [%02d] %63.63s[%05d]\n", ++s_scrpn, t, a_line);

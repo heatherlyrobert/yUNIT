@@ -39,8 +39,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.3-, new level for unit testing in koios"
-#define     P_VERNUM    "2.3n"
-#define     P_VERTXT    "added primative unit-testing for yUNIT_minunit and yUNIT_mintinu"
+#define     P_VERNUM    "2.3o"
+#define     P_VERTXT    "rechecked all and tiny updates for complete unit-testing"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
