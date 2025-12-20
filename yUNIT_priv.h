@@ -39,8 +39,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, upgraded c version (from bash)"
 #define     P_VERMINOR  "2.3-, new level for unit testing in koios"
-#define     P_VERNUM    "2.3o"
-#define     P_VERTXT    "rechecked all and tiny updates for complete unit-testing"
+#define     P_VERNUM    "2.3p"
+#define     P_VERTXT    "created and tested new reuse selection and subtitle tracking"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -224,7 +224,10 @@ static struct cyUNIT_COUNTS {
    char        c_ftype;                     /* file -- h=unit_head, w=unit_wide, d=unit_data, -=other     */
    char        c_major;                     /* for use in koios programming                               */
    int         c_line;                      /* location in file                                           */
-   char        c_desc    [LEN_LONG];        /* description of purpose                                     */
+   char        c_desc      [LEN_LONG];      /* description of purpose                                     */
+   /*---(control)------------------------*/
+   char        c_which     [LEN_LABEL];     /* selection optione                                          */
+   char        c_titles    [LEN_PATH];      /* selection subtitles                                        */
    /*---(unit)---------------------------*/
    int         c_unit;                      /* all units                                                  */
    /*---(top)----------------------------*/

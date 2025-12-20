@@ -396,13 +396,13 @@ char        yUNIT_group             (char a_desc [LEN_LONG]);
 /*===[[ yUNIT_share.c ]]======================================================*/
 /*········· ´······················ ´·········································*/
 /*---(local share)----------*/
-char        yUNIT_shar              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_shar              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH]);
 char        yUNIT_rahs              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(global share)---------*/
-char        yUNIT_glob              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_glob              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH]);
 char        yUNIT_bolg              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(config share)---------*/
-char        yUNIT_conf              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG]);
+char        yUNIT_conf              (char a_share, char a_ftype, int a_line, char a_select, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH]);
 char        yUNIT_fnoc              (char a_share, char a_select, int a_econd, int a_estep, int a_acond, int a_astep);
 /*---(done)-----------------*/
 
@@ -482,11 +482,12 @@ char      yUNIT_reuse_clear       (char a_abbr);
 char      yUNIT_reuse_purge       (char a_ftype);
 char      yUNIT_reuse_ftype       (char a_nscrp [LEN_TITLE], char r_header [LEN_TITLE]);
 /*---(data)-----------------*/
-char      yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_major, char r_label [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called);
+char      yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_major, char r_label [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], char r_which [LEN_LABEL], char r_titles [LEN_PATH], short *r_conds, short *r_steps, char *r_called);
 int       yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r_conds, short *r_steps);
 int       yUNIT_reuse_line        (char a_abbr);
 int       yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN_LONG]);
-char      yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG]);
+char*     yUNIT_reuse_title       (char a_abbr, char a_select);
+char      yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH]);
 /*---(in-use)---------------*/
 char      yUNIT_reuse_called      (char a_abbr);
 char      yUNIT_parse_update      (char a_abbr, int a_conds, int a_steps);

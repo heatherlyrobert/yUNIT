@@ -161,7 +161,7 @@ yUNIT_reuse_ftype       (char a_nscrp [LEN_TITLE], char r_header [LEN_TITLE])
 }
 
 char
-yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_major, char r_label [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], short *r_conds, short *r_steps, char *r_called)
+yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], char *r_major, char r_label [LEN_TERSE], char *r_ftype, int *r_line, char r_desc [LEN_LONG], char r_which [LEN_LABEL], char r_titles [LEN_PATH], short *r_conds, short *r_steps, char *r_called)
 {
    char        rce         =  -10;
    int         n           =    0;
@@ -171,12 +171,14 @@ yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], ch
    DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
    /*---(default)------------------------*/
    if (r_type   != NULL)  *r_type   = '-';
-   if (r_tdesc  != NULL)  strcpy (r_tdesc, "");
+   if (r_tdesc  != NULL)  strcpy (r_tdesc , "");
    if (r_major  != NULL)  *r_major  = '-';
-   if (r_label  != NULL)  strcpy (r_label, "");
+   if (r_label  != NULL)  strcpy (r_label , "");
    if (r_ftype  != NULL)  *r_ftype  = '-';
    if (r_line   != NULL)  *r_line   =  -1;
-   if (r_desc   != NULL)  strcpy (r_desc , "");
+   if (r_desc   != NULL)  strcpy (r_desc  , "");
+   if (r_which  != NULL)  strcpy (r_which , "");
+   if (r_titles != NULL)  strcpy (r_titles, "");
    if (r_conds  != NULL)  *r_conds  =  -1;
    if (r_steps  != NULL)  *r_steps  =  -1;
    if (r_called != NULL)  *r_called =  -1;
@@ -205,15 +207,23 @@ yUNIT_reuse_data        (char a_abbr, char *r_type, char r_tdesc [LEN_TERSE], ch
       break;
    }
    /*---(save-back)----------------------*/
-   if (r_type  != NULL)  *r_type   = g_counts [n].c_type;
-   if (r_tdesc != NULL)  strlcpy (r_tdesc, x_tdesc, LEN_TERSE);
-   if (r_major != NULL)  *r_major  = g_counts [n].c_major;
-   if (r_label != NULL)  strlcpy (r_label, x_label, LEN_TERSE);
-   if (r_ftype != NULL)  *r_ftype  = g_counts [n].c_ftype;
-   if (r_line  != NULL)  *r_line   = g_counts [n].c_line;
-   if (r_desc  != NULL)  strlcpy (r_desc, g_counts [n].c_desc, LEN_LONG);
-   if (r_conds != NULL)  *r_conds  = g_counts [n].c_midd;
-   if (r_steps != NULL)  *r_steps  = g_counts [n].c_step;
+   if (r_type   != NULL)  *r_type   = g_counts [n].c_type;
+   if (r_tdesc  != NULL)  strlcpy (r_tdesc, x_tdesc, LEN_TERSE);
+   if (r_major  != NULL)  *r_major  = g_counts [n].c_major;
+   if (r_label  != NULL)  strlcpy (r_label, x_label, LEN_TERSE);
+   if (r_ftype  != NULL)  *r_ftype  = g_counts [n].c_ftype;
+   if (r_line   != NULL)  *r_line   = g_counts [n].c_line;
+   if (r_desc   != NULL)  strlcpy (r_desc  , g_counts [n].c_desc  , LEN_LONG);
+   if (r_which  != NULL)  strlcpy (r_which , g_counts [n].c_which , LEN_LABEL);
+   if (r_titles != NULL)  strlcpy (r_titles, g_counts [n].c_titles, LEN_PATH);
+   if (r_conds  != NULL)  *r_conds  = g_counts [n].c_midd;
+   if (r_steps  != NULL)  *r_steps  = g_counts [n].c_step;
+   if (r_called != NULL)  *r_steps  = g_counts [n].c_called;
+   /*---(not set)------------------------*/
+   if (g_counts [n].c_line <= 0) {
+      DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
+      return 0;
+   }
    /*---(complete)-----------------------*/
    DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return 1;
@@ -225,7 +235,7 @@ yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r_conds, sh
    int         x_line      =   -1;
    /*---(header)-------------------------*/
    DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
-   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, NULL, NULL, &x_line, r_desc, r_conds, r_steps, NULL);
+   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, NULL, NULL, &x_line, r_desc, NULL, NULL, r_conds, r_steps, NULL);
    /*---(complete)-----------------------*/
    DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return x_line;
@@ -237,7 +247,7 @@ yUNIT_reuse_line        (char a_abbr)
    int         x_line      =   -1;
    /*---(header)-------------------------*/
    DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
-   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, NULL, NULL, &x_line, NULL, NULL, NULL, NULL);
+   yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, NULL, NULL, &x_line, NULL, NULL, NULL, NULL, NULL, NULL);
    /*---(complete)-----------------------*/
    DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return x_line;
@@ -249,10 +259,61 @@ yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN
    int         x_line      =   -1;
    /*---(header)-------------------------*/
    DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
-   yUNIT_reuse_data (a_abbr, NULL, r_tdesc, NULL, NULL, NULL, &x_line, r_desc, NULL, NULL, NULL);
+   yUNIT_reuse_data (a_abbr, NULL, r_tdesc, NULL, NULL, NULL, &x_line, r_desc, NULL, NULL, NULL, NULL, NULL);
    /*---(complete)-----------------------*/
    DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return x_line;
+}
+
+char*
+yUNIT_reuse_title       (char a_abbr, char a_select)
+{
+   char        rc          =    0;
+   char        x_desc      [LEN_LONG]  = "";
+   char        x_which     [LEN_LABEL] = "";
+   char        x_titles    [LEN_PATH]  = "";
+   char        x_key       [LEN_SHORT] = "";
+   char        x_sub       [LEN_LABEL] = "";
+   char       *p           = NULL;
+   int         l           =    0;
+   int         i           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   rc = yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, NULL, NULL, NULL, x_desc, x_which, x_titles, NULL, NULL, NULL);
+   if (rc <  0)  return "(n/a)";
+   if (rc == 0)  return "(unset)";
+   /*---(null)---------------------------*/
+   if (a_select == 0) {
+      sprintf (s_print, "%s (NULL)", x_desc);
+      return s_print;
+   }
+   /*---(full)---------------------------*/
+   if (a_select == '*') {
+      sprintf (s_print, "%s (EVERY)", x_desc);
+      return s_print;
+   }
+   /*---(check which)--------------------*/
+   if (strchr (x_which, a_select) == NULL) {
+      sprintf (s_print, "%s (N/A)", x_desc);
+      return s_print;
+   }
+   /*---(check which)--------------------*/
+   sprintf (x_key, "%c=", a_select);
+   p = strstr (x_titles, x_key);
+   if (p == NULL) {
+      sprintf (s_print, "%s (TBD)", x_desc);
+      return s_print;
+   }
+   /*---(add subtitle)-------------------*/
+   snprintf (x_sub, 16, "%s", p);
+   p = strchr (x_sub, ',');
+   if (p != NULL)  p [0] = '\0';
+   p = strchr (x_sub, '·');
+   if (p != NULL)  p [0] = '\0';
+   sprintf (s_print, "%s (%s)", x_desc, x_sub);
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
+   return s_print;
 }
 
 char         /*-> at end shared, save stats ----------------------------------*/
@@ -351,7 +412,7 @@ yUNIT_reuse_add         (char a_abbr)
 }
 
 char
-yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG])
+yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH])
 {
    /*---(locals)-------------------------*/
    char        rce         =  -10;
@@ -388,7 +449,9 @@ yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN
    /*---(update list)--------------------*/
    g_counts [n].c_ftype = a_ftype;;
    g_counts [n].c_line  = a_line;
-   strlcpy (g_counts [n].c_desc, a_desc, LEN_LONG);
+   strlcpy (g_counts [n].c_desc  , a_desc  , LEN_LONG);
+   strlcpy (g_counts [n].c_which , a_which , LEN_LABEL);
+   strlcpy (g_counts [n].c_titles, a_titles, LEN_PATH);
    /*---(complete)-----------------------*/
    DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return 1;
@@ -482,7 +545,6 @@ yUNIT_reuse_show        (char a_abbr)
    /*---(locals)-------------------------*/
    char        n           =   -1;
    char        x_prefix    [LEN_FULL]  = "";
-   /*---(header)-------------------------*/
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
    if (n < 0)  return "((n/a))";
@@ -501,7 +563,7 @@ yUNIT__reuse_parse_more (char n, char *p, char *q, char *r)
    /*---(header)-------------------------*/
    DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
    /*---(walk remaining data)------------*/
-   --rce;  for (i = 0; i <= 21; ++i) {
+   --rce;  for (i = 0; i <= 23; ++i) {
       /*---(check field)-----------------*/
       if (p == NULL)  {
          DEBUG_MUNIT   ylog_uexitr  (__FUNCTION__, rce);
@@ -542,6 +604,11 @@ yUNIT__reuse_parse_more (char n, char *p, char *q, char *r)
       case 19 :  g_counts [n].c_dreal  = atoi (x_field);  break;
       case 20 :  g_counts [n].c_dvoid  = atoi (x_field);  break;
       case 21 :  g_counts [n].c_dskip  = atoi (x_field);  break;
+      }
+      /*---(which)-----------------------*/
+      switch (i) {
+      case 22 :  strlcpy (g_counts [n].c_which , x_field, LEN_LABEL);  break;
+      case 23 :  strlcpy (g_counts [n].c_titles, x_field, LEN_PATH );  break;
       }
       /*---(next)------------------------*/
       p = strtok_r (NULL, q, &r);
@@ -826,18 +893,19 @@ yUNIT_reuse_detail    (char a_abbr)
    char        x_desc      [LEN_LONG]  = "";
    short       x_conds     =    0;
    short       x_steps     =    0;
+   char        x_which     [LEN_LABEL] = "";
    strcpy (s_print, "");
-   rc = yUNIT_reuse_data (a_abbr, &x_type, x_tdesc, &x_major, NULL, &x_ftype, &x_line, x_desc, &x_conds, &x_steps, NULL);
-   if (rc <= 0) {
+   rc = yUNIT_reuse_data (a_abbr, &x_type, x_tdesc, &x_major, NULL, &x_ftype, &x_line, x_desc, x_which, NULL, &x_conds, &x_steps, NULL);
+   if (rc <  0) {
       sprintf (s_print, "((n/a))");
    } else if (x_conds > 0) {
       ystruencode (x_desc);
-      sprintf (s_print, "%c %c %c %4d  %-51.51s  %4d %4d  %-9.9s %c  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_conds, x_steps, x_tdesc, x_major);
+      sprintf (s_print, "%c %c %c %4d  %-51.51s  %4d %4d  %-9.9s %c  %-14.14s  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_conds, x_steps, x_tdesc, x_major, x_which);
    } else if (x_line  > 0) {
       ystruencode (x_desc);
-      sprintf (s_print, "%c %c %c %4d  %-51.51s  ···· ····  %-9.9s %c  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_tdesc, x_major);
+      sprintf (s_print, "%c %c %c %4d  %-51.51s  ···· ····  %-9.9s %c  %-14.14s  Ï", a_abbr, x_type, x_ftype, x_line, x_desc, x_tdesc, x_major, x_which);
    } else {
-      sprintf (s_print, "%c %c - ····  ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´  ···· ····  %-9.9s %c  Ï", a_abbr, x_type, x_tdesc, x_major);
+      sprintf (s_print, "%c %c - ····  ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´ · · · · ´  ···· ····  %-9.9s %c  å············æ  Ï", a_abbr, x_type, x_tdesc, x_major);
    }
    /*---(complete)-----------------------*/
    return s_print;
@@ -859,8 +927,8 @@ yUNIT_reuse_export     (char a_name [LEN_PATH])
    FILE       *f           = NULL;
    char        i           =    0;
    char        c           =    0;
-   char       *x_big       = "            #===line   DESC==============================================================   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT========real=====vars=====void=====skip====DITTO=====real=====void=====skip\n";
-   char       *x_sml       = "            #··· ···   ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ·\n";
+   char       *x_big       = "            #===line   DESC==============================================================   TOP======glob====shar====scrp   MID======cond====ditto=and=usage=======local-reuse-and-list============global-reuse-and-list===========skip   BOT========real=====vars=====void=====skip====DITTO=====real=====void=====skip      WHICH=========    TITLES============>>\n";
+   char       *x_sml       = "            #··· ···   ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ·\n";
    /*---(header)-------------------------*/
    DEBUG_MUNIT ylog_uenter   (__FUNCTION__);
    DEBUG_MUNIT ylog_uchar    ("zUNIT_debug", zUNIT_debug);
@@ -900,7 +968,7 @@ yUNIT_reuse_export     (char a_name [LEN_PATH])
       DEBUG_MUNIT ylog_unote    ("found a good one");
       yUNIT_reuse_show (g_counts [i].c_id);
       DEBUG_MUNIT ylog_uinfo    ("s_print"   , s_print);
-      fprintf (f, "%s\n", s_print);
+      fprintf (f, "%s %-14.14s  %s \n", s_print, g_counts [i].c_which, g_counts [i].c_titles);
       ++c;
    }
    DEBUG_MUNIT ylog_uvalue   ("c"         , c);
