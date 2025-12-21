@@ -91,3 +91,5 @@ yunit_ditto_show        (char a_ditto)
    sprintf (s_print, "%d)  %3ds  %3dx  %3dv  %3dk", n, s_dittos [n].c_step, s_dittos [n].c_real, s_dittos [n].c_void, s_dittos [n].c_skips);
    return s_print;
 }
+
+

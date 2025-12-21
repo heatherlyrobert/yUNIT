@@ -276,43 +276,44 @@ yUNIT_reuse_title       (char a_abbr, char a_select)
    char        x_titles    [LEN_PATH]  = "";
    char        x_key       [LEN_SHORT] = "";
    char        x_sub       [LEN_LABEL] = "";
+   char        x_title     [LEN_LONG]  = "";
    char       *p           = NULL;
    int         l           =    0;
    int         i           =    0;
    /*---(header)-------------------------*/
    DEBUG_MUNIT   ylog_uenter  (__FUNCTION__);
+   /*---(default)------------------------*/
    rc = yUNIT_reuse_data (a_abbr, NULL, NULL, NULL, NULL, NULL, NULL, x_desc, x_which, x_titles, NULL, NULL, NULL);
-   if (rc <  0)  return "(n/a)";
-   if (rc == 0)  return "(unset)";
+   /*---(major issuse)-------------------*/
+   if      (rc <  0)          strcpy (x_title, "(n/a)");
+   else if (rc == 0)          strcpy (x_title, "(unset)");
    /*---(null)---------------------------*/
-   if (a_select == 0) {
-      sprintf (s_print, "%s (NULL)", x_desc);
-      return s_print;
-   }
+   else if (a_select == 0)    sprintf (x_title, "%s (NULL)", x_desc);
    /*---(full)---------------------------*/
-   if (a_select == '*') {
-      sprintf (s_print, "%s (EVERY)", x_desc);
-      return s_print;
-   }
+   else if (a_select == '*')  sprintf (x_title, "%s (EVERY)", x_desc);
+   else if (a_select == '-')  sprintf (x_title, "%s (EVERY)", x_desc);
    /*---(check which)--------------------*/
-   if (strchr (x_which, a_select) == NULL) {
-      sprintf (s_print, "%s (N/A)", x_desc);
-      return s_print;
+   else if (strchr (x_which, a_select) == NULL) {
+      sprintf (x_title, "%s (%c=N/A)", x_desc, a_select);
    }
-   /*---(check which)--------------------*/
-   sprintf (x_key, "%c=", a_select);
-   p = strstr (x_titles, x_key);
-   if (p == NULL) {
-      sprintf (s_print, "%s (TBD)", x_desc);
-      return s_print;
+   /*---(handle which)-------------------*/
+   else {
+      sprintf (x_key, "%c=", a_select);
+      p = strstr (x_titles, x_key);
+      if (p == NULL) {
+         sprintf (x_title, "%s (%c=TBD)", x_desc, a_select);
+      } else {
+         /*---(add subtitle)-------------*/
+         snprintf (x_sub, 16, "%s", p);
+         p = strchr (x_sub, ',');
+         if (p != NULL)  p [0] = '\0';
+         p = strchr (x_sub, '·');
+         if (p != NULL)  p [0] = '\0';
+         sprintf (x_title, "%s (%s)", x_desc, x_sub);
+      }
    }
-   /*---(add subtitle)-------------------*/
-   snprintf (x_sub, 16, "%s", p);
-   p = strchr (x_sub, ',');
-   if (p != NULL)  p [0] = '\0';
-   p = strchr (x_sub, '·');
-   if (p != NULL)  p [0] = '\0';
-   sprintf (s_print, "%s (%s)", x_desc, x_sub);
+   /*---(make title)---------------------*/
+   snprintf (s_print, 66, "===[[ %s ]]======================================================================", x_title);
    /*---(complete)-----------------------*/
    DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return s_print;

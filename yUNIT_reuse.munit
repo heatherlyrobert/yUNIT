@@ -611,8 +611,6 @@ char
 UNIT___reuse_title      (char a_scrp, char a_list, char a_unit)
 {
    char        rc          =    0;
-   char        x_globals   [LEN_TITLE] = "/tmp/master.globals";
-   FILE       *f           = NULL;
 
    /*---(header)-------------------------*/
    yUNIT_minscrpy ("koios", "koios_reuse", "(REUSE) verify creating shared titles");
@@ -620,46 +618,40 @@ UNIT___reuse_title      (char a_scrp, char a_list, char a_unit)
    if (a_unit != 0 && a_scrp != a_unit)  return 0;
    if (a_list == 'y')                    return 0;
 
-   yUNIT_mincond ("verify adding load of data");
+   yUNIT_mincond ("verify adding data");
    yUNIT_minval  ("... parse"                          , yUNIT_reuse_parse  ('g',    "b  s  -    122  check detailed data                                                   1     0     0     1     6     4     2  ·2········     0  ·                        0  ·                        0     14     10      1      3      0      8      6      2      0    åabc··f······æ  a=test··, b=extra·, c=full·· "),    1);
-   yUNIT_minval  ("... parse"                          , yUNIT_reuse_parse  ('g',    "f  s  -    315  do consolidation work                                                 1     0     0     1     6     4     2  ·2········     0  ·                        0  ·                        0     14     10      1      3      0      8      6      2      0    å·····f······æ  f=toronto "),    1);
-   yUNIT_minval  ("... parse"                          , yUNIT_reuse_parse  ('g',    "A  g  h     22  verify openning and closing                                           1     0     0     1     6     4     2  ·2········     0  ·                        0  ·                        0     14     10      1      3      0      8      6      2      0    åa···········æ  · "),    1);
-   yUNIT_minval  ("... parse"                          , yUNIT_reuse_parse  ('g',    "D  g  d    105  verify system startup                                                 1     0     0     1     4     2     0  ··········     1  b                        1  D                        0     21     14      5      2      0      0      0      0      0    å·b··········æ  · "),    1);
-   yUNIT_minval  ("... parse"                          , yUNIT_reuse_parse  ('g',    "J  g  w    182  verify normal processing                                              1     0     0     1     8     2     3  ·21·······     1  a                        2  òD                       0      8      8      0      0      0     12     12      0      0    å··c·········æ  · "),    1);
-   yUNIT_minval  ("... parse"                          , yUNIT_reuse_parse  ('g',    "ê  c  d    123  globally shared steps                                                 1     1     0     0     2     2     0  ··········     0  ·                        0  ·                        2      9      5      1      3      8      0      0      0      0    å···d········æ  · "),    1);
-   yUNIT_minval  ("... parse"                          , yUNIT_reuse_parse  ('g',    "ò  c  w     38  global interal steps                                                  1     1     0     0     2     2     0  ··········     0  ·                        0  ·                        2      3      2      0      1      3      0      0      0      0    å····e·······æ  · "),    1);
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify legal settings");
-   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', 'a'), "check detailed data (a=test)");
+   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', 'a'), "===[[ check detailed data (a=test) ]]============================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("attempt with illegal share");
-   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('?', 'a'), "(n/a)");
+   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('?', 'a'), "===[[ (n/a) ]]===================================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("attempt with undefined share");
-   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('a', 'a'), "(unset)");
+   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('a', 'a'), "===[[ (unset) ]]=================================================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("attempt with null select");
-   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b',  0 ), "check detailed data (NULL)");
+   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b',  0 ), "===[[ check detailed data (NULL) ]]==============================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("attempt with undefined select");
-   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', 'k'), "check detailed data (N/A)");
+   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', 'k'), "===[[ check detailed data (k=N/A) ]]=============================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("attempt with untitled select");
-   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', 'f'), "check detailed data (TBD)");
+   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', 'f'), "===[[ check detailed data (f=TBD) ]]=============================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify another legal settings");
-   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', 'c'), "check detailed data (c=full)");
+   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', 'c'), "===[[ check detailed data (c=full) ]]============================");
    yUNIT_mindnoc ();
 
    yUNIT_mincond ("verify another wildcard select");
-   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', '*'), "check detailed data (EVERY)");
+   yUNIT_minstr  ("... call title"                     , yUNIT_reuse_title  ('b', '*'), "===[[ check detailed data (EVERY) ]]=============================");
    yUNIT_mindnoc ();
 
    yUNIT_minprcs ();
