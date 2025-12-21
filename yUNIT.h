@@ -487,7 +487,8 @@ int       yUNIT_reuse_get         (char a_abbr, char r_desc [LEN_LONG], short *r
 int       yUNIT_reuse_line        (char a_abbr);
 int       yUNIT_reuse_desc        (char a_abbr, char r_tdesc [LEN_TERSE], char r_desc [LEN_LONG]);
 char*     yUNIT_reuse_title       (char a_abbr, char a_select);
-char      yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH]);
+char      yUNIT_reuse_reserve     (char a_abbr, char a_ftype, int a_line);
+char      yUNIT_reuse_populate    (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH]);
 /*---(in-use)---------------*/
 char      yUNIT_reuse_called      (char a_abbr);
 char      yUNIT_parse_update      (char a_abbr, int a_conds, int a_steps);

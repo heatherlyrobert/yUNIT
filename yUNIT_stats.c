@@ -440,7 +440,7 @@ yUNIT_stats_step        (char a_usage, void *a_conv, char a_nscrp [LEN_TITLE], c
 }
 
 char*
-yunit_stats_show        (char a_prefix [LEN_FULL], char n)
+yunit_stats_show        (char a_prefix [LEN_FULL], char n, char a_suffix [LEN_PATH])
 {
    char x_part    [LEN_FULL]  = "";
    char x_ulreuse [LEN_HUND]  = "·";
@@ -463,13 +463,14 @@ yunit_stats_show        (char a_prefix [LEN_FULL], char n)
    sprintf (x_part , "%5d  %5d  %5d  %5d   ",
          g_counts [n].c_dstep, g_counts [n].c_dreal, g_counts [n].c_dvoid, g_counts [n].c_dskip);
    strlcat (s_print, x_part, LEN_RECD);
+   if (a_suffix != NULL && strcmp (a_suffix, "") != 0)  strlcat (s_print, a_suffix, LEN_RECD);
    return s_print;
 }
 
-char*   yunit_full_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, FULL_ID); }
-char*   yunit_unit_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, UNIT_ID); }
-char*   yunit_scrp_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, SCRP_ID); }
-char*   yunit_cond_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, COND_ID); }
+char*   yunit_full_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, FULL_ID, NULL); }
+char*   yunit_unit_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, UNIT_ID, NULL); }
+char*   yunit_scrp_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, SCRP_ID, NULL); }
+char*   yunit_cond_show (char a_prefix [LEN_FULL]) { return yunit_stats_show (a_prefix, COND_ID, NULL); }
 
 
 char

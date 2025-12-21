@@ -13,7 +13,7 @@ yunit_share__open       (char a_type, char a_label [LEN_TERSE], char a_share, ch
    /*---(empty line)---------------------*/
    IF_STEP   yUNIT_printf  ("\n");
    /*---(save)---------------------------*/
-   yUNIT_reuse_set   (a_share, a_ftype, a_line, a_desc, a_which, a_titles);
+   yUNIT_reuse_populate  (a_share, a_ftype, a_line, a_desc, a_which, a_titles);
    /*---(text)---------------------------*/
    yunit_final_prep  (a_type, a_share, 0, 0, "", a_desc, 85 - 22, YSTR_TEXT_CEN, 3, YSTR_DASH, NULL, NULL, x_desc);
    /*---(display)------------------------*/

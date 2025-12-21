@@ -81,7 +81,9 @@ yunit_reuse_clear       (char n)
    g_counts [n].c_ftype  =  '-';
    g_counts [n].c_major  = yUNIT_reuse_major (g_counts [n].c_id);
    g_counts [n].c_line   =   -1;
-   strcpy (g_counts [n].c_desc, "·");
+   strcpy (g_counts [n].c_desc  , "·");
+   strcpy (g_counts [n].c_which , "·");
+   strcpy (g_counts [n].c_titles, "·");
    /*---(units)--------------------------*/
    g_counts [n].c_unit   =    0;
    /*---(top)----------------------------*/
@@ -151,7 +153,7 @@ yUNIT_reuse_ftype       (char a_nscrp [LEN_TITLE], char r_header [LEN_TITLE])
    char        x_ftype     =  '-';
    char        x_header    [LEN_TITLE] = "";
    if (r_header != NULL)  strcpy  (r_header, "");
-   if      (a_nscrp == NULL)                         { x_ftype = '-'; }
+   if      (a_nscrp == NULL)                         { x_ftype = '°'; }
    else if (strcmp (a_nscrp, "unit_head.unit") == 0) { x_ftype = 'h'; }
    else if (strcmp (a_nscrp, "unit_wide.unit") == 0) { x_ftype = 'w'; strcpy (x_header, "unit_wide.h"); }
    else if (strcmp (a_nscrp, "unit_data.unit") == 0) { x_ftype = 'd'; strcpy (x_header, "unit_data.h"); }
@@ -412,7 +414,7 @@ yUNIT_reuse_add         (char a_abbr)
 }
 
 char
-yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH])
+yUNIT_reuse_reserve     (char a_abbr, char a_ftype, int a_line)
 {
    /*---(locals)-------------------------*/
    char        rce         =  -10;
@@ -439,19 +441,49 @@ yUNIT_reuse_set         (char a_abbr, char a_ftype, int a_line, char a_desc [LEN
       DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_MUNIT  ylog_upoint   ("a_desc"    , a_desc);
-   --rce;  if (a_desc == NULL || a_desc [0] == '\0') {
+   /*---(update list)--------------------*/
+   g_counts [n].c_ftype = a_ftype;;
+   g_counts [n].c_line  = a_line;
+   /*---(complete)-----------------------*/
+   DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
+   return 1;
+}
+
+char
+yUNIT_reuse_populate    (char a_abbr, char a_ftype, int a_line, char a_desc [LEN_LONG], char a_which [LEN_LABEL], char a_titles [LEN_PATH])
+{
+   /*---(locals)-------------------------*/
+   char        rce         =  -10;
+   char        n           =   -1;
+   /*---(header)-------------------------*/
+   DEBUG_MUNIT  ylog_uenter   (__FUNCTION__);
+   /*---(get index)----------------------*/
+   DEBUG_MUNIT  ylog_uchar    ("a_abbr"    , a_abbr);
+   n = yUNIT_reuse_index (a_abbr);
+   DEBUG_MUNIT  ylog_uvalue   ("n"         , n);
+   --rce;  if (n < 0) {
       DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_MUNIT  ylog_uinfo    ("a_desc"    , a_desc);
+   yunit_reuse_clear (n);
+   /*---(defense)------------------------*/
+   DEBUG_MUNIT  ylog_uchar    ("a_ftype"   , a_ftype);
+   --rce;  if (a_ftype == 0 || strchr ("hwd-", a_ftype) == NULL) {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_MUNIT  ylog_uvalue   ("a_line"    , a_line);
+   --rce;  if (a_line  <= 0 || a_line  >  99999) {
+      DEBUG_MUNIT  ylog_uexitr   (__FUNCTION__, rce);
+      return rce;
+   }
    /*> printf ("a_abbr %c, a_line %d, n %d, %s\n", a_abbr, a_line, n, a_desc);        <*/
    /*---(update list)--------------------*/
    g_counts [n].c_ftype = a_ftype;;
    g_counts [n].c_line  = a_line;
-   strlcpy (g_counts [n].c_desc  , a_desc  , LEN_LONG);
-   strlcpy (g_counts [n].c_which , a_which , LEN_LABEL);
-   strlcpy (g_counts [n].c_titles, a_titles, LEN_PATH);
+   if (a_desc   != NULL)  strlcpy (g_counts [n].c_desc  , a_desc  , LEN_LONG);
+   if (a_which  != NULL)  strlcpy (g_counts [n].c_which , a_which , LEN_LABEL);
+   if (a_titles != NULL)  strlcpy (g_counts [n].c_titles, a_titles, LEN_PATH);
    /*---(complete)-----------------------*/
    DEBUG_MUNIT  ylog_uexit    (__FUNCTION__);
    return 1;
@@ -545,12 +577,14 @@ yUNIT_reuse_show        (char a_abbr)
    /*---(locals)-------------------------*/
    char        n           =   -1;
    char        x_prefix    [LEN_FULL]  = "";
+   char        x_suffix    [LEN_PATH]  = "";
    /*---(get index)----------------------*/
    n = yUNIT_reuse_index (a_abbr);
    if (n < 0)  return "((n/a))";
    sprintf (x_prefix, "%c  %c  %c  %5d  %-65.65s", g_counts [n].c_id, g_counts [n].c_type, g_counts [n].c_ftype, g_counts [n].c_line, g_counts [n].c_desc);
+   sprintf (x_suffix, " %-14.14s  %s ", g_counts [n].c_which, g_counts [n].c_titles);
    /*---(complete)-----------------------*/
-   return yunit_stats_show (x_prefix, n);
+   return yunit_stats_show (x_prefix, n, x_suffix);
 }
 
 char
@@ -729,40 +763,6 @@ yUNIT_reuse_parse       (char a_type, char a_recd [LEN_RECD])
          return rce;
          break;
       }
-      /*---(script-level)----------------*/
-      /*> switch (i) {                                                                <* 
-       *> case  5 :  g_counts [n].c_topp   = atoi (x_field);  break;                  <* 
-       *> case  6 :  g_counts [n].c_glob   = atoi (x_field);  break;                  <* 
-       *> case  7 :  g_counts [n].c_shar   = atoi (x_field);  break;                  <* 
-       *> case  8 :  g_counts [n].c_scrp   = atoi (x_field);  break;                  <* 
-       *> }                                                                           <*/
-      /*---(condition-level)-------------*/
-      /*> switch (i) {                                                                <* 
-       *> case  9 :  g_counts [n].c_midd   = atoi (x_field);  break;                  <* 
-       *> case 10 :  g_counts [n].c_cond   = atoi (x_field);  break;                  <* 
-       *> case 11 :  g_counts [n].c_ditt   = atoi (x_field);  break;                  <* 
-       *> case 12 :  strlcpy (g_counts [n].c_dittos, x_field, LEN_LABEL);  break;     <* 
-       *> case 13 :  g_counts [n].c_lreu   = atoi (x_field);  break;                  <* 
-       *> case 14 :  strlcpy (g_counts [n].c_lreuse, x_field, LEN_HUND);   break;     <* 
-       *> case 15 :  g_counts [n].c_greu   = atoi (x_field);  break;                  <* 
-       *> case 16 :  strlcpy (g_counts [n].c_greuse, x_field, LEN_HUND);   break;     <* 
-       *> case 17 :  g_counts [n].c_skipc  = atoi (x_field);  break;                  <* 
-       *> }                                                                           <*/
-      /*---(step-level)------------------*/
-      /*> switch (i) {                                                                <* 
-       *> case 18 :  g_counts [n].c_step   = atoi (x_field);  break;                  <* 
-       *> case 19 :  g_counts [n].c_real   = atoi (x_field);  break;                  <* 
-       *> case 20 :  g_counts [n].c_vars   = atoi (x_field);  break;                  <* 
-       *> case 21 :  g_counts [n].c_void   = atoi (x_field);  break;                  <* 
-       *> case 22 :  g_counts [n].c_skips  = atoi (x_field);  break;                  <* 
-       *> }                                                                           <*/
-      /*---(ditto)-----------------------*/
-      /*> switch (i) {                                                                <* 
-       *> case 23 :  g_counts [n].c_dstep  = atoi (x_field);  break;                  <* 
-       *> case 24 :  g_counts [n].c_dreal  = atoi (x_field);  break;                  <* 
-       *> case 25 :  g_counts [n].c_dvoid  = atoi (x_field);  break;                  <* 
-       *> case 26 :  g_counts [n].c_dskip  = atoi (x_field);  break;                  <* 
-       *> }                                                                           <*/
       /*---(next)------------------------*/
       p = strtok_r (NULL, q, &r);
       /*---(done)------------------------*/
@@ -968,7 +968,7 @@ yUNIT_reuse_export     (char a_name [LEN_PATH])
       DEBUG_MUNIT ylog_unote    ("found a good one");
       yUNIT_reuse_show (g_counts [i].c_id);
       DEBUG_MUNIT ylog_uinfo    ("s_print"   , s_print);
-      fprintf (f, "%s %-14.14s  %s \n", s_print, g_counts [i].c_which, g_counts [i].c_titles);
+      fprintf (f, "%s\n", s_print);
       ++c;
    }
    DEBUG_MUNIT ylog_uvalue   ("c"         , c);
